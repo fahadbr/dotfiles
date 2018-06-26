@@ -3,8 +3,6 @@ let &packpath = &runtimepath
 source ~/.vimrc
 
 syntax on
-
-set number
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
@@ -31,8 +29,14 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'zchee/deoplete-go', {'do': 'make'}
+Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+Plug 'fatih/vim-go'
 Plug 'sebastianmarkow/deoplete-rust'
 Plug 'vim-airline/vim-airline'
+Plug 'w0rp/ale'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+
 
 " Colors
 Plug 'morhetz/gruvbox'
@@ -55,6 +59,28 @@ let g:deoplete#sources#rust#disable_keymap=1
 
 " Yuck
 let g:rust_recommended_style = 0
+
+
+" vim-go options
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_types = 1
+let g:go_auto_sameids = 1
+let g:go_fmt_command="goimports"
+
+
+" ale config
+let g:ale_sign_error = 'X'
+let g:ale_sign_warning = '⚠'
+
+" Enable integration with airline
+let g:airline#extensions#ale#enabled = 1
+
 
 call plug#end()
 
