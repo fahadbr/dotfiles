@@ -9,7 +9,7 @@ fileName=$1
 dir=$(dirname $fileName)
 base=$(basename $fileName)
 
-if [[ ! -f $fileName ]]; then
+if [[ ! -f $base ]]; then
 	mv -n $fileName ./
 else
 	echo "$fileName already exists"
