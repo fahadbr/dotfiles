@@ -2,8 +2,6 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 source ~/.vimrc
 
-runtime! archlinux.vim
-
 syntax on
 
 set number
@@ -34,13 +32,12 @@ Plug 'rust-lang/rust.vim'
 Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'zchee/deoplete-go', {'do': 'make'}
 Plug 'sebastianmarkow/deoplete-rust'
+Plug 'vim-airline/vim-airline'
 
 " Colors
 Plug 'morhetz/gruvbox'
 Plug 'andreasvc/vim-256noir'
-Plug 'cseelus/vim-colors-lucid'
 Plug 'jonathanfilip/vim-lucius'
-Plug 'owickstrom/vim-colors-paramount'
 
 " Start it up
 let g:deoplete#enable_at_startup = 1
