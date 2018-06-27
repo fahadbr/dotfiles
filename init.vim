@@ -75,7 +75,7 @@ let g:go_fmt_command="goimports"
 
 
 " ale config
-let g:ale_sign_error = 'X'
+let g:ale_sign_error = '⤫'
 let g:ale_sign_warning = '⚠'
 
 " Enable integration with airline
