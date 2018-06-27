@@ -15,6 +15,7 @@ set ignorecase
 set incsearch
 set showmatch
 set cursorline
+set mouse+=a
 
 set ruler
 set undolevels=1000
