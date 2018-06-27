@@ -6,17 +6,24 @@ URxvt.secondaryScreen: 1
 URxvt.secondaryScroll: 0
 URxvt.secondaryWheel: 1
 URxvt*geometry: 112x22  
-URxvt*font: xft:Hack:size=11
+URxvt*font: xft:Hack:size=12
+! URxvt*font: xft:DejaVu Sans Mono for Powerline:size=11
 URxvt.letterSpace: -1
-URxvt*urlLauncher: firefox  
 URxvt*scrollBar: false
 URxvt*256-color: true
 URxvt*scrollColor: #000000 
 URxvt*saveLines: 20000
-!!URxvt*background: #31363b
-URxvt*background: Black
+URxvt*background: #21252a
+! URxvt*background: Black
 URxvt*foreground: White
 URxvt.cursorColor:  #d3d0c8
+
+!! fixes tearing when using compton
+! URxvt*.depth: 24
+
+URxvt.perl-ext-common: default,matcher,vtwheel,resize-font
+URxvt.url-launcher: firefox  
+URxvt.matcher.button: 2
 
 *.foreground:   #d3d0c8
 *.background:   #2d2d2d
@@ -55,22 +62,3 @@ URxvt.color7:       #eff0f1
 URxvt.color15:      #fcfcfc
 
 
-!! Tango color theme
-!! Strange - it matches tango from gnome-terminal, but looks different
-!!URxvt.color0: rgb:00/00/00
-!!URxvt.color1: rgb:CC/00/00
-!!URxvt.color2: rgb:4E/9A/06
-!!URxvt.color3: rgb:C4/A0/00
-!!URxvt.color4: rgb:34/65/A4
-!!URxvt.color5: rgb:75/50/7B
-!!URxvt.color6: rgb:06/98/9A
-!!URxvt.color7: rgb:D3/D7/CF
-!!URxvt.color8: rgb:55/57/53
-!!URxvt.color9: rgb:EF/29/29
-!!URxvt.color10: rgb:8A/E2/34
-!!URxvt.color11: rgb:FC/E9/4F
-!!URxvt.color12: rgb:72/9F/CF
-!!URxvt.color13: rgb:AD/7F/A8
-!!URxvt.color14: rgb:34/E2/E2
-!!URxvt.color15: rgb:EE/EE/EC
-!!URxvt.colorBD: rgb:ff/ff/ff

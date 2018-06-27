@@ -24,4 +24,5 @@ alias emacs='emacs -nw'
 alias vim='nvim'
 alias view='vim -R'
 
-export TERMINAL=konsole
+export TERMINAL=urxvt
+export EDITOR=nvim

@@ -7,4 +7,7 @@ xset r rate 200 30
 xbindkeys
 xrdb -merge $HOME/.Xresources
 
-exec i3 --shmlog-size=26214400
+# to enable i3 logging
+# exec i3 --shmlog-size=26214400
+
+exec i3
