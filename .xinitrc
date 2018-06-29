@@ -3,7 +3,8 @@
 redshift -t 7500K:3500K &
 
 # xorg startup config
-xset r rate 200 30
+$HOME/scripts/set-xkbdrate.sh
+
 xbindkeys
 xrdb -merge $HOME/.Xresources
 
