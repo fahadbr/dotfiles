@@ -1,0 +1,14 @@
+#!/bin/bash
+
+propId="libinput Tapping Enabled"
+id=$(xinput --list --id-only 'SynPS/2 Synaptics TouchPad')
+enabled=$(xinput list-props $id | grep "$propId" | head -n 1 | cut -d ':' -f 2 | grep -Eo '0|1')
+
+newval=0
+if [[ $enabled -eq 0 ]]; then
+	newval=1
+fi
+
+echo "setting device $id tapping-enabled to $newval"
+
+xinput set-prop $id "$propId" $newval
