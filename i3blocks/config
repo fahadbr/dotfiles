@@ -120,7 +120,7 @@ markup=pango
 #
 # The battery instance defaults to 0.
 [battery]
-command=/home/fahad/.config/i3blocks/scripts/battery/battery
+command=/home/fahad/.config/i3blocks/scripts/battery
 markup=pango
 color=#ffffff
 interval=10
