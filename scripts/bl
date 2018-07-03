@@ -7,4 +7,8 @@ case $1 in
   +) echo $(($(< $bl_dev/brightness) + $step)) >$bl_dev/brightness;;
 esac
 
+# update i3blocks
+pkill -RTMIN+2 i3blocks
+
+# print brightness
 echo "$(cat $bl_dev/brightness)/$(cat $bl_dev/max_brightness)"
