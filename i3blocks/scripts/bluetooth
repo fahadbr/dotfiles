@@ -1,0 +1,36 @@
+#!/bin/bash
+
+btchar=
+
+# this is the uglier bluetooth char
+# btconnected=
+
+# check if bluetooth is on
+powered=$(bluetoothctl show | grep -E 'Powered.*yes')
+
+char=$btchar
+if [[ -z $powered ]]; then
+	# if not on then dont print anything and exit
+	exit 0
+fi
+
+# now check if anything is connected
+devices=$(bluetoothctl devices | grep -Eo '([0-9A-F]{2}:)+[0-9A-F]{2}')
+
+for device in $devices; do
+  connected=$(bluetoothctl info $device | grep -E 'Connected.*yes')
+	if [[ $connected ]]; then
+		# break on indication if anything is connected
+		break
+	fi
+done
+
+
+# white color if not connected
+color='#ffffff'
+if [[ $connected ]]; then
+	# blue color if connected
+	color='#00AAFF'
+fi
+
+echo "<span color=\"$color\"> $char </span>"

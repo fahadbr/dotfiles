@@ -11,4 +11,4 @@ if [[ $enabled -eq 0 ]]; then
 	char= # closed fist
 fi
 
-echo "<span color=$color>$char</span>"
+echo "<span color=$color> $char </span>"

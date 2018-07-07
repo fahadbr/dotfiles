@@ -6,7 +6,7 @@ URxvt.secondaryScreen: 1
 URxvt.secondaryScroll: 0
 URxvt.secondaryWheel: 1
 URxvt*geometry: 112x22  
-URxvt*font: xft:Hack:size=12
+URxvt*font: xft:Hack:size=12,xft:DejaVu Sans Mono for Powerline:size=12
 ! URxvt*font: xft:DejaVu Sans Mono for Powerline:size=11
 URxvt.letterSpace: -1
 URxvt*scrollBar: false
