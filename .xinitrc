@@ -11,4 +11,5 @@ xrdb -merge $HOME/.Xresources
 # to enable i3 logging
 # exec i3 --shmlog-size=26214400
 
+#exec --exit-with-session dbus-launch i3
 exec i3

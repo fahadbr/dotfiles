@@ -16,6 +16,7 @@ set incsearch
 set showmatch
 set cursorline
 set mouse+=a
+set hidden
 
 set ruler
 set undolevels=1000
@@ -27,12 +28,7 @@ filetype plugin indent on
 call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
-Plug 'rust-lang/rust.vim'
 Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-Plug 'zchee/deoplete-go', {'do': 'make'}
-Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
-Plug 'fatih/vim-go'
-Plug 'sebastianmarkow/deoplete-rust'
 Plug 'vim-airline/vim-airline'
 Plug 'w0rp/ale'
 Plug '/usr/local/opt/fzf'
@@ -49,20 +45,34 @@ let g:deoplete#enable_at_startup = 1
 
 " Allow tab autocomplete
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
+nnoremap <M-Tab> :bn<CR>
+nnoremap <M-S-Tab> :bp<CR>
 
 " Disable the preview window on tab complete
 set completeopt-=preview
 
 " rust deoplete rust
-let g:deoplete#sources#rust#racer_binary='$HOME/.cargo/bin/racer'
-let g:deoplete#sources#rust#rust_source_path='/usr/lib/rustlib/src/rust/src'
-let g:deoplete#sources#rust#disable_keymap=1
+"Plug 'sebastianmarkow/deoplete-rust'
+"Plug 'rust-lang/rust.vim'
+"
+"let g:deoplete#sources#rust#racer_binary='$HOME/.cargo/bin/racer'
+"let g:deoplete#sources#rust#rust_source_path='/usr/lib/rustlib/src/rust/src'
+"let g:deoplete#sources#rust#disable_keymap=1
+"
+"let g:rust_recommended_style = 0
 
-" Yuck
-let g:rust_recommended_style = 0
+
+" clang plugins
+Plug 'zchee/deoplete-clang'
+let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
+let g:deoplete#sources#clang#clang_header = '/usr/lib/clang'
 
 
-" vim-go options
+" golang vim-go options
+Plug 'zchee/deoplete-go', {'do': 'make'}
+Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+Plug 'fatih/vim-go'
+
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_fields = 1
@@ -110,6 +120,21 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
+" airline tabline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buf_label_first = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+
+nmap <leader>1 :1b<CR> 
+nmap <leader>2 :2b<CR>
+nmap <leader>3 :3b<CR>
+nmap <leader>4 :4b<CR>
+nmap <leader>5 :5b<CR>
+nmap <leader>6 :6b<CR>
+nmap <leader>7 :7b<CR>
+nmap <leader>8 :8b<CR>
+nmap <leader>9 :9b<CR>
+nmap <leader>0 :0b<CR>
 
 call plug#end()
 
