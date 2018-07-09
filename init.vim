@@ -45,8 +45,8 @@ let g:deoplete#enable_at_startup = 1
 
 " Allow tab autocomplete
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
-nnoremap <M-Tab> :bn<CR>
-nnoremap <M-S-Tab> :bp<CR>
+nnoremap <C-x> :bp\| bd #<CR>
+nnoremap <M-n> :NERDTreeToggle<CR>
 
 " Disable the preview window on tab complete
 set completeopt-=preview
@@ -122,19 +122,22 @@ let g:airline_symbols.linenr = ''
 
 " airline tabline
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buf_label_first = 1
+" let g:airline#extensions#tabline#buf_label_first = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 
-nmap <leader>1 :1b<CR> 
-nmap <leader>2 :2b<CR>
-nmap <leader>3 :3b<CR>
-nmap <leader>4 :4b<CR>
-nmap <leader>5 :5b<CR>
-nmap <leader>6 :6b<CR>
-nmap <leader>7 :7b<CR>
-nmap <leader>8 :8b<CR>
-nmap <leader>9 :9b<CR>
-nmap <leader>0 :0b<CR>
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+" nmap <leader>- <Plug>AirlineSelectPrevTab
+" nmap <leader>+ <Plug>AirlineSelectNextTab
+nmap <M-Tab> <Plug>AirlineSelectNextTab
+nmap <M-S-Tab> <Plug>AirlineSelectPrevTab
 
 call plug#end()
 
