@@ -22,6 +22,8 @@ set ruler
 set undolevels=1000
 set backspace=indent,eol,start
 
+let mapleader = ","
+
 filetype plugin indent on
 
 " Plug
@@ -51,8 +53,7 @@ let g:deoplete#enable_at_startup = 1
 
 " Allow tab autocomplete
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
-nnoremap <C-x> :bp\| bd #<CR>
-nnoremap <M-n> :NERDTreeToggle<CR>
+
 
 " Disable the preview window on tab complete
 set completeopt-=preview
@@ -89,6 +90,12 @@ let g:go_highlight_structs = 1
 let g:go_highlight_types = 1
 let g:go_auto_sameids = 1
 let g:go_fmt_command="goimports"
+
+au FileType go nmap <leader>i <Plug>(go-info)
+au FileType go nmap <leader><F1> <Plug>(go-doc)
+au FileType go nmap <leader>d <Plug>(go-def)
+au FileType go nmap <leader><F6> <Plug>(go-rename)
+au FileType go nmap <leader><F7> <Plug>(go-referrers)
 
 
 " ale config
@@ -144,6 +151,13 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 " nmap <leader>+ <Plug>AirlineSelectNextTab
 nmap <M-Tab> <Plug>AirlineSelectNextTab
 nmap <M-S-Tab> <Plug>AirlineSelectPrevTab
+
+" switch to previous buffer then close tab
+nnoremap <C-x> :bp\| bd #<CR>
+
+nnoremap <M-n> :NERDTreeToggle<CR>
+nnoremap <M-S-o> :Files<CR>
+
 
 call plug#end()
 
