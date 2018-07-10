@@ -1,6 +1,6 @@
 #!/bin/bash
-# rwsl a.k.a Replace With Symbolic Link
-# for importing files into this repo and
+# Import will replace the first arg with a symbolic link
+# Used for importing files into this repo and
 # placing a symbolic link in their original
 # location to this repo
 
