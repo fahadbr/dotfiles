@@ -90,6 +90,9 @@ let g:go_highlight_structs = 1
 let g:go_highlight_types = 1
 let g:go_auto_sameids = 1
 let g:go_fmt_command="goimports"
+" let g:go_list_type = 'quickfix'
+let g:go_list_type_commands = {"_guru": "quickfix"}
+
 
 au FileType go nmap <leader>i <Plug>(go-info)
 au FileType go nmap <leader><F1> <Plug>(go-doc)
@@ -106,7 +109,7 @@ let g:ale_sign_warning = '⚠'
 let g:airline#extensions#ale#enabled = 1
 let g:airline_powerline_fonts = 1
 
-let g:airline_theme = 'powerlineish'
+let g:airline_theme = 'ayu_mirage'
 
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
