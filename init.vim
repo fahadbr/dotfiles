@@ -17,6 +17,8 @@ set showmatch
 set cursorline
 set mouse+=a
 set hidden
+set splitbelow
+set splitright
 
 set ruler
 set undolevels=1000
