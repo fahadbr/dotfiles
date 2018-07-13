@@ -44,6 +44,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'Raimondi/delimitMate'
+Plug 'vim-scripts/BufOnly.vim'
 
 " Plug 'majutsushi/tagbar'
 " Plug 'tpope/vim-fugitive'
