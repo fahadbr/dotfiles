@@ -3,6 +3,7 @@ let &packpath = &runtimepath
 source ~/.vimrc
 
 syntax on
+set number
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
@@ -39,7 +40,8 @@ Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
-Plug '/usr/local/opt/fzf'
+" Plug '/usr/local/opt/fzf'
+Plug '$HOME/.fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'bronson/vim-trailing-whitespace'
@@ -115,7 +117,7 @@ let g:ale_sign_warning = '⚠'
 let g:airline#extensions#ale#enabled = 1
 let g:airline_powerline_fonts = 1
 
-let g:airline_theme = 'ayu_mirage'
+let g:airline_theme = 'jellybeans'
 
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
@@ -189,17 +191,18 @@ command! -bang -nargs=* Rgf
 
 " Gruvbox
 " This HAS to be after plugged :)
-" let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_contrast_dark='hard'
 
 " Lucius
-let g:lucius_style = 'dark'
-let g:lucius_contrast = 'high'
+"let g:lucius_style = 'dark'
+"let g:lucius_contrast = 'high'
 " let g:lucius_contrast_bg = 'high'
 
 
 set t_Co=256
 let base16colorspace=256
 set background=dark
-colorscheme lucius
+"colorscheme lucius
+colorscheme gruvbox
 
 

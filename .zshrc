@@ -28,3 +28,6 @@ alias view='vim -R'
 export TERMINAL=urxvt
 export EDITOR=nvim
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.dotfiles/scripts"
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
