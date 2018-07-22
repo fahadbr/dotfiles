@@ -44,12 +44,12 @@ Plug 'w0rp/ale'
 Plug '$HOME/.fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'Raimondi/delimitMate'
 Plug 'vim-scripts/BufOnly.vim'
 
 " Plug 'majutsushi/tagbar'
-" Plug 'tpope/vim-fugitive'
 
 " Colors
 Plug 'morhetz/gruvbox'
