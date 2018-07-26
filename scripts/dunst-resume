@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# resumes dunst notifications
+killall -SIGUSR2 dunst

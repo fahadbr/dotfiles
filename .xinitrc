@@ -1,9 +1,10 @@
 
 # general services i want running with xorg
-#redshift -t 7500K:3500K &
+redshift -t 7500K:3500K &
 
 # xorg startup config
 $HOME/scripts/set-xkbdrate.sh
+$HOME/scripts/disableTouchScreen.sh
 
 xbindkeys
 xrdb -merge $HOME/.Xresources

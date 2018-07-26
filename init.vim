@@ -40,7 +40,6 @@ Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
-" Plug '/usr/local/opt/fzf'
 Plug '$HOME/.fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
@@ -48,6 +47,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'Raimondi/delimitMate'
 Plug 'vim-scripts/BufOnly.vim'
+Plug 'xolox/vim-session'
+Plug 'xolox/vim-misc'
+Plug 'tpope/vim-surround'
 
 " Plug 'majutsushi/tagbar'
 
@@ -107,6 +109,8 @@ au FileType go nmap <leader><F1> <Plug>(go-doc)
 au FileType go nmap <leader>d <Plug>(go-def)
 au FileType go nmap <leader><F6> <Plug>(go-rename)
 au FileType go nmap <leader><F7> <Plug>(go-referrers)
+au FileType go nmap <leader><F7> <Plug>(go-referrers)
+au FileType go nmap <leader><F12> :GoDecls<CR>
 
 
 " ale config
@@ -148,6 +152,7 @@ let g:airline_symbols.linenr = ''
 
 " airline tabline
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 
 
@@ -205,4 +210,7 @@ set background=dark
 "colorscheme lucius
 colorscheme gruvbox
 
-
+" vim-session options
+let g:session_autosave = 'yes'
+let g:session_autosave_periodic = 5
+let g:session_persist_colors = 0

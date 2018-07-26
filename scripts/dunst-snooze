@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# snoozes dunst notifications
+killall -SIGUSR1 dunst
