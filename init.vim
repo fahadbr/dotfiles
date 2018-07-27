@@ -40,7 +40,6 @@ Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
-" Plug '/usr/local/opt/fzf'
 Plug '$HOME/.fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
@@ -48,6 +47,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'Raimondi/delimitMate'
 Plug 'vim-scripts/BufOnly.vim'
+Plug 'xolox/vim-session'
+Plug 'xolox/vim-misc'
+Plug 'tpope/vim-surround'
 
 " Plug 'majutsushi/tagbar'
 
@@ -55,6 +57,9 @@ Plug 'vim-scripts/BufOnly.vim'
 Plug 'morhetz/gruvbox'
 Plug 'andreasvc/vim-256noir'
 Plug 'jonathanfilip/vim-lucius'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'arcticicestudio/nord-vim'
+Plug 'drewtempelmeyer/palenight.vim'
 
 " Start it up
 let g:deoplete#enable_at_startup = 1
@@ -107,11 +112,15 @@ au FileType go nmap <leader><F1> <Plug>(go-doc)
 au FileType go nmap <leader>d <Plug>(go-def)
 au FileType go nmap <leader><F6> <Plug>(go-rename)
 au FileType go nmap <leader><F7> <Plug>(go-referrers)
+au FileType go nmap <leader><F7> <Plug>(go-referrers)
+au FileType go nmap <leader><F12> :GoDecls<CR>
 
 
 " ale config
 let g:ale_sign_error = '⤫'
 let g:ale_sign_warning = '⚠'
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 0
 
 " Enable integration with airline
 let g:airline#extensions#ale#enabled = 1
@@ -148,6 +157,7 @@ let g:airline_symbols.linenr = ''
 
 " airline tabline
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 
 
@@ -162,11 +172,12 @@ nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
 " nmap <leader>- <Plug>AirlineSelectPrevTab
 " nmap <leader>+ <Plug>AirlineSelectNextTab
-nmap <M-Tab> <Plug>AirlineSelectNextTab
-nmap <M-S-Tab> <Plug>AirlineSelectPrevTab
+nmap <M-l> <Plug>AirlineSelectNextTab
+nmap <M-h> <Plug>AirlineSelectPrevTab
 
 " switch to previous buffer then close tab
-nnoremap <C-x> :bp\| bd #<CR>
+nnoremap <M-w> :bp\| bd #<CR>
+nnoremap <M-o> :Buffers<CR>
 
 nnoremap <M-n> :NERDTreeToggle<CR>
 nnoremap <M-S-o> :Files<CR>
@@ -175,6 +186,7 @@ nnoremap <M-S-o> :Files<CR>
 call plug#end()
 
 " custom fzf functions
+" ripgrep search
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
@@ -182,9 +194,10 @@ command! -bang -nargs=* Rg
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 
+" ripgrep with fixed expression search
 command! -bang -nargs=* Rgf
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case -F '.shellescape(<q-args>), 1,
+  \   'rg --column --line-number --no-heading --color=always -F '.shellescape(<q-args>), 1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
@@ -196,13 +209,31 @@ let g:gruvbox_contrast_dark='hard'
 " Lucius
 "let g:lucius_style = 'dark'
 "let g:lucius_contrast = 'high'
-" let g:lucius_contrast_bg = 'high'
+"let g:lucius_contrast_bg = 'high'
+
+" Nord Colorscheme
+"let g:nord_uniform_diff_background = 1
+"let g:nord_cursor_line_number_background = 1
 
 
 set t_Co=256
 let base16colorspace=256
 set background=dark
-"colorscheme lucius
 colorscheme gruvbox
 
+if (has("nvim"))
+  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
 
+"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+"if (has("termguicolors"))
+  "set termguicolors
+"endif
+
+" vim-session options
+let g:session_autosave = 'yes'
+let g:session_autosave_periodic = 5
+let g:session_persist_colors = 0
