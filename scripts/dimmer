@@ -24,7 +24,7 @@ function adjustBrightness {
 		whileCond="-lt"
 		incLimitCond="-gt"
 	fi
-		
+
 	# get increment value based on FPS, duration and current brightness
 	inc=$(echo "scale=3;($currentBrightness-$targetBrightness)/($targetFPS*$targetDurationMs/1000)" | bc | cut -d '.' -f 1)
 
@@ -45,7 +45,7 @@ function dim {
 		echo 'screen is already dimmed'
 		exit 1
 	fi
-	
+
 	getBrightness > $lastBrightnessFile
 
 	adjustBrightness $targetDimBrightness $targetDimDurationMs
@@ -60,7 +60,7 @@ function restore {
 	adjustBrightness $(cat $lastBrightnessFile) $targetUndimDurationMs
 	rm $lastBrightnessFile
 }
-	
+
 if [[ $1 ]]; then
 	cmd=$1
 	shift 1
