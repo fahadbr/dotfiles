@@ -21,6 +21,7 @@ set hidden
 set splitbelow
 set splitright
 
+set title
 set ruler
 set undolevels=1000
 set backspace=indent,eol,start
@@ -50,6 +51,7 @@ Plug 'vim-scripts/BufOnly.vim'
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
 Plug 'tpope/vim-surround'
+Plug 'tomlion/vim-solidity'
 
 " Plug 'majutsushi/tagbar'
 
@@ -111,7 +113,6 @@ au FileType go nmap <leader>i <Plug>(go-info)
 au FileType go nmap <leader><F1> <Plug>(go-doc)
 au FileType go nmap <leader>d <Plug>(go-def)
 au FileType go nmap <leader><F6> <Plug>(go-rename)
-au FileType go nmap <leader><F7> <Plug>(go-referrers)
 au FileType go nmap <leader><F7> <Plug>(go-referrers)
 au FileType go nmap <leader><F12> :GoDecls<CR>
 

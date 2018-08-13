@@ -62,5 +62,5 @@ URxvt.color14:      #16a085
 URxvt.color7:       #eff0f1
 URxvt.color15:      #fcfcfc
 
-! Xft.dpi: 76
+!Xft.dpi: 192
 !rofi.dpi: 192
