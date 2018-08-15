@@ -20,6 +20,7 @@ set mouse+=a
 set hidden
 set splitbelow
 set splitright
+set linebreak
 
 set title
 set ruler
@@ -182,6 +183,7 @@ nnoremap <M-o> :Buffers<CR>
 
 nnoremap <M-n> :NERDTreeToggle<CR>
 nnoremap <M-S-o> :Files<CR>
+nnoremap <M-z> :set wrap!<CR>
 
 
 call plug#end()

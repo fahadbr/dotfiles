@@ -30,7 +30,6 @@ markup=pango
 
 [tapstatus]
 command=/home/fahad/.config/i3blocks/scripts/tapstatus
-#command=echo test
 interval=once
 signal=3
 
@@ -38,13 +37,12 @@ signal=3
 #command=/home/fahad/.config/i3blocks/scripts/bluetooth
 #interval=10
 
-[brightness]
-command=echo "scale=2;$(cat /sys/class/backlight/intel_backlight/brightness)/$(cat /sys/class/backlight/intel_backlight/max_brightness)*100" | bc | sed -E -n 's/([0-9]+)\.?([0-9]*)/\1%/p'
-#command=echo "hello"
-label=
-interval=30
-signal=2
-color=#ffffff
+#[brightness]
+#command=echo "scale=2;$(cat /sys/class/backlight/intel_backlight/brightness)/$(cat /sys/class/backlight/intel_backlight/max_brightness)*100" | bc | sed -E -n 's/([0-9]+)\.?([0-9]*)/\1%/p'
+#label=
+#interval=30
+#signal=2
+#color=#ffffff
 
 
 # Volume indicator

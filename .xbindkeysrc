@@ -39,7 +39,7 @@
 
 # Examples of commands:
 
-"xbindkeys_show" 
+"xbindkeys_show"
   control+shift + q
 
 ## set directly keycode (here control + f with my keyboard)
@@ -65,13 +65,13 @@
 #"rxvt"
 #  Control + b:2 + Release
 
-"amixer set Master 5%+ && pkill -RTMIN+1 i3blocks"
+"volume.sh up && pkill -RTMIN+1 i3blocks"
   XF86AudioRaiseVolume
 
-"amixer set Master 5%- && pkill -RTMIN+1 i3blocks"
+"volume.sh down && pkill -RTMIN+1 i3blocks"
   XF86AudioLowerVolume
 
-"amixer set Master toggle && pkill -RTMIN+1 i3blocks"
+"volume.sh mute && pkill -RTMIN+1 i3blocks"
   XF86AudioMute
 
 "bl +"
