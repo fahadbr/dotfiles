@@ -1,4 +1,6 @@
 
+cd $HOME
+
 # general services i want running with xorg
 redshift -t 7500K:3500K &
 
