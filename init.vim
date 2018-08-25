@@ -27,6 +27,7 @@ set ruler
 set undolevels=1000
 set backspace=indent,eol,start
 set autoread
+set grepprg=rg\ --vimgrep
 
 au FocusGained,BufEnter * :checktime
 
@@ -47,14 +48,12 @@ Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'Raimondi/delimitMate'
+Plug 'jiangmiao/auto-pairs'
 Plug 'vim-scripts/BufOnly.vim'
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
 Plug 'tpope/vim-surround'
 Plug 'tomlion/vim-solidity'
-
-" Plug 'majutsushi/tagbar'
 
 " Colors
 Plug 'morhetz/gruvbox'
@@ -116,6 +115,7 @@ au FileType go nmap <leader>d <Plug>(go-def)
 au FileType go nmap <leader><F6> <Plug>(go-rename)
 au FileType go nmap <leader><F7> <Plug>(go-referrers)
 au FileType go nmap <leader><F12> :GoDecls<CR>
+au FileType go nmap <leader>e <Plug>(go-iferr)
 
 
 " ale config
@@ -172,8 +172,6 @@ nmap <leader>6 <Plug>AirlineSelectTab6
 nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
-" nmap <leader>- <Plug>AirlineSelectPrevTab
-" nmap <leader>+ <Plug>AirlineSelectNextTab
 nmap <M-l> <Plug>AirlineSelectNextTab
 nmap <M-h> <Plug>AirlineSelectPrevTab
 
@@ -184,7 +182,15 @@ nnoremap <M-o> :Buffers<CR>
 nnoremap <M-n> :NERDTreeToggle<CR>
 nnoremap <M-S-o> :Files<CR>
 nnoremap <M-z> :set wrap!<CR>
+nnoremap <leader>cw *Ncgn
 
+" terminal shortcuts
+nnoremap <M-t> :15split \| terminal<CR>
+tnoremap <M-k> <C-\><C-n><C-w>k
+tnoremap jk <C-\><C-n>
+
+" remapping insert mode changing keys
+inoremap jk <Esc>`^
 
 call plug#end()
 
@@ -209,16 +215,6 @@ command! -bang -nargs=* Rgf
 " This HAS to be after plugged :)
 let g:gruvbox_contrast_dark='hard'
 
-" Lucius
-"let g:lucius_style = 'dark'
-"let g:lucius_contrast = 'high'
-"let g:lucius_contrast_bg = 'high'
-
-" Nord Colorscheme
-"let g:nord_uniform_diff_background = 1
-"let g:nord_cursor_line_number_background = 1
-
-
 set t_Co=256
 let base16colorspace=256
 set background=dark
@@ -229,14 +225,10 @@ if (has("nvim"))
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 endif
 
-"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-"if (has("termguicolors"))
-  "set termguicolors
-"endif
-
 " vim-session options
-let g:session_autosave = 'yes'
-let g:session_autosave_periodic = 5
+"let g:session_autosave = 'yes'
+"let g:session_autosave_periodic = 5
 let g:session_persist_colors = 0
+
+" disable auto pair shortcuts
+let g:AutoPairsShortcutJump = ''
