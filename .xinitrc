@@ -1,6 +1,6 @@
 
 # general services i want running with xorg
-redshift -t 7500K:3500K &
+redshift -l 40.74:-73.99 -t 7500K:3500K &
 
 # xorg startup config
 $HOME/scripts/set-xkbdrate.sh
