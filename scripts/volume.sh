@@ -19,7 +19,7 @@ function send_notification {
     # https://en.wikipedia.org/wiki/Box-drawing_character
     # bar=$(seq -s "─" $(($volume / 3)) | sed 's/[0-9]//g')
     # Send the notification
-    dunstify -t 2000 -r 2593 -u normal "  $volume %"
+    dunstify -a " Volume" -t 2000 -r 2593 -u normal "$volume %"
 }
 
 case $1 in
