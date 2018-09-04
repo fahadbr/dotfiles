@@ -125,8 +125,8 @@ au FileType go nmap <leader>e <Plug>(go-iferr)
 
 
 " ale config
-let g:ale_sign_error = 'X'
-let g:ale_sign_warning = '⚠'
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 
@@ -194,11 +194,13 @@ nnoremap <M-/> :set hlsearch!<CR>
 " changing instances of current word
 nnoremap <leader>cw *Ncgn
 " searching for visual selection
-vnoremap <leader>/ y/\V<C-r>"<CR>
-vnoremap * y/\<<C-r>"\><CR>
-vnoremap # y?\<<C-r>"\><CR>
+vnoremap <leader>/ "vy/\V<C-r>v<CR>
+vnoremap * "vy/\<<C-r>v\><CR>
+vnoremap # "vy?\<<C-r>v\><CR>
+vnoremap g* "vy/<C-r>v<CR>
+vnoremap g# "vy?<C-r>v<CR>
 " changing instances of visual selection
-vnoremap <leader>cw y/\<<C-r>"\><CR>Ncgn
+vnoremap <leader>cw "vy/<C-r>v<CR>Ncgn
 
 
 " terminal shortcuts
