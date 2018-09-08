@@ -222,6 +222,10 @@ nnoremap <M-S-l> <C-w>l
 nnoremap <M-S-q> <C-w>q
 nnoremap <M-S-s> <C-w>s
 nnoremap <M-S-v> <C-w>v
+nnoremap <M-+> <C-w>+
+nnoremap <M-_> <C-w>-
+nnoremap <M-<> <C-w><
+nnoremap <M->> <C-w>>
 
 " quickfix/location list navigation
 nnoremap <F2> :lnext<CR>
