@@ -28,6 +28,28 @@ command=/usr/share/i3blocks/$BLOCK_NAME
 separator_block_width=15
 markup=pango
 
+[kubernetes]
+command=echo "$(which kubectl >/dev/null && kubectl config current-context)"
+interval=10
+signal=4
+
+# Key indicators
+#
+# Add the following bindings to i3 config file:
+#
+# bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+# bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
+[mykeyindicator]
+command=/home/fahad/.config/i3blocks/scripts/keyindicator
+instance=CAPS
+interval=once
+signal=11
+
+#[keyindicator]
+#instance=NUM
+#interval=once
+#signal=11
+
 [tapstatus]
 command=/home/fahad/.config/i3blocks/scripts/tapstatus
 interval=once
@@ -154,18 +176,3 @@ interval=5
 #interval=20
 
 
-# Key indicators
-#
-# Add the following bindings to i3 config file:
-#
-# bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
-# bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
-#[keyindicator]
-#instance=CAPS
-#interval=once
-#signal=11
-
-#[keyindicator]
-#instance=NUM
-#interval=once
-#signal=11

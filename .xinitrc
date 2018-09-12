@@ -8,7 +8,6 @@ redshift -t 7500K:3500K &
 $HOME/scripts/set-xkbdrate.sh
 $HOME/scripts/disableTouchScreen.sh
 
-xbindkeys
 xrdb -merge $HOME/.Xresources
 
 # to enable i3 logging
