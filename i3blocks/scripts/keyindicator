@@ -22,7 +22,7 @@ use File::Basename;
 # Default values
 my $indicator = $ENV{BLOCK_INSTANCE} || "CAPS";
 my $color_on  = "#00FFBB";
-my $color_off = "#555555";
+my $color_off = "#888888";
 
 sub help {
     my $program = basename($0);
@@ -64,11 +64,11 @@ if (($indicators{$indicator} || 0) & $mask) {
 		print "ABC\n";
 		print "ABC\n";
     printf "%s\n", $color_on;
-		system("dunstify -a 'keyboard' -t 3000 -r 2596 -u normal 'CAPS ON'")
+		system("dunstify -a '' -t 3000 -r 2596 -u normal 'CAPS ON'")
 } else {
 		print "abc\n";
 		print "abc\n";
     printf "%s\n", $color_off;
-		system("dunstify -a 'keyboard' -t 3000 -r 2596 -u normal 'caps off'")
+		system("dunstify -a '' -t 3000 -r 2596 -u normal 'caps off'")
 }
 exit 0
