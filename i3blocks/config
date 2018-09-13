@@ -40,7 +40,7 @@ signal=4
 # bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 # bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 [mykeyindicator]
-command=/home/fahad/.config/i3blocks/scripts/keyindicator
+command=/home/fahad/.config/i3blocks/scripts/capsindicator
 instance=CAPS
 interval=once
 signal=11
