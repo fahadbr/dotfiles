@@ -4,13 +4,14 @@ source ~/.vimrc
 
 syntax on
 set number
+set relativenumber
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set autoindent
 set smartindent
 set nowrap
-set hlsearch
+set nohlsearch
 set smartcase
 set ignorecase
 set incsearch
@@ -30,6 +31,11 @@ set autoread
 set grepprg=rg\ --vimgrep
 
 au FocusGained,BufEnter * :checktime
+"augroup numbertoggle
+	"autocmd!
+	"autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+	"autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
+"augroup END
 
 let mapleader = ","
 
@@ -110,17 +116,17 @@ let g:go_list_type_commands = {"_guru": "quickfix"}
 
 
 au FileType go nmap <leader>i <Plug>(go-info)
-au FileType go nmap <leader><F1> <Plug>(go-doc)
 au FileType go nmap <leader>d <Plug>(go-def)
-au FileType go nmap <leader><F6> <Plug>(go-rename)
-au FileType go nmap <leader><F7> <Plug>(go-referrers)
-au FileType go nmap <leader><F12> :GoDecls<CR>
+au FileType go nmap <F1> <Plug>(go-doc)
+au FileType go nmap <F6> <Plug>(go-rename)
+au FileType go nmap <F7> <Plug>(go-referrers)
+au FileType go nmap <F12> :GoDecls<CR>
 au FileType go nmap <leader>e <Plug>(go-iferr)
 
 
 " ale config
-let g:ale_sign_error = '⤫'
-let g:ale_sign_warning = '⚠'
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 
@@ -162,6 +168,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 
+call plug#end()
 
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
@@ -177,22 +184,58 @@ nmap <M-h> <Plug>AirlineSelectPrevTab
 
 " switch to previous buffer then close tab
 nnoremap <M-w> :bp\| bd #<CR>
-nnoremap <M-o> :Buffers<CR>
+nnoremap <M-p> :Buffers<CR>
 
 nnoremap <M-n> :NERDTreeToggle<CR>
-nnoremap <M-S-o> :Files<CR>
+nnoremap <M-S-n> :NERDTreeFind<CR>
+nnoremap <M-S-p> :Files<CR>
 nnoremap <M-z> :set wrap!<CR>
+nnoremap <M-/> :set hlsearch!<CR>
+" changing instances of current word
 nnoremap <leader>cw *Ncgn
+" searching for visual selection
+vnoremap <leader>/ "vy/\V<C-r>v<CR>
+vnoremap * "vy/\<<C-r>v\><CR>
+vnoremap # "vy?\<<C-r>v\><CR>
+vnoremap g* "vy/<C-r>v<CR>
+vnoremap g# "vy?<C-r>v<CR>
+" changing instances of visual selection
+vnoremap <leader>cw "vy/<C-r>v<CR>Ncgn
+
 
 " terminal shortcuts
 nnoremap <M-t> :15split \| terminal<CR>
-tnoremap <M-k> <C-\><C-n><C-w>k
-tnoremap jk <C-\><C-n>
+tnoremap <M-Tab> <C-\><C-n>
 
-" remapping insert mode changing keys
-inoremap jk <Esc>`^
+" remapping escape in various modes
+nnoremap <M-Tab> <Esc>
+onoremap <M-Tab> <Esc>
+cnoremap <M-Tab> <C-c><Esc>
+inoremap <M-Tab> <Esc>`^
+vnoremap <M-Tab> <Esc>gV
 
-call plug#end()
+" mapping window movements
+nnoremap <M-S-k> <C-w>k
+nnoremap <M-S-j> <C-w>j
+nnoremap <M-S-h> <C-w>h
+nnoremap <M-S-l> <C-w>l
+nnoremap <M-S-q> <C-w>q
+nnoremap <M-S-s> <C-w>s
+nnoremap <M-S-v> <C-w>v
+nnoremap <M-+> <C-w>+
+nnoremap <M-_> <C-w>-
+nnoremap <M-<> <C-w><
+nnoremap <M->> <C-w>>
+
+" quickfix/location list navigation
+nnoremap <F2> :lnext<CR>
+nnoremap <M-F2> :lprevious<CR>
+nnoremap <F3> :cnext<CR>
+nnoremap <M-F3> :cprevious<CR>
+
+" cmdline mapping
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
 
 " custom fzf functions
 " ripgrep search
@@ -232,3 +275,6 @@ let g:session_persist_colors = 0
 
 " disable auto pair shortcuts
 let g:AutoPairsShortcutJump = ''
+let g:AutoPairsShortcutToggle = ''
+let g:AutoPairsShortcutFastWrap = ''
+let g:AutoPairsShortcutBackInsert = ''
