@@ -4,4 +4,5 @@ if [[ "$1" != "" ]]; then
 fi
 
 xrandr --output $display --auto --scale .7x.7 --right-of eDP1
+xfce4-power-manager --restart
 ~/.fehbg

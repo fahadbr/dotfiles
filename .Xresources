@@ -65,3 +65,6 @@ URxvt.color15:      #fcfcfc
 
 !Xft.dpi: 192
 !rofi.dpi: 192
+
+i3.font: pango:Ubuntu-Mono 10
+i3bar.font: pango:Font Awesome 5 Free Regular:style=Regular 10

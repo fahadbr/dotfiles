@@ -39,7 +39,7 @@ case $1 in
     	# Toggle mute
 	amixer set Master 1+ toggle > /dev/null
 	if is_mute ; then
-	    dunstify -t 2000 -r 2593 -u normal "  Mute"
+			dunstify -a " Volume" -t 2000 -r 2593 -u normal "Muted"
 	else
 	    send_notification
 	fi

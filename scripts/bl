@@ -1,6 +1,10 @@
 #!/bin/sh
 bl_dev=/sys/class/backlight/intel_backlight
-step=500
+if uname -a | grep Ubuntu >/dev/null; then
+	step=500
+else
+	step=100
+fi
 
 case $1 in
   -) echo $(($(cat $bl_dev/brightness) - $step)) >$bl_dev/brightness;;
@@ -8,7 +12,7 @@ case $1 in
 esac
 
 # update i3blocks
-pkill -RTMIN+2 i3blocks
+# pkill -RTMIN+2 i3blocks
 
 # print brightness
 # echo "$(cat $bl_dev/brightness)/$(cat $bl_dev/max_brightness)"
