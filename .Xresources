@@ -5,25 +5,27 @@ URxvt*scrollTtyKeypress: true
 URxvt.secondaryScreen: 1
 URxvt.secondaryScroll: 0
 URxvt.secondaryWheel: 1
-URxvt*geometry: 112x22  
-URxvt*font: xft:Hack:size=12,xft:DejaVu Sans Mono for Powerline:size=12
+URxvt*geometry: 112x22
+URxvt*font: xft:Hack:size=10
 ! URxvt*font: xft:DejaVu Sans Mono for Powerline:size=11
 URxvt.letterSpace: -1
 URxvt*scrollBar: false
 URxvt*256-color: true
-URxvt*scrollColor: #000000 
+URxvt*scrollColor: #000000
 URxvt*saveLines: 20000
 URxvt*background: #21252a
 ! URxvt*background: Black
 URxvt*foreground: White
-URxvt.cursorColor:  #d3d0c8
+URxvt.cursorColor: #d3d0c8
+URxvt.cursorBlink: 1
 
 !! fixes tearing when using compton
 ! URxvt*.depth: 24
 
 URxvt.perl-ext-common: default,matcher,vtwheel,resize-font
-URxvt.url-launcher: firefox  
+URxvt.url-launcher: firefox
 URxvt.matcher.button: 2
+URxvt.resize-font.step: 1
 
 *.foreground:   #d3d0c8
 *.background:   #2d2d2d
@@ -61,4 +63,5 @@ URxvt.color14:      #16a085
 URxvt.color7:       #eff0f1
 URxvt.color15:      #fcfcfc
 
-
+!Xft.dpi: 192
+!rofi.dpi: 192

@@ -24,27 +24,47 @@
 #
 # The top properties below are applied to every block, but can be overridden.
 # Each block command defaults to the script name to avoid boilerplate.
-command=/usr/lib/i3blocks/$BLOCK_NAME
+command=/usr/share/i3blocks/$BLOCK_NAME
 separator_block_width=15
 markup=pango
 
+[kubernetes]
+command=echo "$(which kubectl >/dev/null && kubectl config current-context)"
+interval=10
+signal=4
+
+# Key indicators
+#
+# Add the following bindings to i3 config file:
+#
+# bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+# bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
+[mykeyindicator]
+command=/home/fahad/.config/i3blocks/scripts/capsindicator
+instance=CAPS
+interval=once
+signal=11
+
+#[keyindicator]
+#instance=NUM
+#interval=once
+#signal=11
+
 [tapstatus]
 command=/home/fahad/.config/i3blocks/scripts/tapstatus
-#command=echo test
 interval=once
 signal=3
 
-[bluetooth]
-command=/home/fahad/.config/i3blocks/scripts/bluetooth
-interval=10
+#[bluetooth]
+#command=/home/fahad/.config/i3blocks/scripts/bluetooth
+#interval=10
 
-[brightness]
-command=echo "scale=2;$(cat /sys/class/backlight/intel_backlight/brightness)/$(cat /sys/class/backlight/intel_backlight/max_brightness)*100" | bc | sed -E -n 's/([0-9]+)\.?([0-9]*)/\1%/p'
-#command=echo "hello"
-label=
-interval=30
-signal=2
-color=#ffffff
+#[brightness]
+#command=echo "scale=2;$(cat /sys/class/backlight/intel_backlight/brightness)/$(cat /sys/class/backlight/intel_backlight/max_brightness)*100" | bc | sed -E -n 's/([0-9]+)\.?([0-9]*)/\1%/p'
+#label=
+#interval=30
+#signal=2
+#color=#ffffff
 
 
 # Volume indicator
@@ -106,7 +126,7 @@ label=
 # The type defaults to "mem" if the instance is not specified.
 [memory]
 label=
-#separator=false
+#label=MEM
 interval=30
 
 [load_average]
@@ -137,7 +157,7 @@ interval=10
 #
 [time]
 label=
-command=date '+%b %d %Y %l:%M:%S %p'
+command=date '+ %b %d %Y %l:%M:%S %p'
 interval=5
 
 # Generic media player support
@@ -156,18 +176,3 @@ interval=5
 #interval=20
 
 
-# Key indicators
-#
-# Add the following bindings to i3 config file:
-#
-# bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
-# bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
-#[keyindicator]
-#instance=CAPS
-#interval=once
-#signal=11
-
-#[keyindicator]
-#instance=NUM
-#interval=once
-#signal=11

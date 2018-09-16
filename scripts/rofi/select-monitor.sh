@@ -1,6 +1,6 @@
 #!/bin/bash
 
-options='laptop-only.sh,external-4k.sh DP1,external-4k.sh DP2'
+options='laptop-only.sh,work-monitors.sh'
 
 script=$(echo $options | rofi -dmenu -sep ',' -p "display mode" -i)
 

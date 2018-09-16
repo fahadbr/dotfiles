@@ -1,7 +1,13 @@
 #!/bin/bash
 
+if uname -a | grep Ubuntu >/dev/null; then
+	inputDevice='DELL07E6:00 06CB:76AF Touchpad'
+else
+	inputDevice='SynPS/2 Synaptics TouchPad'
+fi
+
 propId="libinput Tapping Enabled"
-id=$(xinput --list --id-only 'SynPS/2 Synaptics TouchPad')
+id=$(xinput --list --id-only "$inputDevice")
 enabled=$(xinput list-props $id | grep "$propId" | head -n 1 | cut -d ':' -f 2 | grep -Eo '0|1')
 
 newval=0

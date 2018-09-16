@@ -1,0 +1,16 @@
+#!/bin/bash
+
+color_on="#00FFBB"
+color_off="#888888"
+
+if $( xset -q | grep 'LED mask:  00000001' &>/dev/null ); then
+	echo "ABC"
+	echo "ABC"
+	echo $color_on
+else
+	echo "abc"
+	echo "abc"
+	echo $color_off
+fi
+
+
