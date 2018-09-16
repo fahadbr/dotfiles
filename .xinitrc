@@ -17,4 +17,9 @@ fi
 # exec i3 --shmlog-size=26214400
 
 export XDG_CURRENT_DESKTOP=i3
-exec dbus-launch --exit-with-session i3
+
+if uname -a | grep ARCH >/dev/null; then
+	exec i3
+else
+	exec dbus-launch --exit-with-session i3
+fi

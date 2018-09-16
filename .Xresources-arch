@@ -1,3 +1,6 @@
-URxvt.font: xft:Hack:size=12
-i3.font: pango:Ubuntu-Mono 11
-i3bar.font: pango:Font Awesome 5 Free Regular:style=Regular 11
+URxvt.font: xft:Hack:size=11
+i3.font: pango:Ubuntu-Mono 10
+i3bar.font: pango:Font Awesome 5 Free Regular:style=Regular 10
+
+Xft.dpi: 106
+rofi.dpi: 106
