@@ -24,6 +24,11 @@ alias grep='grep --color=auto'
 alias emacs='emacs -nw'
 alias vim='nvim'
 alias view='vim -R'
+alias reapplyprofile='source ~/.zshrc'
+alias editprofile='vim ~/.zshrc && reapplyprofile'
+
+alias cdfzf='cd $(find . type d | fzf)'
+alias vimfzf='vim $(find . type f | fzf)'
 
 export TERMINAL=urxvt
 export EDITOR=nvim
