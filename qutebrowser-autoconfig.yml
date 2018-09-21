@@ -6,12 +6,16 @@ settings:
   bindings.commands:
     global:
       normal:
+        <Alt+p>: spawn --userscript qute-lastpass
+        <Ctrl+Shift+c>: enter-mode passthrough
+        <Ctrl+v>: null
         H: tab-prev
         J: back
         K: forward
         L: tab-next
-        j: run-with-count 3 scroll down
-        k: run-with-count 3 scroll up
+      passthrough:
+        <Ctrl+Shift+c>: leave-mode
+        <Ctrl+v>: null
   colors.tabs.even.bg:
     global: grey
   colors.tabs.odd.bg:
@@ -25,4 +29,4 @@ settings:
       DEFAULT: https://duckduckgo.com/?q={}
       g: https://www.google.com/search?hl=en&q={}
   zoom.default:
-    global: 130%
+    global: 100%
