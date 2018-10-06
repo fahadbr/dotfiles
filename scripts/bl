@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 bl_dev=/sys/class/backlight/intel_backlight
 if uname -a | grep Ubuntu >/dev/null; then
 	step=500
