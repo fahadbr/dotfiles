@@ -1,5 +1,5 @@
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$reset_color%}%{$fg[green]%}["
-ZSH_THEME_GIT_PROMPT_SUFFIX="]%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_PREFIX="-%{$fg[cyan]%}[%{$fg[green]%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$fg[cyan]%}]"
 ZSH_THEME_GIT_PROMPT_DIRTY="*"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
@@ -10,8 +10,8 @@ git_custom_status() {
     echo "$ZSH_THEME_GIT_PROMPT_PREFIX$(git_current_branch)$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_SUFFIX"
   fi
 }
+# %{$fg[red]%}
+local return_code="%(?..%{$fg[red]%}[%?])"
 
-local return_code="%(?..%{$fg_bold[red]%}[%?]%{$reset_color%})"
-
-PROMPT='%{$fg[cyan]%}[%~% ]$(git_custom_status)%{$reset_color%}%B$%b '
-RPS1='${return_code}'
+PROMPT='%{$reset_color%}%{$fg[cyan]%}[%~% ]$(git_custom_status)%{$reset_color%}
+${return_code}%B$%b '

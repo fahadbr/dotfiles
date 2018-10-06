@@ -37,3 +37,10 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+function printcolors {
+	for c in black white red blue green cyan magenta yellow; do
+		print -P "%{$reset_color%}%{$fg[$c]%}hellohellohello <- $c"
+		print -P "%{$reset_color%}%{$fg_bold[$c]%}hellohellohello <- $c bold"
+	done
+}
