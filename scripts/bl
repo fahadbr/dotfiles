@@ -6,9 +6,26 @@ else
 	step=100
 fi
 
+cur_brightness=$(cat $bl_dev/brightness)
+
 case $1 in
-  -) echo $(($(cat $bl_dev/brightness) - $step)) >$bl_dev/brightness;;
-  +) echo $(($(cat $bl_dev/brightness) + $step)) >$bl_dev/brightness;;
+  -)
+		target_brightness=$(($cur_brightness - $step))
+		if [[ $target_brightness -lt 0 ]]; then
+			echo 0 >$bl_dev/brightness
+		else
+			echo $target_brightness>$bl_dev/brightness
+		fi
+		;;
+  +)
+		target_brightness=$(($cur_brightness + $step))
+		max_brightness=$(cat $bl_dev/max_brightness)
+		if [[ $target_brightness -gt $max_brightness ]]; then
+			echo $max_brightness>$bl_dev/brightness
+		else
+			echo $target_brightness>$bl_dev/brightness
+		fi
+		;;
 esac
 
 # update i3blocks
