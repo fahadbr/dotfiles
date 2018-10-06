@@ -1,21 +1,22 @@
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
+export ZSH="/home/fahad/.oh-my-zsh"
+ZSH_THEME="fahad"
+DISABLE_AUTO_UPDATE="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+plugins=(
+  git
+)
+
+source $ZSH/oh-my-zsh.sh
+
 setopt appendhistory extendedglob nomatch notify
 setopt shwordsplit
 unsetopt autocd beep
 bindkey -e
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/fahad/.zshrc'
-
-autoload -Uz compinit
-compinit
-
-autoload -Uz promptinit
-promptinit
-prompt adam2
 
 # End of lines added by compinstall
 
