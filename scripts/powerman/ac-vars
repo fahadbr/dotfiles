@@ -1,0 +1,6 @@
+#!/bin/bash
+
+dimTimeout=$((60 * 1000)) # milliseconds
+dpmsTimeout=0
+lockTimeout=$((5 * 60 * 1000)) # milliseconds
+sleepTimeout=0

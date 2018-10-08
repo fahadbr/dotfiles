@@ -1,0 +1,2 @@
+SUBSYSTEM=="power_supply", ATTR{online}=="0", TAG+="systemd", ENV{SYSTEMD_USER_WANTS}="powerman@bat.service"
+SUBSYSTEM=="power_supply", ATTR{online}=="1", TAG+="systemd", ENV{SYSTEMD_USER_WANTS}="powerman@ac.service"

@@ -43,7 +43,7 @@ function adjustBrightness {
 function dim {
 	if [[ -f $lastBrightnessFile ]]; then
 		echo 'screen is already dimmed'
-		exit 1
+		exit 0
 	fi
 
 	getBrightness > $lastBrightnessFile
@@ -54,7 +54,7 @@ function dim {
 function restore {
 	if [[ ! -f $lastBrightnessFile ]]; then
 		echo 'brightness file does not exist. perhaps it was restored already?'
-		exit 1
+		exit 0
 	fi
 
 	adjustBrightness $(cat $lastBrightnessFile) $targetUndimDurationMs
