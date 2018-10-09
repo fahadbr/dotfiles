@@ -4,6 +4,6 @@ if [[ "$1" != "" ]]; then
 fi
 
 xrandr --output $display --auto --scale .6x.6 --right-of eDP1
-xfce4-power-manager --restart
+systemctl --user start powerman@ac.service
 ~/.fehbg
 

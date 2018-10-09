@@ -4,7 +4,7 @@ if [[ "$1" != "" ]]; then
 fi
 
 xrandr --output $display --auto --right-of eDP1
-xfce4-power-manager --restart
+systemctl --user start powerman@bat.service
 ~/.fehbg
 
 pactl set-card-profile 0 output:hdmi-stereo-extra1
