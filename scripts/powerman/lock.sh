@@ -2,4 +2,4 @@
 
 #dimmer restore
 #systemctl suspend
-i3lock -c 000000
+i3lock -c 032211
