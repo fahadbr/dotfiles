@@ -122,6 +122,11 @@ au FileType go nmap <F6> <Plug>(go-rename)
 au FileType go nmap <F7> <Plug>(go-referrers)
 au FileType go nmap <F12> :GoDecls<CR>
 au FileType go nmap <leader>e <Plug>(go-iferr)
+" search function name under curser
+" Rg func ?\(?.*\)? init\(
+au FileType go nmap <leader>ff :Rgc ^func ?\(?.*\)? <C-r><C-w>\(<CR>
+" search type under curser
+au FileType go nmap <leader>ft :Rgc ^type <C-r><C-w><CR>
 
 
 " ale config
@@ -191,6 +196,8 @@ nnoremap <M-S-n> :NERDTreeFind<CR>
 nnoremap <M-S-p> :Files<CR>
 nnoremap <M-z> :set wrap!<CR>
 nnoremap <M-/> :set hlsearch!<CR>
+" search current word across all files
+nnoremap <leader>fw :Rgc <C-r><C-w><CR>
 " changing instances of current word
 nnoremap <leader>cw *Ncgn
 " searching for visual selection
@@ -201,6 +208,8 @@ vnoremap g* "vy/<C-r>v<CR>
 vnoremap g# "vy?<C-r>v<CR>
 " changing instances of visual selection
 vnoremap <leader>cw "vy/<C-r>v<CR>Ncgn
+" search all files from visual selection
+vnoremap <leader>fw "vy:Rgc <C-r>v<CR>
 
 
 " terminal shortcuts
@@ -242,6 +251,14 @@ cnoremap <C-n> <Down>
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+" ripgrep with case sensitive search
+command! -bang -nargs=* Rgc
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
