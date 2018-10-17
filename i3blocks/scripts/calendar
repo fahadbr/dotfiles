@@ -1,0 +1,50 @@
+#!/bin/bash
+# The calendar script will use the vars stored in the varfile
+# and calculate the time remaining until the event specified
+# This script is meant to work with i3blocks only
+varfile=$HOME/.local/share/i3blocks/calendar-reminder
+
+if [[ ! -f $varfile ]]; then
+	exit 0
+fi
+
+# this will bring in startTime, title, location, url variables
+source $varfile
+
+if [[ -z $startTime ]]; then
+	# file is empty
+	exit 0
+fi
+
+timeRemaining=$(($startTime - $(date "+%s")))
+if [[ $timeRemaining -lt -300 ]]; then
+	# event has passed
+	exit 0
+fi
+
+timeRemMinutes=$(($timeRemaining / 60))
+
+short="$title in $timeRemMinutes min"
+color="#FFFFFF"
+
+if [[ $timeRemMinutes -lt 10 ]] && [[ $timeRemMinutes -gt 0 ]]; then
+	color="#FFFF00"
+elif [[ $timeRemMinutes -le 0 ]] && [[ $timeRemMinutes -ge -5 ]]; then
+	short="$title (now)"
+	color="#00FF77"
+fi
+
+if [[ "$location" != "None" ]]; then
+	long="$short [$location]"
+else
+	long=$short
+fi
+
+echo $long
+echo $short
+echo $color
+
+# handle mouse event
+if [[ "$BLOCK_BUTTON" ]]; then
+	xdg-open $url
+fi

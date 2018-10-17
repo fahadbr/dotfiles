@@ -1,0 +1,9 @@
+[Unit]
+Description=Timer for Google Calendar Reminder
+
+[Timer]
+OnCalendar=*:04/5:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

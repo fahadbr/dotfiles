@@ -28,10 +28,9 @@ command=/usr/share/i3blocks/$BLOCK_NAME
 separator_block_width=15
 markup=pango
 
-[kubernetes]
-command=echo "$(which kubectl >/dev/null && kubectl config current-context)"
-interval=10
-signal=4
+[calendar]
+command=/home/fahad/.config/i3blocks/scripts/calendar
+interval=60
 
 # Key indicators
 #

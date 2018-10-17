@@ -128,6 +128,9 @@ au FileType go nmap <leader>ff :Rgc ^func ?\(?.*\)? <C-r><C-w>\(<CR>
 " search type under curser
 au FileType go nmap <leader>ft :Rgc ^type <C-r><C-w><CR>
 
+" python stuff
+Plug 'zchee/deoplete-jedi'
+
 
 " ale config
 let g:ale_sign_error = '>>'
