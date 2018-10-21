@@ -1,0 +1,13 @@
+# vim: set filetype=systemd:
+
+[Unit]
+Description=Screen locker after resuming from sleep
+
+[Service]
+User=%I
+Environment=DISPLAY=:0
+ExecStart=/home/fahad/scripts/powerman/lock.sh -n
+
+[Install]
+WantedBy=sleep.target
+WantedBy=suspend.target

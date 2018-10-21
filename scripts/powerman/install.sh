@@ -19,6 +19,9 @@ homedir=/home/$(logname)
 ln -v -s -f $cwd/powerman@.service $homedir/.config/systemd/user/powerman@.service
 ln -v -s -f $cwd/powerman.sh /usr/local/bin/powerman.sh
 ln -v -s -f $cwd/99-powerman.rules /etc/udev/rules.d/99-powerman.rules
+ln -v -s -f $cwd/resume-lock@.service /etc/systemd/system/resume-lock@.service
+
+systemctl enable resume-lock@$(logname).service
 
 echo "reloading udev rules"
 udevadm control --reload-rules && udevadm trigger
