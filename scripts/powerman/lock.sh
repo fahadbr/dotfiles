@@ -1,3 +1,3 @@
 #!/bin/bash
 
-i3lock -c 032211
+i3lock -e -f -t -i ~/.config/lockscreen.png
