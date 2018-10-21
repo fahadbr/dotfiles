@@ -2,4 +2,4 @@
 Description=Google Calendar Reminder
 
 [Service]
-ExecStart=/usr/bin/gcalcli remind --json 16 '/home/fahad/.dotfiles/gcalcli/remind.py %%s'
+ExecStart=/usr/bin/gcalcli remind --json 11 '/home/fahad/.dotfiles/gcalcli/remind.py %%s'

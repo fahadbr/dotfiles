@@ -1,14 +1,45 @@
 #!/bin/bash
+# vim: set filetype=sh:
 # The calendar script will use the vars stored in the varfile
 # and calculate the time remaining until the event specified
 # This script is meant to work with i3blocks only
-varfile=$HOME/.local/share/i3blocks/calendar-reminder
+calendarDir=$HOME/.local/share/i3blocks/calendar
+countFile=$calendarDir/count
+indexFile=$calendarDir/index
 
-if [[ ! -f $varfile ]]; then
+function updateIndex {
+	echo "index=$1
+indexTimestamp=$2" > $indexFile
+}
+
+if [[ ! -f $countFile ]]; then
 	exit 0
 fi
 
-# this will bring in startTime, title, location, url variables
+# this will bring in count and countTimestamp
+source $countFile
+
+if [[ ! -f $indexFile ]]; then
+	updateIndex 0 $countTimestamp
+fi
+
+source $indexFile
+
+if [[ $indexTimestamp -ne $countTimestamp ]]; then
+	updateIndex 0 $countTimestamp
+	source $indexFile
+fi
+
+# bump up the index if button was pressed and theres other
+# event files (count > 1)
+if [[ $BLOCK_BUTTON -eq 1 ]] && [[ $count -gt 1 ]]; then
+	index=$(echo "($index + 1)%$count" | bc)
+	updateIndex $index $indexTimestamp
+fi
+
+varfile="$calendarDir/event-$index"
+
+# this will bring in startTime, endTime title, location, url variables
 source $varfile
 
 if [[ -z $startTime ]]; then
@@ -16,21 +47,26 @@ if [[ -z $startTime ]]; then
 	exit 0
 fi
 
-timeRemaining=$(($startTime - $(date "+%s")))
-if [[ $timeRemaining -lt -300 ]]; then
+
+currentTime=$(date "+%s")
+timeUntil=$(($startTime - $currentTime))
+if [[ $currentTime -gt $endTime ]]; then
 	# event has passed
 	exit 0
 fi
 
-timeRemMinutes=$(($timeRemaining / 60))
+timeUntilMinutes=$(($timeUntil / 60))
 
-short="$title in $timeRemMinutes min"
+# replace "&" with "+" because "&" messes up i3blocks
+title=$(echo $title | sed 's/&/+/g')
+short="$title in $timeUntilMinutes min"
 color="#FFFFFF"
 
-if [[ $timeRemMinutes -lt 10 ]] && [[ $timeRemMinutes -gt 0 ]]; then
+if [[ $timeUntilMinutes -lt 10 ]] && [[ $timeUntilMinutes -gt 0 ]]; then
 	color="#FFFF00"
-elif [[ $timeRemMinutes -le 0 ]] && [[ $timeRemMinutes -ge -5 ]]; then
-	short="$title (now)"
+elif [[ $timeUntilMinutes -le 0 ]] && [[ $currentTime -le $endTime ]]; then
+	timeRemMinutes=$(($(($endTime - $currentTime))/60))
+	short="$title (now - $timeRemMinutes min left)"
 	color="#00FF77"
 fi
 
@@ -40,11 +76,15 @@ else
 	long=$short
 fi
 
+if [[ $count -gt 1 ]]; then
+	long="$long ($(($index + 1))/$count)"
+fi
+
 echo $long
 echo $short
 echo $color
 
 # handle mouse event
-if [[ "$BLOCK_BUTTON" ]]; then
+if [[ $BLOCK_BUTTON -eq 2 ]]; then
 	xdg-open $url
 fi

@@ -30,6 +30,9 @@ set backspace=indent,eol,start
 set autoread
 set grepprg=rg\ --vimgrep
 
+" neovim options
+set inccommand=nosplit
+
 au FocusGained,BufEnter * :checktime
 "augroup numbertoggle
 	"autocmd!
@@ -130,6 +133,7 @@ au FileType go nmap <leader>ft :Rgc ^type <C-r><C-w><CR>
 
 " python stuff
 Plug 'zchee/deoplete-jedi'
+Plug 'vimjas/vim-python-pep8-indent'
 
 
 " ale config
