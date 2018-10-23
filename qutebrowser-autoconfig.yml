@@ -13,6 +13,7 @@ settings:
         J: back
         K: forward
         L: tab-next
+        T: set-cmd-text -s :buffer
       passthrough:
         <Ctrl+Shift+c>: leave-mode
         <Ctrl+v>: null
