@@ -14,6 +14,7 @@ settings:
         K: forward
         L: tab-next
         T: set-cmd-text -s :buffer
+        tg: set-cmd-text -s :tab-give
       passthrough:
         <Ctrl+Shift+c>: leave-mode
         <Ctrl+v>: null
