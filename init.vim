@@ -235,9 +235,6 @@ nnoremap <M-S-k> <C-w>k
 nnoremap <M-S-j> <C-w>j
 nnoremap <M-S-h> <C-w>h
 nnoremap <M-S-l> <C-w>l
-nnoremap <M-S-q> <C-w>q
-nnoremap <M-S-s> <C-w>s
-nnoremap <M-S-v> <C-w>v
 nnoremap <M-+> <C-w>+
 nnoremap <M-_> <C-w>-
 nnoremap <M-<> <C-w><
@@ -286,6 +283,8 @@ set t_Co=256
 let base16colorspace=256
 set background=dark
 colorscheme gruvbox
+" transparent background
+hi Normal guibg=NONE ctermbg=NONE
 
 if (has("nvim"))
   "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >

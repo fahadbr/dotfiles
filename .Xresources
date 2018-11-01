@@ -21,7 +21,7 @@ URxvt.cursorBlink: 1
 URxvt*inheritPixmap:true
 URxvt*transparent: true
 ! URxvt*shading: 0 to 99 darkens, 101 to 200 lightens
-URxvt*shading: 40
+URxvt*shading: 20
 
 !! fixes tearing when using compton
 ! URxvt*.depth: 24
