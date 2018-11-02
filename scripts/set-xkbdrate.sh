@@ -1,1 +1,1 @@
-xset r rate 200 45
+xset r rate 200 45 && setxkbmap -option
