@@ -55,9 +55,9 @@ command=/home/fahad/.config/i3blocks/scripts/tapstatus
 interval=once
 signal=3
 
-#[bluetooth]
-#command=/home/fahad/.config/i3blocks/scripts/bluetooth
-#interval=10
+[bluetooth]
+command=/home/fahad/.config/i3blocks/scripts/bluetooth
+interval=10
 
 #[brightness]
 #command=echo "scale=2;$(cat /sys/class/backlight/intel_backlight/brightness)/$(cat /sys/class/backlight/intel_backlight/max_brightness)*100" | bc | sed -E -n 's/([0-9]+)\.?([0-9]*)/\1%/p'
