@@ -1,0 +1,18 @@
+#!/bin/bash
+
+accessToken=$(pass show 'pushbullet/fahadbr@gmail.com')
+
+req='{
+	"email": "fahadbr@gmail.com",
+	"type": "link",
+	"title": "'$QUTE_TITLE'",
+	"body": "",
+	"url": "'$QUTE_URL'"
+}'
+
+## for debugging purposes
+# notify-send "would send $req"
+
+curl -H "Access-Token: $accessToken" \
+	-H "Content-Type: application/json" \
+	-d "$req" -X POST https://api.pushbullet.com/v2/pushes && echo "message-info 'URL sent to pushbullet'" > $QUTE_FIFO

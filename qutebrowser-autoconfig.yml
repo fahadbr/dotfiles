@@ -15,6 +15,7 @@ settings:
         L: tab-next
         T: set-cmd-text -s :buffer
         tg: set-cmd-text -s :tab-give
+        tpb: spawn --userscript pushbullet
       passthrough:
         <Ctrl+Shift+c>: leave-mode
         <Ctrl+v>: null
