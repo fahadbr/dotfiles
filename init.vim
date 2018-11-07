@@ -127,9 +127,9 @@ au FileType go nmap <F12> :GoDecls<CR>
 au FileType go nmap <leader>e <Plug>(go-iferr)
 " search function name under curser
 " Rg func ?\(?.*\)? init\(
-au FileType go nmap <leader>ff :Rgc ^func ?\(?.*\)? <C-r><C-w>\(<CR>
+au FileType go nmap <leader>ff :grep '^func ?\(?.*\)? <C-r><C-w>\(' \| cwindow<CR>
 " search type under curser
-au FileType go nmap <leader>ft :Rgc ^type <C-r><C-w><CR>
+au FileType go nmap <leader>ft :grep '^type <C-r><C-w>' \| cwindow<CR>
 
 " python stuff
 Plug 'zchee/deoplete-jedi'
@@ -204,7 +204,7 @@ nnoremap <M-S-p> :Files<CR>
 nnoremap <M-z> :set wrap!<CR>
 nnoremap <M-/> :set hlsearch!<CR>
 " search current word across all files
-nnoremap <leader>fw :Rgc <C-r><C-w><CR>
+nnoremap <leader>fw :grep '<C-r><C-w>' \| cwindow<CR>
 " changing instances of current word
 nnoremap <leader>cw *Ncgn
 " searching for visual selection
@@ -216,7 +216,7 @@ vnoremap g# "vy?<C-r>v<CR>
 " changing instances of visual selection
 vnoremap <leader>cw "vy/<C-r>v<CR>Ncgn
 " search all files from visual selection
-vnoremap <leader>fw "vy:Rgc <C-r>v<CR>
+vnoremap <leader>f "vy:grep '<C-r>v' \| cwindow<CR>
 
 
 " terminal shortcuts
@@ -259,21 +259,6 @@ command! -bang -nargs=* Rg
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 
-" ripgrep with case sensitive search
-command! -bang -nargs=* Rgc
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
-
-" ripgrep with fixed expression search
-command! -bang -nargs=* Rgf
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always -F '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
 
 " Gruvbox
 " This HAS to be after plugged :)
