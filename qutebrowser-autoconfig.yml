@@ -19,16 +19,18 @@ settings:
       passthrough:
         <Ctrl+Shift+c>: leave-mode
         <Ctrl+v>: null
+  colors.tabs.bar.bg:
+    global: '#555555'
   colors.tabs.even.bg:
-    global: '#222222'
+    global: '#333333'
   colors.tabs.even.fg:
-    global: '#cccccc'
+    global: '#ffffff'
   colors.tabs.indicator.error:
     global: '#ff0000'
   colors.tabs.odd.bg:
-    global: '#222222'
+    global: '#333333'
   colors.tabs.odd.fg:
-    global: '#cccccc'
+    global: '#ffffff'
   colors.tabs.selected.even.bg:
     global: '#227766'
   colors.tabs.selected.even.fg:
@@ -43,6 +45,18 @@ settings:
     global: true
   tabs.background:
     global: true
+  tabs.padding:
+    global:
+      bottom: 5
+      left: 5
+      right: 5
+      top: 5
+  tabs.select_on_remove:
+    global: last-used
+  tabs.show:
+    global: multiple
+  tabs.title.alignment:
+    global: center
   url.searchengines:
     global:
       DEFAULT: https://www.google.com/search?hl=en&q={}
