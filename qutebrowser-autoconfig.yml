@@ -14,11 +14,14 @@ settings:
         K: forward
         L: tab-next
         T: set-cmd-text -s :buffer
+        co: null
         tg: set-cmd-text -s :tab-give
         tpb: spawn --userscript pushbullet
       passthrough:
         <Ctrl+Shift+c>: leave-mode
         <Ctrl+v>: null
+  colors.statusbar.private.fg:
+    global: white
   colors.tabs.bar.bg:
     global: '#555555'
   colors.tabs.even.bg:
