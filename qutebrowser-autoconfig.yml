@@ -55,7 +55,7 @@ settings:
       right: 5
       top: 5
   tabs.select_on_remove:
-    global: last-used
+    global: next
   tabs.show:
     global: multiple
   tabs.title.alignment:
