@@ -1,3 +1,5 @@
+#!/bin/bash
+
 display=DP1
 if [[ "$1" != "" ]]; then
 	display=$1
