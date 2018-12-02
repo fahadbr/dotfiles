@@ -15,7 +15,7 @@ source $ZSH/oh-my-zsh.sh
 
 setopt appendhistory extendedglob nomatch notify
 setopt shwordsplit
-unsetopt autocd beep
+unsetopt beep sharehistory
 bindkey -e
 
 # End of lines added by compinstall
