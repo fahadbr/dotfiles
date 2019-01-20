@@ -12,6 +12,7 @@ audioIdleTime=0
 defaultInterval=1
 dimmedInterval=.25
 interval=$defaultInterval
+audioModeTriggered=false
 
 # check whether on ac or power
 varsPrefix=$1
@@ -55,10 +56,23 @@ function run {
 		local runningAudioSinks=$(pacmd list-sink-inputs | grep -c 'state: RUNNING')
 
 		if [[ $runningAudioSinks -ne 0 ]]; then
-			echo 'audio is running'
+			# echo 'audio is running'
 			audioIdleTime=$actualIdleTime
+
+			if [[ "$audioModeTriggered" == "false" ]]; then
+				echo 'audio mode triggered'
+				xset dpms 0 0 0
+				audioModeTriggered=true
+			fi
+
 			#echo "actual: $actualIdleTime, audio: $audioIdleTime, effective: $idletime"
 			continue
+		fi
+
+		if [[ "$audioModeTriggered" == "true" ]]; then
+			echo 'audio mode reset'
+			xset dpms $dpmsTimeout 0 0
+			audioModeTriggered=false
 		fi
 
 		local idletime=$(($actualIdleTime - $audioIdleTime))
@@ -97,5 +111,6 @@ function run {
 }
 
 xset dpms $dpmsTimeout 0 0
+xset s 0 0
 reset
 run
