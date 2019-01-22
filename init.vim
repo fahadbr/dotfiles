@@ -127,9 +127,9 @@ au FileType go nmap <F12> :GoDecls<CR>
 au FileType go nmap <leader>e <Plug>(go-iferr)
 " search function name under curser
 " Rg func ?\(?.*\)? init\(
-au FileType go nmap <leader>ff :grep '^func ?\(?.*\)? <C-r><C-w>\(' \| cwindow<CR>
+au FileType go nmap <leader>ff :silent grep '^func ?\(?.*\)? <C-r><C-w>\(' \| cwindow<CR>
 " search type under curser
-au FileType go nmap <leader>ft :grep '^type <C-r><C-w>' \| cwindow<CR>
+au FileType go nmap <leader>ft :silent grep '^type <C-r><C-w>' \| cwindow<CR>
 
 " python stuff
 Plug 'zchee/deoplete-jedi'
@@ -139,8 +139,13 @@ Plug 'vimjas/vim-python-pep8-indent'
 " ale config
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
-let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 0
+let g:ale_lint_on_filetype_changed = 0
+nnoremap <leader>l :ALELint<CR>
 
 " Enable integration with airline
 let g:airline#extensions#ale#enabled = 1
@@ -204,7 +209,7 @@ nnoremap <M-S-p> :Files<CR>
 nnoremap <M-z> :set wrap!<CR>
 nnoremap <M-/> :set hlsearch!<CR>
 " search current word across all files
-nnoremap <leader>fw :grep '<C-r><C-w>' \| cwindow<CR>
+nnoremap <leader>fw :silent grep '<C-r><C-w>' \| cwindow<CR>
 " changing instances of current word
 nnoremap <leader>cw *Ncgn
 " searching for visual selection
@@ -216,7 +221,7 @@ vnoremap g# "vy?<C-r>v<CR>
 " changing instances of visual selection
 vnoremap <leader>cw "vy/<C-r>v<CR>Ncgn
 " search all files from visual selection
-vnoremap <leader>f "vy:grep '<C-r>v' \| cwindow<CR>
+vnoremap <leader>f "vy:silent grep '<C-r>v' \| cwindow<CR>
 
 
 " terminal shortcuts
