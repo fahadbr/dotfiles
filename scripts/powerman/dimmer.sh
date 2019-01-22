@@ -16,7 +16,7 @@ function getBrightness {
 function adjustBrightness {
 	targetBrightness=$1
 	targetDurationMs=$2
-	currentBrightness=$(getBrightness)
+	currentBrightness=$3
 
 	whileCond="-gt"
 	incLimitCond="-lt"
@@ -46,9 +46,19 @@ function dim {
 		exit 0
 	fi
 
-	getBrightness > $lastBrightnessFile
 
-	adjustBrightness $targetDimBrightness $targetDimDurationMs
+	currentBrightness=$(getBrightness)
+
+	# don't dim if the screen is already at a lower brightness
+	# then the intended dim brightness
+	if [[ $targetDimBrightness -gt $currentBrightness ]]; then
+		echo 'already lower than target dim brightness'
+		exit 0
+	fi
+
+	echo $currentBrightness > $lastBrightnessFile
+
+	adjustBrightness $targetDimBrightness $targetDimDurationMs $currentBrightness
 }
 
 function restore {
@@ -57,7 +67,15 @@ function restore {
 		exit 0
 	fi
 
-	adjustBrightness $(cat $lastBrightnessFile) $targetUndimDurationMs
+	targetBrightness=$(cat $lastBrightnessFile)
+	currentBrightness=$(getBrightness)
+	if [[ $targetBrightness -lt $currentBrightness ]]; then
+		echo 'already higher than target brightness'
+		rm $lastBrightnessFile
+		exit 0
+	fi
+
+	adjustBrightness $targetBrightness $targetUndimDurationMs $currentBrightness
 	rm $lastBrightnessFile
 }
 

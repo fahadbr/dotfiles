@@ -1,5 +1,8 @@
 #!/bin/bash
+
+dimmerLastBrightnessFile=$HOME/.local/lastbrightness
 bl_dev=/sys/class/backlight/intel_backlight
+
 if uname -a | grep Ubuntu >/dev/null; then
 	step=500
 else
@@ -28,12 +31,14 @@ case $1 in
 		;;
 esac
 
-# update i3blocks
-# pkill -RTMIN+2 i3blocks
+## remove the file used for restoring brightness
+## used by the dimmer if it exists. this way the dimmer
+## script will change the brightness in an attempt to restore
+## to the original brightness on idle exit
+if [[ -f $dimmerLastBrightnessFile ]]; then
+	rm $dimmerLastBrightnessFile
+fi
 
-# print brightness
-# echo "$(cat $bl_dev/brightness)/$(cat $bl_dev/max_brightness)"
-
-# notify brightness
+## notify brightness
 bpct=$(echo "scale=2;$(cat /sys/class/backlight/intel_backlight/brightness)/$(cat /sys/class/backlight/intel_backlight/max_brightness)*100" | bc | sed -E -n 's/([0-9]+)\.?([0-9]*)/\1 %/p')
 dunstify -a " Brightness" -t 2000 -r 2594 -u normal "$bpct"
