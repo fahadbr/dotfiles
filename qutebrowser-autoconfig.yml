@@ -14,9 +14,15 @@ settings:
         K: forward
         L: tab-next
         T: set-cmd-text -s :buffer
+        X: undo
         co: null
+        d: scroll-page 0 0.5
         tg: set-cmd-text -s :tab-give
         tpb: spawn --userscript pushbullet
+        u: scroll-page 0 -0.5
+        x: tab-close
+        xO: null
+        xo: null
       passthrough:
         <Ctrl+Shift+c>: leave-mode
         <Ctrl+v>: null
