@@ -9,6 +9,7 @@ settings:
         <Alt+p>: spawn --userscript qute-lastpass
         <Ctrl+Shift+c>: enter-mode passthrough
         <Ctrl+v>: null
+        D: null
         H: tab-prev
         J: back
         K: forward
