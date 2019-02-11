@@ -32,6 +32,7 @@ alias sd='systemctl'
 alias udc='udisksctl'
 alias pbcopy='xclip -i -sel clip'
 alias pbpaste='xclip -o -sel clip'
+alias cpr='rsync -ah --info=progress2'
 
 alias cdfzf='cd $(find . type d | fzf)'
 alias vimfzf='vim $(find . type f | fzf)'
