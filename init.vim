@@ -208,6 +208,7 @@ nnoremap <M-S-n> :NERDTreeFind<CR>
 nnoremap <M-S-p> :Files<CR>
 nnoremap <M-z> :set wrap!<CR>
 nnoremap <M-/> :set hlsearch!<CR>
+nnoremap <M-1> :set relativenumber!<CR>
 " search current word across all files
 nnoremap <leader>fw :silent grep '<C-r><C-w>' \| cwindow<CR>
 " changing instances of current word
