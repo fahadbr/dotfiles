@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#
+# assigns a number to a workspace
 
 set -e -o pipefail
 
@@ -8,26 +10,36 @@ if [[ -z $1 ]]; then
 fi
 
 function renameWs() {
-	local oldWs=$1
+	local oldWsName=$1
 	local numberOfFocused=$2
-	local nameForOldWs=$numberOfFocused
+	local newNameForWs=$numberOfFocused
 
-	if echo $oldWs | grep -E '^[0-9]+$' &>/dev/null; then
+	if echo $oldWsName | grep -E '^[0-9]+$' &>/dev/null; then
 		if [[ -z $numberOfFocused ]]; then
 			# if the old workspace name was only a number then prompt for a new name for that workspace
-			nameForOldWs=$(rofi -l 0 -dmenu -P "enter name for workspace \"$oldWs\"")
+			newNameForWs=$(rofi -l 0 -dmenu -P "enter name for workspace \"$oldWsName\"")
 		fi
 	else
 		# otherwise proceed to remove the number from the old ws
-		oldWsNameStripped=$(echo $oldWs | sed -E 's/(^[0-9]+: )(.*)/\2/')
+		oldWsNameStripped=$(echo $oldWsName | sed -E 's/(^[0-9]+: )(.*)/\2/')
 
 		if [[ -z $numberOfFocused ]]; then
-			nameForOldWs=$oldWsNameStripped
+			newNameForWs=$oldWsNameStripped
 		else
-			nameForOldWs="$numberOfFocused: $oldWsNameStripped"
+			newNameForWs="$numberOfFocused: $oldWsNameStripped"
 		fi
 	fi
-	i3-msg "rename workspace \"$oldWs\" to \"$nameForOldWs\""
+
+	if [[ -z $newNameForWs ]]; then
+		echo "new name for workspace is empty" 1>&2
+		exit 1
+	fi
+
+	resp=$(i3-msg "rename workspace \"$oldWsName\" to \"$newNameForWs\"" 2>&1)
+	if echo $resp | grep ERROR &>/dev/null ; then
+		notify-send -a $0 "failed to rename workspace" "$resp"
+		exit 1
+	fi
 }
 
 numberToAssign=$1
@@ -46,7 +58,6 @@ fi
 
 # if focused is just a number then the new name will just be the numberToAssign
 if echo $focused | grep -E '^[0-9]+$' &>/dev/null; then
-	#nameForFocused=$numberToAssign
 	tmpName="99"
 	i3-msg "rename workspace \"$focused\" to \"$tmpName\""
 	focused=$tmpName
