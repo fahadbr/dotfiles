@@ -53,6 +53,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
 Plug '$HOME/.fzf'
+Plug '$HOME/.dotfiles/fzfc'
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
@@ -114,12 +115,14 @@ let g:go_highlight_structs = 1
 let g:go_highlight_types = 1
 let g:go_auto_sameids = 1
 let g:go_fmt_command="goimports"
+let g:go_fmt_fail_silently = 1
+let g:go_def_mode="godef"
 " let g:go_list_type = 'quickfix'
 let g:go_list_type_commands = {"_guru": "quickfix"}
 
 
 au FileType go nmap <leader>i <Plug>(go-info)
-au FileType go nmap <leader>d <Plug>(go-def)
+au FileType go nmap gb <Plug>(go-build)
 au FileType go nmap <F1> <Plug>(go-doc)
 au FileType go nmap <F6> <Plug>(go-rename)
 au FileType go nmap <F7> <Plug>(go-referrers)
@@ -140,12 +143,19 @@ Plug 'vimjas/vim-python-pep8-indent'
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
 let g:ale_lint_on_text_changed = 0
-let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 0
+let g:ale_lint_on_save = 1
 let g:ale_lint_on_filetype_changed = 0
-nnoremap <leader>l :ALELint<CR>
+let g:ale_enabled = 0
+let g:ale_linters = {
+  \ 'go': ['govet', 'golint', 'gofmt', 'gobuild'],
+  \ 'python': ['flake8'],
+  \ }
+let g:ale_go_golint_options = '-min_confidence=0.6'
+
+"let g:ale_go_golangci_lint_options = ' --fast --tests'
+nnoremap <leader>l :ALEToggle<CR>
 
 " Enable integration with airline
 let g:airline#extensions#ale#enabled = 1
@@ -255,6 +265,11 @@ nnoremap <M-F3> :cprevious<CR>
 " cmdline mapping
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
+
+" git mappings
+nnoremap <leader>gco :Gcheckout<CR>
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gd :Gdiff<CR>
 
 " custom fzf functions
 " ripgrep search
