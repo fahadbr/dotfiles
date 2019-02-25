@@ -222,7 +222,7 @@ nnoremap <M-1> :set relativenumber!<CR>
 " search current word across all files
 nnoremap <leader>fw :silent grep '<C-r><C-w>' \| cwindow<CR>
 " changing instances of current word
-nnoremap <leader>cw *Ncgn
+nnoremap <leader>cw :set hlsearch<CR>*Ncgn
 " searching for visual selection
 vnoremap <leader>/ "vy/\V<C-r>v<CR>
 vnoremap * "vy/\<<C-r>v\><CR>
