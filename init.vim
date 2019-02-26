@@ -274,7 +274,7 @@ cabbrev W w
 nnoremap <leader>gco :Gcheckout<CR>
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gd :Gdiff<CR>
-nnoremap <leader>gp :Gpull<CR>
+nnoremap <leader>gpl :Gpull<CR>
 nnoremap <leader>gps :Gpush<CR>
 
 " custom fzf functions
@@ -282,7 +282,7 @@ nnoremap <leader>gps :Gpush<CR>
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+ l\   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 
