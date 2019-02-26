@@ -121,15 +121,16 @@ let g:go_def_mode="godef"
 let g:go_list_type_commands = {"_guru": "quickfix"}
 
 
-au FileType go nmap <leader>i <Plug>(go-info)
-au FileType go nmap gb <Plug>(go-build)
+au FileType go nmap <leader>gi <Plug>(go-info)
+au FileType go nmap <leader>gb <Plug>(go-build)
+au FileType go nmap <leader>gtf <Plug>(go-test-func)
+au FileType go nmap <leader>ga <Plug>(go-alternate-edit)
 au FileType go nmap <F1> <Plug>(go-doc)
 au FileType go nmap <F6> <Plug>(go-rename)
 au FileType go nmap <F7> <Plug>(go-referrers)
 au FileType go nmap <F12> :GoDecls<CR>
 au FileType go nmap <leader>e <Plug>(go-iferr)
 " search function name under curser
-" Rg func ?\(?.*\)? init\(
 au FileType go nmap <leader>ff :silent grep '^func ?\(?.*\)? <C-r><C-w>\(' \| cwindow<CR>
 " search type under curser
 au FileType go nmap <leader>ft :silent grep '^type <C-r><C-w>' \| cwindow<CR>
@@ -235,18 +236,18 @@ vnoremap <leader>cw "vy/<C-r>v<CR>Ncgn
 vnoremap <leader>f "vy:silent grep '<C-r>v' \| cwindow<CR>
 
 
-" terminal shortcuts
+" terminal mappings
 nnoremap <M-t> :15split \| terminal<CR>
 tnoremap <M-Tab> <C-\><C-n>
 
-" remapping escape in various modes
-nnoremap <M-Tab> <Esc>
-onoremap <M-Tab> <Esc>
-cnoremap <M-Tab> <C-c><Esc>
-inoremap <M-Tab> <Esc>`^
-vnoremap <M-Tab> <Esc>gV
+" escape mappings in various modes
+"nnoremap <M-Tab> <Esc>
+"onoremap <M-Tab> <Esc>
+"cnoremap <M-Tab> <C-c><Esc>
+"inoremap <M-Tab> <Esc>`^
+"vnoremap <M-Tab> <Esc>gV
 
-" mapping window movements
+" window movement mappings
 nnoremap <M-S-k> <C-w>k
 nnoremap <M-S-j> <C-w>j
 nnoremap <M-S-h> <C-w>h
@@ -266,10 +267,15 @@ nnoremap <M-F3> :cprevious<CR>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
+" cmdline abbreviations
+cabbrev W w
+
 " git mappings
 nnoremap <leader>gco :Gcheckout<CR>
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>gp :Gpull<CR>
+nnoremap <leader>gps :Gpush<CR>
 
 " custom fzf functions
 " ripgrep search
