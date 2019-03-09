@@ -63,7 +63,11 @@ Plug 'vim-scripts/BufOnly.vim'
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-sleuth'
 Plug 'tomlion/vim-solidity'
+
+" for scala
+Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 
 " Colors
 Plug 'morhetz/gruvbox'
@@ -75,10 +79,6 @@ Plug 'drewtempelmeyer/palenight.vim'
 
 " Start it up
 let g:deoplete#enable_at_startup = 1
-
-" Allow tab autocomplete
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
-
 
 " Disable the preview window on tab complete
 set completeopt-=preview
@@ -214,9 +214,14 @@ nmap <M-h> <Plug>AirlineSelectPrevTab
 nnoremap <M-w> :bp\| bd #<CR>
 nnoremap <M-p> :Buffers<CR>
 
+" Allow tab autocomplete
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
+
 nnoremap <M-n> :NERDTreeToggle<CR>
 nnoremap <M-S-n> :NERDTreeFind<CR>
 nnoremap <M-S-p> :Files<CR>
+nnoremap <C-s> :w<CR>
+inoremap <C-s> <Esc>:w<CR>
 nnoremap <M-z> :set wrap!<CR>
 nnoremap <M-/> :set hlsearch!<CR>
 nnoremap <M-1> :set relativenumber!<CR>
@@ -241,11 +246,11 @@ nnoremap <M-t> :15split \| terminal<CR>
 tnoremap <M-Tab> <C-\><C-n>
 
 " escape mappings in various modes
-"nnoremap <M-Tab> <Esc>
-"onoremap <M-Tab> <Esc>
-"cnoremap <M-Tab> <C-c><Esc>
-"inoremap <M-Tab> <Esc>`^
-"vnoremap <M-Tab> <Esc>gV
+nnoremap <M-Space> <Esc>
+onoremap <M-Space> <Esc>
+cnoremap <M-Space> <C-c><Esc>
+inoremap <M-Space> <Esc>`^
+vnoremap <M-Space> <Esc>gV
 
 " window movement mappings
 nnoremap <M-S-k> <C-w>k
