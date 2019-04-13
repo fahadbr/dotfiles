@@ -8,17 +8,33 @@ if [[ $1 == "--type" ]]; then
 	shift
 fi
 
-prefix=${PASSWORD_STORE_DIR-~/.password-store}
-password_files=( "$prefix"/**/*.gpg )
-password_files=( "${password_files[@]#"$prefix"/}" )
-password_files=( "${password_files[@]%.gpg}" )
+function dopass {
+	prefix=${PASSWORD_STORE_DIR-~/.password-store}
+	password_files=( "$prefix"/**/*.gpg )
+	password_files=( "${password_files[@]#"$prefix"/}" )
+	password_files=( "${password_files[@]%.gpg}" )
 
-password=$(printf '%s\n' "${password_files[@]}" | rofi -dmenu -p "pass")
+	password=$(printf '%s\n' "${password_files[@]}" | rofi -dmenu -p "pass")
 
-[[ -n $password ]] || exit
+	[[ -n $password ]] || exit
 
-if [[ $typeit -eq 0 ]]; then
-	pass show -c "$password" 2>/dev/null
+	if [[ $typeit -eq 0 ]]; then
+		pass show -c "$password" 2>/dev/null
+	else
+		pass show "$password" | { IFS= read -r pass; printf %s "$pass"; } | xdotool type --clearmodifiers --file -
+	fi
+}
+
+function dolpass {
+	selected=$(lpass ls --sync=no | grep id | rofi -dmenu -p 'lpass')
+	lpassID=$(echo $selected | sed -E 's/.*id: ([0-9]+)]/\1/')
+	# TODO uncomment after installing xdotool
+	#lpass show --sync=no --password $lpassID 2>&1 | { IFS= read -r pass; printf %s "$pass"; } | xdotool type --clearmodifiers --file -
+	lpass show --sync=no --password $lpassID 2>&1 | xclip -i -sel clip
+}
+
+if which lpass &>/dev/null ; then
+	dolpass
 else
-	pass show "$password" | { IFS= read -r pass; printf %s "$pass"; } | xdotool type --clearmodifiers --file -
+	dopass
 fi

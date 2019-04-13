@@ -66,6 +66,9 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tomlion/vim-solidity'
 
+" gnuplot syntax
+Plug 'vim-scripts/gnuplot.vim', { 'for': 'gnuplot' }
+
 " for scala
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 
@@ -252,6 +255,11 @@ onoremap <M-Space> <Esc>
 cnoremap <M-Space> <C-c><Esc>
 inoremap <M-Space> <Esc>`^
 vnoremap <M-Space> <Esc>gV
+nnoremap <C-Space> <Esc>
+onoremap <C-Space> <Esc>
+cnoremap <C-Space> <C-c><Esc>
+inoremap <C-Space> <Esc>`^
+vnoremap <C-Space> <Esc>gV
 
 " window movement mappings
 nnoremap <M-S-k> <C-w>k

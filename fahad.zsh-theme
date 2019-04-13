@@ -10,8 +10,16 @@ git_custom_status() {
     echo "$ZSH_THEME_GIT_PROMPT_PREFIX$(git_current_branch)$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_SUFFIX"
   fi
 }
+
+goenv() {
+  local e=$(echo $GOPATH | grep -Eo "go2|go3")
+  if [[ $e ]]; then
+    echo "-[$e]"
+  fi
+}
+
 # %{$fg[red]%}
 local return_code="%(?..%{$fg[red]%}[%?])"
 
-PROMPT='%{$reset_color%}%{$fg[cyan]%}[%~% ]$(git_custom_status)%{$reset_color%}
+PROMPT='%{$reset_color%}%{$fg[cyan]%}[%~% ]$(goenv)$(git_custom_status)%{$reset_color%}
 ${return_code}%B$%b '
