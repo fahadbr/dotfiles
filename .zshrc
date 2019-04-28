@@ -8,7 +8,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # HYPHEN_INSENSITIVE="true"
 
 plugins=(
-  git
+  git, z
 )
 
 source $ZSH/oh-my-zsh.sh
