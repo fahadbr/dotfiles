@@ -6,14 +6,18 @@ settings:
   bindings.commands:
     global:
       normal:
+        <Alt+h>: tab-prev
+        <Alt+j>: back
+        <Alt+k>: forward
+        <Alt+l>: tab-next
         <Alt+p>: spawn --userscript qute-lastpass
         <Ctrl+Shift+c>: enter-mode passthrough
         <Ctrl+v>: null
         D: null
-        H: tab-prev
-        J: back
-        K: forward
-        L: tab-next
+        H: scroll left
+        J: scroll down
+        K: scroll up
+        L: scroll right
         T: set-cmd-text -s :buffer
         X: undo
         co: null

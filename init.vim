@@ -229,6 +229,7 @@ nnoremap <M-z> :set wrap!<CR>
 nnoremap <M-/> :set hlsearch!<CR>
 nnoremap <M-1> :set relativenumber!<CR>
 nnoremap <M-o> <C-o>:bd #<CR>
+nnoremap <leader>bo :BufOnly<CR>
 " search current word across all files
 nnoremap <leader>fw :silent grep '<C-r><C-w>' \| cwindow<CR>
 " changing instances of current word
@@ -250,16 +251,16 @@ nnoremap <M-t> :15split \| terminal<CR>
 tnoremap <M-Tab> <C-\><C-n>
 
 " escape mappings in various modes
-nnoremap <M-Space> <Esc>
-onoremap <M-Space> <Esc>
-cnoremap <M-Space> <C-c><Esc>
-inoremap <M-Space> <Esc>`^
-vnoremap <M-Space> <Esc>gV
-nnoremap <C-Space> <Esc>
-onoremap <C-Space> <Esc>
-cnoremap <C-Space> <C-c><Esc>
-inoremap <C-Space> <Esc>`^
-vnoremap <C-Space> <Esc>gV
+"nnoremap <M-Space> <Esc>
+"onoremap <M-Space> <Esc>
+"cnoremap <M-Space> <C-c><Esc>
+"inoremap <M-Space> <Esc>`^
+"vnoremap <M-Space> <Esc>gV
+"nnoremap <C-Space> <Esc>
+"onoremap <C-Space> <Esc>
+"cnoremap <C-Space> <C-c><Esc>
+"inoremap <C-Space> <Esc>`^
+"vnoremap <C-Space> <Esc>gV
 
 " window movement mappings
 nnoremap <M-S-k> <C-w>k
@@ -295,7 +296,7 @@ nnoremap <leader>gps :Gpush<CR>
 " ripgrep search
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   'rg --column --line-number --hidden --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
@@ -325,6 +326,6 @@ let g:session_persist_colors = 0
 
 " disable auto pair shortcuts
 let g:AutoPairsShortcutJump = ''
-let g:AutoPairsShortcutToggle = ''
+let g:AutoPairsShortcutToggle = "<M-'>"
 let g:AutoPairsShortcutFastWrap = ''
 let g:AutoPairsShortcutBackInsert = ''
