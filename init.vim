@@ -132,7 +132,7 @@ au FileType go nmap <F1> <Plug>(go-doc)
 au FileType go nmap <F6> <Plug>(go-rename)
 au FileType go nmap <F7> <Plug>(go-referrers)
 au FileType go nmap <F12> :GoDecls<CR>
-au FileType go nmap <leader>e <Plug>(go-iferr)
+au FileType go nmap <leader>ge <Plug>(go-iferr)
 " search function name under curser
 au FileType go nmap <leader>ff :silent grep '^func ?\(?.*\)? <C-r><C-w>\(' \| cwindow<CR>
 " search type under curser
@@ -229,6 +229,8 @@ nnoremap <M-z> :set wrap!<CR>
 nnoremap <M-/> :set hlsearch!<CR>
 nnoremap <M-1> :set relativenumber!<CR>
 nnoremap <M-o> <C-o>:bd #<CR>
+nnoremap <leader>w :w<CR>
+nnoremap <leader>* :%s/\<<C-r><C-w>\>//g<left><left>
 nnoremap <leader>bo :BufOnly<CR>
 " search current word across all files
 nnoremap <leader>fw :silent grep '<C-r><C-w>' \| cwindow<CR>
