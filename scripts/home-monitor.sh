@@ -1,8 +1,11 @@
 #!/bin/bash
 
-display=DP1
+# set -eo | pipefail
+
 if [[ "$1" != "" ]]; then
 	display=$1
+else
+	display=$(xrandr | grep '\bconnected' | grep -v 'eDP1' | cut -d ' ' -f 1)
 fi
 
 if uname -a | grep ARCH >/dev/null; then
