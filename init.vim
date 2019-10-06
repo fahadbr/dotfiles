@@ -57,6 +57,7 @@ Plug '$HOME/.dotfiles/fzfc'
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+Plug 'idanarye/vim-merginal'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-scripts/BufOnly.vim'
@@ -219,6 +220,12 @@ nnoremap <M-p> :Buffers<CR>
 
 " Allow tab autocomplete
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
+
+" for moving back to diff file list when using merginal
+" to diff branches
+" e.g. 'dv' in merginal window to diff file
+" then ,d to close diff, buffer and move back to merginal window
+nnoremap <leader>d :q \| bp \| bd # \| wincmd h<CR>
 
 nnoremap <M-n> :NERDTreeToggle<CR>
 nnoremap <M-S-n> :NERDTreeFind<CR>
