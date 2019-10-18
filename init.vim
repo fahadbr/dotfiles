@@ -66,6 +66,7 @@ Plug 'xolox/vim-misc'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tomlion/vim-solidity'
+Plug 'rhysd/git-messenger.vim'
 
 " gnuplot syntax
 Plug 'vim-scripts/gnuplot.vim', { 'for': 'gnuplot' }
@@ -216,7 +217,6 @@ nmap <M-h> <Plug>AirlineSelectPrevTab
 
 " switch to previous buffer then close tab
 nnoremap <M-w> :bp\| bd #<CR>
-nnoremap <M-p> :Buffers<CR>
 
 " Allow tab autocomplete
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -229,7 +229,6 @@ nnoremap <leader>d :q \| bp \| bd # \| wincmd h<CR>
 
 nnoremap <M-n> :NERDTreeToggle<CR>
 nnoremap <M-S-n> :NERDTreeFind<CR>
-nnoremap <M-S-p> :Files<CR>
 nnoremap <C-s> :w<CR>
 inoremap <C-s> <Esc>:w<CR>
 nnoremap <M-z> :set wrap!<CR>
@@ -259,18 +258,6 @@ vnoremap <leader>f "vy:silent grep '<C-r>v' \| cwindow<CR>
 nnoremap <M-t> :15split \| terminal<CR>
 tnoremap <M-Tab> <C-\><C-n>
 
-" escape mappings in various modes
-"nnoremap <M-Space> <Esc>
-"onoremap <M-Space> <Esc>
-"cnoremap <M-Space> <C-c><Esc>
-"inoremap <M-Space> <Esc>`^
-"vnoremap <M-Space> <Esc>gV
-"nnoremap <C-Space> <Esc>
-"onoremap <C-Space> <Esc>
-"cnoremap <C-Space> <C-c><Esc>
-"inoremap <C-Space> <Esc>`^
-"vnoremap <C-Space> <Esc>gV
-
 " window movement mappings
 nnoremap <M-S-k> <C-w>k
 nnoremap <M-S-j> <C-w>j
@@ -290,6 +277,7 @@ nnoremap <M-F3> :cprevious<CR>
 " cmdline mapping
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
+cnoremap <C-a> <Home>
 
 " cmdline abbreviations
 cabbrev W w
@@ -311,17 +299,55 @@ command! -bang -nargs=* Rg
   \   <bang>0)
 
 
+function! OpenFloatingWin()
+  let height = &lines - 3
+  let width = float2nr(&columns - (&columns * 2 / 10))
+  let col = float2nr((&columns - width) / 2)
+
+  "Set the position, size, etc. of the floating window.
+  "The size configuration here may not be so flexible, and there's room for further improvement.
+  let opts = {
+        \ 'relative': 'editor',
+        \ 'row': height * 0.3,
+        \ 'col': col ,
+        \ 'width': width * 2 / 2,
+        \ 'height': height / 2
+        \ }
+
+  let buf = nvim_create_buf(v:false, v:true)
+  let win = nvim_open_win(buf, v:true, opts)
+
+  "Set Floating Window Highlighting
+  call setwinvar(win, '&winhl', 'Normal:Pmenu')
+
+  setlocal
+        \ buftype=nofile
+        \ nobuflisted
+        \ bufhidden=hide
+        \ nonumber
+        \ norelativenumber
+        \ signcolumn=no
+endfunction
+
+" fzf config
+let g:fzf_layout = {'window': 'call OpenFloatingWin()'}
+nnoremap <M-S-p> :Files<CR>
+nnoremap <M-p> :Buffers<CR>
+"nnoremap <M-S-p> :Clap files<CR>
+"nnoremap <M-p> :Clap buffers<CR>
+
+
 " Gruvbox
 " This HAS to be after plugged :)
 let g:gruvbox_contrast_dark='hard'
-
-set t_Co=256
 let base16colorspace=256
 set background=dark
+set t_Co=256
 colorscheme gruvbox
 
 " transparent background
 hi Normal guibg=NONE ctermbg=NONE
+hi Pmenu guibg=234 ctermbg=234
 
 if (has("nvim"))
   "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
@@ -338,3 +364,7 @@ let g:AutoPairsShortcutJump = ''
 let g:AutoPairsShortcutToggle = "<M-'>"
 let g:AutoPairsShortcutFastWrap = ''
 let g:AutoPairsShortcutBackInsert = ''
+
+" git messenger config
+let g:git_messenger_include_diff = 'current'
+let g:git_messenger_always_into_popup = 1
