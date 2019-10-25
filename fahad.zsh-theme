@@ -14,7 +14,7 @@ git_custom_status() {
 goenv() {
   local e=$(echo $GOPATH | grep -Eo "go2|go3")
   if [[ $e ]]; then
-    echo "-[$e]"
+    echo "-[%{$fg[green]%}$e%{$fg[cyan]%}]"
   fi
 }
 
