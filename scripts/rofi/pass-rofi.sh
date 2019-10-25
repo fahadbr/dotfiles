@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -eo pipefail
 shopt -s nullglob globstar
 
 typeit=0
