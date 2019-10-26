@@ -74,7 +74,7 @@ interval=10
 # See the script for details.
 [volume]
 # label=VOL
-label=
+label= 
 instance=Master
 #instance=PCM
 interval=10
@@ -105,7 +105,7 @@ signal=1
 instance=wlp2s0
 interval=10
 separator=true
-label=
+label= 
 
 #[bandwidth]
 #instance=eth0
@@ -125,12 +125,12 @@ label=
 #
 # The type defaults to "mem" if the instance is not specified.
 [memory]
-label=
+label= 
 #label=MEM
 interval=30
 
 [load_average]
-label=
+label= 
 interval=10
 
 # Temperature
@@ -139,7 +139,7 @@ interval=10
 # The script may be called with -w and -c switches to specify thresholds,
 # see the script for details.
 [temperature]
-label=
+label= 
 interval=10
 markup=pango
 
