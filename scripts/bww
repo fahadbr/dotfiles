@@ -1,25 +1,71 @@
 #!/bin/bash
 
+set -o pipefail
+
+listcache=/tmp/bwlist
 tmpfile=$(mktemp /tmp/bwtemp.XXXXXXXX)
 trap "rm -f $tmpfile" EXIT
 
-keyid=$(keyctl request user bw_session)
-if [[ $? -gt 0 ]]; then
-	session=$(bw unlock --raw)
-	keyid=$( keyctl add user bw_session $session @u )
-	keyctl timeout $keyid "900"
-else
-	session=$(keyctl pipe $keyid)
-fi
-export BW_SESSION=$session
+function _prompt_pass {
+	TTY=$(tty)
+	retryattempt=$1
+
+	pe_input='
+SETTITLE Bitwarden Pinentry
+SETDESC Enter Bitwarden Master Password
+SETPROMPT password
+GETPIN'
+
+	if [[ $retryattempt -gt 1 ]]; then
+		pe_input="SETERROR Bad Passphrase (try $retryattempt of 3)
+		$pe_input"
+	fi
+
+	#echo "$pe_input" | pinentry-tty --ttyname $TTY | awk '/^D/ {print $2}'
+	echo "$pe_input" | pinentry -g -D ":0" | awk '/^D/ {print $2}'
+}
+
+function unlock {
+	keyid=$(keyctl request user bw_session)
+	if [[ $? -ne 0 ]]; then
+		_purge_cache
+
+		for attempt in {1..3}; do
+			password=$(_prompt_pass $attempt)
+			if [[ -z $password ]]; then
+				exit 0
+			fi
+
+			session=$(echo $password | bw unlock --raw)
+			if [[ $? -eq 0 ]]; then
+				break
+			fi
+		done
+		keyid=$(keyctl add user bw_session $session "@u")
+		keyctl timeout $keyid "300"
+	else
+		session=$(keyctl pipe $keyid)
+	fi
+	export BW_SESSION=$session
+}
 
 function lock {
 	keyctl purge user bw_session
+	_purge_cache
 	bw lock
 }
 
+function _purge_cache {
+	rm $listcache &>/dev/null
+}
+
 function list {
-	bw list items | jq -r '.[] | .name + ":" + .id'
+	if [[ -f $listcache ]]; then
+		cat $listcache
+	else
+		bw list items | jq -r '.[] | .name + ":" + .id' > $listcache
+		cat $listcache
+	fi
 }
 
 function ls {
@@ -31,7 +77,11 @@ function sync {
 }
 
 function show {
-	id=$(list | fzf | cut -d ':' -f 2)
+	id=$1
+	if [[ -z $id ]]; then
+		id=$(list | fzf | cut -d ':' -f 2)
+	fi
+
 	[[ $id ]] || exit 1
 	bw get item $id | jq -r '.login.password'
 }
@@ -73,4 +123,9 @@ function edit {
 
 cmd=$1
 shift 1
+
+if [[ "$cmd" != "lock" ]]; then
+	unlock
+fi
+
 $cmd $@
