@@ -13,6 +13,11 @@ else
 fi
 export BW_SESSION=$session
 
+function lock {
+	keyctl purge user bw_session
+	bw lock
+}
+
 function list {
 	bw list items | jq -r '.[] | .name + ":" + .id'
 }
@@ -21,12 +26,17 @@ function ls {
 	list
 }
 
+function sync {
+	bw sync
+}
+
 function show {
 	id=$(list | fzf | cut -d ':' -f 2)
+	[[ $id ]] || exit 1
 	bw get item $id | jq -r '.login.password'
 }
 
-function edit_tmp_file {
+function _edit_tmp_file {
 	checksumBefore=$(shasum $tmpfile)
 	nvim -c 'set filetype=json' $tmpfile
 	if [[ "$checksumBefore" == "$(shasum $tmpfile)" ]]; then
@@ -36,24 +46,27 @@ function edit_tmp_file {
 }
 
 function insert {
-	pswd="null"
-	if [[ "$1" == "-g" ]]; then
-		shift 1
-		pswd="\"$(bw generate $@)\""
-	fi
+	_insert_with_pass "null"
+}
 
-	bw get template item | jq ".login.password = $pswd | .login.username = null"> $tmpfile
-	edit_tmp_file
+function generate {
+	pswd="\"$(bw generate $@)\""
+	_insert_with_pass $pswd
+}
+
+function _insert_with_pass {
+	bw get template item | jq ".login.password = $1 | .login.username = null"> $tmpfile
+	_edit_tmp_file
 	<$tmpfile base64 | bw create item $itemid
 }
 
 function edit {
 	set -eo pipefail
 	itemid=$(list | fzf | cut -d ':' -f 2)
+	[[ $itemid ]] || exit 1
 
 	bw get item $itemid | jq > $tmpfile
-
-	edit_tmp_file
+	_edit_tmp_file
 
 	<$tmpfile base64 | bw edit item $itemid
 }
