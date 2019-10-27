@@ -10,7 +10,7 @@ settings:
         <Alt+j>: back
         <Alt+k>: forward
         <Alt+l>: tab-next
-        <Alt+p>: spawn --userscript qute-lastpass
+        <Alt+p>: spawn --userscript qute-pass
         <Ctrl+Shift+c>: enter-mode passthrough
         <Ctrl+v>: null
         D: null
@@ -71,10 +71,14 @@ settings:
     global: multiple
   tabs.title.alignment:
     global: center
+  url.default_page:
+    global: https://wiki.archlinux.org/
   url.searchengines:
     global:
       DEFAULT: https://www.google.com/search?hl=en&q={}
       d: https://duckduckgo.com/?q={}
       g: https://www.google.com/search?hl=en&q={}
+  url.start_pages:
+    global: https://wiki.archlinux.org/
   zoom.default:
-    global: 100%
+    global: '130'

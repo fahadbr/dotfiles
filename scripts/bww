@@ -17,6 +17,15 @@ function list {
 	bw list items | jq -r '.[] | .name + ":" + .id'
 }
 
+function ls {
+	list
+}
+
+function show {
+	id=$(list | fzf | cut -d ':' -f 2)
+	bw get item $id | jq -r '.login.password'
+}
+
 function edit_tmp_file {
 	checksumBefore=$(shasum $tmpfile)
 	nvim -c 'set filetype=json' $tmpfile
