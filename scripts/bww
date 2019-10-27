@@ -1,0 +1,54 @@
+#!/bin/bash
+
+tmpfile=$(mktemp /tmp/bwtemp.XXXXXXXX)
+trap "rm -f $tmpfile" EXIT
+
+keyid=$(keyctl request user bw_session)
+if [[ $? -gt 0 ]]; then
+	session=$(bw unlock --raw)
+	keyid=$( keyctl add user bw_session $session @u )
+	keyctl timeout $keyid "900"
+else
+	session=$(keyctl pipe $keyid)
+fi
+export BW_SESSION=$session
+
+function list {
+	bw list items | jq -r '.[] | .name + ":" + .id'
+}
+
+function edit_tmp_file {
+	checksumBefore=$(shasum $tmpfile)
+	nvim -c 'set filetype=json' $tmpfile
+	if [[ "$checksumBefore" == "$(shasum $tmpfile)" ]]; then
+		echo "no change detected, aborting.."
+		exit 0
+	fi
+}
+
+function insert {
+	pswd="null"
+	if [[ "$1" == "-g" ]]; then
+		shift 1
+		pswd="\"$(bw generate $@)\""
+	fi
+
+	bw get template item | jq ".login.password = $pswd | .login.username = null"> $tmpfile
+	edit_tmp_file
+	<$tmpfile base64 | bw create item $itemid
+}
+
+function edit {
+	set -eo pipefail
+	itemid=$(list | fzf | cut -d ':' -f 2)
+
+	bw get item $itemid | jq > $tmpfile
+
+	edit_tmp_file
+
+	<$tmpfile base64 | bw edit item $itemid
+}
+
+cmd=$1
+shift 1
+$cmd $@
