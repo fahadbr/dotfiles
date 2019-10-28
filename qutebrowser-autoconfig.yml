@@ -9,8 +9,8 @@ settings:
   bindings.commands:
     global:
       normal:
-        ',lp': spawn --userscript qute-lastpass
         ',pb': spawn --userscript qute-bitwarden
+        ',pl': spawn --userscript qute-lastpass
         ',pp': spawn --userscript qute-pass
         <Alt+h>: tab-prev
         <Alt+j>: back
@@ -86,4 +86,6 @@ settings:
   url.start_pages:
     global: https://wiki.archlinux.org/
   zoom.default:
-    global: '130'
+    global: '100'
+  zoom.mouse_divider:
+    global: 512
