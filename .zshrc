@@ -41,6 +41,7 @@ export TERMINAL=urxvt
 export EDITOR=nvim
 export LESS="-RF"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.dotfiles/scripts"
+export MACHINE=home
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

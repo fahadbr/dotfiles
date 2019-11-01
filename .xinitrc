@@ -9,7 +9,7 @@ $HOME/scripts/set-xkbdrate.sh
 $HOME/scripts/disableTouchScreen.sh
 
 xrdb -merge $HOME/.dotfiles/.Xresources
-if uname -a | grep ARCH >/dev/null; then
+if [ "$MACHINE" == "home" ]; then
 	xrdb -merge $HOME/.dotfiles/.Xresources-arch
 fi
 
@@ -39,9 +39,4 @@ if command -v dbus-update-activation-environment >/dev/null 2>&1; then
         dbus-update-activation-environment DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP
 fi
 
-if uname -a | grep ARCH >/dev/null; then
-	exec i3
-else
-	exec i3
-	#exec dbus-launch --exit-with-session i3
-fi
+exec i3

@@ -8,7 +8,7 @@ else
 	display=$(xrandr | grep '\bconnected' | grep -v 'eDP1' | cut -d ' ' -f 1)
 fi
 
-if uname -a | grep ARCH >/dev/null; then
+if [[ "$MACHINE" == "home" ]]; then
 	xrandr --output $display --primary --auto --scale .6x.6 --right-of eDP1
 else
 	xrandr --output $display --primary --mode 1920x1080 --right-of eDP1
