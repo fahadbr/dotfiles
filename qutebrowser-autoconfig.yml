@@ -60,6 +60,8 @@ settings:
     global: white
   colors.webpage.bg:
     global: white
+  content.geolocation:
+    https://www.google.com: false
   prompt.filebrowser:
     global: true
   tabs.background:
