@@ -82,7 +82,7 @@ settings:
     global: https://wiki.archlinux.org/
   url.searchengines:
     global:
-      DEFAULT: https://www.google.com/search?hl=en&q={}
+      DEFAULT: https://duckduckgo.com/?q={}
       d: https://duckduckgo.com/?q={}
       g: https://www.google.com/search?hl=en&q={}
   url.start_pages:
