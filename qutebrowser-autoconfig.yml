@@ -19,10 +19,10 @@ settings:
         <Ctrl+Shift+c>: enter-mode passthrough
         <Ctrl+v>: null
         D: null
-        H: scroll left
-        J: scroll down
-        K: scroll up
-        L: scroll right
+        H: tab-prev
+        J: back
+        K: forward
+        L: tab-next
         T: set-cmd-text -s :buffer
         X: undo
         co: null
