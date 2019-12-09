@@ -28,7 +28,7 @@ URxvt.keysym.Shift-space:
 ! URxvt*.depth: 24
 
 URxvt.perl-ext-common: default,matcher,vtwheel,resize-font,vim-scrollback
-URxvt.url-launcher: qutebrowser
+URxvt.url-launcher: brave-browser
 URxvt.matcher.button: 2
 URxvt.resize-font.step: 1
 
