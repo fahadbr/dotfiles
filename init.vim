@@ -130,6 +130,7 @@ au FileType go nmap <leader>gi <Plug>(go-info)
 au FileType go nmap <leader>gb <Plug>(go-build)
 au FileType go nmap <leader>gtf <Plug>(go-test-func)
 au FileType go nmap <leader>ga <Plug>(go-alternate-edit)
+au FileType go nmap <leader>gr :let g:go_referrers_mode = 'guru'<CR>
 au FileType go nmap <F1> <Plug>(go-doc)
 au FileType go nmap <F6> <Plug>(go-rename)
 au FileType go nmap <F7> <Plug>(go-referrers)
