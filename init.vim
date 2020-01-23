@@ -298,8 +298,8 @@ command! -bang -nargs=* Rg
 
 
 function! OpenFloatingWin()
-  let height = float2nr(&lines * 0.8)
-  let width = float2nr(&columns * 0.7)
+  let height = float2nr(&lines * 0.6)
+  let width = float2nr(&columns * 0.5)
   let col = float2nr((&columns - width) / 2)
   let row = float2nr((&lines - height) / 2)
 
