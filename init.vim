@@ -294,25 +294,23 @@ nnoremap <leader>gps :Gpush<CR>
 " ripgrep search
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --hidden --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+  \   'rg --column --line-number --hidden --no-heading --color=always --smart-case '.shellescape(<q-args>), 1, fzf#vim#with_preview("down"), <bang>0)
 
 
 function! OpenFloatingWin()
-  let height = &lines - 3
-  let width = float2nr(&columns - (&columns * 2 / 10))
+  let height = float2nr(&lines * 0.8)
+  let width = float2nr(&columns * 0.7)
   let col = float2nr((&columns - width) / 2)
+  let row = float2nr((&lines - height) / 2)
 
   "Set the position, size, etc. of the floating window.
   "The size configuration here may not be so flexible, and there's room for further improvement.
   let opts = {
         \ 'relative': 'editor',
-        \ 'row': height * 0.3,
+        \ 'row': row,
         \ 'col': col ,
-        \ 'width': width * 2 / 2,
-        \ 'height': height / 2
+        \ 'width': width,
+        \ 'height': height
         \ }
 
   let buf = nvim_create_buf(v:false, v:true)
@@ -332,6 +330,8 @@ endfunction
 
 " fzf config
 let g:fzf_layout = {'window': 'call OpenFloatingWin()'}
+
+
 nnoremap <M-S-p> :Files<CR>
 nnoremap <M-p> :Buffers<CR>
 "nnoremap <M-S-p> :Clap files<CR>
