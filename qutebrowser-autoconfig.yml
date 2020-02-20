@@ -9,6 +9,8 @@ settings:
   bindings.commands:
     global:
       normal:
+        ',M': hint links spawn mpv {hint-url}
+        ',m': spawn mpv {url}
         ',pb': spawn --userscript qute-bitwarden
         ',pl': spawn --userscript qute-lastpass
         ',pp': spawn --userscript qute-pass
@@ -79,14 +81,18 @@ settings:
   tabs.title.alignment:
     global: center
   url.default_page:
-    global: https://wiki.archlinux.org/
+    global: https://duckduckgo.com
+  url.incdec_segments:
+    global:
+    - path
+    - query
   url.searchengines:
     global:
       DEFAULT: https://duckduckgo.com/?q={}
       d: https://duckduckgo.com/?q={}
       g: https://www.google.com/search?hl=en&q={}
   url.start_pages:
-    global: https://wiki.archlinux.org/
+    global: https://duckduckgo.com
   zoom.default:
     global: '100'
   zoom.mouse_divider:

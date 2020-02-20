@@ -65,13 +65,13 @@
 #"rxvt"
 #  Control + b:2 + Release
 
-"volume.sh up && pkill -RTMIN+1 i3blocks"
+"volume.sh up"
   XF86AudioRaiseVolume
 
-"volume.sh down && pkill -RTMIN+1 i3blocks"
+"volume.sh down"
   XF86AudioLowerVolume
 
-"volume.sh mute && pkill -RTMIN+1 i3blocks"
+"volume.sh mute"
   XF86AudioMute
 
 "bl +"
