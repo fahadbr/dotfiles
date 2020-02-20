@@ -235,6 +235,7 @@ inoremap <C-s> <Esc>:w<CR>
 nnoremap <M-z> :set wrap!<CR>
 nnoremap <M-/> :set hlsearch!<CR>
 nnoremap <M-1> :set relativenumber!<CR>
+nnoremap <M-c> :cclose<CR>
 nnoremap <M-o> <C-o>:bd #<CR>
 nnoremap <leader>w :w<CR>
 nnoremap <leader>* :%s/\<<C-r><C-w>\>//g<left><left>
