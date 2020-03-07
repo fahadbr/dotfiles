@@ -15,5 +15,6 @@ else
 fi
 
 systemctl --user start powerman@ac.service
+$HOME/scripts/set-xkbdrate.sh
 ~/.fehbg
 
