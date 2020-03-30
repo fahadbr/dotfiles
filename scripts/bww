@@ -108,6 +108,7 @@ function _insert_with_pass {
 	bw get template item | jq ".login.password = $1 | .login.username = null"> $tmpfile
 	_edit_tmp_file
 	<$tmpfile base64 | bw create item $itemid
+	_purge_cache
 }
 
 function edit {
