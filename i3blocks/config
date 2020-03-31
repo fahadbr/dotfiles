@@ -72,11 +72,10 @@ signal=3
 # The first parameter sets the step (and units to display)
 # The second parameter overrides the mixer selection
 # See the script for details.
-[volume]
-# label=VOL
+[my_volume]
 label= 
-instance=Master
-#instance=PCM
+#instance=Master
+command=/home/fahad/.dotfiles/scripts/volume.sh i3blocks
 interval=10
 signal=1
 

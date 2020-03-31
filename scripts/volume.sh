@@ -6,11 +6,11 @@
 # $./volume.sh mute
 
 function get_volume {
-    amixer get Master | grep '%' | head -n 1 | cut -d '[' -f 2 | cut -d '%' -f 1
+    pulsemixer --get-volume | cut -d ' ' -f 1
 }
 
 function is_mute {
-    amixer get Master | grep '%' | grep -oE '[^ ]+$' | grep off > /dev/null
+    [[ $(pulsemixer --get-mute) -eq 1 ]]
 }
 
 function send_notification {
@@ -19,26 +19,42 @@ function send_notification {
     pkill -RTMIN+1 i3blocks
 }
 
-case $1 in
-    up)
-	# Set the volume on (if it was muted)
-	amixer set Master on > /dev/null
-	# Up the volume (+ 5%)
-	amixer set Master 5%+ > /dev/null
+function up {
+    # Set the volume on (if it was muted)
+    pulsemixer --unmute
+    # Up the volume (+ 5%)
+    pulsemixer --change-volume +5
+    send_notification
+
+}
+
+function down {
+    pulsemixer --unmute
+    pulsemixer --change-volume -5
+    send_notification
+
+}
+
+function mute {
+    # Toggle mute
+    pulsemixer --toggle-mute
+    if is_mute ; then
+	dunstify -a " Volume" -t 2000 -r 2593 -u normal "Muted"
+    else
 	send_notification
-	;;
-    down)
-	amixer set Master on > /dev/null
-	amixer set Master 5%- > /dev/null
-	send_notification
-	;;
-    mute)
-    	# Toggle mute
-	amixer set Master 1+ toggle > /dev/null
-	if is_mute ; then
-			dunstify -a " Volume" -t 2000 -r 2593 -u normal "Muted"
-	else
-	    send_notification
-	fi
-	;;
-esac
+    fi
+}
+
+function i3blocks {
+    if is_mute; then
+	echo "MUTE"
+	echo "MUTE"
+	echo "#FF3333"
+    else
+	echo "$(get_volume)%"
+    fi
+}
+
+cmd=$1
+shift 1
+$cmd
