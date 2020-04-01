@@ -21,5 +21,5 @@ goenv() {
 # %{$fg[red]%}
 local return_code="%(?..%{$fg[red]%}[%?])"
 
-PROMPT='%{$reset_color%}%{$fg[cyan]%}[%~% ]$(goenv)$(git_custom_status)%{$reset_color%}
+PROMPT='%{$reset_color%}%{$fg[cyan]%}[$HOSTNAME%~% ]$(goenv)$(git_custom_status)%{$reset_color%}
 ${return_code}%B$%b '
