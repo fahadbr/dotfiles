@@ -18,8 +18,16 @@ goenv() {
   fi
 }
 
+sshhostname() {
+  if [[ $SSH_CONNECTION ]]; then
+    echo "%{$fg[cyan]%}[$HOST]-"
+  fi
+}
+
 # %{$fg[red]%}
 local return_code="%(?..%{$fg[red]%}[%?])"
 
-PROMPT='%{$reset_color%}%{$fg[cyan]%}[$HOSTNAME%~% ]$(goenv)$(git_custom_status)%{$reset_color%}
+
+
+PROMPT='%{$reset_color%}$(sshhostname)%{$fg[cyan]%}[%~% ]$(goenv)$(git_custom_status)%{$reset_color%}
 ${return_code}%B$%b '

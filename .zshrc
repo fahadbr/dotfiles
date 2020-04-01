@@ -43,11 +43,6 @@ export LESS="-RF"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.dotfiles/scripts"
 export MACHINE=home
 
-if [[ $SSH_CONNECTION ]]; then
-  export HOSTNAME="$HOST:"
-fi
-
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 function printcolors {
