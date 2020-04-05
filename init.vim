@@ -69,8 +69,6 @@ Plug 'tpope/vim-sleuth'
 Plug 'tomlion/vim-solidity'
 Plug 'rhysd/git-messenger.vim'
 
-" gnuplot syntax
-Plug 'vim-scripts/gnuplot.vim', { 'for': 'gnuplot' }
 
 " for scala
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
@@ -101,9 +99,9 @@ set completeopt-=preview
 
 
 " clang plugins
-Plug 'zchee/deoplete-clang'
-let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
-let g:deoplete#sources#clang#clang_header = '/usr/lib/clang'
+" Plug 'zchee/deoplete-clang'
+" let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
+" let g:deoplete#sources#clang#clang_header = '/usr/lib/clang'
 
 
 " golang vim-go options
