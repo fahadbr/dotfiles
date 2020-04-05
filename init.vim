@@ -68,6 +68,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tomlion/vim-solidity'
 Plug 'rhysd/git-messenger.vim'
+Plug '$HOME/builds/vim-dirdiff'
 
 
 " for scala
