@@ -47,6 +47,7 @@ filetype plugin indent on
 " Plug
 call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdcommenter'
 Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'vim-airline/vim-airline'
