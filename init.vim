@@ -47,6 +47,7 @@ filetype plugin indent on
 " Plug
 call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdcommenter'
 Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'vim-airline/vim-airline'
@@ -68,9 +69,8 @@ Plug 'tpope/vim-sleuth'
 Plug 'tomlion/vim-solidity'
 Plug 'rhysd/git-messenger.vim'
 Plug 'freitass/todo.txt-vim'
+Plug '$HOME/builds/vim-dirdiff'
 
-" gnuplot syntax
-Plug 'vim-scripts/gnuplot.vim', { 'for': 'gnuplot' }
 
 " for scala
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
@@ -101,9 +101,9 @@ set completeopt-=preview
 
 
 " clang plugins
-Plug 'zchee/deoplete-clang'
-let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
-let g:deoplete#sources#clang#clang_header = '/usr/lib/clang'
+" Plug 'zchee/deoplete-clang'
+" let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
+" let g:deoplete#sources#clang#clang_header = '/usr/lib/clang'
 
 
 " golang vim-go options
