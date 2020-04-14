@@ -41,6 +41,7 @@ au FocusGained,BufEnter * :checktime
 "augroup END
 
 let mapleader = ","
+let maplocalleader = "-"
 
 filetype plugin indent on
 
@@ -68,8 +69,8 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tomlion/vim-solidity'
 Plug 'rhysd/git-messenger.vim'
-Plug 'freitass/todo.txt-vim'
 Plug '$HOME/builds/vim-dirdiff'
+Plug 'freitass/todo.txt-vim'
 
 
 " for scala
