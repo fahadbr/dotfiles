@@ -37,6 +37,7 @@ alias cpr='rsync -ah --info=progress2'
 alias cdfzf='cd $(find . type d | fzf)'
 alias vimfzf='vim $(find . type f | fzf)'
 
+export TODO_DIR="/data/syncthing/todo"
 export TERMINAL=urxvt
 export EDITOR=nvim
 export LESS="-RF"
