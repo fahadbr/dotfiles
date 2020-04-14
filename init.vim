@@ -67,6 +67,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tomlion/vim-solidity'
 Plug 'rhysd/git-messenger.vim'
+Plug 'freitass/todo.txt-vim'
 
 " gnuplot syntax
 Plug 'vim-scripts/gnuplot.vim', { 'for': 'gnuplot' }
