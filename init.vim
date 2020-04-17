@@ -70,8 +70,6 @@ Plug 'tpope/vim-sleuth'
 Plug 'tomlion/vim-solidity'
 Plug 'rhysd/git-messenger.vim'
 Plug '$HOME/builds/vim-dirdiff'
-Plug 'freitass/todo.txt-vim'
-
 
 " for scala
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
@@ -147,6 +145,23 @@ au FileType go nmap <leader>ft :silent grep '^type <C-r><C-w>' \| cwindow<CR>
 Plug 'zchee/deoplete-jedi'
 Plug 'vimjas/vim-python-pep8-indent'
 
+
+" todo.txt plugins
+Plug 'dbeniamine/todo.txt-vim'
+
+au BufNewFile,BufRead *.[Tt]odo.txt set filetype=todo
+au BufNewFile,BufRead *.[Dd]one.txt set filetype=todo
+au filetype todo setlocal omnifunc=todo#Complete
+"au filetype todo imap <buffer> + +<C-X><C-O>
+"au filetype todo imap <buffer> @ @<C-X><C-O>
+au filetype todo nmap <buffer> <localleader>d :call todo#PrioritizeAdd('D')<CR>
+au filetype todo nmap <buffer> <localleader>e :call todo#PrioritizeAdd('E')<CR>
+au filetype todo nmap <buffer> <localleader>f :call todo#PrioritizeAdd('F')<CR>
+au filetype todo nmap <buffer> <localleader>pd :execute "normal mq0df)x`q" \| delmarks q<CR>
+
+let g:TodoTxtForceDoneName='done.txt'
+let g:Todo_txt_prefix_creation_date=1
+let g:Todo_fold_char='x'
 
 " ale config
 let g:ale_sign_error = '>>'
@@ -228,7 +243,7 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
 " to diff branches
 " e.g. 'dv' in merginal window to diff file
 " then ,d to close diff, buffer and move back to merginal window
-nnoremap <leader>d :q \| bp \| bd # \| wincmd h<CR>
+"nnoremap <leader>d :q \| bp \| bd # \| wincmd h<CR>
 
 nnoremap <M-n> :NERDTreeToggle<CR>
 nnoremap <M-S-n> :NERDTreeFind<CR>
