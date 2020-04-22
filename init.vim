@@ -247,14 +247,13 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
 
 nnoremap <M-n> :NERDTreeToggle<CR>
 nnoremap <M-S-n> :NERDTreeFind<CR>
-nnoremap <C-s> :w<CR>
-inoremap <C-s> <Esc>:w<CR>
 nnoremap <M-z> :set wrap!<CR>
 nnoremap <M-/> :set hlsearch!<CR>
 nnoremap <M-1> :set relativenumber!<CR>
 nnoremap <M-c> :cclose<CR>
 nnoremap <M-o> <C-o>:bd #<CR>
 nnoremap <leader>w :w<CR>
+nnoremap <leader>r :e!<CR>
 nnoremap <leader>* :%s/\<<C-r><C-w>\>//g<left><left>
 nnoremap <leader>bo :BufOnly<CR>
 " search current word across all files
