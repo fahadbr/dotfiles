@@ -245,6 +245,8 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
 " then ,d to close diff, buffer and move back to merginal window
 "nnoremap <leader>d :q \| bp \| bd # \| wincmd h<CR>
 
+" close all windows
+nnoremap <C-q> :qa<CR>
 nnoremap <M-n> :NERDTreeToggle<CR>
 nnoremap <M-S-n> :NERDTreeFind<CR>
 nnoremap <M-z> :set wrap!<CR>
@@ -252,9 +254,15 @@ nnoremap <M-/> :set hlsearch!<CR>
 nnoremap <M-1> :set relativenumber!<CR>
 nnoremap <M-c> :cclose<CR>
 nnoremap <M-o> <C-o>:bd #<CR>
+" copy the current file and line number into clipboard
+nnoremap <leader>yl :let @+=expand('%').":".line('.')<CR>
+" write the current buffer
 nnoremap <leader>w :w<CR>
+" reload the current buffer
 nnoremap <leader>r :e!<CR>
+" find and replace the word under the cursor
 nnoremap <leader>* :%s/\<<C-r><C-w>\>//g<left><left>
+" close other buffers
 nnoremap <leader>bo :BufOnly<CR>
 " search current word across all files
 nnoremap <leader>fw :silent grep '<C-r><C-w>' \| cwindow<CR>
@@ -296,9 +304,16 @@ nnoremap <M-F3> :cprevious<CR>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 cnoremap <C-a> <Home>
+" append meeting-"date".md to command line
+" for quickly making meeting note files
+cnoremap <M-m> -meeting-`date '+\%m\%d\%Y'.md`
 
-" cmdline abbreviations
+"" cmdline abbreviations
+"
+" so we can use :W to write also
 cabbrev W w
+" write %% in command line to get the full path of the current buffer
+cabbrev <expr> %% expand('%:p:h')
 
 " git mappings
 nnoremap <leader>gco :Gcheckout<CR>
