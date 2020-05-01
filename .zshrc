@@ -8,7 +8,12 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # HYPHEN_INSENSITIVE="true"
 
 plugins=(
-  git ssh-agent z
+  git
+  ssh-agent
+  z
+  zsh-interactive-cd
+  zsh_reload
+  zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -45,6 +50,9 @@ export EDITOR=nvim
 export LESS="-RF"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.dotfiles/scripts:$HOME/.local/bin"
 export MACHINE=home
+export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+export ZSH_AUTOSUGGEST_USE_ASYNC=1
+export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
