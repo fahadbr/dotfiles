@@ -1,3 +1,4 @@
+#!/bin/bash
 # vim: set filetype=sh:
 
 set -eu
@@ -39,7 +40,7 @@ function lock-files {
 	for file in $files
 	do
 	  encrypted_file="$file"."$suffix"
-		if [ -f $encrypted_file ]
+		if [ -f "$encrypted_file" ]
 		then
 			filedir=$(dirname $file)
 			echo "sn_filepath=\"$filedir\"" >> $encrypted_file
@@ -72,18 +73,18 @@ function unlock-all {
 function unlocked-files {
 	cd $SN_BASEPATH
 
-	#unset IFS
-	#local ignore_args="-not -name \"*.$suffix\" -not -name \'stignore.txt' -not -name 'todo.txt' -not -name 'QuickNote.md' -not -name '.*'"
-	#if [ -f $ignore_file ]
-	#then
-		#while read pattern
-		#do
-			#ignore_args="$ignore_args -not -name \"*${pattern}*\""
-		#done <$ignore_file
-	#fi
+	#local ignore_args=( '-not' '-name' "'*.${suffix}'" '-not' '-name' "'.*'" '-not' '-name' 'stignore.txt' '-not' '-name' 'todo.txt' '-not' '-name' 'QuickNote.md' )
+	local ignore_args=( '-not' '-name' "'*.${suffix}'" )
+	if [ -f $ignore_file ]
+	then
+		while read pattern
+		do
+			ignore_args+=('-not' '-path' "'${pattern}'")
+		done <$ignore_file
+	fi
 
-	#find . -type f $ignore_args
-	find . -type f -not -name "*.$suffix" -not -name 'stignore.txt' -not -name 'todo.txt' -not -name 'QuickNote.md' -not -name '.*'
+	eval find . -type f ${ignore_args[@]}
+	#find . -type f -not -name "*.$suffix" -not -name 'stignore.txt' -not -name 'todo.txt' -not -name 'QuickNote.md' -not -name '.*'
 }
 
 function print_usage {
