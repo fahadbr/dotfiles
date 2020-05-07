@@ -35,9 +35,9 @@ set inccommand=nosplit
 
 au FocusGained,BufEnter * :checktime
 "augroup numbertoggle
-	"autocmd!
-	"autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-	"autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
+"autocmd!
+"autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+"autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
 "augroup END
 
 let mapleader = ","
@@ -173,9 +173,9 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_filetype_changed = 0
 let g:ale_enabled = 0
 let g:ale_linters = {
-  \ 'go': ['govet', 'golint', 'gofmt', 'gobuild'],
-  \ 'python': ['flake8'],
-  \ }
+      \ 'go': ['govet', 'golint', 'gofmt', 'gobuild'],
+      \ 'python': ['flake8'],
+      \ }
 let g:ale_go_golint_options = '-min_confidence=0.6'
 
 "let g:ale_go_golangci_lint_options = ' --fast --tests'
@@ -188,7 +188,7 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme = 'jellybeans'
 
 if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
+  let g:airline_symbols = {}
 endif
 
 " unicode symbols
@@ -284,7 +284,7 @@ vnoremap <leader>f "vy:silent grep '<C-r>v' \| cwindow<CR>
 nnoremap <M-t> :15split \| terminal<CR>
 tnoremap <M-Tab> <C-\><C-n>
 
-" window movement mappings
+" window mappings
 nnoremap <M-S-k> <C-w>k
 nnoremap <M-S-j> <C-w>j
 nnoremap <M-S-h> <C-w>h
@@ -293,6 +293,8 @@ nnoremap <M-+> <C-w>+
 nnoremap <M-_> <C-w>-
 nnoremap <M-<> <C-w><
 nnoremap <M->> <C-w>>
+nnoremap <M-q> <C-w>q
+
 
 " quickfix/location list navigation
 nnoremap <F2> :lnext<CR>
@@ -325,8 +327,8 @@ nnoremap <leader>gps :Gpush<CR>
 " custom fzf functions
 " ripgrep search
 command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --hidden --no-heading --color=always --smart-case '.shellescape(<q-args>), 1, fzf#vim#with_preview("down"), <bang>0)
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --hidden --no-heading --color=always --smart-case '.shellescape(<q-args>), 1, fzf#vim#with_preview("down"), <bang>0)
 
 
 function! OpenFloatingWin()
