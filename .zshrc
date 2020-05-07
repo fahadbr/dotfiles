@@ -1,6 +1,6 @@
 export ZSH=${ZSH:-"/home/fahad/.oh-my-zsh"}
 ZSH_THEME="fahad"
-DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="false"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line to use hyphen-insensitive completion.
@@ -48,7 +48,7 @@ export TERMINAL=urxvt
 export EDITOR=nvim
 export LESS="-RF"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.dotfiles/scripts:$HOME/.local/bin"
-export MACHINE=home
+export MACHINE=${MACHINE:-"home"}
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
