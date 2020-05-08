@@ -1,0 +1,115 @@
+#!/bin/bash
+# vim: set filetype=sh:
+
+set -eu
+
+# setting newline as the IFS so that files with spaces dont get split up
+suffix=asc
+IFS=$'\n'
+gpg_opts=( "--quiet" "--yes" "--compress-algo=none" "--no-encrypt-to" "--batch" "--use-agent" )
+ignore_file='.snignore'
+
+function unlock-file {
+	local file=$1
+	local filename=$(basename $file)
+
+	# make sure the file has the currect suffix
+	if ! echo "$file" | grep -E ".*\.$suffix$" >/dev/null
+	then
+		return 1
+	fi
+
+	# get the relative file path from the file content
+	eval $(grep 'sn_filepath' "$file")
+	local newfile="$SN_BASEPATH/$sn_filepath/${filename%.$suffix}"
+
+	# if a file already exists in the target location
+	# make a back up of the file
+	if [ -f "$newfile" ]; then
+		echo "file is already unlocked"
+		return 1
+	fi
+
+
+	gpg ${gpg_opts[@]} --decrypt "$file" 2>/dev/null > "$newfile"
+	echo "$newfile"
+}
+
+function lock-files {
+	echo "$1" | gpg ${gpg_opts[@]} --encrypt-files -r $SN_GPG_ID --armor
+	for file in $files
+	do
+	  encrypted_file="$file"."$suffix"
+		if [ -f "$encrypted_file" ]
+		then
+			filedir=$(dirname $file)
+			echo "sn_filepath=\"$filedir\"" >> $encrypted_file
+			shred -fzu $file
+		fi
+	done
+	echo "Locked $(echo "$files" | wc -l) Files"
+}
+
+function fix-paths {
+	cd $SN_BASEPATH
+	for file in $(find . -name "*.$suffix" -type f); do
+		filedir=$(dirname $file)
+		sed -E -i "s|(sn_filepath=)(.*)|\1\"$filedir\"|" $file
+	done
+}
+
+function lock {
+	cd $SN_BASEPATH
+	files=$(unlocked-files)
+	[[ $files ]] && lock-files "$files"
+}
+
+function unlock-all {
+	for file in $(find . -name "*.$suffix" -type f); do
+		unlock-file "$file"
+	done
+}
+
+function unlocked-files {
+	cd $SN_BASEPATH
+
+	#local ignore_args=( '-not' '-name' "'*.${suffix}'" '-not' '-name' "'.*'" '-not' '-name' 'stignore.txt' '-not' '-name' 'todo.txt' '-not' '-name' 'QuickNote.md' )
+	local ignore_args=( '-not' '-name' "'*.${suffix}'" )
+	if [ -f $ignore_file ]
+	then
+		while read pattern
+		do
+			ignore_args+=('-not' '-path' "'${pattern}'")
+		done <$ignore_file
+	fi
+
+	eval find . -type f ${ignore_args[@]}
+	#find . -type f -not -name "*.$suffix" -not -name 'stignore.txt' -not -name 'todo.txt' -not -name 'QuickNote.md' -not -name '.*'
+}
+
+function print_usage {
+		echo "secure-notes Usage:
+	unlocked-files: list all the unlocked files
+	unlock-file: unlock a specific file into the SN_BASEPATH
+	unlock-all: unlock all files into SN_BASEPATH
+	lock: lock all files
+	fix-paths: fix the sn_filepath of encrypted files based on their current location
+	-h|--help|help|usage: show this help"
+}
+
+cmd=$1
+shift 1
+
+case $cmd in
+	unlocked-files) unlocked-files $@ ;;
+	unlock-file) unlock-file $@ ;;
+	unlock-all) unlock-all $@ ;;
+	lock) lock $@ ;;
+	fix-paths) fix-paths $@ ;;
+	-h|--help|help|usage) print_usage ;;
+	*)
+		echo "invalid command: $cmd"
+		print_usage
+		exit 1
+		;;
+esac

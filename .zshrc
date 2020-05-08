@@ -1,6 +1,6 @@
-export ZSH="/home/fahad/.oh-my-zsh"
+export ZSH=${ZSH:-"/home/fahad/.oh-my-zsh"}
 ZSH_THEME="fahad"
-DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="false"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line to use hyphen-insensitive completion.
@@ -27,11 +27,12 @@ bindkey -e
 
 alias ls='ls -lrth --color=auto'
 alias grep='grep --color=auto'
-alias emacs='emacs -nw'
+alias rm='trash-put -v'
 alias vim='nvim'
 alias view='vim -R'
 alias reapplyprofile='source ~/.zshrc'
 alias editprofile='vim ~/.zshrc && reapplyprofile'
+alias editssh='vim ~/.ssh/config'
 alias sdu='systemctl --user'
 alias sd='systemctl'
 alias udc='udisksctl'
@@ -40,16 +41,14 @@ alias pbpaste='xclip -o -sel clip'
 alias cpr='rsync -ah --info=progress2'
 alias t="todo.sh"
 alias ta="todo.sh -ta add"
-
-alias cdfzf='cd $(find . type d | fzf)'
-alias vimfzf='vim $(find . type f | fzf)'
+alias open="xdg-open"
 
 export TODO_DIR="/data/syncthing/todo"
 export TERMINAL=urxvt
 export EDITOR=nvim
 export LESS="-RF"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.dotfiles/scripts:$HOME/.local/bin"
-export MACHINE=home
+export MACHINE=${MACHINE:-"home"}
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
