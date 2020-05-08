@@ -1,4 +1,4 @@
-#!/bin/bash
+#/usr/bin/bash
 # vim: set filetype=sh:
 
 set -eu
@@ -7,7 +7,7 @@ set -eu
 suffix=asc
 IFS=$'\n'
 gpg_opts=( "--quiet" "--yes" "--compress-algo=none" "--no-encrypt-to" "--batch" "--use-agent" )
-ignore_file='.snignore'
+ignore_file='.snignore.txt'
 
 function unlock-file {
 	local file=$1
@@ -30,8 +30,15 @@ function unlock-file {
 		return 1
 	fi
 
+	pass=${SN_PASS:-""}
+	if [ $pass ]
+	then
+		echo $pass | gpg ${gpg_opts[@]} --passphrase-fd 0 --pinentry-mode loopback --decrypt "$file" 3>/dev/null > "$newfile"
+	else
+		gpg ${gpg_opts[@]} --decrypt "$file" 2>/dev/null > "$newfile"
+	fi
 
-	gpg ${gpg_opts[@]} --decrypt "$file" 2>/dev/null > "$newfile"
+
 	echo "$newfile"
 }
 
