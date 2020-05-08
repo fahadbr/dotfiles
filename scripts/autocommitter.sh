@@ -8,6 +8,11 @@ do_commit_and_push() {
 	git pull && git commit -am 'auto commit' && git push
 }
 
+get_untracked() {
+	cd $AUTO_COMMIT_REPO
+	git status -uall -s | grep '^??' | wc -l
+}
+
 if ! res=$(do_commit_and_push 2>&1 >/dev/null); then
 	if [ "$res" ]; then
 		notify-send -a "$0" "$AUTO_COMMIT_REPO" "failed to auto commit: $res"
@@ -16,7 +21,7 @@ if ! res=$(do_commit_and_push 2>&1 >/dev/null); then
 fi
 
 # send notification if there's any untracked files
-untracked=$(git status -uall -s | grep '^??' | wc -l)
+untracked=$(get_untracked)
 if [ $untracked -gt 0 ]; then
 	notify-send -a "$0" "$AUTO_COMMIT_REPO" "$untracked untracked files exist"
 fi
