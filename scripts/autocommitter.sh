@@ -3,8 +3,11 @@
 set -u
 
 senderr() {
-	notify-send -a "$0" "$AUTO_COMMIT_REPO" "failed to auto commit: $1"
-	exit 1
+	if [ "$1" ]
+	then
+		notify-send -a "$0" "$AUTO_COMMIT_REPO" "failed to auto commit: $1"
+		exit 1
+	fi
 }
 
 do_commit_and_push() {
@@ -13,11 +16,14 @@ do_commit_and_push() {
 }
 
 tmpfile=$(mktemp /tmp/autocommiterror.XXXXXXX.txt)
-do_commit_and_push 2>$tmpfile || senderr "$(cat $tmpfile)"
+trap "rm -f $tmpfile" EXIT
+do_commit_and_push 2>$tmpfile >/dev/null
+senderr "$(cat $tmpfile)"
 
 
 # send notification if there's any untracked files
-if [[ "$(git status -u -s)" ]]; then
-	notify-send -a "$0" "$AUTO_COMMIT_REPO" "untracked files exist"
+untracked=$(git status -uall -s | grep '^??' | wc -l)
+if [ $untracked -gt 0 ]; then
+	notify-send -a "$0" "$AUTO_COMMIT_REPO" "$untracked untracked files exist"
 fi
 
