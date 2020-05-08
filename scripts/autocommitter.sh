@@ -13,7 +13,7 @@ do_commit_and_push() {
 }
 
 tmpfile=$(mktemp /tmp/autocommiterror.XXXXXXX.txt)
-do_commit_and_push 2>$tmpfile || senderr $tmpfile
+do_commit_and_push 2>$tmpfile || senderr "$(cat $tmpfile)"
 
 
 # send notification if there's any untracked files
