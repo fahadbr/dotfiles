@@ -27,7 +27,7 @@ bindkey -e
 
 alias ls='ls -lrth --color=auto'
 alias grep='grep --color=auto'
-alias rm='trash-put -v'
+alias rm='trash-put'
 alias vim='nvim'
 alias view='vim -R'
 alias reapplyprofile='source ~/.zshrc'
