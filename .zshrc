@@ -40,7 +40,7 @@ alias pbcopy='xclip -i -sel clip'
 alias pbpaste='xclip -o -sel clip'
 alias cpr='rsync -ah --info=progress2'
 alias t="todo.sh"
-alias ta="todo.sh -ta add"
+alias ta="todo.sh add"
 alias open="xdg-open"
 
 export TODO_DIR="/data/syncthing/todo"
