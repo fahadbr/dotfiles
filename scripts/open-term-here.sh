@@ -13,8 +13,9 @@ PID=$(xprop -id $ID | grep -m 1 PID | cut -d " " -f 3)
 
 # Get last child process (shell, vim, etc)
 if [ -n "$PID" ]; then
-  TREE=$(pstree -lpA $PID | tail -n 1)
-  PID=$(echo $TREE | awk -F'---' '{print $NF}' | sed -re 's/[^0-9]//g')
+  #TREE=$(pstree -lpA $PID | tail -n 1)
+  #PID=$(echo $TREE | awk -F'---' '{print $NF}' | sed -re 's/[^0-9]//g')
+	PID=$(ps --ppid $PID | grep zsh | tail -n 1 | awk '{print $1}')
 
   # If we find the working directory, run the command in that directory
   if [ -e "/proc/$PID/cwd" ]; then
@@ -23,7 +24,7 @@ if [ -n "$PID" ]; then
 fi
 if [ -n "$CWD" ]; then
 	#cd $CWD && $CMD
-	kitty --detach
+	kitty --single-instance --detach -d $CWD
 
 else
   setsid $CMD &
