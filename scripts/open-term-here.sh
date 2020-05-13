@@ -2,6 +2,7 @@
 # i3 thread: https://faq.i3wm.org/question/150/how-to-launch-a-terminal-from-here/?answer=152#post-id-152
 
 CMD=urxvt
+#CMD='kitty --single-instance --detach'
 CWD=''
 
 # Get window ID
@@ -21,7 +22,9 @@ if [ -n "$PID" ]; then
   fi
 fi
 if [ -n "$CWD" ]; then
-  cd $CWD && $CMD
+	#cd $CWD && $CMD
+	kitty --detach
+
 else
   setsid $CMD &
 fi
