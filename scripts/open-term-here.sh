@@ -40,5 +40,5 @@ if [ -n "$CWD" ]; then
     kitty --detach -d $CWD
   fi
 else
-  setsid $CMD &
+  kitty --single-instance --detach --instance-group $KITTY_IG
 fi
