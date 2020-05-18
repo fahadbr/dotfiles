@@ -1,5 +1,5 @@
 {
-	"suggest.noselect": false,
+	"suggest.noselect": true,
 	"languageserver": {
 		"golang": {
 			"command": "gopls",
@@ -12,7 +12,8 @@
 				"go"
 			],
 			"initializationOptions": {
-				"completeUnimported": true
+				"completeUnimported": false,
+				"usePlaceholders": true
 			}
 		},
 		"bash": {

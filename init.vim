@@ -68,25 +68,22 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-repeat'
 Plug 'tomlion/vim-solidity'
+Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 Plug 'rhysd/git-messenger.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'SirVer/ultisnips'
-Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 
-" Colors {{{
+" Colors
 Plug 'morhetz/gruvbox'
 Plug 'andreasvc/vim-256noir'
 Plug 'jonathanfilip/vim-lucius'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'arcticicestudio/nord-vim'
 Plug 'drewtempelmeyer/palenight.vim'
-" }}}
 
 " Start it up
 "let g:deoplete#enable_at_startup = 1
 
-" Disable the preview window on tab complete
-set completeopt-=preview
 " }}}
 
 " coc.nvim autocomplete options {{{
@@ -113,6 +110,7 @@ set shortmess+=c
 set signcolumn=yes
 
 let g:coc_config_home='~/.dotfiles'
+let g:coc_global_extensions=''
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -123,18 +121,11 @@ inoremap <silent><expr> <TAB>
      \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? coc#_select_confirm() :
-"       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
-"
-" function! s:check_back_space() abort
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
-"
-" let g:coc_snippet_next = '<tab>'
+"inoremap <silent><expr> <TAB>
+      "\ pumvisible() ? coc#_select_confirm() :
+      "\ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      "\ <SID>check_back_space() ? "\<TAB>" :
+      "\ coc#refresh()
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -245,6 +236,7 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 " ultisnips {{{
 
+" this is mainly so that it doesnt remap tab
 let g:UltiSnipsExpandTrigger='<C-tab>'
 " }}}
 
@@ -520,11 +512,18 @@ endfunction
 " fzf config
 let g:fzf_layout = {'window': 'call OpenFloatingWin()'}
 
+function! s:get_git_root()
+  let root = split(system('git rev-parse --show-toplevel'), '\n')[0]
+  return v:shell_error ? '' : root
+endfunction
 
-nnoremap <M-S-p> :Files<CR>
+if empty(s:get_git_root())
+  nnoremap <M-S-p> :Files<CR>
+else
+  nnoremap <M-S-p> :GFiles<CR>
+endif
+
 nnoremap <M-p> :Buffers<CR>
-"nnoremap <M-S-p> :Clap files<CR>
-"nnoremap <M-p> :Clap buffers<CR>
 
 " }}}
 
@@ -559,6 +558,7 @@ let g:AutoPairsShortcutJump = ''
 let g:AutoPairsShortcutToggle = "<M-'>"
 let g:AutoPairsShortcutFastWrap = ''
 let g:AutoPairsShortcutBackInsert = ''
+let g:AutoPairsMapCR = 1
 " }}}
 
 " git messenger config {{{
