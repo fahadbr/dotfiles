@@ -257,6 +257,7 @@ let g:go_fmt_command="goimports"
 let g:go_fmt_fail_silently = 1
 let g:go_def_mode="godef"
 let g:go_doc_keywordprg_enabled = 0
+let g:go_referrers_mode = 'guru'
 " let g:go_list_type = 'quickfix'
 let g:go_list_type_commands = {"_guru": "quickfix"}
 
@@ -275,7 +276,7 @@ au FileType go nmap <leader>ff :silent grep '^func ?\(?.*\)? <C-r><C-w>\(' \| cw
 au FileType go nmap <leader>ft :silent grep '^type <C-r><C-w>' \| cwindow<CR>
 " }}}
 
-" python stuff {{{
+" python {{{
 Plug 'zchee/deoplete-jedi'
 Plug 'vimjas/vim-python-pep8-indent'
 " }}}
