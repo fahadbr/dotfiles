@@ -1,4 +1,6 @@
 " vim:foldmethod=marker
+
+" General Settings {{{
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 source ~/.vimrc
@@ -35,16 +37,12 @@ set grepprg=rg\ --vimgrep
 set inccommand=nosplit
 
 au FocusGained,BufEnter * :checktime
-"augroup numbertoggle
-"autocmd!
-"autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-"autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
-"augroup END
 
 let mapleader = ","
 let maplocalleader = "-"
 
 filetype plugin indent on
+" }}}
 
 " Plug {{{
 call plug#begin('~/.config/nvim/plugged')
@@ -92,7 +90,8 @@ Plug 'drewtempelmeyer/palenight.vim'
 set completeopt-=preview
 " }}}
 
-" coc.nvim options {{{
+" coc.nvim autocomplete options {{{
+
 " TextEdit might fail if hidden is not set.
 "set hidden
 
@@ -113,6 +112,8 @@ set shortmess+=c
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
 set signcolumn=yes
+
+let g:coc_config_home='~/.dotfiles'
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -255,15 +256,14 @@ let g:go_auto_sameids = 1
 let g:go_fmt_command="goimports"
 let g:go_fmt_fail_silently = 1
 let g:go_def_mode="godef"
+let g:go_doc_keywordprg_enabled = 0
 " let g:go_list_type = 'quickfix'
 let g:go_list_type_commands = {"_guru": "quickfix"}
 
 
-au FileType go nmap <leader>gi <Plug>(go-info)
 au FileType go nmap <leader>gb <Plug>(go-build)
 au FileType go nmap <leader>gtf <Plug>(go-test-func)
 au FileType go nmap <leader>ga <Plug>(go-alternate-edit)
-au FileType go nmap <leader>gr :let g:go_referrers_mode = 'guru'<CR>
 au FileType go nmap <F1> <Plug>(go-doc)
 au FileType go nmap <F6> <Plug>(go-rename)
 au FileType go nmap <F7> <Plug>(go-referrers)
@@ -298,7 +298,7 @@ let g:Todo_txt_prefix_creation_date=1
 let g:Todo_fold_char='x'
 " }}}
 
-" ale config
+" ale config {{{
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '--'
 let g:ale_lint_on_text_changed = 0
@@ -315,7 +315,9 @@ let g:ale_go_golint_options = '-min_confidence=0.6'
 
 "let g:ale_go_golangci_lint_options = ' --fast --tests'
 nnoremap <leader>l :ALEToggle<CR>
+" }}}
 
+" airline {{{
 " Enable integration with airline
 let g:airline#extensions#ale#enabled = 1
 let g:airline_powerline_fonts = 1
@@ -368,11 +370,14 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 nmap <M-l> <Plug>AirlineSelectNextTab
 nmap <M-h> <Plug>AirlineSelectPrevTab
 
+" }}}
+
+" general mappings {{{
 " switch to previous buffer then close tab
 nnoremap <M-w> :bp\| bd #<CR>
 
 " Allow tab autocomplete
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
+"inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
 
 " for moving back to diff file list when using merginal
 " to diff branches
@@ -506,7 +511,9 @@ nnoremap <M-p> :Buffers<CR>
 "nnoremap <M-S-p> :Clap files<CR>
 "nnoremap <M-p> :Clap buffers<CR>
 
+" }}}
 
+" colors {{{
 " Gruvbox
 " This HAS to be after plugged :)
 let g:gruvbox_contrast_dark='hard'
@@ -529,12 +536,17 @@ endif
 "let g:session_autosave_periodic = 5
 let g:session_persist_colors = 0
 
+" }}}
+
+" autopairs {{{
 " disable auto pair shortcuts
 let g:AutoPairsShortcutJump = ''
 let g:AutoPairsShortcutToggle = "<M-'>"
 let g:AutoPairsShortcutFastWrap = ''
 let g:AutoPairsShortcutBackInsert = ''
+" }}}
 
-" git messenger config
+" git messenger config {{{
 let g:git_messenger_include_diff = 'current'
 let g:git_messenger_always_into_popup = 1
+" }}}
