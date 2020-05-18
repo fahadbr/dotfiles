@@ -1,0 +1,32 @@
+{
+	"languageserver":{
+		"golang": {
+			"command": "gopls",
+			"rootPatterns": ["go.mod", "glide.yaml"],
+			"disableWorkspaceFolders": true,
+			"filetypes": ["go"],
+			"initializationOptions": {
+				"completeUnimported": true
+			}
+		},
+		"bash": {
+			"command": "bash-language-server",
+			"args": ["start"],
+			"filetypes": ["sh"],
+			"ignoredRootPaths": ["~"]
+		},
+		"ccls": {
+			"command": "ccls",
+			"filetypes": ["c", "cpp", "cc", "cxx", "cudo", "objc", "objcpp"],
+			"rootPatterns":[".ccls-root", "compile_commands.json", ".git/", ".hg/"],
+			"initializationOptions": {
+				"cache": {
+					"directory": ".ccls-cache"
+				},
+				"client": {
+					"snippetSupport": true
+				}
+			}
+		}
+	}
+}
