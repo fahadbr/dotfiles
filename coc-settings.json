@@ -1,24 +1,49 @@
 {
-	"languageserver":{
+	"suggest.noselect": false,
+	"languageserver": {
 		"golang": {
 			"command": "gopls",
-			"rootPatterns": ["go.mod", "glide.yaml"],
+			"rootPatterns": [
+				"go.mod",
+				"glide.yaml"
+			],
 			"disableWorkspaceFolders": true,
-			"filetypes": ["go"],
+			"filetypes": [
+				"go"
+			],
 			"initializationOptions": {
 				"completeUnimported": true
 			}
 		},
 		"bash": {
 			"command": "bash-language-server",
-			"args": ["start"],
-			"filetypes": ["sh"],
-			"ignoredRootPaths": ["~"]
+			"args": [
+				"start"
+			],
+			"filetypes": [
+				"sh"
+			],
+			"ignoredRootPaths": [
+				"~"
+			]
 		},
 		"ccls": {
 			"command": "ccls",
-			"filetypes": ["c", "cpp", "cc", "cxx", "cudo", "objc", "objcpp"],
-			"rootPatterns":[".ccls-root", "compile_commands.json", ".git/", ".hg/"],
+			"filetypes": [
+				"c",
+				"cpp",
+				"cc",
+				"cxx",
+				"cudo",
+				"objc",
+				"objcpp"
+			],
+			"rootPatterns": [
+				".ccls-root",
+				"compile_commands.json",
+				".git/",
+				".hg/"
+			],
 			"initializationOptions": {
 				"cache": {
 					"directory": ".ccls-cache"
