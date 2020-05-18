@@ -71,7 +71,7 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-repeat'
 Plug 'tomlion/vim-solidity'
 Plug 'rhysd/git-messenger.vim'
-Plug '$HOME/builds/vim-dirdiff'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " for scala
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
@@ -93,9 +93,8 @@ set completeopt-=preview
 " }}}
 
 " coc.nvim options {{{
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " TextEdit might fail if hidden is not set.
-set hidden
+"set hidden
 
 " Some servers have issues with backup files, see #649.
 set nobackup
