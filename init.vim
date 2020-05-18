@@ -110,7 +110,7 @@ set shortmess+=c
 set signcolumn=yes
 
 let g:coc_config_home='~/.dotfiles'
-let g:coc_global_extensions=''
+let g:coc_global_extensions=['coc-vimlsp', 'coc-ultisnips', 'coc-snippets', 'coc-python', 'coc-json', 'coc-cmake', 'coc-yaml']
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
