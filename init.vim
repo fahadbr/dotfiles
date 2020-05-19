@@ -71,7 +71,6 @@ Plug 'tomlion/vim-solidity'
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 Plug 'rhysd/git-messenger.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'SirVer/ultisnips'
 
 " Colors
 Plug 'morhetz/gruvbox'
@@ -235,6 +234,7 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " }}}
 
 " ultisnips {{{
+Plug 'SirVer/ultisnips'
 
 " this is mainly so that it doesnt remap tab
 let g:UltiSnipsExpandTrigger='<C-tab>'
