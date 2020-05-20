@@ -49,7 +49,6 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdcommenter'
-Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
@@ -70,22 +69,12 @@ Plug 'tpope/vim-repeat'
 Plug 'tomlion/vim-solidity'
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 Plug 'rhysd/git-messenger.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Colors
 Plug 'morhetz/gruvbox'
-Plug 'andreasvc/vim-256noir'
-Plug 'jonathanfilip/vim-lucius'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'arcticicestudio/nord-vim'
-Plug 'drewtempelmeyer/palenight.vim'
-
-" Start it up
-"let g:deoplete#enable_at_startup = 1
 
 " }}}
 
 " coc.nvim autocomplete options {{{
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " TextEdit might fail if hidden is not set.
 "set hidden
@@ -109,7 +98,8 @@ set shortmess+=c
 set signcolumn=yes
 
 let g:coc_config_home='~/.dotfiles'
-let g:coc_global_extensions=['coc-vimlsp', 'coc-ultisnips', 'coc-snippets', 'coc-python', 'coc-json', 'coc-cmake', 'coc-yaml']
+" uncomment this to install extensions automatically
+"let g:coc_global_extensions=['coc-vimlsp', 'coc-ultisnips', 'coc-snippets', 'coc-python', 'coc-json', 'coc-cmake', 'coc-yaml']
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -235,14 +225,12 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 " ultisnips {{{
 Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
-" this is mainly so that it doesnt remap tab
-let g:UltiSnipsExpandTrigger='<C-tab>'
+let g:UltiSnipsExpandTrigger='<M-tab>'
 " }}}
 
 " golang vim-go options {{{
-Plug 'zchee/deoplete-go', {'do': 'make'}
-Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
 Plug 'fatih/vim-go'
 
 let g:go_highlight_build_constraints = 1
@@ -258,7 +246,7 @@ let g:go_fmt_command="goimports"
 let g:go_fmt_fail_silently = 1
 let g:go_def_mode="godef"
 let g:go_doc_keywordprg_enabled = 0
-let g:go_def_mapping_enabled = 0
+let g:go_def_mapping_enabled = 1 " maps gd to <Plug>(go-def)
 let g:go_referrers_mode = 'guru'
 let g:go_info_mode = 'guru'
 let g:go_decls_mode = 'fzf'
@@ -280,11 +268,6 @@ au FileType go nmap <leader>ge <Plug>(go-iferr)
 au FileType go nmap <leader>ff :silent grep '^func ?\(?.*\)? <C-r><C-w>\(' \| cwindow<CR>
 " search type under curser
 au FileType go nmap <leader>ft :silent grep '^type <C-r><C-w>' \| cwindow<CR>
-" }}}
-
-" python {{{
-Plug 'zchee/deoplete-jedi'
-Plug 'vimjas/vim-python-pep8-indent'
 " }}}
 
 " todo.txt plugins {{{
