@@ -223,14 +223,14 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " }}}
 
-" ultisnips {{{
+" Snippets {{{
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 let g:UltiSnipsExpandTrigger='<M-tab>'
 " }}}
 
-" golang vim-go options {{{
+" Golang vim-go options {{{
 Plug 'fatih/vim-go'
 
 let g:go_highlight_build_constraints = 1
