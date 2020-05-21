@@ -35,12 +35,12 @@
 				"cpp",
 				"cc",
 				"cxx",
-				"cudo",
+				"cuda",
 				"objc",
 				"objcpp"
 			],
 			"rootPatterns": [
-				".ccls-root",
+				".ccls",
 				"compile_commands.json",
 				".git/",
 				".hg/"

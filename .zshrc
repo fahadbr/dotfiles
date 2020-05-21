@@ -44,7 +44,7 @@ alias ta="todo.sh add"
 alias open="xdg-open"
 
 export TODO_DIR="/data/syncthing/todo"
-export TERMINAL=urxvt
+#export TERMINAL=urxvt
 export EDITOR=nvim
 export LESS="-RF"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.dotfiles/scripts:$HOME/.local/bin"
