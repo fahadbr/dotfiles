@@ -427,8 +427,8 @@ nnoremap <M-q> <C-w>q
 
 
 " quickfix/location list navigation
-nnoremap glp :lprevious<CR>
-nnoremap gln :lnext<CR>
+nnoremap <C-g><C-p> :lprevious<CR>
+nnoremap <C-g><C-n> :lnext<CR>
 nnoremap gp :cprevious<CR>
 nnoremap gn :cnext<CR>
 
