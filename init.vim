@@ -427,12 +427,10 @@ nnoremap <M-q> <C-w>q
 
 
 " quickfix/location list navigation
-nnoremap <F2> :lnext<CR>
-nnoremap <M-F2> :lprevious<CR>
 nnoremap <M-2> :lprevious<CR>
+nnoremap <M-3> :lnext<CR>
+nnoremap <F2> :cprevious<CR>
 nnoremap <F3> :cnext<CR>
-nnoremap <M-F3> :cprevious<CR>
-nnoremap <M-3> :cprevious<CR>
 
 " cmdline mapping
 cnoremap <C-p> <Up>
