@@ -5,7 +5,12 @@ set -u
 
 do_commit_and_push() {
 	cd $AUTO_COMMIT_REPO
-	git pull && git commit -am 'auto commit' && git push
+	git pull || return $?
+
+	if [ "$(git status -uno -s)" ]
+	then
+		git commit -am 'auto commit' && git push
+	fi
 }
 
 get_untracked() {

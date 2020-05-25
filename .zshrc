@@ -27,7 +27,7 @@ bindkey -e
 
 alias ls='ls -lrth --color=auto'
 alias grep='grep --color=auto'
-alias rm='trash-put -v'
+alias rm='trash-put'
 alias vim='nvim'
 alias view='vim -R'
 alias reapplyprofile='source ~/.zshrc'
@@ -40,11 +40,11 @@ alias pbcopy='xclip -i -sel clip'
 alias pbpaste='xclip -o -sel clip'
 alias cpr='rsync -ah --info=progress2'
 alias t="todo.sh"
-alias ta="todo.sh -ta add"
+alias ta="todo.sh add"
 alias open="xdg-open"
 
 export TODO_DIR="/data/syncthing/todo"
-export TERMINAL=urxvt
+#export TERMINAL=urxvt
 export EDITOR=nvim
 export LESS="-RF"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.dotfiles/scripts:$HOME/.local/bin"
