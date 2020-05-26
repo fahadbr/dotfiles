@@ -54,8 +54,9 @@ export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.sn.conf ] && source ~/.sn.conf
 
-function printcolors {
+printcolors() {
 	for c in black white red blue green cyan magenta yellow; do
 		print -P "%{$reset_color%}%{$fg[$c]%}hellohellohello <- $c"
 		print -P "%{$reset_color%}%{$fg_bold[$c]%}hellohellohello <- $c bold"

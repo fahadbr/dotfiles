@@ -1,4 +1,4 @@
-#/usr/bin/bash
+#/bin/bash
 # vim: set filetype=sh:
 
 set -eu
@@ -9,7 +9,7 @@ IFS=$'\n'
 gpg_opts=( "--quiet" "--yes" "--compress-algo=none" "--no-encrypt-to" "--batch" "--use-agent" )
 ignore_file='.snignore.txt'
 
-function unlock-file {
+unlock_file() {
 	local file=$1
 	local filename=$(basename $file)
 
@@ -42,7 +42,7 @@ function unlock-file {
 	echo "$newfile"
 }
 
-function lock-files {
+lock_files() {
 	echo "$1" | gpg ${gpg_opts[@]} --encrypt-files -r $SN_GPG_ID --armor
 	for file in $files
 	do
@@ -57,7 +57,7 @@ function lock-files {
 	echo "Locked $(echo "$files" | wc -l) Files"
 }
 
-function fix-paths {
+fix_paths() {
 	cd $SN_BASEPATH
 	for file in $(find . -name "*.$suffix" -type f); do
 		filedir=$(dirname $file)
@@ -65,19 +65,19 @@ function fix-paths {
 	done
 }
 
-function lock {
+lock() {
 	cd $SN_BASEPATH
-	files=$(unlocked-files)
-	[[ $files ]] && lock-files "$files"
+	files=$(unlocked_files)
+	[[ $files ]] && lock_files "$files"
 }
 
-function unlock-all {
+unlock_all() {
 	for file in $(find . -name "*.$suffix" -type f); do
-		unlock-file "$file"
+		unlock_file "$file"
 	done
 }
 
-function unlocked-files {
+unlocked_files() {
 	cd $SN_BASEPATH
 
 	#local ignore_args=( '-not' '-name' "'*.${suffix}'" '-not' '-name' "'.*'" '-not' '-name' 'stignore.txt' '-not' '-name' 'todo.txt' '-not' '-name' 'QuickNote.md' )
@@ -94,7 +94,7 @@ function unlocked-files {
 	#find . -type f -not -name "*.$suffix" -not -name 'stignore.txt' -not -name 'todo.txt' -not -name 'QuickNote.md' -not -name '.*'
 }
 
-function print_usage {
+print_usage() {
 		echo "secure-notes Usage:
 	unlocked-files: list all the unlocked files
 	unlock-file: unlock a specific file into the SN_BASEPATH
@@ -108,11 +108,11 @@ cmd=$1
 shift 1
 
 case $cmd in
-	unlocked-files) unlocked-files $@ ;;
-	unlock-file) unlock-file $@ ;;
-	unlock-all) unlock-all $@ ;;
+	unlocked-files) unlocked_files $@ ;;
+	unlock-file) unlock_file $@ ;;
+	unlock-all) unlock_all $@ ;;
 	lock) lock $@ ;;
-	fix-paths) fix-paths $@ ;;
+	fix-paths) fix_paths $@ ;;
 	-h|--help|help|usage) print_usage ;;
 	*)
 		echo "invalid command: $cmd"

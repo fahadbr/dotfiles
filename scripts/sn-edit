@@ -1,0 +1,15 @@
+#!/bin/bash
+# vim:filetype=sh
+
+set -eu
+
+file_to_unlock="$(find $SN_BASEPATH -type f | fzf)"
+
+if echo "$file_to_unlock" | grep ".asc" >/dev/null ; then
+	file=$(secure-notes unlock-file "$file_to_unlock")
+else
+	file=$file_to_unlock
+fi
+
+
+$EDITOR "$file"
