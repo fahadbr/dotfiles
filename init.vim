@@ -511,17 +511,19 @@ nnoremap <M-p> :Buffers<CR>
 " }}}
 
 " colors {{{
-" Gruvbox
+
+"" Gruvbox
 " This HAS to be after plugged :)
 let g:gruvbox_contrast_dark='hard'
 let base16colorspace=256
+set termguicolors
 set background=dark
 set t_Co=256
 colorscheme gruvbox
 
 " transparent background
 hi Normal guibg=NONE ctermbg=NONE
-hi Pmenu guibg=234 ctermbg=234
+hi Pmenu guibg=#180018 ctermbg=234
 
 if (has("nvim"))
   "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
