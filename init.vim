@@ -230,6 +230,24 @@ Plug 'honza/vim-snippets'
 let g:UltiSnipsExpandTrigger='<M-tab>'
 " }}}
 
+" c++ options {{{
+
+"Plug 'LucHermitte/lh-vim-lib'
+"Plug 'LucHermitte/lh-style'
+"Plug 'LucHermitte/lh-tags'
+"Plug 'LucHermitte/lh-dev'
+"Plug 'LucHermitte/lh-brackets'
+"Plug 'LucHermitte/searchInRuntime'
+"Plug 'LucHermitte/mu-template'
+"Plug 'tomtom/stakeholders_vim'
+"Plug 'LucHermitte/alternate-lite'
+"Plug 'LucHermitte/lh-cpp'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
+
+"nmap <leader>am <Plug>AddMissingScope
+
+" }}}
+"
 " Golang vim-go options {{{
 Plug 'fatih/vim-go'
 
