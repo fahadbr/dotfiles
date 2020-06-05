@@ -70,11 +70,18 @@ Plug 'tomlion/vim-solidity'
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 Plug 'rhysd/git-messenger.vim'
 Plug 'morhetz/gruvbox'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'fatih/vim-go'
+Plug 'dbeniamine/todo.txt-vim'
+
+call plug#end()
 
 " }}}
 
 " coc.nvim autocomplete options {{{
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " TextEdit might fail if hidden is not set.
 "set hidden
@@ -224,8 +231,6 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " }}}
 
 " Snippets {{{
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
 
 let g:UltiSnipsExpandTrigger='<M-tab>'
 " }}}
@@ -242,24 +247,26 @@ let g:UltiSnipsExpandTrigger='<M-tab>'
 "Plug 'tomtom/stakeholders_vim'
 "Plug 'LucHermitte/alternate-lite'
 "Plug 'LucHermitte/lh-cpp'
-Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 "nmap <leader>am <Plug>AddMissingScope
 
 " }}}
-"
+
 " Golang vim-go options {{{
-Plug 'fatih/vim-go'
 
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_types = 1
-let g:go_auto_sameids = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_variable_assignments = 1
+
+let g:go_auto_sameids = 0
 let g:go_fmt_command="goimports"
 let g:go_fmt_fail_silently = 1
 let g:go_def_mode="godef"
@@ -274,6 +281,8 @@ let g:go_gopls_enabled = 0
 let g:go_list_type_commands = {"_guru": "quickfix"}
 
 
+au FileType go set foldmethod=syntax
+au FileType go set nofoldenable
 au FileType go nmap <leader>gb <Plug>(go-build)
 au FileType go nmap <leader>gtf <Plug>(go-test-func)
 au FileType go nmap <leader>ga <Plug>(go-alternate-edit)
@@ -289,7 +298,6 @@ au FileType go nmap <leader>ft :silent grep '^type <C-r><C-w>' \| cwindow<CR>
 " }}}
 
 " todo.txt plugins {{{
-Plug 'dbeniamine/todo.txt-vim'
 
 au BufNewFile,BufRead *.[Tt]odo.txt set filetype=todo
 au BufNewFile,BufRead *.[Dd]one.txt set filetype=todo
@@ -364,7 +372,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 
-call plug#end()
 
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
@@ -530,9 +537,11 @@ nnoremap <M-p> :Buffers<CR>
 
 " colors {{{
 
+
 "" Gruvbox
 " This HAS to be after plugged :)
 let g:gruvbox_contrast_dark='hard'
+
 let base16colorspace=256
 set termguicolors
 set background=dark
