@@ -1,6 +1,6 @@
 " vim:foldmethod=marker
 
-" General Settings {{{
+" general Settings {{{
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 source ~/.vimrc
@@ -44,7 +44,7 @@ let maplocalleader = "-"
 filetype plugin indent on
 " }}}
 
-" Plug {{{
+" plug {{{
 call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -76,6 +76,7 @@ Plug 'honza/vim-snippets'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'fatih/vim-go'
 Plug 'dbeniamine/todo.txt-vim'
+Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 
 call plug#end()
 
@@ -230,7 +231,7 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " }}}
 
-" Snippets {{{
+" snippets {{{
 
 let g:UltiSnipsExpandTrigger='<M-tab>'
 " }}}
@@ -252,7 +253,7 @@ let g:UltiSnipsExpandTrigger='<M-tab>'
 
 " }}}
 
-" Golang vim-go options {{{
+" golang vim-go options {{{
 
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
@@ -547,6 +548,7 @@ set termguicolors
 set background=dark
 set t_Co=256
 colorscheme gruvbox
+"colorscheme challenger_deep
 
 " transparent background
 hi Normal guibg=NONE ctermbg=NONE
