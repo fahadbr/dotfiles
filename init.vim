@@ -77,6 +77,7 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'fatih/vim-go'
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
+Plug 'rhysd/vim-clang-format'
 
 call plug#end()
 
@@ -250,6 +251,14 @@ let g:UltiSnipsExpandTrigger='<M-tab>'
 "Plug 'LucHermitte/lh-cpp'
 
 "nmap <leader>am <Plug>AddMissingScope
+
+"nnoremap <leader>fm :.mark x \| execute "%!clang-format" \| execute "norm 'x" \| delmark x<CR>
+
+" map to <Leader>fm in C++ code
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>fm :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>fm :ClangFormat<CR>
+
+g:clang_format#detect_style_file = 1
 
 " }}}
 
