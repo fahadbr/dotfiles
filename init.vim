@@ -410,6 +410,8 @@ nnoremap <M-w> :bp\| bd #<CR>
 " then ,d to close diff, buffer and move back to merginal window
 "nnoremap <leader>d :q \| bp \| bd # \| wincmd h<CR>
 
+" remaps comma for moving char search backwards (opposite of ; in normal mode)
+nnoremap <M-;> ,
 " close all windows
 nnoremap <C-q> :qa<CR>
 nnoremap <M-n> :NERDTreeToggle<CR>
