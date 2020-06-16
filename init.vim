@@ -258,7 +258,7 @@ let g:UltiSnipsExpandTrigger='<M-tab>'
 autocmd FileType c,cpp,objc nnoremap <buffer><Leader>fm :<C-u>ClangFormat<CR>
 autocmd FileType c,cpp,objc vnoremap <buffer><Leader>fm :ClangFormat<CR>
 
-g:clang_format#detect_style_file = 1
+let g:clang_format#detect_style_file = 1
 
 " }}}
 
