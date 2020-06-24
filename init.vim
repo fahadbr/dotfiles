@@ -398,6 +398,11 @@ nmap <M-h> <Plug>AirlineSelectPrevTab
 " }}}
 
 " general mappings {{{
+
+
+" edit neovim config
+nnoremap <leader>ec :e ~/.config/nvim/init.vim<CR>
+
 " switch to previous buffer then close tab
 nnoremap <M-w> :bp\| bd #<CR>
 
@@ -428,7 +433,7 @@ nnoremap <leader>w :w<CR>
 " reload the current buffer
 nnoremap <leader>r :e!<CR>
 " find and replace the word under the cursor
-nnoremap <leader>* :%s/\<<C-r><C-w>\>//g<left><left>
+nnoremap <leader>s* :%s/\<<C-r><C-w>\>//g<left><left>
 " close other buffers
 nnoremap <leader>bo :BufOnly<CR>
 " search current word across all files
@@ -445,6 +450,8 @@ vnoremap g# "vy?<C-r>v<CR>
 vnoremap <leader>cw "vy/<C-r>v<CR>Ncgn
 " search all files from visual selection
 vnoremap <leader>f "vy:silent grep '<C-r>v' \| cwindow<CR>
+" find and replace the visual selection
+vnoremap <leader>s* "vy:%s/<C-r>v//g<left><left>
 
 
 " terminal mappings
@@ -488,8 +495,7 @@ cabbrev <expr> %% expand('%:p:h')
 nnoremap <leader>gco :Gcheckout<CR>
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gd :Gdiff<CR>
-nnoremap <leader>gpl :Gpull<CR>
-nnoremap <leader>gps :Gpush<CR>
+nnoremap <leader>gp :Gpush<CR>
 
 " custom fzf functions
 " ripgrep search
