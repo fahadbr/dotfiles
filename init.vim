@@ -279,14 +279,17 @@ let g:go_highlight_variable_assignments = 1
 let g:go_auto_sameids = 0
 let g:go_fmt_command="goimports"
 let g:go_fmt_fail_silently = 1
-let g:go_def_mode="godef"
 let g:go_doc_keywordprg_enabled = 0
 let g:go_def_mapping_enabled = 1 " maps gd to <Plug>(go-def)
-let g:go_referrers_mode = 'guru'
-let g:go_info_mode = 'guru'
-let g:go_decls_mode = 'fzf'
+
 " disabling gopls because coc.nvim starts this up
 let g:go_gopls_enabled = 0
+let g:go_def_mode="godef"
+let g:go_referrers_mode = 'guru'
+let g:go_info_mode = 'guru'
+
+let g:go_decls_mode = 'fzf'
+let g:go_gopls_options = ['-remote=auto']
 " let g:go_list_type = 'quickfix'
 let g:go_list_type_commands = {"_guru": "quickfix"}
 
