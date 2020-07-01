@@ -6,6 +6,7 @@
 			"command": "gopls",
 			"rootPatterns": [
 				"go.mod",
+				"go.sum",
 				"glide.yaml"
 			],
 			"disableWorkspaceFolders": true,
@@ -14,7 +15,8 @@
 			],
 			"initializationOptions": {
 				"completeUnimported": false,
-				"usePlaceholders": true
+				"usePlaceholders": true,
+				"hoverKind": "FullDocumentation"
 			}
 		},
 		"bash": {
