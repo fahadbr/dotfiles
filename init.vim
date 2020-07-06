@@ -572,12 +572,12 @@ let base16colorspace=256
 set termguicolors
 set background=dark
 set t_Co=256
-colorscheme gruvbox
-"colorscheme challenger_deep
+"colorscheme gruvbox
+colorscheme challenger_deep
 
 " transparent background
-hi Normal guibg=NONE ctermbg=NONE
-hi Pmenu guibg=#180018 ctermbg=234
+"hi Normal guibg=NONE ctermbg=NONE
+"hi Pmenu guibg=#180018 ctermbg=234
 
 if (has("nvim"))
   "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
