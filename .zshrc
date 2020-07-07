@@ -18,7 +18,7 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-setopt appendhistory extendedglob nomatch notify
+setopt appendhistory extendedglob nomatch notify incappendhistory
 setopt shwordsplit
 unsetopt beep sharehistory
 bindkey -e
@@ -51,6 +51,7 @@ export EDITOR=nvim
 export LESS="-RF"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.dotfiles/scripts:$HOME/.local/bin"
 export MACHINE=${MACHINE:-"home"}
+export HUNTER_ROOT=/data/code/.hunter
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
