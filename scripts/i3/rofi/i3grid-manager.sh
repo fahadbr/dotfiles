@@ -15,7 +15,7 @@ export GRID_FONT="Iosevka 13"           # Font (Include size)
 export ACTIVE="rgba(9, 145, 224, 0.4)"  # Active Cell background
 export SBAR="#242222"                   # Search Bar background
 
-## FIXME: Path to the src python file/module
+## FIXME: Path to the src python3 file/module
 grid_src="-m i3grid"
 # Uncomment below line if cloned from github
 # grid_src="../i3-grid/i3grid"
@@ -33,7 +33,7 @@ _l=$(( $LINES - 1 ))
 _carry=$COLS
 # Rofi aligned menu
 # rows --> Col transformation (This is why search index is wrong).
-# We can make this transformation on the Python side but speed tradeoff..
+# We can make this transformation on the python3 side but speed tradeoff..
 for value in $(seq 1 $COLS); do
   grid+=($value)
   for i in $(seq 1 $_l); do
@@ -69,13 +69,13 @@ if [[ "$len" -gt "2" ]]; then  # if multi select
   declare -a arr
   arr=( $(echo $chosen | awk '{split($0,a," ")} END {for(n in a){ print a[n] }}') )
   multi_arg=$(join ' ' ${arr[@]})
-  python $grid_src multi --multis $multi_arg
+  python3 $grid_src multi --multis $multi_arg
   exit
 elif [[ ! " ${grid[@]} " =~ " ${chosen} " ]]; then
     # Catch non-grid user input
     # Ex: I run raw custom commands that I type into the grid (as outputted by rofi)
     echo "Error: Element Out of grid"
-    python $grid_src -h
+    python3 $grid_src -h
     exit
 fi
 # Non multi options
@@ -85,30 +85,30 @@ fi
 #       for optimal perfomance (<50ms actions).
 case "$chosen" in
 "A")
-  python $grid_src snap --all
+  python3 $grid_src snap --all
 ;;
 "C")
   p="$($rofi_command -dmenu -p "% -" -selected-row 0)"
-  python $grid_src csize --perc=$p
+  python3 $grid_src csize --perc=$p
 ;;
 "D")
   target="$($rofi_command -dmenu -p 'Target:' -selected-row 0)"
-  python $grid_src snap --target $target
+  python3 $grid_src snap --target $target
 ;;
 "F")
-  python $grid_src csize --perc 100
+  python3 $grid_src csize --perc 100
 ;;
 "G")
-   python $grid_src snap --target 1 --rows 2 --cols 1 --offset 0 80 0 80
+   python3 $grid_src snap --target 1 --rows 2 --cols 1 --offset 0 80 0 80
 ;;
 "H")
-  python $grid_src hide --noresize --nofloat --all
+  python3 $grid_src hide --noresize --nofloat --all
 ;;
 "R")
-  python $grid_src reset
+  python3 $grid_src reset
 ;;
 "SF")
-  python $grid_src snap --floating --rows 3 --cols 2
+  python3 $grid_src snap --floating --rows 3 --cols 2
 ;;
 "X")
   custom="$($rofi_command -dmenu -p "c r t:" -selected-row 0)"
@@ -117,7 +117,7 @@ case "$chosen" in
     echo "Incorrect Argument Length (Need Row, Col, Target)"
     exit
   fi
-  python $grid_src \
+  python3 $grid_src \
     snap  \
     --cols ${r_c_t[0]} --rows ${r_c_t[1]}  \
     --target ${r_c_t[2]}
@@ -125,12 +125,12 @@ case "$chosen" in
 
 ## FIXME Define custom calls here. Template (Ex: Using custom command 'O'):
 # "O")
-#   python $grid_src <action> <optional-flags>
+#   python3 $grid_src <action> <optional-flags>
 # ;;
 
 *)
   # Uncomment to see the raw command sent to i3-grid
-  # echo "python $grid_src float snap --cols $COLS --rows $LINES --target $chosen"
-  python $grid_src snap --cols $COLS --rows $LINES --target $chosen
+  # echo "python3 $grid_src float snap --cols $COLS --rows $LINES --target $chosen"
+  python3 $grid_src snap --cols $COLS --rows $LINES --target $chosen
 ;;
 esac
