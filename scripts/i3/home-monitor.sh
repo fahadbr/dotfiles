@@ -9,7 +9,7 @@ else
 fi
 
 #xrandr --output $display --primary --auto --scale .5x.5 --output eDP1 --pos 1920x0
-xrandr --output $display --primary --auto --output eDP1 --right-of $display && \
+xrandr --output $display --primary --auto --output eDP1 --left-of $display && \
 	xrandr --output eDP1 --off
 
 systemctl --user start powerman@ac.service
