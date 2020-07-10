@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if which picom &>/dev/null; then
-	picom --config /etc/xdg/picom.conf
+	picom --config ~/.dotfiles/picom.conf
 elif which compton &>/dev/null; then
 	compton --config ~/.dotfiles/compton.conf
 elif which xcompmgr &>/dev/null; then

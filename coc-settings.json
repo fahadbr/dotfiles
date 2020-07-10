@@ -4,7 +4,6 @@
 	"languageserver": {
 		"golang": {
 			"command": "gopls",
-			"args": ["-remote=auto"],
 			"rootPatterns": [
 				"go.mod",
 				"go.sum",
