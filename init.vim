@@ -82,6 +82,20 @@ Plug 'fatih/vim-go'
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 Plug 'rhysd/vim-clang-format'
+Plug 'vim-scripts/a.vim'
+
+" LucHermitte plugins
+"Plug 'LucHermitte/lh-vim-lib'
+"Plug 'LucHermitte/lh-style'
+"Plug 'LucHermitte/lh-tags'
+"Plug 'LucHermitte/lh-dev'
+"Plug 'LucHermitte/lh-brackets'
+"Plug 'LucHermitte/searchInRuntime'
+"Plug 'LucHermitte/mu-template'
+"Plug 'tomtom/stakeholders_vim'
+"Plug 'LucHermitte/alternate-lite'
+"Plug 'LucHermitte/lh-cpp'
+"Plug 'LucHermitte/vim-refactor'
 
 call plug#end()
 
@@ -275,20 +289,7 @@ let g:UltiSnipsExpandTrigger='<M-tab>'
 
 " c++ options {{{
 
-"Plug 'LucHermitte/lh-vim-lib'
-"Plug 'LucHermitte/lh-style'
-"Plug 'LucHermitte/lh-tags'
-"Plug 'LucHermitte/lh-dev'
-"Plug 'LucHermitte/lh-brackets'
-"Plug 'LucHermitte/searchInRuntime'
-"Plug 'LucHermitte/mu-template'
-"Plug 'tomtom/stakeholders_vim'
-"Plug 'LucHermitte/alternate-lite'
-"Plug 'LucHermitte/lh-cpp'
-
 "nmap <leader>am <Plug>AddMissingScope
-
-"nnoremap <leader>fm :.mark x \| execute "%!clang-format" \| execute "norm 'x" \| delmark x<CR>
 
 " map to <Leader>fm in C++ code
 autocmd FileType c,cpp,objc nnoremap <buffer><Leader>fm :<C-u>ClangFormat<CR>
