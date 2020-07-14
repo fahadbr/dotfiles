@@ -57,7 +57,6 @@ Plug '$HOME/.dotfiles/fzfc'
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
-Plug 'idanarye/vim-merginal'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-scripts/BufOnly.vim'
@@ -66,7 +65,7 @@ Plug 'xolox/vim-misc'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-repeat'
-Plug 'tomlion/vim-solidity'
+Plug 'tomlion/vim-solidity', { 'for': 'solidity' }
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 Plug 'rhysd/git-messenger.vim'
 Plug 'morhetz/gruvbox'
@@ -77,11 +76,11 @@ else
 endif
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'jackguo380/vim-lsp-cxx-highlight'
-Plug 'fatih/vim-go'
+Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': 'cpp' }
+Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
-Plug 'rhysd/vim-clang-format'
+Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 Plug 'vim-scripts/a.vim'
 
 " LucHermitte plugins
