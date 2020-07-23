@@ -33,6 +33,11 @@ command=/home/fahad/.config/i3blocks/scripts/calendar
 interval=60
 signal=4
 
+[docker]
+command=docker ps | grep -v CONTAINER | wc -l
+interval=20
+label= 
+
 # Key indicators
 #
 # Add the following bindings to i3 config file:
