@@ -330,8 +330,6 @@ let g:go_gopls_options = ['-remote=auto']
 let g:go_list_type_commands = {"_guru": "quickfix"}
 
 
-au FileType go set foldmethod=syntax
-au FileType go set nofoldenable
 au FileType go nmap <leader>gb <Plug>(go-build)
 au FileType go nmap <leader>gtf <Plug>(go-test-func)
 au FileType go nmap <leader>ga <Plug>(go-alternate-edit)
