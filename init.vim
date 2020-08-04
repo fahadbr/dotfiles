@@ -345,8 +345,6 @@ au FileType go nmap <leader>ff :silent grep '^func ?\(?.*\)? <C-r><C-w>\(' \| cw
 au FileType go nmap <leader>ft :silent grep '^type <C-r><C-w>' \| cwindow<CR>
 " }}}
 
-" rust
-
 " todo.txt plugins {{{
 
 au BufNewFile,BufRead *.[Tt]odo.txt set filetype=todo
