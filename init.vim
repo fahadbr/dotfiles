@@ -82,6 +82,7 @@ Plug 'dbeniamine/todo.txt-vim'
 Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 Plug 'vim-scripts/a.vim'
+Plug 'rust-lang/rust.vim'
 
 " LucHermitte plugins
 "Plug 'LucHermitte/lh-vim-lib'
@@ -343,6 +344,8 @@ au FileType go nmap <leader>ff :silent grep '^func ?\(?.*\)? <C-r><C-w>\(' \| cw
 " search type under curser
 au FileType go nmap <leader>ft :silent grep '^type <C-r><C-w>' \| cwindow<CR>
 " }}}
+
+" rust
 
 " todo.txt plugins {{{
 
