@@ -317,7 +317,7 @@ let g:go_auto_sameids = 0
 let g:go_fmt_command="goimports"
 let g:go_fmt_fail_silently = 1
 let g:go_doc_keywordprg_enabled = 0
-let g:go_def_mapping_enabled = 1 " maps gd to <Plug>(go-def)
+let g:go_def_mapping_enabled = 0 " maps gd to <Plug>(go-def)
 
 " disabling gopls because coc.nvim starts this up
 let g:go_gopls_enabled = 0
