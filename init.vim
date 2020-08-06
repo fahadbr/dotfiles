@@ -299,6 +299,10 @@ let g:clang_format#detect_style_file = 1
 
 " }}}
 
+" rust
+
+au FileType rust nmap <leader>fm :RustFmt<CR>
+
 " golang vim-go options {{{
 
 let g:go_highlight_build_constraints = 1
