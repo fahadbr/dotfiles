@@ -4,23 +4,16 @@
 	"languageserver": {
 		"golang": {
 			"command": "gopls",
-			"rootPatterns": [
-				"go.mod",
-				"go.sum",
-				"glide.yaml"
-			],
-			"disableWorkspaceFolders": false,
+			"args": ["-debug", "localhost:9233"],
+			"disableWorkspaceFolders": true,
+			"rootPatterns": [".git/"],
 			"filetypes": [
 				"go"
 			],
 			"initializationOptions": {
 				"completeUnimported": false,
 				"usePlaceholders": true,
-				"hoverKind": "FullDocumentation",
-				"codelens": {
-					"generate": false,
-					"upgrade_dependency": false
-				}
+				"hoverKind": "FullDocumentation"
 			}
 		},
 		"bash": {

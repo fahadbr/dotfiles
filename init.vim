@@ -71,7 +71,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
-Plug 'fatih/vim-go', {'for': 'go'}
+Plug 'fatih/vim-go'
 Plug 'tomlion/vim-solidity', { 'for': 'solidity' }
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
@@ -334,7 +334,7 @@ let g:go_referrers_mode = 'guru'
 let g:go_info_mode = 'guru'
 
 let g:go_decls_mode = 'fzf'
-let g:go_gopls_options = ['-remote=auto']
+"let g:go_gopls_options = ['-remote=auto']
 " let g:go_list_type = 'quickfix'
 let g:go_list_type_commands = {"_guru": "quickfix"}
 
