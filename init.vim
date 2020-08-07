@@ -65,26 +65,27 @@ Plug 'xolox/vim-misc'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-repeat'
-Plug 'tomlion/vim-solidity', { 'for': 'solidity' }
-Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 Plug 'rhysd/git-messenger.vim'
 Plug 'morhetz/gruvbox'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'dbeniamine/todo.txt-vim'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'fatih/vim-go', {'for': 'go'}
+Plug 'tomlion/vim-solidity', { 'for': 'solidity' }
+Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
+Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
+Plug 'vim-scripts/a.vim', { 'for' : ['c', 'cpp'] }
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+
 if (!has("nvim-0.5.0"))
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
 else
   Plug 'neovim/nvim-lsp'
 endif
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'jackguo380/vim-lsp-cxx-highlight', { 'for': 'cpp' }
-Plug 'fatih/vim-go', {'for': 'go'}
-Plug 'dbeniamine/todo.txt-vim'
-Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
-Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
-Plug 'vim-scripts/a.vim'
-Plug 'rust-lang/rust.vim'
 
-" LucHermitte plugins
+" LucHermitte plugins{{{
 "Plug 'LucHermitte/lh-vim-lib'
 "Plug 'LucHermitte/lh-style'
 "Plug 'LucHermitte/lh-tags'
@@ -96,6 +97,7 @@ Plug 'rust-lang/rust.vim'
 "Plug 'LucHermitte/alternate-lite'
 "Plug 'LucHermitte/lh-cpp'
 "Plug 'LucHermitte/vim-refactor'
+"}}}
 
 call plug#end()
 
@@ -299,9 +301,11 @@ let g:clang_format#detect_style_file = 1
 
 " }}}
 
-" rust
+" rust options {{{
 
 au FileType rust nmap <leader>fm :RustFmt<CR>
+
+"}}}
 
 " golang vim-go options {{{
 

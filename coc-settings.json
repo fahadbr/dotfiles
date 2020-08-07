@@ -9,14 +9,18 @@
 				"go.sum",
 				"glide.yaml"
 			],
-			"disableWorkspaceFolders": true,
+			"disableWorkspaceFolders": false,
 			"filetypes": [
 				"go"
 			],
 			"initializationOptions": {
 				"completeUnimported": false,
 				"usePlaceholders": true,
-				"hoverKind": "FullDocumentation"
+				"hoverKind": "FullDocumentation",
+				"codelens": {
+					"generate": false,
+					"upgrade_dependency": false
+				}
 			}
 		},
 		"bash": {
