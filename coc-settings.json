@@ -4,7 +4,7 @@
 	"languageserver": {
 		"golang": {
 			"command": "gopls",
-			"args": ["-debug", "localhost:9233"],
+			"args": ["-debug", "localhost:9233", "-rpc.trace"],
 			"disableWorkspaceFolders": true,
 			"rootPatterns": [".git/"],
 			"filetypes": [
@@ -14,7 +14,18 @@
 			"initializationOptions": {
 				"completeUnimported": false,
 				"usePlaceholders": true,
-				"hoverKind": "FullDocumentation"
+				"deepCompletion": false,
+				"fuzzyMatching": false,
+				"hoverKind": "FullDocumentation",
+				"analyses": {
+					"unreachable": false,
+					"unusedparams": false,
+					"fillstruct": false
+				},
+				"codelens": {
+					"generate": false,
+					"upgrade_dependency": false
+				}
 			}
 		},
 		"bash": {
