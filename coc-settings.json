@@ -15,18 +15,7 @@
 			"initializationOptions": {
 				"completeUnimported": false,
 				"usePlaceholders": true,
-				"deepCompletion": false,
-				"fuzzyMatching": false,
-				"hoverKind": "FullDocumentation",
-				"analyses": {
-					"unreachable": false,
-					"unusedparams": false,
-					"fillstruct": false
-				},
-				"codelens": {
-					"generate": false,
-					"upgrade_dependency": false
-				}
+				"hoverKind": "FullDocumentation"
 			}
 		},
 		"bash": {
