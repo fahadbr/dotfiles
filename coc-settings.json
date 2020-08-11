@@ -1,6 +1,7 @@
 {
 	"suggest.noselect": true,
 	"coc.preferences.extensionUpdateCheck": "weekly",
+	"diagnostic.refreshAfterSave": true,
 	"languageserver": {
 		"golang": {
 			"command": "gopls",
