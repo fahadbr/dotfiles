@@ -332,7 +332,7 @@ au FileType go nmap <leader>ft :silent grep '^type <C-r><C-w>' \| cwindow<CR>
 " }}}
 
 " scala options {{{
-nmap <leader>ws <Plug>(coc-metals-expand-decoration)
+nmap <leader>ed <Plug>(coc-metals-expand-decoration)
 "}}}
 
 " todo.txt plugins {{{
