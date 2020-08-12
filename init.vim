@@ -74,6 +74,7 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'fatih/vim-go'
 Plug 'tomlion/vim-solidity', { 'for': 'solidity' }
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+"Plug 'scalameta/coc-metals', { 'do': 'yarn install --frozen-lockfile' }
 Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 Plug 'vim-scripts/a.vim', { 'for' : ['c', 'cpp'] }
@@ -329,6 +330,10 @@ au FileType go nmap <leader>ff :silent grep '^func ?\(?.*\)? <C-r><C-w>\(' \| cw
 " search type under curser
 au FileType go nmap <leader>ft :silent grep '^type <C-r><C-w>' \| cwindow<CR>
 " }}}
+
+" scala options {{{
+nmap <leader>ws <Plug>(coc-metals-expand-decoration)
+"}}}
 
 " todo.txt plugins {{{
 
