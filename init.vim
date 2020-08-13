@@ -71,10 +71,10 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'AndrewRadev/splitjoin.vim'
 Plug 'fatih/vim-go'
 Plug 'tomlion/vim-solidity', { 'for': 'solidity' }
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
-"Plug 'scalameta/coc-metals', { 'do': 'yarn install --frozen-lockfile' }
 Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 Plug 'vim-scripts/a.vim', { 'for' : ['c', 'cpp'] }
