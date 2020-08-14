@@ -322,13 +322,18 @@ au FileType go nmap <leader>gtf <Plug>(go-test-func)
 au FileType go nmap <leader>ga <Plug>(go-alternate-edit)
 au FileType go nmap <F1> <Plug>(go-doc)
 au FileType go nmap <F6> <Plug>(go-rename)
-au FileType go nmap <F7> <Plug>(go-referrers)
+au FileType go nmap <F7> <Plug>(go-referrers)(
 au FileType go nmap <F12> :GoDecls<CR>
 au FileType go nmap <leader>ge <Plug>(go-iferr)
 " search function name under curser
 au FileType go nmap <leader>ff :silent grep '^func ?\(?.*\)? <C-r><C-w>\(' \| cwindow<CR>
 " search type under curser
 au FileType go nmap <leader>ft :silent grep '^type <C-r><C-w>' \| cwindow<CR>
+" change T to (T, error) used for return values when cursor is within T
+au FileType go nmap <leader>se ciW(<C-r>-, error)
+" change (T, error) to T when cursor is on line and return type is last
+" parentheses on line
+au FileType go nmap <leader>de $F(lyt,F(df)h"0p
 " }}}
 
 " scala options {{{
