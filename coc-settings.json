@@ -12,7 +12,7 @@
 			],
 			"ignoredRootPaths": ["vendor"],
 			"initializationOptions": {
-				"completeUnimported": false,
+				"completeUnimported": true,
 				"usePlaceholders": true,
 				"hoverKind": "FullDocumentation"
 			}
