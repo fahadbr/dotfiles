@@ -323,6 +323,7 @@ au FileType go nmap <F6> <Plug>(go-rename)
 au FileType go nmap <F7> <Plug>(go-referrers)(
 au FileType go nmap <F12> :GoDecls<CR>
 au FileType go nmap <leader>ge <Plug>(go-iferr)
+au FileType go nmap <leader>gfs :GoFillStruct<CR>
 " search function name under curser
 au FileType go nmap <leader>ff :silent grep '^func ?\(?.*\)? <C-r><C-w>\(' \| cwindow<CR>
 " search type under curser
