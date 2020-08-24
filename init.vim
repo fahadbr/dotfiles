@@ -228,6 +228,7 @@ if (!has("nvim-0.5.0"))
 
   " Remap keys for applying codeAction to the current buffer.
   nmap <leader>ac  <Plug>(coc-codeaction)
+  nmap <leader>al  <Plug>(coc-codelens-action)
   " Apply AutoFix to problem on the current line.
   nmap <leader>qf  <Plug>(coc-fix-current)
 
@@ -340,7 +341,7 @@ au FileType go nmap <leader>de $F(lyt,F(df)h"0p
 " }}}
 
 " scala options {{{
-nmap <leader>ed <Plug>(coc-metals-expand-decoration)
+au FileType scala nmap <leader>ed <Plug>(coc-metals-expand-decoration)
 "}}}
 
 " todo.txt plugins {{{

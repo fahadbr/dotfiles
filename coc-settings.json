@@ -1,5 +1,6 @@
 {
 	"suggest.noselect": true,
+	"codeLens.enable": true,
 	"coc.preferences.extensionUpdateCheck": "weekly",
 	"languageserver": {
 		"golang": {
@@ -14,7 +15,11 @@
 			"initializationOptions": {
 				"completeUnimported": true,
 				"usePlaceholders": true,
-				"hoverKind": "FullDocumentation"
+				"hoverKind": "FullDocumentation",
+				"codelens": {
+					"gc_details": true,
+					"test": true
+				}
 			}
 		},
 		"bash": {
