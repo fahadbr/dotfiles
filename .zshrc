@@ -55,6 +55,7 @@ export HUNTER_ROOT=/data/code/.hunter
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+export JAVA_HOME="/usr/lib/jvm/java-11-openjdk/"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.sn.conf ] && source ~/.sn.conf
