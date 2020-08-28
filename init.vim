@@ -325,7 +325,7 @@ au FileType go nmap <leader>gtf <Plug>(go-test-func)
 au FileType go nmap <leader>ga <Plug>(go-alternate-edit)
 au FileType go nmap <F1> <Plug>(go-doc)
 au FileType go nmap <F6> <Plug>(go-rename)
-au FileType go nmap <F7> <Plug>(go-referrers)(
+au FileType go nmap <F7> <Plug>(go-referrers)
 au FileType go nmap <F12> :GoDecls<CR>
 au FileType go nmap <leader>ge <Plug>(go-iferr)
 au FileType go nmap <leader>gfs :GoFillStruct<CR>
