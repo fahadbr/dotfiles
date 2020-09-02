@@ -513,6 +513,11 @@ nnoremap <C-g><C-n> :lnext<CR>
 nnoremap gp :cprevious<CR>
 nnoremap gn :cnext<CR>
 
+" insert mode mappings
+" mapping F12 to something so that it doesnt hang ultisnips
+inoremap <F12> <space>
+
+
 " cmdline mapping
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
