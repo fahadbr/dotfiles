@@ -16,6 +16,8 @@ plugins=(
   zsh-autosuggestions
 )
 
+zstyle :omz:plugins:ssh-agent identities id_rsa github
+
 source $ZSH/oh-my-zsh.sh
 
 setopt appendhistory extendedglob nomatch notify incappendhistory
@@ -49,7 +51,8 @@ export TODO_DIR="/data/syncthing/todo"
 #export TERMINAL=urxvt
 export EDITOR=nvim
 export LESS="-RF"
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.dotfiles/scripts:$HOME/.local/bin"
+export GOPATH="/data/code/go"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.dotfiles/scripts:$HOME/.local/bin:$GOPATH/bin"
 export MACHINE=${MACHINE:-"home"}
 export HUNTER_ROOT=/data/code/.hunter
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
