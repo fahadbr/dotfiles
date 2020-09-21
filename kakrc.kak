@@ -9,6 +9,7 @@ plug "andreyorst/fzf.kak"
 add-highlighter global/ number-lines
 
 
+colorscheme desertex
 
 map -docstring 'fzf-mode' global user z ': fzf-mode<ret>'
 map -docstring 'write buffer' global user w ': write<ret>'

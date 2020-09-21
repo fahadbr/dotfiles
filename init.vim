@@ -44,6 +44,14 @@ let maplocalleader = "-"
 filetype plugin indent on
 " }}}
 
+" pre-plug mappings {{{
+
+nmap <Leader>r  <Plug>ReplaceWithRegisterOperator
+nmap <Leader>rr <Plug>ReplaceWithRegisterLine
+xmap <Leader>r  <Plug>ReplaceWithRegisterVisual
+
+" }}}
+
 " plug {{{
 call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree'
@@ -69,6 +77,7 @@ Plug 'rhysd/git-messenger.vim'
 Plug 'morhetz/gruvbox'
 "Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'inkarkat/vim-ReplaceWithRegister'
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'AndrewRadev/splitjoin.vim'
@@ -413,6 +422,7 @@ let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
+let g:airline_highlighting_cache = 1
 
 " airline tabline
 let g:airline#extensions#tabline#enabled = 1
@@ -468,7 +478,7 @@ nnoremap <leader>yl :let @+=expand('%').":".line('.')<CR>
 " write the current buffer
 nnoremap <leader>w :w<CR>
 " reload the current buffer
-nnoremap <leader>r :e!<CR>
+"nnoremap <leader>re :e!<CR>
 " find and replace the word under the cursor
 nnoremap <leader>s* :%s/\<<C-r><C-w>\>//g<left><left>
 " close other buffers
