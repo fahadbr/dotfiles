@@ -55,6 +55,7 @@ xmap <Leader>r  <Plug>ReplaceWithRegisterVisual
 " }}}
 
 call plug#begin('~/.config/nvim/plugged')
+
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdcommenter'
@@ -101,10 +102,10 @@ else
   Plug 'steelsojka/completion-buffers'
   Plug 'RishabhRD/popfix'
   Plug 'RishabhRD/nvim-lsputils'
-  Plug 'nvim-lua/diagnostic-nvim'
-  "Plug 'nvim-lua/popup.nvim'
-  "Plug 'nvim-lua/plenary.nvim'
-  "Plug 'nvim-lua/telescope.nvim'
+  "Plug 'nvim-lua/diagnostic-nvim'
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-lua/telescope.nvim'
 endif
 
 call plug#end()
@@ -139,13 +140,19 @@ require'nvim_lsp'.gopls.setup{ on_attach = attach_callbacks }
 -- for scala support
 require'nvim_lsp'.metals.setup{ on_attach = attach_callbacks }
 
-vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-vim.lsp.callbacks['textDocument/definition'] = require'lsputil.locations'.definition_handler
-vim.lsp.callbacks['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
-vim.lsp.callbacks['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
-vim.lsp.callbacks['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
-vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
-vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+-- for lua support
+require'nvim_lsp'.sumneko_lua.setup{}
+
+-- for viml support
+require'nvim_lsp'.vimls.setup{}
+
+-- vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+-- vim.lsp.callbacks['textDocument/definition'] = require'lsputil.locations'.definition_handler
+-- vim.lsp.callbacks['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+-- vim.lsp.callbacks['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+-- vim.lsp.callbacks['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+-- vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+-- vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 
 EOF
 "}}}
@@ -168,6 +175,12 @@ nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
 " reload lsp
 nnoremap <leader>cr <cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>
 "}}}
+
+" telescope {{{
+nnoremap <c-p> :lua require'telescope.builtin'.git_files{}<CR>
+nnoremap <leader><space>o :lua require'telescope.builtin'.lsp_document_symbols{ shorten_path = true }<CR>
+nnoremap <leader><space>s :lua require'telescope.builtin'.lsp_workspace_symbols{ shorten_path = true }<CR>
+" }}}
 
 " diagnostics {{{
 
