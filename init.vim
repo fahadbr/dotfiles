@@ -1,6 +1,6 @@
 " vim:foldmethod=marker
 
-" general Settings {{{
+" general option settings {{{
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 source ~/.vimrc
@@ -44,6 +44,8 @@ let maplocalleader = "-"
 filetype plugin indent on
 " }}}
 
+" plug {{{
+
 " pre-plug mappings {{{
 
 nmap <Leader>r  <Plug>ReplaceWithRegisterOperator
@@ -52,7 +54,6 @@ xmap <Leader>r  <Plug>ReplaceWithRegisterVisual
 
 " }}}
 
-" plug {{{
 call plug#begin('~/.config/nvim/plugged')
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -129,6 +130,7 @@ lua << EOF
 
 function attach_callbacks ()
   require'completion'.on_attach()
+  -- require'diagnostic'.on_attach()
 end
 
 -- for c++ support
@@ -146,59 +148,63 @@ require'nvim_lsp'.gopls.setup{ on_attach = attach_callbacks }
 
 -- for scala support
 require'nvim_lsp'.metals.setup{ on_attach = attach_callbacks }
+
+vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+vim.lsp.callbacks['textDocument/definition'] = require'lsputil.locations'.definition_handler
+vim.lsp.callbacks['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+vim.lsp.callbacks['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+vim.lsp.callbacks['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+
 EOF
 
-  "nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
-  nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
-  nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-  nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-  nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
-  nnoremap <silent> <M-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-  nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-  nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-  nnoremap <silent> <leader>a    <cmd>lua vim.lsp.buf.code_action()<CR>
-  xnoremap <silent> <leader>a    <cmd>lua vim.lsp.buf.code_action()<CR>
-  nnoremap <silent> <space>o    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-  nnoremap <silent> <space>s    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-  nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
+"nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <M-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> <leader>a    <cmd>lua vim.lsp.buf.code_action()<CR>
+xnoremap <silent> <leader>a    <cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <silent> <space>o    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> <space>s    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
 
-  " reload lsp
-  nnoremap <leader>cr <cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>
+" reload lsp
+nnoremap <leader>cr <cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>
 
-lua <<EOF
-  vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-  vim.lsp.callbacks['textDocument/definition'] = require'lsputil.locations'.definition_handler
-  vim.lsp.callbacks['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
-  vim.lsp.callbacks['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
-  vim.lsp.callbacks['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
-  vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
-  vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
-EOF
+" diagnostics {{{
 
-endif
+" let g:diagnostic_enable_virtual_text = 1
+" let g:diagnostic_trimmed_virtual_text = '40'
+" call sign_define("LspDiagnosticsErrorSign", {"text" : "E", "texthl" : "LspDiagnosticsError"})
+" call sign_define("LspDiagnosticsWarningSign", {"text" : "W", "texthl" : "LspDiagnosticsWarning"})
+" call sign_define("LspDiagnosticsInformationSign", {"text" : "I", "texthl" : "LspDiagnosticsInformation"})
+" call sign_define("LspDiagnosticsHintSign", {"text" : "H", "texthl" : "LspDiagnosticsHint"})
+
 " }}}
 
-" nvim-lsp autocompletion {{{
-if (has("nvim-0.5.0"))
-  " Use <Tab> and <S-Tab> to navigate through popup menu
-  inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" autocompletion {{{
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-  " Set completeopt to have a better completion experience
-  set completeopt=menuone,noinsert,noselect
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
 
-  " Avoid showing message extra message when using completion
-  set shortmess+=c
+" Avoid showing message extra message when using completion
+set shortmess+=c
 
-  " possible value: 'UltiSnips', 'Neosnippet', 'vim-vsnip'
-  let g:completion_enable_snippet = 'vim-vsnip'
-  let g:completion_matching_ignore_case = 1
-endif
+" possible value: 'UltiSnips', 'Neosnippet', 'vim-vsnip'
+let g:completion_enable_snippet = 'vim-vsnip'
+let g:completion_matching_ignore_case = 1
 
 " }}}
 
 " vsnip {{{
-if (has("nvim-0.5.0"))
 " Expand
 imap <expr> <M-Tab>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
 smap <expr> <M-Tab>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
@@ -220,6 +226,8 @@ nmap        <C-s>   <Plug>(vsnip-select-text)
 xmap        <C-s>   <Plug>(vsnip-select-text)
 nmap        <C-S>   <Plug>(vsnip-cut-text)
 xmap        <C-S>   <Plug>(vsnip-cut-text)
+" }}}
+
 endif
 " }}}
 
@@ -354,12 +362,12 @@ if (!has("nvim-0.5.0"))
   " Resume latest coc list.
   nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
-endif
-" }}}
-
 " snippets {{{
 
 let g:UltiSnipsExpandTrigger='<M-tab>'
+" }}}
+
+endif
 " }}}
 
 " c++ options {{{
