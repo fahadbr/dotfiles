@@ -97,9 +97,12 @@ else
   Plug 'hrsh7th/vim-vsnip-integ'
   Plug 'golang/vscode-go'
   Plug 'nvim-lua/completion-nvim'
-  Plug 'nvim-lua/popup.nvim'
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-lua/telescope.nvim'
+  "Plug 'nvim-lua/popup.nvim'
+  "Plug 'nvim-lua/plenary.nvim'
+  "Plug 'nvim-lua/telescope.nvim'
+  Plug 'RishabhRD/popfix'
+  Plug 'RishabhRD/nvim-lsputils'
+  Plug 'nvim-lua/diagnostic-nvim'
 endif
 
 " LucHermitte plugins{{{
@@ -123,15 +126,26 @@ call plug#end()
 " neovim lsp config {{{
 if (has("nvim-0.5.0"))
 lua << EOF
+
+function attach_callbacks ()
+  require'completion'.on_attach()
+end
+
+-- for c++ support
 require'nvim_lsp'.ccls.setup{
+  on_attach = attach_callbacks;
   init_options = {
     highlight = {
       lsRanges = true;
     }
   }
 }
-require'nvim_lsp'.gopls.setup{on_attach=require'completion'.on_attach}
-require'nvim_lsp'.metals.setup{on_attach=require'completion'.on_attach}
+
+-- for go support
+require'nvim_lsp'.gopls.setup{ on_attach = attach_callbacks }
+
+-- for scala support
+require'nvim_lsp'.metals.setup{ on_attach = attach_callbacks }
 EOF
 
   "nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
@@ -139,11 +153,27 @@ EOF
   nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
   nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
   nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
-  nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+  nnoremap <silent> <M-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
   nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
   nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-  "nnoremap <silent> <space>o    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+  nnoremap <silent> <leader>a    <cmd>lua vim.lsp.buf.code_action()<CR>
+  xnoremap <silent> <leader>a    <cmd>lua vim.lsp.buf.code_action()<CR>
+  nnoremap <silent> <space>o    <cmd>lua vim.lsp.buf.document_symbol()<CR>
   nnoremap <silent> <space>s    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+  nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
+
+  " reload lsp
+  nnoremap <leader>cr <cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>
+
+lua <<EOF
+  vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+  vim.lsp.callbacks['textDocument/definition'] = require'lsputil.locations'.definition_handler
+  vim.lsp.callbacks['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+  vim.lsp.callbacks['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+  vim.lsp.callbacks['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+  vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+  vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+EOF
 
 endif
 " }}}
@@ -191,12 +221,6 @@ xmap        <C-s>   <Plug>(vsnip-select-text)
 nmap        <C-S>   <Plug>(vsnip-cut-text)
 xmap        <C-S>   <Plug>(vsnip-cut-text)
 endif
-" }}}
-
-" telescope {{{
-nnoremap <space>o :lua require'telescope.builtin'.lsp_document_symbols{}<CR>
-"nnoremap <space>s :lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>
-nnoremap <C-p> :lua require'telescope.builtin'.git_files{}<CR>
 " }}}
 
 " coc.nvim autocomplete options {{{
