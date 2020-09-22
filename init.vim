@@ -98,27 +98,14 @@ else
   Plug 'hrsh7th/vim-vsnip-integ'
   Plug 'golang/vscode-go'
   Plug 'nvim-lua/completion-nvim'
-  "Plug 'nvim-lua/popup.nvim'
-  "Plug 'nvim-lua/plenary.nvim'
-  "Plug 'nvim-lua/telescope.nvim'
+  Plug 'steelsojka/completion-buffers'
   Plug 'RishabhRD/popfix'
   Plug 'RishabhRD/nvim-lsputils'
   Plug 'nvim-lua/diagnostic-nvim'
+  "Plug 'nvim-lua/popup.nvim'
+  "Plug 'nvim-lua/plenary.nvim'
+  "Plug 'nvim-lua/telescope.nvim'
 endif
-
-" LucHermitte plugins{{{
-"Plug 'LucHermitte/lh-vim-lib'
-"Plug 'LucHermitte/lh-style'
-"Plug 'LucHermitte/lh-tags'
-"Plug 'LucHermitte/lh-dev'
-"Plug 'LucHermitte/lh-brackets'
-"Plug 'LucHermitte/searchInRuntime'
-"Plug 'LucHermitte/mu-template'
-"Plug 'tomtom/stakeholders_vim'
-"Plug 'LucHermitte/alternate-lite'
-"Plug 'LucHermitte/lh-cpp'
-"Plug 'LucHermitte/vim-refactor'
-"}}}
 
 call plug#end()
 
@@ -196,7 +183,7 @@ nnoremap <leader>cr <cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<C
 " autocompletion {{{
 
 " Use completion-nvim in every buffer
-"autocmd BufEnter * lua require'completion'.on_attach()
+autocmd BufEnter * lua require'completion'.on_attach()
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -211,6 +198,7 @@ set shortmess+=c
 " possible value: 'UltiSnips', 'Neosnippet', 'vim-vsnip'
 let g:completion_enable_snippet = 'vim-vsnip'
 let g:completion_matching_ignore_case = 1
+let g:completion_auto_change_source = 1
 
 " }}}
 
