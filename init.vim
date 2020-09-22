@@ -97,6 +97,9 @@ else
   Plug 'hrsh7th/vim-vsnip-integ'
   Plug 'golang/vscode-go'
   Plug 'nvim-lua/completion-nvim'
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-lua/telescope.nvim'
 endif
 
 " LucHermitte plugins{{{
@@ -139,7 +142,7 @@ EOF
   nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
   nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
   nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-  nnoremap <silent> <space>o    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+  "nnoremap <silent> <space>o    <cmd>lua vim.lsp.buf.document_symbol()<CR>
   nnoremap <silent> <space>s    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
 endif
@@ -188,6 +191,12 @@ xmap        <C-s>   <Plug>(vsnip-select-text)
 nmap        <C-S>   <Plug>(vsnip-cut-text)
 xmap        <C-S>   <Plug>(vsnip-cut-text)
 endif
+" }}}
+
+" telescope {{{
+nnoremap <space>o :lua require'telescope.builtin'.lsp_document_symbols{}<CR>
+"nnoremap <space>s :lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>
+nnoremap <C-p> :lua require'telescope.builtin'.git_files{}<CR>
 " }}}
 
 " coc.nvim autocomplete options {{{
