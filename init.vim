@@ -125,7 +125,10 @@ call plug#end()
 " }}}
 
 " neovim lsp config {{{
+"
 if (has("nvim-0.5.0"))
+
+" lua config {{{
 lua << EOF
 
 function attach_callbacks ()
@@ -158,7 +161,9 @@ vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.docu
 vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 
 EOF
+"}}}
 
+" key mappings {{{
 "nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
@@ -175,6 +180,7 @@ nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
 
 " reload lsp
 nnoremap <leader>cr <cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>
+"}}}
 
 " diagnostics {{{
 
@@ -188,6 +194,10 @@ nnoremap <leader>cr <cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<C
 " }}}
 
 " autocompletion {{{
+
+" Use completion-nvim in every buffer
+"autocmd BufEnter * lua require'completion'.on_attach()
+
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -229,12 +239,10 @@ xmap        <C-S>   <Plug>(vsnip-cut-text)
 " }}}
 
 endif
+
 " }}}
 
 " coc.nvim autocomplete options {{{
-
-" TextEdit might fail if hidden is not set.
-"set hidden
 
 " Some servers have issues with backup files, see #649.
 set nobackup
@@ -543,7 +551,6 @@ nnoremap <leader>ec :e ~/.config/nvim/init.vim<CR>
 nnoremap <M-w> :bp\| bd #<CR>
 
 " Allow tab autocomplete
-"inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
 
 " for moving back to diff file list when using merginal
 " to diff branches
