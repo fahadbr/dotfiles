@@ -93,6 +93,10 @@ if (!has("nvim-0.5.0"))
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
 else
   Plug 'neovim/nvim-lsp'
+  Plug 'hrsh7th/vim-vsnip'
+  Plug 'hrsh7th/vim-vsnip-integ'
+  Plug 'golang/vscode-go'
+  Plug 'nvim-lua/completion-nvim'
 endif
 
 " LucHermitte plugins{{{
@@ -113,7 +117,7 @@ call plug#end()
 
 " }}}
 
-" neovim lsp {{{
+" neovim lsp config {{{
 if (has("nvim-0.5.0"))
 lua << EOF
 require'nvim_lsp'.ccls.setup{
@@ -123,10 +127,12 @@ require'nvim_lsp'.ccls.setup{
     }
   }
 }
+require'nvim_lsp'.gopls.setup{on_attach=require'completion'.on_attach}
+require'nvim_lsp'.metals.setup{on_attach=require'completion'.on_attach}
 EOF
-  "filetypes = { "c", "cpp", "cc", "cxx", "C", "objc", "objcpp" }
-  "
-  nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+
+  "nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+  nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
   nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
   nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
   nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
@@ -136,9 +142,51 @@ EOF
   nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
   nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
-  autocmd Filetype cpp setlocal omnifunc=v:lua.vim.lsp.omnifunc
+endif
+" }}}
 
-  set completeopt=menu
+" nvim-lsp autocompletion {{{
+if (has("nvim-0.5.0"))
+  " Use <Tab> and <S-Tab> to navigate through popup menu
+  inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+  " Set completeopt to have a better completion experience
+  set completeopt=menuone,noinsert,noselect
+
+  " Avoid showing message extra message when using completion
+  set shortmess+=c
+
+  " possible value: 'UltiSnips', 'Neosnippet', 'vim-vsnip'
+  let g:completion_enable_snippet = 'vim-vsnip'
+  let g:completion_matching_ignore_case = 1
+endif
+
+" }}}
+
+" vsnip {{{
+if (has("nvim-0.5.0"))
+" Expand
+imap <expr> <M-Tab>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+smap <expr> <M-Tab>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+
+" Expand or jump
+imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+
+" Jump forward or backward
+imap <expr> <C-j>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+smap <expr> <C-j>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+imap <expr> <C-k> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <C-k> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+
+
+" Select or cut text to use as $TM_SELECTED_TEXT in the next snippet.
+" See https://github.com/hrsh7th/vim-vsnip/pull/50
+nmap        <C-s>   <Plug>(vsnip-select-text)
+xmap        <C-s>   <Plug>(vsnip-select-text)
+nmap        <C-S>   <Plug>(vsnip-cut-text)
+xmap        <C-S>   <Plug>(vsnip-cut-text)
 endif
 " }}}
 
