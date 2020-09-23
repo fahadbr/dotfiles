@@ -97,15 +97,16 @@ else
   Plug 'neovim/nvim-lsp'
   Plug 'hrsh7th/vim-vsnip'
   Plug 'hrsh7th/vim-vsnip-integ'
-  Plug 'golang/vscode-go'
+  Plug 'golang/vscode-go', { 'for': 'go' }
   Plug 'nvim-lua/completion-nvim'
   Plug 'steelsojka/completion-buffers'
-  Plug 'RishabhRD/popfix'
-  Plug 'RishabhRD/nvim-lsputils'
+  "Plug 'RishabhRD/popfix'
+  "Plug 'RishabhRD/nvim-lsputils'
   "Plug 'nvim-lua/diagnostic-nvim'
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-lua/telescope.nvim'
+  Plug 'fahadbr/telescope.nvim', {'branch': 'fix-selection-with-no-preview'}
+  "Plug 'tjdevries/nlua.nvim'
 endif
 
 call plug#end()
@@ -120,12 +121,12 @@ if (has("nvim-0.5.0"))
 lua << EOF
 
 function attach_callbacks ()
-  require'completion'.on_attach()
-  -- require'diagnostic'.on_attach()
+  require('completion').on_attach()
+  -- require('diagnostic').on_attach()
 end
 
 -- for c++ support
-require'nvim_lsp'.ccls.setup{
+require('nvim_lsp').ccls.setup{
   on_attach = attach_callbacks;
   init_options = {
     highlight = {
@@ -135,24 +136,30 @@ require'nvim_lsp'.ccls.setup{
 }
 
 -- for go support
-require'nvim_lsp'.gopls.setup{ on_attach = attach_callbacks }
+require('nvim_lsp').gopls.setup{ on_attach = attach_callbacks }
 
 -- for scala support
-require'nvim_lsp'.metals.setup{ on_attach = attach_callbacks }
+require('nvim_lsp').metals.setup{ on_attach = attach_callbacks }
 
 -- for lua support
-require'nvim_lsp'.sumneko_lua.setup{}
+require('nvim_lsp').sumneko_lua.setup{ on_attach = attach_callbacks }
+
+-- require('nlua.lsp.nvim').setup(require('nvim_lsp'), {
+--   on_attach = attach_callbacks,
+-- })
 
 -- for viml support
 require'nvim_lsp'.vimls.setup{}
 
--- vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
--- vim.lsp.callbacks['textDocument/definition'] = require'lsputil.locations'.definition_handler
--- vim.lsp.callbacks['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
--- vim.lsp.callbacks['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
--- vim.lsp.callbacks['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
--- vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
--- vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+--[[
+vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+vim.lsp.callbacks['textDocument/definition'] = require'lsputil.locations'.definition_handler
+vim.lsp.callbacks['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+vim.lsp.callbacks['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+vim.lsp.callbacks['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+vim.lsp.callbacks['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+vim.lsp.callbacks['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+--]]
 
 EOF
 "}}}
@@ -450,6 +457,10 @@ au FileType go nmap <leader>de $F(lyt,F(df)h"0p
 " scala options {{{
 au FileType scala nmap <leader>ed <Plug>(coc-metals-expand-decoration)
 "}}}
+
+" lua {{{
+au FileType lua nnoremap <leader>K :help <C-r><C-w><CR>
+" }}}
 
 " todo.txt plugins {{{
 
