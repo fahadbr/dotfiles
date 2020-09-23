@@ -179,7 +179,6 @@ EOF
 " key mappings {{{
 "nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <M-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
@@ -232,6 +231,7 @@ let g:completion_enable_snippet = 'vim-vsnip'
 let g:completion_matching_ignore_case = 1
 let g:completion_auto_change_source = 1
 let g:completion_confirm_key = ""
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
 imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
                  \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
