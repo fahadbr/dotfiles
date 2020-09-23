@@ -105,7 +105,8 @@ else
   "Plug 'nvim-lua/diagnostic-nvim'
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
-  Plug 'fahadbr/telescope.nvim', {'branch': 'fix-selection-with-no-preview'}
+  Plug 'nvim-lua/telescope.nvim'
+  "Plug 'fahadbr/telescope.nvim', {'branch': 'fix-selection-with-no-preview'}
   "Plug 'tjdevries/nlua.nvim'
 endif
 
@@ -127,7 +128,7 @@ end
 
 -- for c++ support
 require('nvim_lsp').ccls.setup{
-  on_attach = attach_callbacks;
+  on_attach = attach_callbacks,
   init_options = {
     highlight = {
       lsRanges = true;
@@ -136,7 +137,18 @@ require('nvim_lsp').ccls.setup{
 }
 
 -- for go support
-require('nvim_lsp').gopls.setup{ on_attach = attach_callbacks }
+require('nvim_lsp').gopls.setup{
+  on_attach = attach_callbacks,
+  init_options = {
+    completeUnimported = true,
+    usePlaceholders = true,
+    hoverKind = "FullDocumentation",
+    codelens = {
+      gc_details = true,
+      test = true
+    }
+  }
+}
 
 -- for scala support
 require('nvim_lsp').metals.setup{ on_attach = attach_callbacks }
@@ -206,8 +218,8 @@ nnoremap <leader><space>s :lua require'telescope.builtin'.lsp_workspace_symbols{
 autocmd BufEnter * lua require'completion'.on_attach()
 
 " Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Set completeopt to have a better completion experience
 set completeopt=menuone,noinsert,noselect
@@ -219,23 +231,26 @@ set shortmess+=c
 let g:completion_enable_snippet = 'vim-vsnip'
 let g:completion_matching_ignore_case = 1
 let g:completion_auto_change_source = 1
+let g:completion_confirm_key = ""
 
+imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
+                 \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
 " }}}
 
 " vsnip {{{
 " Expand
-imap <expr> <M-Tab>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-smap <expr> <M-Tab>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+imap <expr> <M-Tab>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<Tab>'
+smap <expr> <M-Tab>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<Tab>'
 
 " Expand or jump
-imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+"imap <expr> <Tab>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<Tab>'
+"smap <expr> <Tab>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<Tab>'
 
 " Jump forward or backward
-imap <expr> <C-j>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-smap <expr> <C-j>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-imap <expr> <C-k> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-smap <expr> <C-k> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 
 
 " Select or cut text to use as $TM_SELECTED_TEXT in the next snippet.
