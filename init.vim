@@ -150,6 +150,9 @@ require('nvim_lsp').gopls.setup{
   }
 }
 
+-- for rust support
+require('nvim_lsp').rust_analyzer.setup{ on_attach = attach_callbacks }
+
 -- for scala support
 require('nvim_lsp').metals.setup{ on_attach = attach_callbacks }
 
@@ -518,7 +521,7 @@ nnoremap <leader>l :ALEToggle<CR>
 let g:airline#extensions#ale#enabled = 1
 let g:airline_powerline_fonts = 1
 
-let g:airline_theme = 'jellybeans'
+let g:airline_theme = 'gruvbox'
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
