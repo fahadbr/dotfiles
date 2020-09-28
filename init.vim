@@ -142,7 +142,6 @@ require('nvim_lsp').gopls.setup{
   init_options = {
     completeUnimported = true,
     usePlaceholders = true,
-    hoverKind = "FullDocumentation",
     codelens = {
       gc_details = true,
       test = true
