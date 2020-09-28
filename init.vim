@@ -77,7 +77,6 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-repeat'
 Plug 'rhysd/git-messenger.vim'
 Plug 'morhetz/gruvbox'
-"Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'inkarkat/vim-ReplaceWithRegister'
 Plug 'dbeniamine/todo.txt-vim'
@@ -92,6 +91,7 @@ Plug 'vim-scripts/a.vim', { 'for' : ['c', 'cpp'] }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 
 if (!has("nvim-0.5.0"))
+  Plug 'SirVer/ultisnips'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
 else
   Plug 'neovim/nvim-lsp'
@@ -437,13 +437,17 @@ let g:go_auto_sameids = 0
 let g:go_fmt_command="goimports"
 let g:go_fmt_fail_silently = 1
 let g:go_doc_keywordprg_enabled = 0
+let g:go_code_completion_enabled = 0
 let g:go_def_mapping_enabled = 0 " maps gd to <Plug>(go-def)
+let g:go_echo_go_info = 0
+
 
 " disabling gopls because coc.nvim starts this up
 let g:go_gopls_enabled = 0
 let g:go_def_mode="godef"
 let g:go_referrers_mode = 'guru'
 let g:go_info_mode = 'guru'
+let g:go_debug = []
 
 let g:go_decls_mode = 'fzf'
 "let g:go_gopls_options = ['-remote=auto']
