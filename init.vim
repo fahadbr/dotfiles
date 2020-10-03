@@ -273,9 +273,6 @@ endif
 set nobackup
 set nowritebackup
 
-" Give more space for displaying messages.
-set cmdheight=2
-
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=300
@@ -288,6 +285,9 @@ set shortmess+=c
 set signcolumn=yes
 
 if (!has("nvim-0.5.0"))
+  " Give more space for displaying messages.
+  set cmdheight=2
+
   let g:coc_config_home='~/.dotfiles'
   " uncomment this to install extensions automatically
   "let g:coc_global_extensions=['coc-vimlsp', 'coc-ultisnips', 'coc-snippets', 'coc-python', 'coc-json', 'coc-cmake', 'coc-yaml']
