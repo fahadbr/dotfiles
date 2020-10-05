@@ -100,14 +100,10 @@ else
   Plug 'golang/vscode-go', { 'for': 'go' }
   Plug 'nvim-lua/completion-nvim'
   Plug 'steelsojka/completion-buffers'
-  "Plug 'RishabhRD/popfix'
-  "Plug 'RishabhRD/nvim-lsputils'
-  "Plug 'nvim-lua/diagnostic-nvim'
+  Plug 'nvim-lua/diagnostic-nvim'
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-lua/telescope.nvim'
-  "Plug 'fahadbr/telescope.nvim', {'branch': 'fix-selection-with-no-preview'}
-  "Plug 'tjdevries/nlua.nvim'
 endif
 
 call plug#end()
@@ -123,7 +119,7 @@ lua << EOF
 
 function attach_callbacks ()
   require('completion').on_attach()
-  -- require('diagnostic').on_attach()
+  require('diagnostic').on_attach()
 end
 
 -- for c++ support
@@ -204,12 +200,16 @@ nnoremap <leader><space>s :lua require'telescope.builtin'.lsp_workspace_symbols{
 
 " diagnostics {{{
 
-" let g:diagnostic_enable_virtual_text = 1
-" let g:diagnostic_trimmed_virtual_text = '40'
-" call sign_define("LspDiagnosticsErrorSign", {"text" : "E", "texthl" : "LspDiagnosticsError"})
-" call sign_define("LspDiagnosticsWarningSign", {"text" : "W", "texthl" : "LspDiagnosticsWarning"})
-" call sign_define("LspDiagnosticsInformationSign", {"text" : "I", "texthl" : "LspDiagnosticsInformation"})
-" call sign_define("LspDiagnosticsHintSign", {"text" : "H", "texthl" : "LspDiagnosticsHint"})
+ let g:diagnostic_enable_virtual_text = 1
+ let g:diagnostic_enable_underline = 1
+ let g:space_before_virtual_text = 5
+ let g:diagnostic_insert_delay = 1
+ let g:diagnostic_trimmed_virtual_text = '40'
+
+ call sign_define("LspDiagnosticsErrorSign", {"text" : "E", "texthl" : "LspDiagnosticsError"})
+ call sign_define("LspDiagnosticsWarningSign", {"text" : "W", "texthl" : "LspDiagnosticsWarning"})
+ call sign_define("LspDiagnosticsInformationSign", {"text" : "I", "texthl" : "LspDiagnosticsInformation"})
+ call sign_define("LspDiagnosticsHintSign", {"text" : "H", "texthl" : "LspDiagnosticsHint"})
 
 " }}}
 
@@ -295,17 +295,16 @@ if (!has("nvim-0.5.0"))
   " Use tab for trigger completion with characters ahead and navigate.
   " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
   " other plugin before putting this into your config.
-  inoremap <silent><expr> <TAB>
-       \ pumvisible() ? "\<C-n>" :
-       \ <SID>check_back_space() ? "\<TAB>" :
-       \ coc#refresh()
-  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
   "inoremap <silent><expr> <TAB>
-        "\ pumvisible() ? coc#_select_confirm() :
-        "\ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-        "\ <SID>check_back_space() ? "\<TAB>" :
-        "\ coc#refresh()
+       "\ pumvisible() ? "\<C-n>" :
+       "\ <SID>check_back_space() ? "\<TAB>" :
+       "\ coc#refresh()
+  "inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+  inoremap <silent><expr> <TAB>
+        \ coc#jumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
 
   function! s:check_back_space() abort
     let col = col('.') - 1
@@ -398,6 +397,8 @@ if (!has("nvim-0.5.0"))
 " snippets {{{
 
 let g:UltiSnipsExpandTrigger='<M-tab>'
+let g:UltiSnipsJumpForwardTrigger='<Tab>'
+let g:UltiSnipsJumpBackwardTrigger='<S-Tab>'
 " }}}
 
 endif
