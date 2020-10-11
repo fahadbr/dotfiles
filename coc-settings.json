@@ -2,6 +2,7 @@
 	//"suggest.noselect": true,
 	"codeLens.enable": true,
 	"coc.preferences.extensionUpdateCheck": "weekly",
+	"rust-analyzer.checkOnSave.command": "clippy",
 	"languageserver": {
 		"golang": {
 			"command": "gopls",
