@@ -478,6 +478,7 @@ au FileType go nmap <leader>de $F(lyt,F(df)h"0p
 
 " scala options {{{
 au FileType scala nmap <leader>ed <Plug>(coc-metals-expand-decoration)
+au FileType scala nmap <leader>fm :Format<CR>
 "}}}
 
 " lua {{{

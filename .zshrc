@@ -14,6 +14,7 @@ plugins=(
   zsh-interactive-cd
   zsh_reload
   zsh-autosuggestions
+  zsh-syntax-highlighting
 )
 
 zstyle :omz:plugins:ssh-agent identities id_rsa github

@@ -111,6 +111,11 @@ interval=10
 separator=true
 label= 
 
+[wifi]
+instance=wlp0s20f3
+interval=10
+separator=true
+label= 
 #[bandwidth]
 #instance=eth0
 #interval=5
