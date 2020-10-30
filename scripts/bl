@@ -6,7 +6,7 @@ bl_dev=/sys/class/backlight/intel_backlight
 if uname -a | grep Ubuntu >/dev/null; then
 	step=500
 else
-	step=10000
+	step=5000
 fi
 
 cur_brightness=$(cat $bl_dev/brightness)
