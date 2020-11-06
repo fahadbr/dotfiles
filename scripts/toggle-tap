@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if uname -a | grep Ubuntu >/dev/null; then
+if [[ "$MACHINE" != "home" ]]; then
 	inputDevice='DELL07E6:00 06CB:76AF Touchpad'
 else
-	inputDevice='SynPS/2 Synaptics TouchPad'
+	inputDevice='DELL097D:00 04F3:311C Touchpad'
 fi
 
 propId="libinput Tapping Enabled"
