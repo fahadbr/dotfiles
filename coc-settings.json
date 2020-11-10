@@ -2,6 +2,8 @@
 	//"suggest.noselect": true,
 	"codeLens.enable": true,
 	"coc.preferences.extensionUpdateCheck": "weekly",
+	"metals.showImplicitArguments": true,
+	"metals.showInferredType": true,
 	"rust-analyzer.checkOnSave.command": "clippy",
 	"languageserver": {
 		"golang": {

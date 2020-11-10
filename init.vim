@@ -86,6 +86,9 @@ Plug 'fatih/vim-go'
 Plug 'tomlion/vim-solidity', { 'for': 'solidity' }
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
+Plug 'fenetikm/falcon'
+Plug 'mhartington/oceanic-next'
+Plug 'jsit/toast.vim', { 'as': 'toast' }
 Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 Plug 'vim-scripts/a.vim', { 'for' : ['c', 'cpp'] }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
@@ -526,7 +529,8 @@ nnoremap <leader>l :ALEToggle<CR>
 let g:airline#extensions#ale#enabled = 1
 let g:airline_powerline_fonts = 1
 
-let g:airline_theme = 'gruvbox'
+"let g:airline_theme = 'gruvbox'
+let g:airline_theme = 'oceanicnext'
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -747,8 +751,8 @@ let base16colorspace=256
 set termguicolors
 set background=dark
 set t_Co=256
-colorscheme gruvbox
-"colorscheme challenger_deep
+"colorscheme gruvbox
+colorscheme OceanicNext
 
 " transparent background
 "hi Normal guibg=NONE ctermbg=NONE
