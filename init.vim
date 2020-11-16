@@ -379,6 +379,15 @@ if (!has("nvim-0.5.0"))
   " provide custom statusline: lightline.vim, vim-airline.
   set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
+	if has('nvim-0.4.0') || has('patch-8.2.0750')
+	  nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+	  nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+	  inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+	  inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+	  vnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#nvim_scroll(1, 1) : "\<C-f>"
+	  vnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#nvim_scroll(0, 1) : "\<C-b>"
+	endif
+
   " Mappings using CoCList:
   " Show all diagnostics.
   nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
@@ -756,7 +765,7 @@ colorscheme OceanicNext
 
 " transparent background
 "hi Normal guibg=NONE ctermbg=NONE
-hi Pmenu guibg=#180018 ctermbg=234
+"hi Pmenu guibg=#180018 ctermbg=234
 
 if (has("nvim"))
   "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >

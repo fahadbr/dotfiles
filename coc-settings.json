@@ -4,6 +4,7 @@
 	"coc.preferences.extensionUpdateCheck": "weekly",
 	"metals.showImplicitArguments": true,
 	"metals.showInferredType": true,
+	"metals.statusBarEnabled": true,
 	"rust-analyzer.checkOnSave.command": "clippy",
 	"languageserver": {
 		"golang": {
