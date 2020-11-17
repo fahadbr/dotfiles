@@ -32,10 +32,10 @@ fi
 
 # bump up the index if button was pressed and theres other
 # event files (count > 1)
-if [[ $BLOCK_BUTTON -eq 1 ]] && [[ $count -gt 1 ]]; then
-	index=$(echo "($index + 1)%$count" | bc)
-	updateIndex $index $indexTimestamp
-fi
+#if [[ $BLOCK_BUTTON -eq 1 ]] && [[ $count -gt 1 ]]; then
+	#index=$(echo "($index + 1)%$count" | bc)
+	#updateIndex $index $indexTimestamp
+#fi
 
 varfile="$calendarDir/event-$index"
 
