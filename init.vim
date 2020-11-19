@@ -374,6 +374,9 @@ if (!has("nvim-0.5.0"))
   " Add `:OR` command for organize imports of the current buffer.
   command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
+  " Organize Imports
+  nmap <leader>or :OR<CR>
+
   " Add (Neo)Vim's native statusline support.
   " NOTE: Please see `:h coc-status` for integrations with external plugins that
   " provide custom statusline: lightline.vim, vim-airline.
@@ -512,6 +515,12 @@ au filetype todo nmap <buffer> <localleader>pd :execute "normal mq0df)x`q" \| de
 let g:TodoTxtForceDoneName='done.txt'
 let g:Todo_txt_prefix_creation_date=1
 let g:Todo_fold_char='x'
+" }}}
+
+" fzf options {{{
+
+let g:fzf_preview_window = ['down:50%', 'ctrl-p']
+
 " }}}
 
 " ale config {{{
