@@ -88,6 +88,7 @@ Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 Plug 'fenetikm/falcon'
 Plug 'mhartington/oceanic-next'
+Plug 'neovimhaskell/haskell-vim'
 Plug 'jsit/toast.vim', { 'as': 'toast' }
 Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 Plug 'vim-scripts/a.vim', { 'for' : ['c', 'cpp'] }

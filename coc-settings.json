@@ -11,11 +11,15 @@
 			"command": "gopls",
 			//"args": ["-debug", "localhost:9233", "-rpc.trace"],
 			"disableWorkspaceFolders": true,
-			"rootPatterns": [".git/"],
+			"rootPatterns": [
+				".git/"
+			],
 			"filetypes": [
 				"go"
 			],
-			"ignoredRootPaths": ["vendor"],
+			"ignoredRootPaths": [
+				"vendor"
+			],
 			"initializationOptions": {
 				"completeUnimported": true,
 				"usePlaceholders": true,
@@ -62,8 +66,26 @@
 				"client": {
 					"snippetSupport": true
 				},
-				"highlight": { "lsRanges" : true }
+				"highlight": {
+					"lsRanges": true
+				}
 			}
+		},
+		"haskell": {
+			"command": "haskell-language-server-wrapper",
+			"args": [
+				"--lsp"
+			],
+			"rootPatterns": [
+				"*.cabal",
+				"stack.yaml",
+				"cabal.project",
+				"hie.yaml"
+			],
+			"filetypes": [
+				"haskell",
+				"lhaskell"
+			]
 		}
 	}
 }
