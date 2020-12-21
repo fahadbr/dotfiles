@@ -1,11 +1,11 @@
 {
-	//"suggest.noselect": true,
 	"codeLens.enable": true,
 	"coc.preferences.extensionUpdateCheck": "weekly",
 	"metals.showImplicitArguments": true,
 	"metals.showInferredType": true,
 	"metals.statusBarEnabled": true,
 	"rust-analyzer.checkOnSave.command": "clippy",
+	"rust-analyzer.completion.autoimport.enable": true,
 	"languageserver": {
 		"golang": {
 			"command": "gopls",
