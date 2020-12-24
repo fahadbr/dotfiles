@@ -5,11 +5,9 @@
 	"metals.showInferredType": true,
 	"metals.statusBarEnabled": true,
 	"rust-analyzer.checkOnSave.command": "clippy",
-	"rust-analyzer.completion.autoimport.enable": true,
 	"languageserver": {
 		"golang": {
 			"command": "gopls",
-			//"args": ["-debug", "localhost:9233", "-rpc.trace"],
 			"disableWorkspaceFolders": true,
 			"rootPatterns": [
 				".git/"
@@ -36,7 +34,7 @@
 				"start"
 			],
 			"filetypes": [
-				"sh"
+				"sh", "bash", "zsh"
 			],
 			"ignoredRootPaths": [
 				"~"
