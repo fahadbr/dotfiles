@@ -1,5 +1,4 @@
 {
-	//"suggest.noselect": true,
 	"codeLens.enable": true,
 	"coc.preferences.extensionUpdateCheck": "weekly",
 	"metals.showImplicitArguments": true,
@@ -10,7 +9,6 @@
 	"languageserver": {
 		"golang": {
 			"command": "gopls",
-			//"args": ["-debug", "localhost:9233", "-rpc.trace"],
 			"disableWorkspaceFolders": true,
 			"rootPatterns": [
 				".git/"
@@ -37,7 +35,7 @@
 				"start"
 			],
 			"filetypes": [
-				"sh"
+				"sh", "bash", "zsh"
 			],
 			"ignoredRootPaths": [
 				"~"
