@@ -54,7 +54,7 @@ export EDITOR=nvim
 export LESS="-RF"
 export GOPATH="/data/code/go"
 #export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.dotfiles/scripts:$HOME/.local/bin:$GOPATH/bin"
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:$HOME/.dotfiles/scripts:$HOME/.local/bin:$GOPATH/bin:$HOME/.cargo/bin/:$HOME/.ghcup/bin/"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:$HOME/.dotfiles/scripts:$HOME/.local/bin:$GOPATH/bin:$HOME/.cargo/bin/:$HOME/.ghcup/bin/:$HOME/.cabal/bin"
 export MACHINE=${MACHINE:-"home"}
 export HUNTER_ROOT=/data/code/.hunter
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
@@ -71,3 +71,4 @@ printcolors() {
 		print -P "%{$reset_color%}%{$fg_bold[$c]%}hellohellohello <- $c bold"
 	done
 }
+if [ -e /home/fahad/.nix-profile/etc/profile.d/nix.sh ]; then . /home/fahad/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

@@ -6,6 +6,7 @@
 	"metals.showInferredType": true,
 	"metals.statusBarEnabled": true,
 	"rust-analyzer.checkOnSave.command": "clippy",
+	"rust-analyzer.serverPath": "/usr/bin/rust-analyzer",
 	"languageserver": {
 		"golang": {
 			"command": "gopls",
@@ -85,7 +86,14 @@
 			"filetypes": [
 				"haskell",
 				"lhaskell"
-			]
+			],
+			"settings": {
+				"languageServerHaskell": {
+					"hlintOn": true,
+					"maxNumberOfProblems": 10,
+					"completionSnippetsOn": true
+				}
+			}
 		}
 	}
 }
