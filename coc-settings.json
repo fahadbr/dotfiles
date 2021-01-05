@@ -22,7 +22,7 @@
 				"completeUnimported": true,
 				"usePlaceholders": true,
 				"hoverKind": "FullDocumentation",
-				"codelens": {
+				"codelenses": {
 					"gc_details": true,
 					"test": true
 				}
