@@ -72,3 +72,11 @@ printcolors() {
 	done
 }
 if [ -e /home/fahad/.nix-profile/etc/profile.d/nix.sh ]; then . /home/fahad/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+if [ -d $HOME/Android/Sdk/platform-tools/ ]; then
+  export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
+  export PATH="$PATH:$HOME/Android/Sdk/platform-tools/"
+fi
+if [ -d $HOME/Android/Sdk/tools/ ]; then
+  export PATH="$PATH:$HOME/Android/Sdk/tools/"
+fi

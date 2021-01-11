@@ -93,6 +93,10 @@ Plug 'jsit/toast.vim', { 'as': 'toast' }
 Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
 Plug 'vim-scripts/a.vim', { 'for' : ['c', 'cpp'] }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'dart-lang/dart-vim-plugin'
+Plug 'ianks/vim-tsx'
+Plug 'jpalardy/vim-slime', { 'for': 'python' }
+Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
 
 if (!has("nvim-0.5.0"))
   Plug 'SirVer/ultisnips'
@@ -497,6 +501,10 @@ au FileType scala nmap <leader>ed <Plug>(coc-metals-expand-decoration)
 au FileType scala nmap <leader>fm :Format<CR>
 "}}}
 
+" python options {{{
+au FileType python nmap <leader>fm :Format<CR>
+"" }}}
+
 " haskell options {{{
 au FileType haskell nmap <leader>fm :%!stylish-haskell<CR>
 
@@ -815,3 +823,17 @@ let g:AutoPairsMapCR = 1
 let g:git_messenger_include_diff = 'current'
 let g:git_messenger_always_into_popup = 1
 " }}}
+
+" ipython config {{{ "
+let g:slime_target = "neovim"
+" fix paste issues in ipython
+let g:slime_python_ipython = 1
+
+" map <Leader>s to start IPython
+nnoremap <Leader>ss :SlimeSend1 ipython<CR>
+nnoremap <Leader>pr :SlimeSend1 ipython<CR>
+nnoremap <Leader>pr :IPythonCellRun<CR>
+nnoremap <Leader>pc :IPythonCellExecuteCell<CR>
+nnoremap <Leader>pv :IPythonCellExecuteCellVerbose<CR>
+" }}} slime config "
+
