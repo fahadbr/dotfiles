@@ -71,6 +71,7 @@ URxvt.color15:      #fcfcfc
 URxvt.vim-scrollback: M-a
 
 !Xft.dpi: 192
+Xft.dpi: 106
 !rofi.dpi: 192
 
 i3.font: pango:Ubuntu-Mono 10
