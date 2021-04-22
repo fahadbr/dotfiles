@@ -61,6 +61,9 @@ export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk/"
+export MOZ_USE_XINPUT2=1
+export MOZ_ENABLE_WAYLAND=1
+
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.sn.conf ] && source ~/.sn.conf

@@ -13,5 +13,12 @@ password=$(printf '%s\n' "${password_files[@]}" | rofi -dmenu -p "otp")
 
 [[ -n $password ]] || exit
 
-pass otp "$password" | { IFS= read -r pass; printf %s "$pass"; } | xdotool type --clearmodifiers --file -
+otp=$(pass otp "$password" | { IFS= read -r pass; printf %s "$pass"; })
+
+if [[ $WAYLAND_DISPLAY ]]; then
+	wtype $otp
+else
+	echo $otp | xdotool type --clearmodifiers --file -
+fi
+
 

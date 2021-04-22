@@ -1,8 +1,8 @@
 #!/bin/bash
 
-lockcmd='swaylock -f -i ~/.config/lockscreen.png -s stretch'
+lockcmd='swaylock -f -i ~/.config/lockscreen.png -s tile'
 
-if [[ $1 == "lock" ]]; then
+if [[ "$1" == "lock" ]]; then
 	$lockcmd
 elif [[ "$1" == "ac" ]]; then
 	swayidle -w timeout 120 'dimmer dim' resume 'dimmer restore' \

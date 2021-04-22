@@ -11,5 +11,5 @@ else
 
 	$HOME/scripts/set-xkbdrate.sh
 	#$HOME/scripts/move-named-ws-to-primary.sh
-	systemctl --user start powerman@ac.service
 fi
+systemctl --user start powerman@ac.service
