@@ -6,16 +6,29 @@ else
 	inputDevice='DELL097D:00 04F3:311C Touchpad'
 fi
 
-propId="libinput Tapping Enabled"
-id=$(xinput --list --id-only "$inputDevice")
-enabled=$(xinput list-props $id | grep "$propId" | head -n 1 | cut -d ':' -f 2 | grep -Eo '0|1')
 
-newval=0
-if [[ $enabled -eq 0 ]]; then
-	newval=1
+if [[ $WAYLAND_DISPLAY ]]
+then
+	status=$(swaymsg -t get_inputs | jq -r '.[] | select(.type == "touchpad").libinput.tap')
+
+	action="enabled"
+	if [[ "$status" == "enabled" ]]
+	then
+		action="disabled"
+	fi
+	swaymsg "input type:touchpad tap $action"
+else
+	propId="libinput Tapping Enabled"
+	id=$(xinput --list --id-only "$inputDevice")
+	enabled=$(xinput list-props $id | grep "$propId" | head -n 1 | cut -d ':' -f 2 | grep -Eo '0|1')
+
+	newval=0
+	if [[ $enabled -eq 0 ]]; then
+		newval=1
+	fi
+
+	echo "setting device $id tapping-enabled to $newval"
+
+	xinput set-prop $id "$propId" $newval
 fi
-
-echo "setting device $id tapping-enabled to $newval"
-
-xinput set-prop $id "$propId" $newval
 pkill -RTMIN+3 i3blocks

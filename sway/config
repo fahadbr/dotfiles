@@ -17,7 +17,6 @@
 #set_from_resource $barFont i3bar.font "pango:Font Awesome 5 Free Regular:style=Regular 10"
 
 
-font $wmFont
 for_window [class=".*"] title_format "  <b>%title</b>"
 title_align center
 
@@ -106,11 +105,6 @@ bindsym $mod+Left move left 150 px
 bindsym $mod+Down move down 100 px
 bindsym $mod+Up move up 100 px
 bindsym $mod+Right move right 150 px
-bindsym $mod+Home exec python3 -m i3grid snap --target 1 --rows 1 --cols 3 --offset 60 0 80 0
-bindsym $mod+Prior exec python3 -m i3grid snap center --rows 1 --cols 3 --offset 60 0 80 0
-bindsym $mod+Next exec python3 -m i3grid snap center --rows 1 --cols 3 --offset 60 0 80 0
-bindsym $mod+End exec python3 -m i3grid snap --target 3 --rows 1 --cols 3 --offset 60 0 80 0
-bindsym $mod+i exec $HOME/scripts/i3/rofi/i3grid-manager.sh
 
 # split in horizontal orientation
 # bindsym $mod+h split h
@@ -375,7 +369,7 @@ set $gaps_outer_default 7
 gaps inner $gaps_inner_default
 gaps outer $gaps_outer_default
 
-for_window [class="^.*"] border pixel 2
+default_border pixel 2
 for_window [class="mpv"] floating enable
 for_window [class="zoom.*"] floating enable
 for_window [class="zoom.*" title="Zoom (Meeting|Webinar)"] floating enable, sticky enable, move scratchpad, scratchpad show
@@ -384,7 +378,7 @@ for_window [class="slack"] floating enable, sticky enable, move scratchpad, scra
 set $mode_gaps Gaps: (o) outer, (i) inner, (0) no gaps, (r)eset
 set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
-bindsym $mod+Shift+g mode "$mode_gaps"
+bindsym $mod+Shift+g exec notify-send 'gaps-mode'; mode "$mode_gaps"
 
 
 mode "$mode_gaps" {
@@ -422,7 +416,16 @@ mode "$mode_gaps_outer" {
         bindsym Escape mode "default"
 }
 
-# for i3blocks caplocks module
+# for capslock indicator
+bindsym Caps_Lock input * xkb_capslock enabled; exec ~/scripts/i3/capslock-notify.sh on; mode "CapsLock"
+
+mode "CapsLock" {
+        bindsym Escape input * xkb_capslock disabled; exec ~/scripts/i3/capslock-notify.sh off; mode "default"
+        bindsym Caps_Lock input * xkb_capslock disabled; exec ~/scripts/i3/capslock-notify.sh off; mode "default"
+}
+
+bindsym Insert exec $HOME/.dotfiles/scripts/toggle-tap
+
 
 bindsym XF86AudioLowerVolume exec $HOME/.dotfiles/scripts/volume.sh down
 bindsym XF86AudioRaiseVolume exec $HOME/.dotfiles/scripts/volume.sh up
@@ -433,7 +436,6 @@ bindsym XF86MonBrightnessUp exec $HOME/.dotfiles/scripts/bl +
 #bindsym XF86AudioPlay exec playerctl play-pause
 #bindsym XF86AudioNext exec playerctl next
 #bindsym XF86AudioPrev exec playerctl previous
-#bindsym XF86Search exec bemenu-runelease Caps_Lock exec ~/scripts/i3/capslock-notify.sh
 #
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -459,7 +461,6 @@ bar {
 input type:touchpad {
 	tap enabled
 	natural_scroll enabled
-        scroll_factor 1.2
         accel_profile adaptive
         click_method clickfinger
 }
@@ -476,3 +477,4 @@ input "1:1:AT_Translated_Set_2_keyboard" {
 
 exec --no-startup-id systemctl --user import-environment SWAYSOCK WAYLAND_DISPLAY DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP
 exec --no-startup-id systemctl --user start powerman@bat.service
+exec --no-startup-id systemctl --user start gammastep.service

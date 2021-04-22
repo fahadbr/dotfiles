@@ -6,9 +6,18 @@ else
 	inputDevice='DELL097D:00 04F3:311C Touchpad'
 fi
 
-propId="libinput Tapping Enabled"
-id=$(xinput --list --id-only "$inputDevice")
-enabled=$(xinput list-props $id | grep "$propId" | head -n 1 | cut -d ':' -f 2 | grep -Eo '0|1')
+if [[ $WAYLAND_DISPLAY ]]
+then
+	status=$(swaymsg -t get_inputs | jq -r '.[] | select(.type == "touchpad").libinput.tap')
+	enabled=0
+	if [[ "$status" == "enabled" ]]; then
+		enabled=1
+	fi
+else
+	propId="libinput Tapping Enabled"
+	id=$(xinput --list --id-only "$inputDevice")
+	enabled=$(xinput list-props $id | grep "$propId" | head -n 1 | cut -d ':' -f 2 | grep -Eo '0|1')
+fi
 
 color='"#00ffbb"'
 char= # pointing finter
@@ -16,5 +25,4 @@ if [[ $enabled -eq 0 ]]; then
 	color='"#888888"'
 	char= # closed fist
 fi
-
 echo "<span color=$color> $char </span>"
