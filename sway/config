@@ -1,0 +1,478 @@
+# i3 config file (v4)
+#
+# Please see https://i3wm.org/docs/userguide.html for a complete reference!
+#
+# This config file uses keycodes (bindsym) and was written for the QWERTY
+# layout.
+#
+# To get a config file with the same key positions, but for your current
+# layout, use the i3-config-wizard
+#
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+
+#font pango:Ubuntu-Mono 10
+#set_from_resource $wmFont i3.font "pango:Ubuntu-Mono 10"
+#set_from_resource $barFont i3bar.font "pango:Font Awesome 5 Free Regular:style=Regular 10"
+
+
+font $wmFont
+for_window [class=".*"] title_format "  <b>%title</b>"
+title_align center
+
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+#font pango:DejaVu Sans Mono 8
+
+# Before i3 v4.8, we used to recommend this one as the default:
+# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+# The font above is very space-efficient, that is, it looks good, sharp and
+# clear in small sizes. However, its unicode glyph coverage is limited, the old
+# X core fonts rendering does not support right-to-left and this being a bitmap
+# font, it doesn't scale on retina/hidpi displays.
+
+# Mod Mapping
+set $mod Mod4
+
+# use these keys for focus, movement, and resize directions when reaching for
+# the arrows is not convenient
+set $up k
+set $down j
+set $left h
+set $right l
+
+# use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec $HOME/scripts/i3/open-term-here.sh --new-instance-group
+bindsym $mod+Shift+Return exec i3-sensible-terminal
+bindsym $mod+u exec $HOME/scripts/i3/open-term-here.sh
+
+# lock screen
+bindsym $mod+Control+l exec $HOME/scripts/start-swayidle.sh lock
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# start rofi (a program launcher)
+bindsym $mod+d exec rofi -show run
+bindsym $mod+Shift+d exec rofi -show drun
+bindsym Print exec $HOME/scripts/i3/rofi/screenshot.sh
+
+# rofi password selector
+bindsym $mod+Shift+p exec $HOME/scripts/i3/rofi/pass-rofi.sh --type
+bindsym $mod+Shift+o exec $HOME/scripts/i3/rofi/pass-otp-rofi.sh
+
+# quick fix zoom volume
+bindsym $mod+Shift+z exec $HOME/scripts/i3/fix-zoom-volume.sh
+
+
+set $mode_monitor monitor-mode: [l]aptop-only, [w]ork-monitors, [h]ome-monitor, [t]v-monitor
+
+mode "$mode_monitor" {
+        bindsym l exec --no-startup-id $HOME/scripts/i3/laptop-only.sh; mode "default"
+        bindsym w exec --no-startup-id $HOME/scripts/i3/work-monitors.sh; mode "default"
+        bindsym h exec --no-startup-id $HOME/scripts/i3/home-monitor.sh; mode "default"
+        bindsym t exec --no-startup-id $HOME/scripts/i3/tv-monitor.sh; mode "default"
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+m mode "default"
+}
+
+bindsym $mod+m mode "$mode_monitor"
+
+# There also is the (new) i3-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+# change focus
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+
+# move focused window
+bindsym $mod+Shift+$left move left 20 px
+bindsym $mod+Shift+$down move down 20 px
+bindsym $mod+Shift+$up move up 20 px
+bindsym $mod+Shift+$right move right 20 px
+
+bindsym $mod+Left move left 150 px
+bindsym $mod+Down move down 100 px
+bindsym $mod+Up move up 100 px
+bindsym $mod+Right move right 150 px
+bindsym $mod+Home exec python3 -m i3grid snap --target 1 --rows 1 --cols 3 --offset 60 0 80 0
+bindsym $mod+Prior exec python3 -m i3grid snap center --rows 1 --cols 3 --offset 60 0 80 0
+bindsym $mod+Next exec python3 -m i3grid snap center --rows 1 --cols 3 --offset 60 0 80 0
+bindsym $mod+End exec python3 -m i3grid snap --target 3 --rows 1 --cols 3 --offset 60 0 80 0
+bindsym $mod+i exec $HOME/scripts/i3/rofi/i3grid-manager.sh
+
+# split in horizontal orientation
+# bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# toggle floating window sticky
+bindsym $mod+Shift+s sticky toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+bindsym $mod+c focus child
+
+# move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+
+# Show slack from scratchpad
+bindsym $mod+z [class="zoom.*"] scratchpad show
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+#set $ws1 "1"
+#set $ws2 "2"
+#set $ws3 "3"
+#set $ws4 "4"
+#set $ws5 "5"
+#set $ws6 "6"
+#set $ws7 "7"
+#set $ws8 "8"
+#set $ws9 "9"
+#set $ws10 "10"
+
+bindsym $mod+Control+r exec i3-input -F 'rename workspace to "%s"' -P 'rename workspace: ' -f 'pango:Ubuntu-Mono 15'
+
+bindsym $mod+Control+1 exec ~/scripts/i3/assign-num-to-workspace.sh 1
+bindsym $mod+Control+2 exec ~/scripts/i3/assign-num-to-workspace.sh 2
+bindsym $mod+Control+3 exec ~/scripts/i3/assign-num-to-workspace.sh 3
+bindsym $mod+Control+4 exec ~/scripts/i3/assign-num-to-workspace.sh 4
+bindsym $mod+Control+5 exec ~/scripts/i3/assign-num-to-workspace.sh 5
+bindsym $mod+Control+6 exec ~/scripts/i3/assign-num-to-workspace.sh 6
+bindsym $mod+Control+7 exec ~/scripts/i3/assign-num-to-workspace.sh 7
+bindsym $mod+Control+8 exec ~/scripts/i3/assign-num-to-workspace.sh 8
+bindsym $mod+Control+9 exec ~/scripts/i3/assign-num-to-workspace.sh 9
+bindsym $mod+Control+0 exec ~/scripts/i3/assign-num-to-workspace.sh 10
+
+
+# workspaces with rofi. enables custom names
+bindsym $mod+grave exec ~/scripts/i3/rofi/switch-workspace.sh
+bindsym $mod+shift+grave exec ~/scripts/i3/rofi/move-to-workspace.sh
+bindsym $mod+n workspace next_on_output
+bindsym $mod+p workspace prev_on_output
+
+# switch to workspace
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+# move workspace to next/previous output
+bindsym $mod+Shift+Right move workspace to output right
+bindsym $mod+Shift+Left move workspace to output left
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# workspace assignment
+workspace 1 output eDP1
+workspace 2 output primary
+workspace 4 output primary
+workspace 5 output primary
+workspace 6 output primary
+workspace 7 output primary
+workspace 8 output primary
+workspace 9 output primary
+workspace 10 output primary
+workspace 3 output DP1
+
+
+# switches workspace back and forth
+workspace_auto_back_and_forth yes
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+set $resizeInc 5
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym $left       resize shrink width $resizeInc px or $resizeInc ppt
+        bindsym $down       resize grow height $resizeInc px or $resizeInc ppt
+        bindsym $up         resize shrink height $resizeInc px or $resizeInc ppt
+        bindsym $right      resize grow width $resizeInc px or $resizeInc ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left        resize shrink width $resizeInc px or $resizeInc ppt
+        bindsym Down        resize grow height $resizeInc px or $resizeInc ppt
+        bindsym Up          resize shrink height $resizeInc px or $resizeInc ppt
+        bindsym Right       resize grow width $resizeInc px or $resizeInc ppt
+
+        bindsym 1 resize set 640 480
+        bindsym 2 resize set 960 720
+        bindsym 3 resize set 1280 720
+        bindsym 4 resize set 1280 1024
+        bindsym 5 resize set 1400 1050
+        bindsym 6 resize set 1920 1080
+        bindsym 7 resize set 2400 1080
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+set $mode_focus_window focus window: (s)lack, (m)ail, (z)oom
+
+mode "$mode_focus_window" {
+        bindsym s [class="Slack"] focus; mode "default"
+        bindsym z [class="zoom" title="Zoom (Meeting|Webinar)"] focus; mode "default"
+        bindsym m [class="Evolution" title="Inbox.*"] focus; mode "default"
+        bindsym n [con_mark="n"] focus; mode "default"
+        bindsym t [con_mark="t"] focus; mode "default"
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+w mode "default"
+}
+
+bindsym $mod+w mode "$mode_focus_window"
+bindsym $mod+Shift+w exec rofi -show window
+
+
+set $mode_toggle_mark toggle mark
+
+mode "$mode_toggle_mark" {
+        bindsym a mark --toggle a; mode "default"
+        bindsym b mark --toggle b; mode "default"
+        bindsym c mark --toggle c; mode "default"
+        bindsym d mark --toggle d; mode "default"
+        bindsym e mark --toggle e; mode "default"
+        bindsym f mark --toggle f; mode "default"
+        bindsym g mark --toggle g; mode "default"
+        bindsym h mark --toggle h; mode "default"
+        bindsym i mark --toggle i; mode "default"
+        bindsym j mark --toggle j; mode "default"
+        bindsym k mark --toggle k; mode "default"
+        bindsym l mark --toggle l; mode "default"
+        bindsym m mark --toggle m; mode "default"
+        bindsym n mark --toggle n; mode "default"
+        bindsym o mark --toggle o; mode "default"
+        bindsym p mark --toggle p; mode "default"
+        bindsym q mark --toggle q; mode "default"
+        bindsym r mark --toggle r; mode "default"
+        bindsym s mark --toggle s; mode "default"
+        bindsym t mark --toggle t; mode "default"
+        bindsym u mark --toggle u; mode "default"
+        bindsym v mark --toggle v; mode "default"
+        bindsym w mark --toggle w; mode "default"
+        bindsym x mark --toggle x; mode "default"
+        bindsym y mark --toggle y; mode "default"
+        bindsym z mark --toggle z; mode "default"
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+Control+m mode "$mode_toggle_mark"
+
+set $mode_focus_mark focus mark
+
+mode "$mode_focus_mark" {
+        bindsym a [con_mark="a"] focus; mode "default"
+        bindsym b [con_mark="b"] focus; mode "default"
+        bindsym c [con_mark="c"] focus; mode "default"
+        bindsym d [con_mark="d"] focus; mode "default"
+        bindsym e [con_mark="e"] focus; mode "default"
+        bindsym f [con_mark="f"] focus; mode "default"
+        bindsym g [con_mark="g"] focus; mode "default"
+        bindsym h [con_mark="h"] focus; mode "default"
+        bindsym i [con_mark="i"] focus; mode "default"
+        bindsym j [con_mark="j"] focus; mode "default"
+        bindsym k [con_mark="k"] focus; mode "default"
+        bindsym l [con_mark="l"] focus; mode "default"
+        bindsym m [con_mark="m"] focus; mode "default"
+        bindsym n [con_mark="n"] focus; mode "default"
+        bindsym o [con_mark="o"] focus; mode "default"
+        bindsym p [con_mark="p"] focus; mode "default"
+        bindsym q [con_mark="q"] focus; mode "default"
+        bindsym r [con_mark="r"] focus; mode "default"
+        bindsym s [con_mark="s"] focus; mode "default"
+        bindsym t [con_mark="t"] focus; mode "default"
+        bindsym u [con_mark="u"] focus; mode "default"
+        bindsym v [con_mark="v"] focus; mode "default"
+        bindsym w [con_mark="w"] focus; mode "default"
+        bindsym x [con_mark="x"] focus; mode "default"
+        bindsym y [con_mark="y"] focus; mode "default"
+        bindsym z [con_mark="z"] focus; mode "default"
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+apostrophe mode "$mode_focus_mark"
+
+focus_follows_mouse no
+
+# colors
+# class									 border  backgr. text    indicator child_border
+client.focused         	 #227766 #227766 #ffffff #227766   #22dd66
+client.focused_inactive  #444444 #444444 #dddddd #484e50   #227766
+client.unfocused         #222222 #222222 #888888 #292d2e   #555555
+
+# gaps config
+set $gaps_inner_default 12
+set $gaps_outer_default 7
+gaps inner $gaps_inner_default
+gaps outer $gaps_outer_default
+
+for_window [class="^.*"] border pixel 2
+for_window [class="mpv"] floating enable
+for_window [class="zoom.*"] floating enable
+for_window [class="zoom.*" title="Zoom (Meeting|Webinar)"] floating enable, sticky enable, move scratchpad, scratchpad show
+for_window [class="slack"] floating enable, sticky enable, move scratchpad, scratchpad show
+
+set $mode_gaps Gaps: (o) outer, (i) inner, (0) no gaps, (r)eset
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+
+mode "$mode_gaps" {
+        bindsym o     mode "$mode_gaps_outer"
+        bindsym i     mode "$mode_gaps_inner"
+        bindsym 0     gaps inner current set 0; gaps outer current set 0; mode "default"
+        bindsym r     gaps inner current set $gaps_inner_default; gaps outer current set $gaps_outer_default; mode "default"
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+# for i3blocks caplocks module
+
+bindsym XF86AudioLowerVolume exec $HOME/.dotfiles/scripts/volume.sh down
+bindsym XF86AudioRaiseVolume exec $HOME/.dotfiles/scripts/volume.sh up
+bindsym XF86AudioMute exec $HOME/.dotfiles/scripts/volume.sh mute
+bindsym XF86MonBrightnessDown exec $HOME/.dotfiles/scripts/bl -
+bindsym XF86MonBrightnessUp exec $HOME/.dotfiles/scripts/bl +
+#bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+#bindsym XF86AudioPlay exec playerctl play-pause
+#bindsym XF86AudioNext exec playerctl next
+#bindsym XF86AudioPrev exec playerctl previous
+#bindsym XF86Search exec bemenu-runelease Caps_Lock exec ~/scripts/i3/capslock-notify.sh
+#
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+        #status_command i3status
+        height 30
+        position bottom
+        tray_output primary
+        tray_padding 5
+        font $barFont
+        status_command i3blocks
+
+        colors {
+                statusline #aaaaaa
+                focused_statusline #dddddd
+                background #111111
+                active_workspace #cccccc #cccccc #111111
+                focused_workspace #22dd66 #22dd66 #111111
+                inactive_workspace #111111 #111111 #cccccc
+        }
+}
+
+input type:touchpad {
+	tap enabled
+	natural_scroll enabled
+        scroll_factor 1.2
+        accel_profile adaptive
+        click_method clickfinger
+}
+
+input * {
+	repeat_delay 200
+	repeat_rate 45
+}
+
+# only swap the laptop keyboard caps and escape
+input "1:1:AT_Translated_Set_2_keyboard" {
+	xkb_options 'caps:swapescape'
+}
+
+exec --no-startup-id systemctl --user import-environment SWAYSOCK WAYLAND_DISPLAY DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP
+exec --no-startup-id systemctl --user start powerman@bat.service

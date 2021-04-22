@@ -97,6 +97,7 @@ Plug 'dart-lang/dart-vim-plugin'
 Plug 'ianks/vim-tsx'
 Plug 'jpalardy/vim-slime', { 'for': 'python' }
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
+Plug 'jordwalke/vim-reasonml'
 
 if (!has("nvim-0.5.0"))
   Plug 'SirVer/ultisnips'
@@ -831,7 +832,6 @@ let g:slime_python_ipython = 1
 
 " map <Leader>s to start IPython
 nnoremap <Leader>ss :SlimeSend1 ipython<CR>
-nnoremap <Leader>pr :SlimeSend1 ipython<CR>
 nnoremap <Leader>pr :IPythonCellRun<CR>
 nnoremap <Leader>pc :IPythonCellExecuteCell<CR>
 nnoremap <Leader>pv :IPythonCellExecuteCellVerbose<CR>
