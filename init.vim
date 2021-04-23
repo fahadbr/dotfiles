@@ -95,6 +95,8 @@ Plug 'vim-scripts/a.vim', { 'for' : ['c', 'cpp'] }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'ianks/vim-tsx'
+Plug 'yuezk/vim-js'
+Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'jpalardy/vim-slime', { 'for': 'python' }
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
 Plug 'jordwalke/vim-reasonml'
@@ -805,9 +807,10 @@ endif
 " }}}
 
 " vim-session options {{{
-"let g:session_autosave = 'yes'
+"let g:session_autosave = 'no'
 "let g:session_autosave_periodic = 5
 let g:session_persist_colors = 0
+let g:session_autoload = 'no'
 
 " }}}
 
