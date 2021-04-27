@@ -33,7 +33,6 @@ alias grep='grep --color=auto'
 alias rrm='/bin/rm' # "real rm"
 alias rm='trash-put -v'
 alias tp='trash-put'
-alias vim='nvim'
 alias view='vim -R'
 alias reapplyprofile='source ~/.zshrc'
 alias editprofile='vim ~/.zshrc && reapplyprofile'
@@ -54,7 +53,7 @@ export EDITOR=nvim
 export LESS="-RF"
 export GOPATH="/data/code/go"
 #export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.dotfiles/scripts:$HOME/.local/bin:$GOPATH/bin"
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:$HOME/.dotfiles/scripts:$HOME/.local/bin:$GOPATH/bin:$HOME/.cargo/bin/:$HOME/.ghcup/bin/:$HOME/.cabal/bin"
+export PATH="$HOME/.dotfiles/scripts:$HOME/.local/bin:$GOPATH/bin:$HOME/.cargo/bin/:$HOME/.ghcup/bin/:$HOME/.cabal/bin:/usr/local/sbin:/usr/local/bin:/usr/bin"
 export MACHINE=${MACHINE:-"home"}
 export HUNTER_ROOT=/data/code/.hunter
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20

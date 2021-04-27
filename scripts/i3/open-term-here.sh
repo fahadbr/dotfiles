@@ -79,5 +79,5 @@ launch_urxvt() {
 # fi
 
 # dont bother with anything complicated?
-#kitty
-alacritty
+kitty
+#alacritty
