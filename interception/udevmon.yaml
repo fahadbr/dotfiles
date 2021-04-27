@@ -1,5 +1,5 @@
 - CMD: mux -c mousemux
-- JOB: mux -i mousemux | caps2esc | dual-function-keys -c /etc/interception/dual-function-keys/dell.yaml | uinput -c /etc/interception/laptop-desc.yaml
+- JOB: mux -i mousemux | caps2esc | uinput -c /etc/interception/laptop-desc.yaml
 - JOB: intercept -g $DEVNODE | mux -o mousemux
   DEVICE:
     LINK: /dev/input/by-path/platform-i8042-serio-0-event-kbd
