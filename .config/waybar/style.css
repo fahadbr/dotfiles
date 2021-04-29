@@ -49,9 +49,11 @@
 /* The whole bar */
 #waybar {
     background: #323232;
+    border-bottom: 1px solid #0084d1;
     color: white;
     font-family: Cantarell, Noto Sans, sans-serif;
     font-size: 13px;
+    opacity: 0.8
 }
 
 /* Each module */
@@ -65,6 +67,7 @@
 #pulseaudio,
 #temperature,
 #idle_inhibitor,
+#custom-tapstatus,
 #tray {
     padding-left: 10px;
     padding-right: 10px;
@@ -175,18 +178,18 @@
 }
 
 #workspaces button {
-    border-top: 2px solid transparent;
+    border-top: 1px solid transparent;
     /* To compensate for the top border and still have vertical centering */
-    padding-bottom: 2px;
-		padding-left: 5px;
-		padding-right: 5px;
+    padding-bottom: 1px;
+    padding-left: 5px;
+    padding-right: 5px;
     color: #888888;
 }
 
 #workspaces button.focused {
-    border-color: #4c7899;
+    border-color: white;
     color: white;
-    background-color: #285577;
+    background-color: #0084d1;
 }
 
 #workspaces button.urgent {

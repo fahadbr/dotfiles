@@ -21,8 +21,11 @@ fi
 
 color='"#00ffbb"'
 char= # pointing finter
+tooltip="Tapping Enabled"
 if [[ $enabled -eq 0 ]]; then
 	color='"#888888"'
 	char= # closed fist
+	tooltip="Tapping Disabled"
 fi
 echo "<span color=$color> $char </span>"
+echo $tooltip

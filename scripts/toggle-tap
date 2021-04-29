@@ -17,6 +17,7 @@ then
 		action="disabled"
 	fi
 	swaymsg "input type:touchpad tap $action"
+	pkill -RTMIN+3 waybar
 else
 	propId="libinput Tapping Enabled"
 	id=$(xinput --list --id-only "$inputDevice")
@@ -30,5 +31,5 @@ else
 	echo "setting device $id tapping-enabled to $newval"
 
 	xinput set-prop $id "$propId" $newval
+	pkill -RTMIN+3 i3blocks
 fi
-pkill -RTMIN+3 i3blocks

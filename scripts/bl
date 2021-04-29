@@ -41,4 +41,4 @@ fi
 
 ## notify brightness
 bpct=$(echo "scale=2;$(cat /sys/class/backlight/intel_backlight/brightness)/$(cat /sys/class/backlight/intel_backlight/max_brightness)*100" | bc | sed -E -n 's/([0-9]+)\.?([0-9]*)/\1 %/p')
-dunstify -a " Brightness" -t 2000 -r 2594 -u normal "$bpct" -t 10
+dunstify -a " Brightness" -t 2000 -r 2594 -u normal "$bpct"
