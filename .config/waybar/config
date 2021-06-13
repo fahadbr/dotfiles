@@ -7,7 +7,7 @@
         "sway/mode"
     ],
     "modules-center": [
-        "sway/window"
+				"clock",
     ],
     "modules-right": [
         "custom/tapstatus",
@@ -19,7 +19,6 @@
         "temperature",
         "battery",
         "battery#bat2",
-        "clock",
         "tray"
     ],
     // Modules configuration
@@ -63,7 +62,7 @@
         "interval": 5,
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format-alt": "{:%Y-%m-%d}",
-        "format": "{:%b %d %Y %I:%M:%S %p}"
+        "format": "{:%b %d %Y  -  %I:%M:%S %p}"
     },
     "cpu": {
         "format": "{usage}% ",
