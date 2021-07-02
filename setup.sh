@@ -19,13 +19,13 @@ pushd $HOME/.oh-my-zsh/custom/plugins/
 # clone zsh autosuggestions
 if [[ ! -d ./zsh-autosuggestions ]]; then
 	echo "installing zsh-autosuggestions"
-	git clone git@github.com:zsh-users/zsh-autosuggestions.git
+	git clone https://github.com/zsh-users/zsh-autosuggestions.git
 fi
 
 # clone zsh highlighting
 if [[ ! -d ./zsh-syntax-highlighting ]]; then
 	echo "installing zsh-syntax-highlighting"
-	git clone git@github.com:zsh-users/zsh-syntax-highlighting.git
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 fi
 
 popd
@@ -38,7 +38,7 @@ if [[ ! -d $HOME/.fzf ]]; then
 	~/.fzf/install
 fi
 
-sourceline="[-f ~/.dotfiles/zshcommon] && source ~/.dotfiles/zshcommon"
+sourceline="[ -f ~/.dotfiles/zshcommon ] && source ~/.dotfiles/zshcommon"
 if ! grep -q "$sourceline" $HOME/.zshrc; then
 	echo "adding common aliases to .zshrc"
 	echo "$sourceline" >> $HOME/.zshrc
