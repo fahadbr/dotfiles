@@ -1,0 +1,54 @@
+export ZSH=${ZSH:-"/home/fahad/.oh-my-zsh"}
+ZSH_THEME="fahad"
+DISABLE_AUTO_UPDATE="false"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+plugins=(
+  git
+  ssh-agent
+  z
+  zsh-interactive-cd
+  zsh_reload
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
+
+zstyle :omz:plugins:ssh-agent identities id_rsa
+
+source $ZSH/oh-my-zsh.sh
+
+setopt appendhistory extendedglob nomatch notify incappendhistory shwordsplit completeinword
+unsetopt beep sharehistory
+bindkey -e
+
+alias ls='ls -lrth --color=auto'
+alias grep='grep --color=auto'
+alias reapplyprofile='source ~/.zshrc'
+alias editprofile='vim ~/.zshrc && reapplyprofile'
+alias editssh='vim ~/.ssh/config'
+alias sdu='systemctl --user'
+alias sd='systemctl'
+alias view='vim -R'
+alias udc='udisksctl'
+alias pbcopy='xclip -i -sel clip'
+alias pbpaste='xclip -o -sel clip'
+alias open="xdg-open"
+alias cpr='rsync -ah --info=progress2'
+
+if which trash-put &>/dev/null; then
+  alias rrm='/bin/rm' # "real rm"
+  alias rm='trash-put -v'
+  alias tp='trash-put'
+fi
+
+
+export EDITOR=nvim
+export LESS="-RF"
+export MOZ_USE_XINPUT2=1
+export MOZ_ENABLE_WAYLAND=1
+export MACHINE=${MACHINE:-"home"}
+export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+export ZSH_AUTOSUGGEST_USE_ASYNC=1
+export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
