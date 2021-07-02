@@ -11,7 +11,7 @@ fi
 
 if [[ ! -f $HOME/.oh-my-zsh/custom/themes/fahad.zsh-theme ]]; then
 	echo "Linking prompt theme"
-	ln -sfT $HOME/.dotfiles/fahad.zsh-theme $HOME/.oh-my-zsh/custom/themes/
+	ln -sfT $HOME/.dotfiles/fahad.zsh-theme $HOME/.oh-my-zsh/custom/themes/fahad.zsh-theme
 fi
 
 pushd $HOME/.oh-my-zsh/custom/plugins/
