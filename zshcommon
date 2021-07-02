@@ -13,7 +13,9 @@ plugins=(
   zsh-syntax-highlighting
 )
 
-zstyle :omz:plugins:ssh-agent identities id_rsa
+if [[ -f ~/.ssh/id_rsa ]]; then
+  zstyle :omz:plugins:ssh-agent identities id_rsa
+fi
 
 source $ZSH/oh-my-zsh.sh
 
