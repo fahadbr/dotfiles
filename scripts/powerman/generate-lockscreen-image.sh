@@ -9,12 +9,12 @@ res=${RESOLUTION:='1920x1080'}
 
 name=$(git config --global --get user.name)
 email=$(git config --global --get user.email)
-font=$(fc-list | grep UbuntuMono-R.ttf | cut -d ':' -f 1)
+font=$(fc-list | grep DejaVuSansMono.ttf | cut -d ':' -f 1)
 
 convert -size $res \
 	-background '#09112D' \
 	-font $font \
-	-pointsize 50 \
+	-pointsize 25 \
 	-fill '#52F6FF' \
 	-gravity NorthWest caption:"\n  $name\n  $email" \
 	-flatten ~/.config/lockscreen.png

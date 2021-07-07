@@ -3,7 +3,7 @@ Description=Simple Power Manager Daemon (%i mode)
 Conflicts=powerman@bat.service powerman@ac.service
 
 [Service]
-ExecStart=/home/fahad/.dotfiles/scripts/start-swayidle.sh %I
+ExecStart=%h/.dotfiles/scripts/start-swayidle.sh %I
 Restart=no
 
 [Install]

@@ -192,7 +192,9 @@ bindsym $mod+0 workspace number 10
 
 # move workspace to next/previous output
 bindsym $mod+Shift+Right move workspace to output right
+bindsym $mod+Shift+Down move workspace to output down
 bindsym $mod+Shift+Left move workspace to output left
+bindsym $mod+Shift+Up move workspace to output up
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number 1
@@ -474,13 +476,14 @@ input * {
 }
 
 # only swap the laptop keyboard caps and escape
-# input "1:1:AT_Translated_Set_2_keyboard" {
-# 	xkb_options 'caps:swapescape'
-# }
+input "1:1:AT_Translated_Set_2_keyboard" {
+	xkb_options 'caps:swapescape'
+}
 
 # wallpaper
-output * background /usr/share/backgrounds/archlinux/split.png fill
+output * background $HOME/.config/background.png fill
 
 exec --no-startup-id systemctl --user import-environment SWAYSOCK WAYLAND_DISPLAY DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP
 exec --no-startup-id systemctl --user start powerman@bat.service
 exec --no-startup-id systemctl --user start gammastep.service
+exec --no-startup-id nm-applet --indicator

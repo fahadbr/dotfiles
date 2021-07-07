@@ -4,9 +4,10 @@
 
 if [[ $WAYLAND_DISPLAY ]]; then
 	output=$(swaymsg -t get_outputs | jq -r '.[] | select(.name != "eDP-1").name')
-	swaymsg "output $output enable mode 3840x1200@120Hz pos 1920 0"
-	#swaymsg "output eDP-1 pos 0 0"
-	swaymsg "output eDP-1 disable"
+	swaymsg "output $output enable mode 3840x1200@120Hz pos 0 0"
+	# positioning laptop monitor under the big monitor
+	swaymsg "output eDP-1 pos 960 1200"
+	#swaymsg "output eDP-1 disable"
 else
 
 	if [[ "$1" != "" ]]; then

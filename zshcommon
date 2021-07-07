@@ -1,4 +1,4 @@
-export ZSH=${ZSH:-"/home/fahad/.oh-my-zsh"}
+export ZSH=${ZSH:-"/home/$USER/.oh-my-zsh"}
 ZSH_THEME="fahad"
 DISABLE_AUTO_UPDATE="false"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
@@ -32,10 +32,16 @@ alias sdu='systemctl --user'
 alias sd='systemctl'
 alias view='vim -R'
 alias udc='udisksctl'
-alias pbcopy='xclip -i -sel clip'
-alias pbpaste='xclip -o -sel clip'
 alias open="xdg-open"
 alias cpr='rsync -ah --info=progress2'
+
+if [[ $WAYLAND_DISPLAY ]]; then
+	alias pbcopy='wl-copy'
+	alias pbpaste='wl-paste'
+else
+	alias pbcopy='xclip -i -sel clip'
+	alias pbpaste='xclip -o -sel clip'
+fi
 
 if which trash-put &>/dev/null; then
   alias rrm='/bin/rm' # "real rm"
@@ -52,5 +58,6 @@ export MACHINE=${MACHINE:-"home"}
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+export PATH="$HOME/.local/bin:$PATH"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
