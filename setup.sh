@@ -44,3 +44,12 @@ if ! grep -q "$sourceline" $HOME/.zshrc; then
 	echo "$sourceline" >> $HOME/.zshrc
 fi
 
+if [[ ! -f $HOME/.config/nvim/init.vim ]]; then
+	mkdir -vp $HOME/.config/nvim
+	ln -s ~/.dotfiles/init.vim $HOME/.config/nvim/init.vim
+	sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+	nvim -c ':PlugInstall'
+fi
+
+

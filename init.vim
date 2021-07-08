@@ -99,7 +99,6 @@ Plug 'yuezk/vim-js'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'jpalardy/vim-slime', { 'for': 'python' }
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
-Plug 'jordwalke/vim-reasonml'
 
 if (!has("nvim-0.5.0"))
   Plug 'SirVer/ultisnips'
@@ -807,7 +806,7 @@ endif
 " }}}
 
 " vim-session options {{{
-"let g:session_autosave = 'no'
+let g:session_autosave = 'no'
 "let g:session_autosave_periodic = 5
 let g:session_persist_colors = 0
 let g:session_autoload = 'no'
