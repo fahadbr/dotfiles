@@ -265,13 +265,12 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $mode_focus_window focus window: (s)lack, (m)ail, (z)oom
+set $mode_focus_window focus window: (s)lack, (n)otes, (z)oom
 
 mode "$mode_focus_window" {
         bindsym s [class="Slack"] focus; mode "default"
         bindsym z [class="zoom" title="Zoom (Meeting|Webinar)"] focus; mode "default"
-        bindsym m [class="Evolution" title="Inbox.*"] focus; mode "default"
-        bindsym n [con_mark="n"] focus; mode "default"
+        bindsym n [class="Standard Notes"] focus; mode "default"
         bindsym t [con_mark="t"] focus; mode "default"
 
         bindsym Return mode "default"
@@ -374,6 +373,8 @@ for_window [class="mpv"] floating enable
 for_window [class="zoom.*"] floating enable
 for_window [class="zoom.*" title="Zoom (Meeting|Webinar)"] floating enable, sticky enable, move scratchpad, scratchpad show
 for_window [class="slack"] floating enable, sticky enable, move scratchpad, scratchpad show
+for_window [class="Standard Notes"] floating enable, sticky enable, move scratchpad, scratchpad show
+for_window [app_id="nm-openconnect.*"] floating enable
 
 set $mode_gaps Gaps: (o) outer, (i) inner, (0) no gaps, (r)eset
 set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)

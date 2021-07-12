@@ -100,20 +100,20 @@ Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'jpalardy/vim-slime', { 'for': 'python' }
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
 
-if (!has("nvim-0.5.0"))
+if (!has("nvim-0.6.0"))
   Plug 'SirVer/ultisnips'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
 else
-  "Plug 'neovim/nvim-lsp'
-  "Plug 'hrsh7th/vim-vsnip'
-  "Plug 'hrsh7th/vim-vsnip-integ'
-  "Plug 'golang/vscode-go', { 'for': 'go' }
-  "Plug 'nvim-lua/completion-nvim'
-  "Plug 'steelsojka/completion-buffers'
-  "Plug 'nvim-lua/diagnostic-nvim'
-  "Plug 'nvim-lua/popup.nvim'
-  "Plug 'nvim-lua/plenary.nvim'
-  "Plug 'nvim-lua/telescope.nvim'
+  Plug 'neovim/nvim-lsp'
+  Plug 'hrsh7th/vim-vsnip'
+  Plug 'hrsh7th/vim-vsnip-integ'
+  Plug 'golang/vscode-go', { 'for': 'go' }
+  Plug 'nvim-lua/completion-nvim'
+  Plug 'steelsojka/completion-buffers'
+  Plug 'nvim-lua/diagnostic-nvim'
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-lua/telescope.nvim'
 endif
 
 call plug#end()
@@ -294,7 +294,7 @@ set shortmess+=c
 " diagnostics appear/become resolved.
 set signcolumn=yes
 
-if (!has("nvim-0.5.0"))
+if (!has("nvim-0.6.0"))
   " Give more space for displaying messages.
   set cmdheight=2
 
