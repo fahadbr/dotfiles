@@ -375,6 +375,7 @@ for_window [class="zoom.*" title="Zoom (Meeting|Webinar)"] floating enable, stic
 for_window [class="slack"] floating enable, sticky enable, move scratchpad, scratchpad show
 for_window [class="Standard Notes"] floating enable, sticky enable, move scratchpad, scratchpad show
 for_window [app_id="nm-openconnect.*"] floating enable
+for_window [app_id="blueman.*"] floating enable
 
 set $mode_gaps Gaps: (o) outer, (i) inner, (0) no gaps, (r)eset
 set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
