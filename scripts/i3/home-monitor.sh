@@ -20,7 +20,7 @@ else
 	xrandr --output $display --primary --mode 3840x1200 --rate 120.00 --output eDP1 --left-of $display && \
 		xrandr --output eDP1 --off
 
-	$HOME/scripts/set-xkbdrate.sh
+	$HOME/.dotfiles/scripts/set-xkbdrate.sh
 	~/.fehbg
 
 fi

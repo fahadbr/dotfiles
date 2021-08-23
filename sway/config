@@ -45,12 +45,12 @@ set $right l
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec $HOME/scripts/i3/open-term-here.sh --new-instance-group
+bindsym $mod+Return exec $HOME/.dotfiles/scripts/i3/open-term-here.sh --new-instance-group
 bindsym $mod+Shift+Return exec i3-sensible-terminal
-bindsym $mod+u exec $HOME/scripts/i3/open-term-here.sh
+bindsym $mod+u exec $HOME/.dotfiles/scripts/i3/open-term-here.sh
 
 # lock screen
-bindsym $mod+Control+l exec $HOME/scripts/start-swayidle.sh lock
+bindsym $mod+Control+l exec $HOME/.dotfiles/scripts/start-swayidle.sh lock
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -58,23 +58,23 @@ bindsym $mod+Shift+q kill
 # start rofi (a program launcher)
 bindsym $mod+d exec rofi -show run
 bindsym $mod+Shift+d exec rofi -show drun
-bindsym Print exec $HOME/scripts/i3/rofi/screenshot.sh
+bindsym Print exec $HOME/.dotfiles/scripts/i3/rofi/screenshot.sh
 
 # rofi password selector
-bindsym $mod+Shift+p exec $HOME/scripts/i3/rofi/pass-rofi.sh --type
-bindsym $mod+Shift+o exec $HOME/scripts/i3/rofi/pass-otp-rofi.sh
+bindsym $mod+Shift+p exec $HOME/.dotfiles/scripts/i3/rofi/pass-rofi.sh --type
+bindsym $mod+Shift+o exec $HOME/.dotfiles/scripts/i3/rofi/pass-otp-rofi.sh
 
 # quick fix zoom volume
-bindsym $mod+Shift+z exec $HOME/scripts/i3/fix-zoom-volume.sh
+bindsym $mod+Shift+z exec $HOME/.dotfiles/scripts/i3/fix-zoom-volume.sh
 
 
 set $mode_monitor monitor-mode: [l]aptop-only, [w]ork-monitors, [h]ome-monitor, [t]v-monitor
 
 mode "$mode_monitor" {
-        bindsym l exec --no-startup-id $HOME/scripts/i3/laptop-only.sh; mode "default"
-        bindsym w exec --no-startup-id $HOME/scripts/i3/work-monitors.sh; mode "default"
-        bindsym h exec --no-startup-id $HOME/scripts/i3/home-monitor.sh; mode "default"
-        bindsym t exec --no-startup-id $HOME/scripts/i3/tv-monitor.sh; mode "default"
+        bindsym l exec --no-startup-id $HOME/.dotfiles/scripts/i3/laptop-only.sh; mode "default"
+        bindsym w exec --no-startup-id $HOME/.dotfiles/scripts/i3/work-monitors.sh; mode "default"
+        bindsym h exec --no-startup-id $HOME/.dotfiles/scripts/i3/home-monitor.sh; mode "default"
+        bindsym t exec --no-startup-id $HOME/.dotfiles/scripts/i3/tv-monitor.sh; mode "default"
 
         bindsym Return mode "default"
         bindsym Escape mode "default"

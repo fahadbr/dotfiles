@@ -24,19 +24,19 @@
 #
 # The top properties below are applied to every block, but can be overridden.
 # Each block command defaults to the script name to avoid boilerplate.
-command=/usr/share/i3blocks/$BLOCK_NAME
+command=$HOME/.local/libexec/i3blocks/$BLOCK_NAME
 separator_block_width=15
 markup=pango
 
-[calendar]
-command=/home/fahad/.config/i3blocks/scripts/calendar
-interval=60
-signal=4
+#[calendar]
+# command=$HOME/.config/i3blocks/scripts/calendar
+# interval=60
+# signal=4
 
-[docker]
-command=docker ps | grep -v CONTAINER | wc -l
-interval=20
-label= 
+# [docker]
+# command=docker ps | grep -v CONTAINER | wc -l
+# interval=20
+# label= 
 
 # Key indicators
 #
@@ -45,7 +45,7 @@ label=
 # bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 # bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 #[mykeyindicator]
-#command=/home/fahad/.config/i3blocks/scripts/capsindicator
+#command=$HOME/.config/i3blocks/scripts/capsindicator
 #instance=CAPS
 #interval=once
 #signal=11
@@ -56,12 +56,12 @@ label=
 #signal=11
 
 [tapstatus]
-command=/home/fahad/.config/i3blocks/scripts/tapstatus
+command=$HOME/.config/i3blocks/scripts/tapstatus
 interval=once
 signal=3
 
 #[bluetooth]
-#command=/home/fahad/.config/i3blocks/scripts/bluetooth
+#command=$HOME/.config/i3blocks/scripts/bluetooth
 #interval=10
 
 #[brightness]
@@ -80,7 +80,7 @@ signal=3
 [my_volume]
 label= 
 #instance=Master
-command=/home/fahad/.dotfiles/scripts/volume.sh i3blocks
+command=$HOME/.dotfiles/scripts/volume.sh i3blocks
 interval=10
 signal=1
 
@@ -112,7 +112,7 @@ separator=true
 label= 
 
 [wifi]
-instance=wlp0s20f3
+instance=wlp65s0
 interval=10
 separator=true
 label= 
@@ -134,8 +134,8 @@ label=
 #
 # The type defaults to "mem" if the instance is not specified.
 [memory]
-label= 
-#label=MEM
+#label= 
+label=MEM: 
 interval=30
 
 [load_average]
@@ -156,7 +156,7 @@ markup=pango
 #
 # The battery instance defaults to 0.
 [battery]
-command=/home/fahad/.config/i3blocks/scripts/battery
+command=$HOME/.config/i3blocks/scripts/battery
 markup=pango
 color=#ffffff
 interval=10

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-powermanLib=$HOME/scripts/powerman
+powermanLib=$HOME/.dotfiles/scripts/powerman
 dimmer=$powermanLib/dimmer.sh
 locker=$powermanLib/lock.sh
 
