@@ -30,6 +30,7 @@ alias editprofile='vim ~/.zshrc && reapplyprofile'
 alias editssh='vim ~/.ssh/config'
 alias sdu='systemctl --user'
 alias sd='systemctl'
+alias susd='sudo systemctl'
 alias view='vim -R'
 alias udc='udisksctl'
 alias open="xdg-open"

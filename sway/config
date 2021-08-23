@@ -472,4 +472,5 @@ output * background $HOME/.config/background.png fill
 exec --no-startup-id systemctl --user import-environment SWAYSOCK WAYLAND_DISPLAY DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP
 exec --no-startup-id systemctl --user start powerman@bat.service
 exec --no-startup-id systemctl --user start gammastep.service
+exec --no-startup-id systemctl --user start blueman-applet.service
 exec --no-startup-id nm-applet --indicator
