@@ -6,6 +6,6 @@ reset_keyboard() {
 }
 
 xset r rate 200 45
-setxkbmap -option 'caps:swapescape'
-reset_keyboard "Keebio \"Fahad's Iris Keyboard\""
-reset_keyboard "OLKB \"Fahad's Planck Keyboard\""
+#setxkbmap -option 'caps:swapescape'
+#reset_keyboard "Keebio \"Fahad's Iris Keyboard\""
+#reset_keyboard "OLKB \"Fahad's Planck Keyboard\""
