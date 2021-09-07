@@ -3,11 +3,11 @@
 sdu='systemctl --user'
 
 mode=
-if $sdu is-active powerman@ac >/dev/null
+if $sdu is-active powerman@bat >/dev/null
 then
-	mode='ac'
-else
 	mode='bat'
+else
+	mode='ac'
 fi
 
 if [[ $BLOCK_BUTTON -eq 1 ]]; then
