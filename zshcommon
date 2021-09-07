@@ -35,6 +35,9 @@ alias view='vim -R'
 alias udc='udisksctl'
 alias open="xdg-open"
 alias cpr='rsync -ah --info=progress2'
+alias cp='cp --backup=numbered'
+alias ln='ln --backup=numbered'
+alias mv='mv -f --backup=numbered'
 
 if [[ $WAYLAND_DISPLAY ]]; then
 	alias pbcopy='wl-copy'
@@ -54,11 +57,12 @@ fi
 export EDITOR=nvim
 export LESS="-RF"
 export MOZ_USE_XINPUT2=1
-export MOZ_ENABLE_WAYLAND=1
 export MACHINE=${MACHINE:-"home"}
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+export HISTSIZE=130000
+export SAVEHIST=130000
 export PATH="$HOME/.local/bin:$PATH"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

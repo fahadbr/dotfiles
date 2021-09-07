@@ -1,13 +1,10 @@
 #!/bin/bash
 
-forkarg=
-if [[ "$1" == "-n" ]]; then
-	forkarg="-n"
-fi
-
-i3lock $forkarg \
+i3lock -n \
 	--ignore-empty-password  \
 	--show-failed-attempts  \
 	--pointer win \
 	--tiling \
 	--image ~/.config/lockscreen.png
+
+$HOME/.dotfiles/scripts/set-xkbdrate.sh
