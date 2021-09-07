@@ -2,12 +2,10 @@
 cd $HOME
 
 # general services i want running with xorg
-redshift -l 40.74:-73.99 -t 7500K:3500K &
 lxsession &
 
 # xorg startup config
 $HOME/scripts/set-xkbdrate.sh
-$HOME/scripts/disableTouchScreen.sh
 
 xrdb -merge $HOME/.dotfiles/.Xresources
 if [ "$MACHINE" == "home" ]; then
@@ -18,8 +16,6 @@ fi
 # exec i3 --shmlog-size=26214400
 
 export XDG_CURRENT_DESKTOP=i3
-
-systemctl --user import-environment DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP
 
 if [ -z "$DBUS_SESSION_BUS_ADDRESS" ] && [ -n "$XDG_RUNTIME_DIR" ] && \
     [ "$XDG_RUNTIME_DIR" = "/run/user/`id -u`" ] && \

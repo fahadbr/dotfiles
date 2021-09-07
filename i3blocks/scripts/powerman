@@ -1,0 +1,21 @@
+#!/bin/bash
+
+sdu='systemctl --user'
+
+mode=
+if $sdu is-active powerman@ac >/dev/null
+then
+	mode='ac'
+else
+	mode='bat'
+fi
+
+if [[ $BLOCK_BUTTON -eq 1 ]]; then
+	if [[ "$mode" == "ac" ]]; then
+		$sdu start powerman@bat
+	else
+		$sdu start powerman@ac
+	fi
+else
+	echo $mode
+fi

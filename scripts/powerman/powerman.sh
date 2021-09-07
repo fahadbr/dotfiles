@@ -5,6 +5,7 @@ dimmer=$powermanLib/dimmer.sh
 locker=$powermanLib/lock.sh
 
 dimTriggered=false
+dpmsTriggered=false
 lockTriggered=false
 sleepTriggered=false
 
@@ -29,7 +30,7 @@ echo "using vars file $varsFile"
 
 echo "timeouts: "
 echo "dimTimeout: "$dimTimeout"ms"
-echo "dpmsTimeout: "$dpmsTimeout"s"
+echo "dpmsTimeout: "$dpmsTimeout"ms"
 echo "lockTimeout: "$lockTimeout"ms"
 echo "sleepTimeout: "$sleepTimeout"ms"
 
@@ -43,6 +44,7 @@ function reset {
 	dimTriggered=false
 	lockTriggered=false
 	sleepTriggered=false
+	dpmsTriggered=false
 	audioIdleTime=0
 	interval=$defaultInterval
 	$dimmer restore
@@ -61,7 +63,6 @@ function run {
 
 			if [[ "$audioModeTriggered" == "false" ]]; then
 				echo 'audio mode triggered'
-				xset dpms 0 0 0
 				audioModeTriggered=true
 			fi
 
@@ -71,7 +72,6 @@ function run {
 
 		if [[ "$audioModeTriggered" == "true" ]]; then
 			echo 'audio mode reset'
-			xset dpms $dpmsTimeout 0 0
 			audioModeTriggered=false
 		fi
 
@@ -88,6 +88,14 @@ function run {
 			elif [[ "$dimTriggered" == "true" ]] && [[ $idletime -lt $dimTimeout ]]; then
 				echo "undimming now"
 				reset
+			fi
+		fi
+
+		if [[ $dpmsTimeout -gt 0 ]]; then
+			if [[ "$dpmsTriggered" == "false" ]] && [[ $idletime -gt $dpmsTimeout ]]; then
+				echo "putting screen on standby"
+				xset dpms force standby
+				dpmsTriggered=true
 			fi
 		fi
 
@@ -110,7 +118,8 @@ function run {
 	done
 }
 
-xset dpms $dpmsTimeout 0 0
+pkill -RTMIN+3 i3blocks
+xset dpms 0 0 0
 xset s 0 0
 reset
 run

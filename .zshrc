@@ -9,7 +9,7 @@ export WLR_DRM_NO_MODIFIERS=1
 
 export GOPATH="/data/code/go"
 #export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.dotfiles/scripts:$HOME/.local/bin:$GOPATH/bin"
-export PATH="$HOME/.dotfiles/scripts:$HOME/.local/bin:$GOPATH/bin:$HOME/.cargo/bin/:$HOME/.ghcup/bin/:$HOME/.cabal/bin:/usr/local/sbin:/usr/local/bin:/usr/bin"
+export PATH="$HOME/.dotfiles/scripts:$HOME/.local/bin:$GOPATH/bin:$HOME/.cargo/bin/:/usr/local/sbin:/usr/local/bin:/usr/bin"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.sn.conf ] && source ~/.sn.conf

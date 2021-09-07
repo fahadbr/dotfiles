@@ -50,10 +50,10 @@ markup=pango
 #interval=once
 #signal=11
 
-#[keyindicator]
-#instance=NUM
-#interval=once
-#signal=11
+[powerman]
+command=$HOME/.config/i3blocks/scripts/powerman
+interval=once
+signal=3
 
 [tapstatus]
 command=$HOME/.config/i3blocks/scripts/tapstatus
