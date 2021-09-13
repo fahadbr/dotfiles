@@ -710,7 +710,7 @@ cnoremap <C-n> <Down>
 cnoremap <C-a> <Home>
 " append meeting-"date".md to command line
 " for quickly making meeting note files
-cnoremap <M-m> -meeting-`date '+\%m\%d\%Y'.md`
+cnoremap <M-m> -`date '+\%m\%d\%Y'.md`
 
 "" cmdline abbreviations
 "
