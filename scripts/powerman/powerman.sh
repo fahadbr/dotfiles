@@ -3,6 +3,10 @@
 powermanLib=$HOME/.dotfiles/scripts/powerman
 dimmer=$powermanLib/dimmer.sh
 locker=$powermanLib/lock.sh
+if [[ -f $HOME/.local/bin/lock.sh ]]; then
+	locker=$HOME/.local/bin/lock.sh
+fi
+
 
 dimTriggered=false
 dpmsTriggered=false
