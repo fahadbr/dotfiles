@@ -1,7 +1,13 @@
 #!/bin/bash
 
+ignoreempty=""
+if [[ "$1" == "--ignore-empty-password" ]]; then
+	ignoreempty="--ignore-empty-password"
+fi
+
+
 i3lock -n \
-	--ignore-empty-password  \
+	$ignoreempty  \
 	--show-failed-attempts  \
 	--pointer win \
 	--tiling \
