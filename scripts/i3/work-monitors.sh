@@ -8,7 +8,9 @@ if [[ $WAYLAND_DISPLAY ]]; then
 	#swaymsg "output eDP-1 disable"
 	echo 'doing nothing for wayland right now'
 else
-	xrandr --output DP-2 --auto --primary --left-of eDP-1
+	xrandr \
+		--output DP-2 --mode 2560x1440 --primary --left-of eDP-1 \
+		--output DP-1 --mode 2560x1600 --rotate right --left-of DP-2
 	$HOME/.dotfiles/scripts/set-xkbdrate.sh
 fi
 systemctl --user start powerman@ac.service
