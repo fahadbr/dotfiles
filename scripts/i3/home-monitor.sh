@@ -7,18 +7,14 @@ if [[ $WAYLAND_DISPLAY ]]; then
 	swaymsg "output $output enable mode 3840x1200@120Hz pos 0 0"
 	# positioning laptop monitor under the big monitor
 	swaymsg "output eDP-1 pos 960 1200"
-	#swaymsg "output eDP-1 disable"
 else
 
-	if [[ "$1" != "" ]]; then
-		display=$1
-	else
-		display=$(xrandr | grep '\bconnected' | grep -v 'eDP1' | cut -d ' ' -f 1)
-	fi
+	extdisplay=$(xrandr | grep '\bconnected' | grep -v 'eDP' | cut -d ' ' -f 1)
+	localdisplay=$(xrandr | grep '\bconnected' | grep 'eDP' | cut -d ' ' -f 1)
 
-	#xrandr --output $display --primary --auto --scale .5x.5 --output eDP1 --pos 1920x0
-	xrandr --output $display --primary --mode 3840x1200 --rate 120.00 --output eDP1 --left-of $display && \
-		xrandr --output eDP1 --off
+	xrandr --output $extdisplay --primary --mode 3840x1200 --rate 120.00 \
+		--output eDP-1 --off
+
 
 	$HOME/.dotfiles/scripts/set-xkbdrate.sh
 	~/.fehbg
