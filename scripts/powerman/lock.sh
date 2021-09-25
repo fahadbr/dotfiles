@@ -11,6 +11,6 @@ i3lock -n \
 	--show-failed-attempts  \
 	--pointer win \
 	--tiling \
-	--image ~/.config/lockscreen.png
+	--image ~/.config/lockscreen.png --debug
 
 $HOME/.dotfiles/scripts/set-xkbdrate.sh

@@ -3,7 +3,7 @@
 if [[ $WAYLAND_DISPLAY ]]; then
 	swaymsg "output eDP-1 enable pos 0 0"
 else
-	for mon in $(xrandr --listmonitors | grep -v 'Monitors' | awk '{print $4}'); do
+	for mon in $(xrandr | grep '\bconnected' | cut -d ' ' -f 1); do
 
 		if echo $mon | grep -q 'eDP'; then
 			mode="--auto"

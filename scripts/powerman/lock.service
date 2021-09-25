@@ -1,0 +1,13 @@
+# vim: set filetype=systemd:
+
+[Unit]
+Description=Service to Lock the XSession with the correct environment
+Before=sleep.target
+
+[Service]
+Type=exec
+ExecStart=%h/.local/bin/lock.sh
+Restart=no
+
+[Install]
+WantedBy=sleep.target

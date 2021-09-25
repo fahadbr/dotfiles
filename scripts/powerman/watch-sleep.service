@@ -1,0 +1,11 @@
+# vim: set filetype=systemd:
+
+[Unit]
+Description=watch for sleep signal to start sleep.target
+
+[Service]
+ExecStart=%h/.local/bin/watch-sleep.sh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

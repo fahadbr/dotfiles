@@ -2,12 +2,11 @@
 
 [Unit]
 Description=Screen locker after resuming from sleep
+Before=sleep.target
 
 [Service]
 User=%I
-Environment=DISPLAY=:0
-ExecStart=/home/fahadriaz/.local/bin/lock.sh
+ExecStart=systemctl --machine=%I@.host --user start lock.service
 
 [Install]
 WantedBy=sleep.target
-WantedBy=suspend.target

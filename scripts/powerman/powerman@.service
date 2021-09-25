@@ -1,3 +1,5 @@
+# vim: set filetype=systemd:
+
 [Unit]
 Description=Simple Power Manager Daemon (%i mode)
 Conflicts=powerman@bat.service powerman@ac.service
