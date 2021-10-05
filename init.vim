@@ -721,9 +721,9 @@ cabbrev <expr> %% expand('%:p:h')
 
 " git mappings
 nnoremap <leader>gco :Gcheckout<CR>
-nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gd :Gdiff<CR>
-nnoremap <leader>gp :Gpush<CR>
+nnoremap <leader>gs :Git<CR>
+nnoremap <leader>gd :Gdiffsplit<CR>
+nnoremap <leader>gp :Git push<CR>
 
 " custom fzf functions
 " ripgrep search
