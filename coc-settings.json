@@ -126,6 +126,16 @@
 			"command": "esy",
 			"args": ["sh", "-c", "ocamllsp"],
 			"filetypes": ["ocaml", "reason"]
+		},
+
+		"flow": {
+			"command":"flow",
+			"args": ["lsp"],
+			"filetypes": ["javascript", "javascriptreact"],
+			"initializationOptions": {},
+			"requireRootPattern": 1,
+			"settings": {},
+			"rootPatterns": [".flowconfig"]
 		}
 	}
 }
