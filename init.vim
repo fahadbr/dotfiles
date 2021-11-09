@@ -806,7 +806,7 @@ endif
 " }}}
 
 " vim-session options {{{
-let g:session_autosave = 'no'
+let g:session_autosave = 'prompt'
 "let g:session_autosave_periodic = 5
 let g:session_persist_colors = 0
 let g:session_autoload = 'no'
