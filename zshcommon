@@ -8,7 +8,6 @@ plugins=(
   ssh-agent
   z
   zsh-interactive-cd
-  zsh_reload
   zsh-autosuggestions
   zsh-syntax-highlighting
 )
