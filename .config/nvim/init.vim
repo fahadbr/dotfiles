@@ -222,6 +222,10 @@ lspconfig.gopls.setup{
   }
 }
 
+lspconfig.pyright.setup{
+  capabilities = capabilities
+}
+
 -- for lua support
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
