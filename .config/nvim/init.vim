@@ -105,7 +105,6 @@ else
   Plug 'hrsh7th/cmp-cmdline'
   Plug 'saadparwaiz1/cmp_luasnip'
   Plug 'L3MON4D3/LuaSnip'
-  Plug 'nvim-lua/diagnostic-nvim'
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-lua/telescope.nvim'
@@ -303,20 +302,6 @@ nnoremap <leader><space>o :lua require'telescope.builtin'.lsp_document_symbols{ 
 nnoremap <leader><space>s :lua require'telescope.builtin'.lsp_workspace_symbols{ shorten_path = true }<CR>
 " }}}
 
-" diagnostics {{{
-
- let g:diagnostic_enable_virtual_text = 1
- let g:diagnostic_enable_underline = 1
- let g:space_before_virtual_text = 5
- let g:diagnostic_insert_delay = 1
- let g:diagnostic_trimmed_virtual_text = '40'
-
- call sign_define("LspDiagnosticsErrorSign", {"text" : "E", "texthl" : "LspDiagnosticsError"})
- call sign_define("LspDiagnosticsWarningSign", {"text" : "W", "texthl" : "LspDiagnosticsWarning"})
- call sign_define("LspDiagnosticsInformationSign", {"text" : "I", "texthl" : "LspDiagnosticsInformation"})
- call sign_define("LspDiagnosticsHintSign", {"text" : "H", "texthl" : "LspDiagnosticsHint"})
-
-" }}}
 
 endif
 " }}} neovim lsp config
