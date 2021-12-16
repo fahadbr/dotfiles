@@ -108,6 +108,7 @@ else
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-lua/telescope.nvim'
+  Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make'}
 endif
 
 call plug#end()
@@ -287,8 +288,8 @@ nnoremap <silent> <M-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> <leader>a    <cmd>lua vim.lsp.buf.code_action()<CR>
-nnoremap <silent> <space>o    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> <space>s    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+"nnoremap <silent> <space>o    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+"nnoremap <silent> <space>s    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> <leader>fm <cmd>lua vim.lsp.buf.formatting()<CR>
 command! Format execute 'lua vim.lsp.buf.formatting()'
@@ -301,9 +302,13 @@ nnoremap <leader>cr <cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<C
 "}}}
 
 " telescope {{{
+lua << EOF
+require('telescope').load_extension('fzf')
+EOF
+
 nnoremap <c-p> :lua require'telescope.builtin'.git_files{}<CR>
-nnoremap <leader><space>o :lua require'telescope.builtin'.lsp_document_symbols{ shorten_path = true }<CR>
-nnoremap <leader><space>s :lua require'telescope.builtin'.lsp_workspace_symbols{ shorten_path = true }<CR>
+nnoremap <space>o :lua require'telescope.builtin'.lsp_document_symbols{ path_display = shorten }<CR>
+nnoremap <space>s :lua require'telescope.builtin'.lsp_workspace_symbols{ path_display = shorten }<CR>
 " }}}
 
 
