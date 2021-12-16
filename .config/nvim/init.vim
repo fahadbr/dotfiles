@@ -227,6 +227,11 @@ lspconfig.pyright.setup{
   capabilities = capabilities
 }
 
+lspconfig.flow.setup{
+  cmd = { 'flow', 'lsp' },
+  capabilities = capabilities
+}
+
 -- for lua support
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
