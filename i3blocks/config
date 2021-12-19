@@ -134,8 +134,8 @@ label=
 #
 # The type defaults to "mem" if the instance is not specified.
 [memory]
-#label= 
-label=MEM: 
+label= 
+#label=MEM: 
 interval=30
 
 [load_average]
@@ -165,8 +165,8 @@ interval=10
 # Date Time
 #
 [time]
-label=
-command=date '+ %b %d %Y %l:%M:%S %p'
+# label=
+command=date '+%b %d %l:%M:%S %p'
 interval=5
 
 # Generic media player support
