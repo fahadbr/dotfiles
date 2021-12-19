@@ -5,7 +5,11 @@ zstyle :omz:plugins:ssh-agent identities id_rsa github
 
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk/"
 export HUNTER_ROOT=/data/code/.hunter
+
+# wayland env
 export WLR_DRM_NO_MODIFIERS=1
+export _JAVA_AWT_WM_NONREPARENTING=1
+export MOZ_ENABLE_WAYLAND=1
 
 export GOPATH="/data/code/go"
 #export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$HOME/.dotfiles/scripts:$HOME/.local/bin:$GOPATH/bin"
