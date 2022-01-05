@@ -61,7 +61,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdcommenter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'w0rp/ale'
 Plug '$HOME/.fzf'
 Plug '$HOME/.dotfiles/fzfc'
 Plug 'junegunn/fzf.vim'
@@ -292,11 +291,13 @@ nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <M-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> <M-d> <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
 nnoremap <silent> <leader>a    <cmd>lua vim.lsp.buf.code_action()<CR>
 "nnoremap <silent> <space>o    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 "nnoremap <silent> <space>s    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <silent> <leader>fm <cmd>lua vim.lsp.buf.formatting()<CR>
+
 command! Format execute 'lua vim.lsp.buf.formatting()'
 
 
