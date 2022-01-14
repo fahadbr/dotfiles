@@ -2,12 +2,7 @@
 
 dimmerLastBrightnessFile=$HOME/.local/lastbrightness
 bl_dev=/sys/class/backlight/intel_backlight
-
-if uname -a | grep Ubuntu >/dev/null; then
-	step=500
-else
-	step=5000
-fi
+step=$(($(cat $bl_dev/max_brightness)/10))
 
 cur_brightness=$(cat $bl_dev/brightness)
 
