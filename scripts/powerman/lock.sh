@@ -44,8 +44,8 @@ else
 	--blur 7                     \
 	--clock                      \
 	--indicator                  \
-	--time-str="%H:%M:%S"        \
-	--date-str="%A, %m %Y"       \
+	--time-str="%I:%M %p"        \
+	--date-str="%a, %b %d %Y"       \
 	--greeter-text="fahadriaz@fb.com" \
 	--greeter-color=$TEXT        \
 	--greeter-pos="200:100"
