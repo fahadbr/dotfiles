@@ -19,8 +19,11 @@ else
 	TEXT='#ddddddee'
 	WRONG='#880000bb'
 	VERIFYING='#5500bbbb'
+	greeterText="$(git config --global --get user.name)
+$(git config --global --get user.email)"
 
-	i3lock \
+	i3lock -n \
+		$ignoreempty  \
 	--insidever-color=$CLEAR     \
 	--ringver-color=$VERIFYING   \
 	\
@@ -45,10 +48,10 @@ else
 	--clock                      \
 	--indicator                  \
 	--time-str="%I:%M %p"        \
-	--date-str="%a, %b %d %Y"       \
-	--greeter-text="$(git config --global --get user.email)" \
+	--date-str="%a, %b %d %Y"    \
+	--greeter-pos="300:50"			 \
 	--greeter-color=$TEXT        \
-	--greeter-pos="200:100"
+	--greeter-text="$greeterText"
 
 fi
 
