@@ -46,7 +46,7 @@ else
 	--indicator                  \
 	--time-str="%I:%M %p"        \
 	--date-str="%a, %b %d %Y"       \
-	--greeter-text="fahadriaz@fb.com" \
+	--greeter-text="$(git config --global --get user.email)" \
 	--greeter-color=$TEXT        \
 	--greeter-pos="200:100"
 
