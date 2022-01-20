@@ -12,7 +12,8 @@ else
 
 	xrandr --output $display --auto --right-of eDP1
 	systemctl --user start powerman@bat.service
-	~/.fehbg
+	$HOME/.fehbg
+	$HOME/.dotfiles/scripts/i3/launch-polybar.sh
 fi
 
 pactl set-card-profile 0 output:hdmi-stereo-extra1

@@ -20,7 +20,8 @@ else
 
 
 	$HOME/.dotfiles/scripts/set-xkbdrate.sh
-	~/.fehbg
+	$HOME/.dotfiles/scripts/i3/launch-polybar.sh
+	$HOME/.fehbg
 
 fi
 

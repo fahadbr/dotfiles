@@ -18,7 +18,8 @@ else
 
 	done
 
-	~/.fehbg
+	$HOME/.fehbg
+	$HOME/.dotfiles/scripts/i3/launch-polybar.sh
 fi
 
 pactl set-card-profile 0 output:analog-stereo
