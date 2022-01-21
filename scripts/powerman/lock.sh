@@ -43,8 +43,9 @@ $(git config --global --get user.email)"
 	--keyhl-color=$WRONG         \
 	--bshl-color=$WRONG          \
 	\
+	--color=00000088						 \
+	--blur 5                     \
 	--screen 1                   \
-	--blur 7                     \
 	--clock                      \
 	--indicator                  \
 	--time-str="%I:%M %p"        \
