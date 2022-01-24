@@ -2,7 +2,10 @@
 
 set -e
 
-killall polybar || true
+killall -q polybar || true
+
+while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
+
 TRAY_OUTPUT=$(polybar -m | grep primary | cut -d ':' -f 1)
 
 for m in $(polybar -m | cut -d ':' -f 1); do
@@ -10,5 +13,5 @@ for m in $(polybar -m | cut -d ':' -f 1); do
 	if [[ $m == $TRAY_OUTPUT ]]; then
 		export TRAY_POSITION=right
 	fi
-	MONITOR=$m polybar default -q -r -c ~/.dotfiles/.config/polybar/config &
+	MONITOR=$m polybar main -q -r -c $HOME/.config/polybar/grayblocks/config.ini &
 done
