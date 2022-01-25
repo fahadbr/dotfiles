@@ -1,10 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
 killall -q polybar || true
 
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
+
+COLORS_FILE=$HOME/.config/polybar/colors.sh
+
+if [[ -f $COLORS_FILE ]]; then
+	source $COLORS_FILE
+fi
 
 TRAY_OUTPUT=$(polybar -m | grep primary | cut -d ':' -f 1)
 
