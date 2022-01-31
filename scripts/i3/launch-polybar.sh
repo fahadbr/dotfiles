@@ -14,6 +14,7 @@ fi
 
 TRAY_OUTPUT=$(polybar -m | grep primary | cut -d ':' -f 1)
 
+export WIFI_DEV=$(iw dev | awk '/Interface/ {print $2}' || echo 'none')
 for m in $(polybar -m | cut -d ':' -f 1); do
 	export TRAY_POSITION=none
 	if [[ $m == $TRAY_OUTPUT ]]; then
