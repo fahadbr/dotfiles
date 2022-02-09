@@ -15,9 +15,9 @@ fi
 TRAY_OUTPUT=$(polybar -m | grep primary | cut -d ':' -f 1)
 
 for m in $(polybar -m | cut -d ':' -f 1); do
-	export TRAY_POSITION=none
-	if [[ $m == $TRAY_OUTPUT ]]; then
-		export TRAY_POSITION=right
+	TP=none
+	if [[ "$m" == "$TRAY_OUTPUT" ]]; then
+		TP=right
 	fi
-	MONITOR=$m polybar main -q -r -c $HOME/.config/polybar/grayblocks/config.ini &
+	TRAY_POSITION="$TP" MONITOR="$m" polybar main -q -r -c $HOME/.config/polybar/grayblocks/config.ini &
 done

@@ -86,7 +86,7 @@ Plug 'fenetikm/falcon'
 Plug 'mhartington/oceanic-next'
 Plug 'jsit/toast.vim', { 'as': 'toast' }
 Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
-Plug 'vim-scripts/a.vim', { 'for' : ['c', 'cpp'] }
+"Plug 'vim-scripts/a.vim', { 'for' : ['c', 'cpp'] }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'ianks/vim-tsx'
 Plug 'yuezk/vim-js'
