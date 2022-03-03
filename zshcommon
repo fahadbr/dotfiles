@@ -26,7 +26,7 @@ export EDITOR=vim
 if which nvim &>/dev/null; then
   export EDITOR=nvim
 fi
-export LESS="-RF"
+export LESS="-R"
 export MOZ_USE_XINPUT2=1
 export MACHINE=${MACHINE:-"home"}
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
@@ -35,6 +35,11 @@ export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 export HISTSIZE=130000
 export SAVEHIST=130000
 export PATH="$HOME/.local/bin:$PATH"
+export LC_COLLATE="C"
+export PAGER="less $LESS"
+export NNN_PLUG='p:preview-tui;z:autojump;f:fzcd'
+export NNN_FIFO='/tmp/nnn.fifo'
+export NNN_TRASH=1
 
 
 alias ls='ls -lrth --color=auto'
@@ -66,6 +71,36 @@ if which trash-put &>/dev/null; then
   alias rm='trash-put -v'
   alias tp='trash-put'
 fi
+
+function n () # {{{
+{
+    # Block nesting of nnn in subshells
+    if [ -n $NNNLVL ] && [ "${NNNLVL:-0}" -ge 1 ]; then
+        echo "nnn is already running"
+        return
+    fi
+
+    # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
+    # To cd on quit only on ^G, either remove the "export" as in:
+    #    NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+    #    (or, to a custom path: NNN_TMPFILE=/tmp/.lastd)
+    # or, export NNN_TMPFILE after nnn invocation
+    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+
+    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
+    # stty start undef
+    # stty stop undef
+    # stty lwrap undef
+    # stty lnext undef
+
+    nnn -d -U "$@"
+
+    if [ -f "$NNN_TMPFILE" ]; then
+            . "$NNN_TMPFILE"
+            rrm -f "$NNN_TMPFILE" > /dev/null
+    fi
+}
+# }}}
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
