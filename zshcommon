@@ -37,16 +37,18 @@ export SAVEHIST=130000
 export PATH="$HOME/.local/bin:$PATH"
 export LC_COLLATE="C"
 export PAGER="less $LESS"
-export NNN_PLUG='p:preview-tui;z:autojump;f:fzcd'
+export NNN_PLUG='p:preview-tui;z:autojump;f:fzcd;l:!less -R $nnn;b:!bat $nnn'
 export NNN_FIFO='/tmp/nnn.fifo'
 export NNN_TRASH=1
+export NNN_OPENER="$HOME/.config/nnn/plugins/nuke"
 
 
 alias ls='ls -lrth --color=auto'
 alias grep='grep --color=auto'
-alias reapplyprofile='source ~/.zshrc'
-alias editprofile="$EDITOR ~/.zshrc && reapplyprofile"
-alias editssh="$EDITOR ~/.ssh/config"
+alias reapplyprofile='exec zsh'
+alias editprofile="$EDITOR $HOME/.zshrc && reapplyprofile"
+alias editzshcommon="$EDITOR $HOME/.dotfiles/zshcommon && reapplyprofile"
+alias editssh="$EDITOR $HOME/.ssh/config"
 alias sdu='systemctl --user'
 alias sd='systemctl'
 alias susd='sudo systemctl'
@@ -93,7 +95,7 @@ function n () # {{{
     # stty lwrap undef
     # stty lnext undef
 
-    nnn -d -U -P p "$@"
+    nnn -c -d -U -A -P p "$@"
 
     if [ -f "$NNN_TMPFILE" ]; then
             . "$NNN_TMPFILE"
