@@ -95,7 +95,7 @@ function n () # {{{
     # stty lwrap undef
     # stty lnext undef
 
-    nnn -c -d -U -A -P p "$@"
+    nnn -T t -c -d -U -A -P p "$@"
 
     if [ -f "$NNN_TMPFILE" ]; then
             . "$NNN_TMPFILE"
