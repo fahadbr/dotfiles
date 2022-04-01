@@ -104,6 +104,7 @@ else
   Plug 'hrsh7th/cmp-cmdline'
   Plug 'saadparwaiz1/cmp_luasnip'
   Plug 'L3MON4D3/LuaSnip'
+  Plug 'luukvbaal/nnn.nvim'
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-lua/telescope.nvim'
@@ -321,6 +322,35 @@ nnoremap <space>s :lua require'telescope.builtin'.lsp_workspace_symbols{ path_di
 endif
 " }}} neovim lsp config
 
+" {{{ nnn config
+lua << EOF
+require("nnn").setup({
+  explorer = {
+    width = 35,
+  },
+  picker = {
+    cmd = "tmux new-session nnn",       -- command override (-p flag is implied)
+  },
+  auto_open = {
+    setup = nil,       -- or "explorer" / "picker", auto open on setup function
+    tabpage = nil,     -- or "explorer" / "picker", auto open when opening new tabpage
+    empty = false,     -- only auto open on empty buffer
+    ft_ignore = {      -- dont auto open for these filetypes
+      "gitcommit",
+    }
+  },
+  auto_close = true,  -- close tabpage/nvim when nnn is last window
+  replace_netrw = nil, -- or "explorer" / "picker"
+  mappings = {},       -- table containing mappings, see below
+  windownav = {        -- window movement mappings to navigate out of nnn
+  left = "<M-S-h>",
+  right = "<M-S-l>"
+}})
+EOF
+nnoremap <leader>np :NnnPicker %:p:h<CR>
+nnoremap <leader>ne :NnnExplorer<CR>
+
+" }}} end nnn config
 " coc.nvim autocomplete options {{{
 
 " Some servers have issues with backup files, see #649.
