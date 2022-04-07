@@ -19,41 +19,45 @@ else
 	TEXT='#ddddddee'
 	WRONG='#880000bb'
 	VERIFYING='#5500bbbb'
+	GITEMAIL=$(git config --global --get user.email)
 	greeterText="$(git config --global --get user.name)
-$(git config --global --get user.email)"
+$GITEMAIL"
 
-	i3lock -n \
-		$ignoreempty  \
-	--insidever-color=$CLEAR     \
-	--ringver-color=$VERIFYING   \
-	\
-	--insidewrong-color=$CLEAR   \
-	--ringwrong-color=$WRONG     \
-	\
-	--inside-color=$BLANK        \
-	--ring-color=$DEFAULT        \
-	--line-color=$BLANK          \
-	--separator-color=$DEFAULT   \
-	\
-	--verif-color=$TEXT          \
-	--wrong-color=$TEXT          \
-	--time-color=$TEXT           \
-	--date-color=$TEXT           \
-	--layout-color=$TEXT         \
-	--keyhl-color=$WRONG         \
-	--bshl-color=$WRONG          \
-	\
-	--color=00000088						 \
-	--blur 5                     \
-	--screen 1                   \
-	--clock                      \
-	--indicator                  \
-	--time-str="%I:%M %p"        \
-	--date-str="%a, %b %d %Y"    \
-	--greeter-pos="300:50"			 \
-	--greeter-color=$TEXT        \
-	--greeter-text="$greeterText"
-
+	if which betterlockscreen 2>&1; then
+		betterlockscreen --lock --text "$GITEMAIL" -- $ignoreempty
+	else
+		i3lock -n \
+			$ignoreempty  \
+		--insidever-color=$CLEAR     \
+		--ringver-color=$VERIFYING   \
+		\
+		--insidewrong-color=$CLEAR   \
+		--ringwrong-color=$WRONG     \
+		\
+		--inside-color=$BLANK        \
+		--ring-color=$DEFAULT        \
+		--line-color=$BLANK          \
+		--separator-color=$DEFAULT   \
+		\
+		--verif-color=$TEXT          \
+		--wrong-color=$TEXT          \
+		--time-color=$TEXT           \
+		--date-color=$TEXT           \
+		--layout-color=$TEXT         \
+		--keyhl-color=$WRONG         \
+		--bshl-color=$WRONG          \
+		\
+		--color=00000088						 \
+		--blur 5                     \
+		--screen 1                   \
+		--clock                      \
+		--indicator                  \
+		--time-str="%I:%M %p"        \
+		--date-str="%a, %b %d %Y"    \
+		--greeter-pos="300:50"			 \
+		--greeter-color=$TEXT        \
+		--greeter-text="$greeterText"
+	fi
 fi
 
 $HOME/.dotfiles/scripts/set-xkbdrate.sh
