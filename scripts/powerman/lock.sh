@@ -24,7 +24,7 @@ else
 $GITEMAIL"
 
 	if which betterlockscreen 2>&1; then
-		betterlockscreen --lock --text "$GITEMAIL" -- $ignoreempty
+		betterlockscreen --lock --text "$GITEMAIL" -- $ignoreempty --time-str="%I:%M %p"
 	else
 		i3lock -n \
 			$ignoreempty  \
