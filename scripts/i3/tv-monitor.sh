@@ -14,6 +14,7 @@ else
 	systemctl --user start powerman@bat.service
 	$HOME/.fehbg
 	$HOME/.dotfiles/scripts/i3/launch-polybar.sh
+	$HOME/.dotfiles/scripts/i3/gen-lockscreen-images.sh tv
 fi
 
 pactl set-card-profile 0 output:hdmi-stereo-extra1

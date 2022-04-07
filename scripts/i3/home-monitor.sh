@@ -22,6 +22,7 @@ else
 	$HOME/.dotfiles/scripts/set-xkbdrate.sh
 	$HOME/.dotfiles/scripts/i3/launch-polybar.sh
 	$HOME/.fehbg
+	$HOME/.dotfiles/scripts/i3/gen-lockscreen-images.sh home
 
 fi
 

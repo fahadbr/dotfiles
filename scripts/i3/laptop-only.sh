@@ -20,6 +20,7 @@ else
 
 	$HOME/.fehbg
 	$HOME/.dotfiles/scripts/i3/launch-polybar.sh
+	$HOME/.dotfiles/scripts/i3/gen-lockscreen-images.sh laptop
 fi
 
 pactl set-card-profile 0 output:analog-stereo

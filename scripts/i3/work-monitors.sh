@@ -15,5 +15,6 @@ else
 	if [[ -f $HOME/.fehbg ]]; then
 		$HOME/.fehbg
 	fi
+	$HOME/.dotfiles/scripts/i3/gen-lockscreen-images.sh work
 fi
 systemctl --user start powerman@ac.service
