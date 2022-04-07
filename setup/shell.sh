@@ -47,9 +47,18 @@ fi
 if [[ ! -f $HOME/.config/nvim/init.vim ]]; then
 	mkdir -vp $HOME/.config/nvim
 	ln -s ~/.dotfiles/init.vim $HOME/.config/nvim/init.vim
-	sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+	curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	nvim -c ':PlugInstall'
 fi
+
+if [[ ! -f $HOME/.config/nnn/plugins/preview-tui ]]; then
+  nnn_plugins_dir=$HOME/.config/nnn/plugins
+  mkdir -vp $nnn_plugins_dir
+  pushd $nnn_plugins_dir
+  curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs | sh
+  popd
+fi
+
 
 
