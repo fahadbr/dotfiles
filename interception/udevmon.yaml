@@ -1,4 +1,8 @@
 - CMD: mux -c mousemux
+# not using dual-function-keys since they dont support rolling key presses
+# e.g. pressing l and then s before l is released
+# they do support double tap to repeat though
+#- JOB: mux -i mousemux | dual-function-keys -c /etc/interception/dual-function-keys/dell.yaml | uinput -c /etc/interception/laptop-desc.yaml
 - JOB: mux -i mousemux | caps2esc -t 5000 | uinput -c /etc/interception/laptop-desc.yaml
 - JOB: intercept -g $DEVNODE | mux -o mousemux
   DEVICE:
