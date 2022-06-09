@@ -2,7 +2,7 @@
 
 if [[ ! -f $HOME/.local/bin/kmonad ]]; then
 	mkdir -p $HOME/code
-	git clone https://github.com/kmonad/kmonad.git $HOME/code/
+	git clone https://github.com/kmonad/kmonad.git $HOME/code/kmonad
 
 	cd $HOME/code/kmonad
 	stack install
