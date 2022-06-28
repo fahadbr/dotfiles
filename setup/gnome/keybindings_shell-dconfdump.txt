@@ -1,0 +1,3 @@
+[/]
+focus-active-notification=['<Super>space']
+toggle-message-tray=['<Shift><Super>space']
