@@ -1,10 +1,10 @@
 [/]
 action-change-tiling=['<Super>g']
-action-move-down=['<Shift><Super>j']
-action-move-left=['<Shift><Super>h']
+action-move-down=['']
+action-move-left=['']
 action-move-next-monitor=['']
-action-move-right=['<Shift><Super>l']
-action-move-up=['<Shift><Super>k']
+action-move-right=['']
+action-move-up=['']
 animation=true
 auto-close-keyboard-shortcut=false
 autotile-1=['<Control>1']
@@ -18,6 +18,7 @@ autotile-7=['<Control>7']
 autotile-8=['<Control>8']
 autotile-9=['<Control>9']
 global-presets=false
+grid-sizes='12x6,6x4,4x4'
 preset-resize-1=['1']
 preset-resize-10=['0']
 preset-resize-2=['2']
