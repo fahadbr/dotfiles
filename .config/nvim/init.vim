@@ -351,6 +351,7 @@ nnoremap <leader>np :NnnPicker %:p:h<CR>
 nnoremap <leader>ne :NnnExplorer<CR>
 
 " }}} end nnn config
+
 " coc.nvim autocomplete options {{{
 
 " Some servers have issues with backup files, see #649.
