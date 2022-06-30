@@ -21,15 +21,7 @@ if [[ $WAYLAND_DISPLAY ]]; then
 	servicefile=powerman@.service
 fi
 
-ln -vsfT $cwd/watch-sleep.sh $homedir/.local/bin/watch-sleep.sh
-ln -vsfT $cwd/sleep.target $homedir/.config/systemd/user/sleep.target
-ln -vsfT $cwd/watch-sleep.service $homedir/.config/systemd/user/watch-sleep.service
-ln -vsfT $cwd/$servicefile $homedir/.config/systemd/user/powerman@.service
-ln -vsfT $cwd/lock.service $homedir/.config/systemd/user/lock.service
-
-systemctl --user daemon-reload
-systemctl --user enable --now watch-sleep.service
-systemctl --user enable lock.service
+$cwd/install-systemd-only.sh
 #ln -vsfT $cwd/resume-lock@.service /etc/systemd/system/resume-lock@.service
 #systemctl enable resume-lock@$(logname).service
 
