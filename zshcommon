@@ -40,6 +40,7 @@ export PAGER="less $LESS"
 export NNN_PLUG='p:preview-tui;z:autojump;f:fzcd;l:!less -R $nnn;b:!bat $nnn'
 export NNN_FIFO='/tmp/nnn.fifo'
 export NNN_OPENER="$HOME/.config/nnn/plugins/nuke"
+export NNN_TRASH=0
 
 
 alias ls='ls -lrth --color=auto'
