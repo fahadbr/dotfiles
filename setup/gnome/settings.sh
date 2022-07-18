@@ -1,5 +1,5 @@
 # fractional scaling
-gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+#gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 
 # debind the super key
 gsettings set org.gnome.mutter overlay-key ''

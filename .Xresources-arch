@@ -4,3 +4,5 @@ i3bar.font: pango:Font Awesome 5 Free Regular:style=Regular 10
 
 Xft.dpi: 106
 rofi.dpi: 106
+!Xft.dpi: 210
+!rofi.dpi: 210
