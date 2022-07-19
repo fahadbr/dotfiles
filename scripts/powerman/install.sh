@@ -16,11 +16,6 @@ done
 
 homedir=/home/$(logname)
 
-servicefile=xpowerman@.service
-if [[ $WAYLAND_DISPLAY ]]; then
-	servicefile=powerman@.service
-fi
-
 $cwd/install-systemd-only.sh
 #ln -vsfT $cwd/resume-lock@.service /etc/systemd/system/resume-lock@.service
 #systemctl enable resume-lock@$(logname).service
