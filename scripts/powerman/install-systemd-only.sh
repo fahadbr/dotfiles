@@ -2,6 +2,11 @@
 
 cwd=$(pwd)
 
+servicefile=xpowerman@.service
+if [[ $WAYLAND_DISPLAY ]]; then
+	servicefile=powerman@.service
+fi
+
 ln -vsfT $cwd/dimmer.sh $HOME/.local/bin/dimmer
 ln -vsfT $cwd/watch-sleep.sh $HOME/.local/bin/watch-sleep.sh
 
@@ -12,4 +17,4 @@ ln -vsfT $cwd/lock.service $HOME/.config/systemd/user/lock.service
 
 systemctl --user daemon-reload
 systemctl --user enable --now watch-sleep.service
-#systemctl --user enable lock.service
+systemctl --user enable lock.service

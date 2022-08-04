@@ -9,7 +9,8 @@ if [[ $WAYLAND_DISPLAY ]]; then
 	echo 'doing nothing for wayland right now'
 else
 	xrandr \
-		--output DP-2 --mode 2560x1440 --primary --left-of eDP-1 --output DP-1 --mode 2560x1600 --rotate right --left-of DP-2
+		--output DP-2 --mode 3840x2160 --primary --left-of eDP-1 --output DP-1 --mode 2560x1600 --rotate right --left-of DP-2
+		#--output DP-2 --mode 2560x1440 --primary --left-of eDP-1 --output DP-1 --mode 2560x1600 --rotate right --left-of DP-2
 	$HOME/.dotfiles/scripts/set-xkbdrate.sh
 	$HOME/.dotfiles/scripts/i3/launch-polybar.sh
 	if [[ -f $HOME/.fehbg ]]; then
