@@ -1,0 +1,933 @@
+{
+  "title": "a/s/d/f -> shift/cmd/opt/ctrl, j/k/l/; -> ctrl/cmd/opt/shift",
+  "rules": [
+    {
+      "description": "f to left_control, f if alone, repeat if double tapped",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "double_f",
+              "value": 1
+            },
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "f",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "f"
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "double_f",
+                "value": 0
+              }
+            }
+          ],
+          "type": "basic"
+        },
+        {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "f",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to_after_key_up": [
+            {
+              "key_code": "f"
+            }
+          ],
+          "to_if_held_down": [
+            {
+              "set_variable": {
+                "name": "double_f",
+                "value": 0
+              }
+            },
+            {
+              "key_code": "left_control",
+              "halt": true
+            }
+          ],
+          "to": [
+            {
+              "set_variable": {
+                "name": "double_f",
+                "value": 1
+              }
+            }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [
+              {
+                "set_variable": {
+                  "name": "double_f",
+                  "value": 0
+                }
+              }
+            ],
+            "to_if_canceled": [
+              {
+                "set_variable": {
+                  "name": "double_f",
+                  "value": 0
+                }
+              }
+            ]
+          },
+          "parameters": {
+            "basic.to_if_alone_timeout_milliseconds": 250,
+            "basic.to_if_held_down_threshold_milliseconds": 250
+          },
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "j to left_control, j if alone, repeat if double tapped",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "double_j",
+              "value": 1
+            },
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "j",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "j"
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "double_j",
+                "value": 0
+              }
+            }
+          ],
+          "type": "basic"
+        },
+        {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "j",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to_after_key_up": [
+            {
+              "key_code": "j"
+            }
+          ],
+          "to_if_held_down": [
+            {
+              "set_variable": {
+                "name": "double_j",
+                "value": 0
+              }
+            },
+            {
+              "key_code": "left_control",
+              "halt": true
+            }
+          ],
+          "to": [
+            {
+              "set_variable": {
+                "name": "double_j",
+                "value": 1
+              }
+            }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [
+              {
+                "set_variable": {
+                  "name": "double_j",
+                  "value": 0
+                }
+              }
+            ],
+            "to_if_canceled": [
+              {
+                "set_variable": {
+                  "name": "double_j",
+                  "value": 0
+                }
+              }
+            ]
+          },
+          "parameters": {
+            "basic.to_if_alone_timeout_milliseconds": 250,
+            "basic.to_if_held_down_threshold_milliseconds": 250
+          },
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "d to left_option, d if alone, repeat if double tapped",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "double_d",
+              "value": 1
+            },
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "d",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "d"
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "double_d",
+                "value": 0
+              }
+            }
+          ],
+          "type": "basic"
+        },
+        {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "d",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to_after_key_up": [
+            {
+              "key_code": "d"
+            }
+          ],
+          "to_if_held_down": [
+            {
+              "set_variable": {
+                "name": "double_d",
+                "value": 0
+              }
+            },
+            {
+              "key_code": "left_option",
+              "halt": true
+            }
+          ],
+          "to": [
+            {
+              "set_variable": {
+                "name": "double_d",
+                "value": 1
+              }
+            }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [
+              {
+                "set_variable": {
+                  "name": "double_d",
+                  "value": 0
+                }
+              }
+            ],
+            "to_if_canceled": [
+              {
+                "set_variable": {
+                  "name": "double_d",
+                  "value": 0
+                }
+              }
+            ]
+          },
+          "parameters": {
+            "basic.to_if_alone_timeout_milliseconds": 250,
+            "basic.to_if_held_down_threshold_milliseconds": 250
+          },
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "k to left_option, k if alone, repeat if double tapped",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "double_k",
+              "value": 1
+            },
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "k",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "k"
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "double_k",
+                "value": 0
+              }
+            }
+          ],
+          "type": "basic"
+        },
+        {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "k",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to_after_key_up": [
+            {
+              "key_code": "k"
+            }
+          ],
+          "to_if_held_down": [
+            {
+              "set_variable": {
+                "name": "double_k",
+                "value": 0
+              }
+            },
+            {
+              "key_code": "left_option",
+              "halt": true
+            }
+          ],
+          "to": [
+            {
+              "set_variable": {
+                "name": "double_k",
+                "value": 1
+              }
+            }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [
+              {
+                "set_variable": {
+                  "name": "double_k",
+                  "value": 0
+                }
+              }
+            ],
+            "to_if_canceled": [
+              {
+                "set_variable": {
+                  "name": "double_k",
+                  "value": 0
+                }
+              }
+            ]
+          },
+          "parameters": {
+            "basic.to_if_alone_timeout_milliseconds": 250,
+            "basic.to_if_held_down_threshold_milliseconds": 250
+          },
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "s to left_command, s if alone, repeat if double tapped",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "double_s",
+              "value": 1
+            },
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "s",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "s"
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "double_s",
+                "value": 0
+              }
+            }
+          ],
+          "type": "basic"
+        },
+        {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "s",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to_after_key_up": [
+            {
+              "key_code": "s"
+            }
+          ],
+          "to_if_held_down": [
+            {
+              "set_variable": {
+                "name": "double_s",
+                "value": 0
+              }
+            },
+            {
+              "key_code": "left_command",
+              "halt": true
+            }
+          ],
+          "to": [
+            {
+              "set_variable": {
+                "name": "double_s",
+                "value": 1
+              }
+            }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [
+              {
+                "set_variable": {
+                  "name": "double_s",
+                  "value": 0
+                }
+              }
+            ],
+            "to_if_canceled": [
+              {
+                "set_variable": {
+                  "name": "double_s",
+                  "value": 0
+                }
+              }
+            ]
+          },
+          "parameters": {
+            "basic.to_if_alone_timeout_milliseconds": 250,
+            "basic.to_if_held_down_threshold_milliseconds": 250
+          },
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "l to left_command, l if alone, repeat if double tapped",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "double_l",
+              "value": 1
+            },
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "l",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "l"
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "double_l",
+                "value": 0
+              }
+            }
+          ],
+          "type": "basic"
+        },
+        {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "l",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to_after_key_up": [
+            {
+              "key_code": "l"
+            }
+          ],
+          "to_if_held_down": [
+            {
+              "set_variable": {
+                "name": "double_l",
+                "value": 0
+              }
+            },
+            {
+              "key_code": "left_command",
+              "halt": true
+            }
+          ],
+          "to": [
+            {
+              "set_variable": {
+                "name": "double_l",
+                "value": 1
+              }
+            }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [
+              {
+                "set_variable": {
+                  "name": "double_l",
+                  "value": 0
+                }
+              }
+            ],
+            "to_if_canceled": [
+              {
+                "set_variable": {
+                  "name": "double_l",
+                  "value": 0
+                }
+              }
+            ]
+          },
+          "parameters": {
+            "basic.to_if_alone_timeout_milliseconds": 250,
+            "basic.to_if_held_down_threshold_milliseconds": 250
+          },
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "a to left_shift, a if alone, repeat if double tapped",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "double_a",
+              "value": 1
+            },
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "a",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "a"
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "double_a",
+                "value": 0
+              }
+            }
+          ],
+          "type": "basic"
+        },
+        {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "a",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to_after_key_up": [
+            {
+              "key_code": "a"
+            }
+          ],
+          "to_if_held_down": [
+            {
+              "set_variable": {
+                "name": "double_a",
+                "value": 0
+              }
+            },
+            {
+              "key_code": "left_shift",
+              "halt": true
+            }
+          ],
+          "to": [
+            {
+              "set_variable": {
+                "name": "double_a",
+                "value": 1
+              }
+            }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [
+              {
+                "set_variable": {
+                  "name": "double_a",
+                  "value": 0
+                }
+              }
+            ],
+            "to_if_canceled": [
+              {
+                "set_variable": {
+                  "name": "double_a",
+                  "value": 0
+                }
+              }
+            ]
+          },
+          "parameters": {
+            "basic.to_if_alone_timeout_milliseconds": 250,
+            "basic.to_if_held_down_threshold_milliseconds": 250
+          },
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "semicolon to right_shift, semicolon if alone, repeat if double tapped",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "type": "variable_if",
+              "name": "double_semicolon",
+              "value": 1
+            },
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "semicolon",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "semicolon"
+            }
+          ],
+          "to_after_key_up": [
+            {
+              "set_variable": {
+                "name": "double_semicolon",
+                "value": 0
+              }
+            }
+          ],
+          "type": "basic"
+        },
+        {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 832,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "semicolon",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to_after_key_up": [
+            {
+              "key_code": "semicolon"
+            }
+          ],
+          "to_if_held_down": [
+            {
+              "set_variable": {
+                "name": "double_semicolon",
+                "value": 0
+              }
+            },
+            {
+              "key_code": "right_shift",
+              "halt": true
+            }
+          ],
+          "to": [
+            {
+              "set_variable": {
+                "name": "double_semicolon",
+                "value": 1
+              }
+            }
+          ],
+          "to_delayed_action": {
+            "to_if_invoked": [
+              {
+                "set_variable": {
+                  "name": "double_semicolon",
+                  "value": 0
+                }
+              }
+            ],
+            "to_if_canceled": [
+              {
+                "set_variable": {
+                  "name": "double_semicolon",
+                  "value": 0
+                }
+              }
+            ]
+          },
+          "parameters": {
+            "basic.to_if_alone_timeout_milliseconds": 250,
+            "basic.to_if_held_down_threshold_milliseconds": 250
+          },
+          "type": "basic"
+        }
+      ]
+    }
+  ]
+}
