@@ -4,7 +4,7 @@ local hyperS = {"ctrl", "alt", "cmd", "shift"}
 
 hs.loadSpoon("MiroWindowsManager")
 hs.loadSpoon("WinWin")
-
+hs.loadSpoon("MouseFollowsFocus")
 
 hs.window.animationDuration = 0.0
 spoon.MiroWindowsManager:bindHotkeys({
@@ -52,7 +52,15 @@ bindMove('l', 'right')
 
 hs.hotkey.bind({'alt', 'shift'}, '-', function() hs.window.focusedWindow():sendToBack() end)
 
--- move window focus directionally
+hs.hotkey.bind(hyperS, 'right', function()
+    spoon.WinWin:moveToScreen('right')
+end)
+hs.hotkey.bind(hyperS, 'left', function()
+    spoon.WinWin:moveToScreen('left')
+end)
+-- }}}
+
+-- window/app focus keybindings {{{
 hs.hotkey.bind(hyper, 'h', function()
     hs.window.focusedWindow():focusWindowWest(nil, true, true)
 end)
@@ -65,15 +73,23 @@ end)
 hs.hotkey.bind(hyper, 'l', function()
     hs.window.focusedWindow():focusWindowEast(nil, true, true)
 end)
-hs.hotkey.bind(hyperS, 'right', function()
-    spoon.WinWin:moveToScreen('right')
-end)
-hs.hotkey.bind(hyperS, 'left', function()
-    spoon.WinWin:moveToScreen('left')
-end)
 hs.hotkey.bind(hyper, ';', function()
     hs.hints.windowHints(hs.window.visibleWindows())
 end)
+
+function bindAppToNum(app, num)
+    hs.hotkey.bind(hyper, num, function()
+	hs.application.launchOrFocus(app)
+    end)
+end
+
+bindAppToNum('Google Chrome', '1')
+bindAppToNum('kitty', '2')
+bindAppToNum('Workplace Chat', '3')
+bindAppToNum('VS Code @ FB', '4')
+bindAppToNum('Todoist', '5')
+bindAppToNum('WhatsApp', '7')
+
 
 --visibleWindowFilter = hs.window.filter.new():setOverrideFilter({visible=true,fullscreen=false,currentSpace=true})
 --switcher = hs.window.switcher.new(visibleWindowFilter)
@@ -105,7 +121,7 @@ end
 
 -- resize Mode {{{
 --resize = hs.hotkey.modal.new(hyper, "r", "resize mode")
-resize = makeMode(hyper, "r", "resize/move mode")
+resize = makeMode(hyper, "return", "resize/move mode")
 function bindResize(mod, key, direction)
     local fn = function() spoon.WinWin:stepResize(direction) end
     resize:bind(mod, key, fn, nil, fn)
@@ -170,7 +186,7 @@ end
 -- default mark
 function setDefaultMark(appname, mark)
     local wf=hs.window.filter
-    filter=wf.new{appname}
+    filter=wf.new(false):setAppFilter(appname, {allowTitles=1})
     filter:subscribe(wf.windowAllowed, function(w)
 	setWindowWithMark(w, mark)
     end, true)
@@ -181,7 +197,7 @@ end
 
 setDefaultMark('WhatsApp', 'w')
 setDefaultMark('Workplace Chat', 'c')
-setDefaultMark('Outlook', 'm')
+setDefaultMark('Microsoft Outlook', 'm')
 setDefaultMark('Todoist', 't')
 
 -- }}}
