@@ -1,18 +1,30 @@
 {
-  "title": "CAPS_LOCK to Hyper/Escape, Hyper + i/j/k/l Vim navigation and others.",
+  "title": "Caps Mods + Others",
   "rules": [
     {
-      "description": "CAPS_LOCK to HYPER (COMMAND+OPTION+CONTROL) or ESCAPE (If Alone)",
+      "description": "CAPS_LOCK to CTRL or ESCAPE (If Alone)",
       "manipulators": [
         {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 835,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
           "from": {
             "key_code": "caps_lock",
             "modifiers": {}
           },
           "to": [
             {
-              "key_code": "left_command",
-              "modifiers": ["left_control", "left_option"]
+              "key_code": "left_control",
+              "modifiers": []
             }
           ],
           "to_if_alone": [
@@ -25,31 +37,21 @@
       ]
     },
     {
-      "description": "Tab to Ctrl or Tab if Alone",
-      "manipulators": [
-        {
-          "from": {
-            "key_code": "tab",
-            "modifiers": {}
-          },
-          "to": [
-            {
-              "key_code": "left_control"
-            }
-          ],
-          "to_if_alone": [
-            {
-              "key_code": "tab"
-            }
-          ],
-          "type": "basic"
-        }
-      ]
-    },
-    {
       "description": "Toggle caps_lock by pressing left_shift then right_shift",
       "manipulators": [
         {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 835,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
           "from": {
             "key_code": "left_shift",
             "modifiers": {
@@ -92,68 +94,34 @@
       ]
     },
     {
-      "description": "Shifts Move Forward and Backward by 1 word",
+      "description": "Left CTRL to CTRL+OPT+CMD",
       "manipulators": [
         {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "vendor_id": 1452,
+                  "product_id": 835,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
           "from": {
-            "key_code": "right_shift"
+            "key_code": "left_control",
+            "modifiers": {}
           },
           "to": [
             {
-              "key_code": "right_shift"
+              "key_code": "left_control",
+              "modifiers": ["left_option", "left_command"]
             }
           ],
           "to_if_alone": [
             {
-              "key_code": "right_arrow",
-              "modifiers": ["option"]
-            }
-          ],
-          "type": "basic"
-        },
-        {
-          "from": {
-            "key_code": "left_shift"
-          },
-          "to": [
-            {
-              "key_code": "left_shift"
-            }
-          ],
-          "to_if_alone": [
-            {
-              "key_code": "left_arrow",
-              "modifiers": ["option"]
-            }
-          ],
-          "type": "basic"
-        }
-      ]
-    },
-    {
-      "description": "Disable cmd+H, use opt+Hyphen instead",
-      "manipulators": [
-        {
-          "from": {
-            "key_code": "h",
-            "modifiers": {
-              "mandatory": ["left_command"]
-            }
-          },
-          "to": [],
-          "type": "basic"
-        },
-        {
-          "from": {
-            "key_code": "hyphen",
-            "modifiers": {
-              "mandatory": ["left_option"]
-            }
-          },
-          "to": [
-            {
-              "key_code": "h",
-              "modifiers": "left_command"
+              "key_code": "escape"
             }
           ],
           "type": "basic"
