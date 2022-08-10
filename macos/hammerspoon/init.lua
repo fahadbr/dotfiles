@@ -4,7 +4,6 @@ local hyperS = {"ctrl", "alt", "cmd", "shift"}
 
 hs.loadSpoon("MiroWindowsManager")
 hs.loadSpoon("WinWin")
-hs.loadSpoon("MouseFollowsFocus")
 
 hs.window.animationDuration = 0.0
 spoon.MiroWindowsManager:bindHotkeys({
@@ -77,18 +76,43 @@ hs.hotkey.bind(hyper, ';', function()
     hs.hints.windowHints(hs.window.visibleWindows())
 end)
 
+appWindowList = {}
+appWindowIdx = 1
 function bindAppToNum(app, num)
-    hs.hotkey.bind(hyper, num, function()
-	hs.application.launchOrFocus(app)
-    end)
+	hs.hotkey.bind(hyper, num, function()
+	    if hs.window.focusedWindow():application():name() == app then
+		if appWindowList and #appWindowList > 1 then
+		    appWindowIdx = math.fmod(appWindowIdx, #appWindowList) + 1
+		    appWindowList[appWindowIdx]:focus()
+		end
+	    else
+		hs.application.launchOrFocus(app)
+	    end
+	end)
 end
+
+focusedWindowChangedFilter=hs.window.filter.new(true)
+focusedWindowChangedFilter:subscribe(hs.window.filter.windowFocused, function(w)
+    appWindowList = hs.application.get(w:application():name()):allWindows()
+    appWindowIdx = 1
+end, true)
+
+
+--spaceWatcher = hs.spaces.watcher.new(function(newSpaceNum)
+    --focusedAppName = hs.window.focusedWindow():application():name()
+    --appWindowList = hs.application.get(focusedAppName):allWindows()
+    --appWindowIdx = 1
+--end)
+--spaceWatcher:start()
 
 bindAppToNum('Google Chrome', '1')
 bindAppToNum('kitty', '2')
 bindAppToNum('Workplace Chat', '3')
 bindAppToNum('VS Code @ FB', '4')
 bindAppToNum('Todoist', '5')
+bindAppToNum('Microsoft Outlook', '6')
 bindAppToNum('WhatsApp', '7')
+bindAppToNum('Firefox', '8')
 
 
 --visibleWindowFilter = hs.window.filter.new():setOverrideFilter({visible=true,fullscreen=false,currentSpace=true})
@@ -98,8 +122,44 @@ bindAppToNum('WhatsApp', '7')
 
 -- logic for spaces {{{
 --
+hs.hotkey.bind(hyperS, 'n', function()
+    local currentSpace = hs.spaces.focusedSpace()
+    local spacesForScreen = hs.spaces.spacesForScreen(hs.spaces.spaceDisplay(currentSpace))
+    local currentSpaceIdx = 0
+    for idx, id in pairs(spacesForScreen) do
+	if id == currentSpace then
+	    currentSpaceIdx = idx
+	    break
+	end
+    end
+    if currentSpaceIdx ~= 0 and currentSpaceIdx < #spacesForScreen then
+	hs.spaces.openMissionControl()
+	hs.spaces.moveWindowToSpace(hs.window.focusedWindow(), spacesForScreen[currentSpaceIdx+1])
+	hs.spaces.gotoSpace(spacesForScreen[currentSpaceIdx+1])
+	hs.spaces.closeMissionControl()
+    end
+end)
+
+hs.hotkey.bind(hyperS, 'p', function()
+    local currentSpace = hs.spaces.focusedSpace()
+    local spacesForScreen = hs.spaces.spacesForScreen(hs.spaces.spaceDisplay(currentSpace))
+    local currentSpaceIdx = 0
+    for idx, id in pairs(spacesForScreen) do
+	if id == currentSpace then
+	    currentSpaceIdx = idx
+	    break
+	end
+    end
+    if currentSpaceIdx ~= 0 and currentSpaceIdx > 1 then
+	hs.spaces.openMissionControl()
+	hs.spaces.moveWindowToSpace(hs.window.focusedWindow(), spacesForScreen[currentSpaceIdx-1])
+	hs.spaces.gotoSpace(spacesForScreen[currentSpaceIdx-1])
+	hs.spaces.closeMissionControl()
+    end
+end)
+
 function moveWindowToSpace(i)
-    spacesByDisplay = hs.spaces.missionControlSpaceNames()
+    local spacesByDisplay = hs.spaces.missionControlSpaceNames()
     for display, idNameTable in pairs(spacesByDisplay) do
 	for id, name in pairs(idNameTable) do
 	    nameIdx = string.match(name, "%d+")
