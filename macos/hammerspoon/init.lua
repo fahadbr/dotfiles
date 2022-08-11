@@ -62,6 +62,61 @@ hs.hotkey.bind(hyperS, 'left', function()
 end)
 -- }}}
 
+-- resize Mode {{{
+resize = makeMode(hyper, "return", "resize/move mode")
+
+-- use this function for repeating keys
+function bindResizeRepeat(mod, key, fn)
+    resize:bind(mod, key, fn, nil, fn)
+end
+
+bindResizeRepeat('shift', 'h', hs.grid.resizeWindowThinner)
+bindResizeRepeat('shift', 'j', hs.grid.resizeWindowTaller)
+bindResizeRepeat('shift', 'k', hs.grid.resizeWindowShorter)
+bindResizeRepeat('shift', 'l', hs.grid.resizeWindowWider)
+
+bindResizeRepeat('', 'h', hs.grid.pushWindowLeft)
+bindResizeRepeat('', 'j', hs.grid.pushWindowDown)
+bindResizeRepeat('', 'k', hs.grid.pushWindowUp)
+bindResizeRepeat('', 'l', hs.grid.pushWindowRight)
+
+function bindGrid(mod, key, x, y, w, h)
+    resize:bind(mod, key, function()
+	hs.grid.set(hs.window.focusedWindow(), hs.geometry.rect(x,y,w,h))
+    end)
+end
+
+-- resize and move in thirds of screen
+bindGrid('', 'x', 0,0,4,6)
+bindGrid('', 'c', 4,0,4,6)
+bindGrid('', 'v', 8,0,4,6)
+-- resize and move in halves of screen
+bindGrid('', 's', 0,0,6,6)
+bindGrid('', 'd', 3,0,6,6)
+bindGrid('', 'f', 6,0,6,6)
+-- resize and move in 2/3s of screen
+bindGrid('', 'w', 0,0,8,6)
+bindGrid('', 'e', 2,0,8,6)
+bindGrid('', 'r', 4,0,8,6)
+
+-- resize and move to corner regions of screen with half width and height
+bindGrid('shift', 'w', 0,0,6,3)
+bindGrid('shift', 'x', 0,3,6,3)
+bindGrid('shift', 'r', 6,0,6,3)
+bindGrid('shift', 'v', 6,3,6,3)
+
+-- resize and move to corner regions of screen with 1/3 width and 1/2 height
+bindGrid({'cmd', 'shift'}, 'w', 0,0,4,3)
+bindGrid({'cmd', 'shift'}, 'x', 0,3,4,3)
+bindGrid({'cmd', 'shift'}, 'r', 8,0,4,3)
+bindGrid({'cmd', 'shift'}, 'v', 8,3,4,3)
+
+hs.hotkey.bind(hyper, 'f', function()
+    hs.grid.set(hs.window.focusedWindow(), hs.geometry.rect(0,0,12,6))
+end)
+
+-- }}}
+
 -- window/app focus keybindings {{{
 hs.hotkey.bind(hyper, 'h', function()
     hs.window.focusedWindow():focusWindowWest(nil, true, true)
@@ -179,49 +234,6 @@ for i=1, 9 do
 end
 
 -- }}}
-
--- }}}
-
--- resize Mode {{{
-resize = makeMode(hyper, "return", "resize/move mode")
-
--- use this function for repeating keys
-function bindResizeRepeat(mod, key, fn)
-    resize:bind(mod, key, fn, nil, fn)
-end
-
-bindResizeRepeat('shift', 'h', hs.grid.resizeWindowThinner)
-bindResizeRepeat('shift', 'j', hs.grid.resizeWindowTaller)
-bindResizeRepeat('shift', 'k', hs.grid.resizeWindowShorter)
-bindResizeRepeat('shift', 'l', hs.grid.resizeWindowWider)
-
-bindResizeRepeat('', 'h', hs.grid.pushWindowLeft)
-bindResizeRepeat('', 'j', hs.grid.pushWindowDown)
-bindResizeRepeat('', 'k', hs.grid.pushWindowUp)
-bindResizeRepeat('', 'l', hs.grid.pushWindowRight)
-
-resize:bind('', 'c', function()
-    spoon.WinWin:moveAndResize('center')
-end)
-
-function bindGrid(key, x, y, w, h)
-    resize:bind('', key, function()
-	hs.grid.set(hs.window.focusedWindow(), hs.geometry.rect(x,y,w,h))
-    end)
-end
-
--- resize and move in thirds of screen
-bindGrid('1', 0,0,4,6)
-bindGrid('2', 4,0,4,6)
-bindGrid('3', 8,0,4,6)
--- resize and move in halves of screen
-bindGrid('4', 0,0,6,6)
-bindGrid('5', 3,0,6,6)
-bindGrid('6', 6,0,6,6)
--- resize and move in 2/3s of screen
-bindGrid('7', 0,0,8,6)
-bindGrid('8', 2,0,8,6)
-bindGrid('9', 4,0,8,6)
 
 -- }}}
 
