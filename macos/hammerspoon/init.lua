@@ -183,15 +183,46 @@ end
 -- }}}
 
 -- resize Mode {{{
-resize = makeMode(hyper, "return", "resize mode")
-function bindResize(mod, key, fn)
+resize = makeMode(hyper, "return", "resize/move mode")
+
+-- use this function for repeating keys
+function bindResizeRepeat(mod, key, fn)
     resize:bind(mod, key, fn, nil, fn)
 end
 
-bindResize('', 'h', hs.grid.resizeWindowThinner)
-bindResize('', 'j', hs.grid.resizeWindowTaller)
-bindResize('', 'k', hs.grid.resizeWindowShorter)
-bindResize('', 'l', hs.grid.resizeWindowWider)
+bindResizeRepeat('shift', 'h', hs.grid.resizeWindowThinner)
+bindResizeRepeat('shift', 'j', hs.grid.resizeWindowTaller)
+bindResizeRepeat('shift', 'k', hs.grid.resizeWindowShorter)
+bindResizeRepeat('shift', 'l', hs.grid.resizeWindowWider)
+
+bindResizeRepeat('', 'h', hs.grid.pushWindowLeft)
+bindResizeRepeat('', 'j', hs.grid.pushWindowDown)
+bindResizeRepeat('', 'k', hs.grid.pushWindowUp)
+bindResizeRepeat('', 'l', hs.grid.pushWindowRight)
+
+resize:bind('', 'c', function()
+    spoon.WinWin:moveAndResize('center')
+end)
+
+function bindGrid(key, x, y, w, h)
+    resize:bind('', key, function()
+	hs.grid.set(hs.window.focusedWindow(), hs.geometry.rect(x,y,w,h))
+    end)
+end
+
+-- resize and move in thirds of screen
+bindGrid('1', 0,0,4,6)
+bindGrid('2', 4,0,4,6)
+bindGrid('3', 8,0,4,6)
+-- resize and move in halves of screen
+bindGrid('4', 0,0,6,6)
+bindGrid('5', 3,0,6,6)
+bindGrid('6', 6,0,6,6)
+-- resize and move in 2/3s of screen
+bindGrid('7', 0,0,8,6)
+bindGrid('8', 2,0,8,6)
+bindGrid('9', 4,0,8,6)
+
 -- }}}
 
 -- logic for marking module {{{
