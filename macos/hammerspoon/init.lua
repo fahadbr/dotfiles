@@ -36,26 +36,29 @@ end
 
 -- window movement {{{
 --
+hs.grid.setGrid(hs.geometry.size(12,6))
+hs.grid.setMargins(hs.geometry.size(5,5))
+
 hs.hotkey.bind(hyper, "c", function()
     spoon.WinWin:moveAndResize("center")
 end)
 
-function bindMove(key, direction)
-    fn = function() spoon.WinWin:stepMove(direction) end
+function bindMove(key, fn)
     hs.hotkey.bind(hyperS, key, fn, nil, fn)
 end
-bindMove('h', 'left')
-bindMove('j', 'down')
-bindMove('k', 'up')
-bindMove('l', 'right')
+
+bindMove('h', hs.grid.pushWindowLeft)
+bindMove('j', hs.grid.pushWindowDown)
+bindMove('k', hs.grid.pushWindowUp)
+bindMove('l', hs.grid.pushWindowRight)
 
 hs.hotkey.bind({'alt', 'shift'}, '-', function() hs.window.focusedWindow():sendToBack() end)
 
 hs.hotkey.bind(hyperS, 'right', function()
-    spoon.WinWin:moveToScreen('right')
+    hs.window.focusedWindow():moveOneScreenEast(true, true)
 end)
 hs.hotkey.bind(hyperS, 'left', function()
-    spoon.WinWin:moveToScreen('left')
+    hs.window.focusedWindow():moveOneScreenWest(true, true)
 end)
 -- }}}
 
@@ -93,17 +96,17 @@ end
 
 focusedWindowChangedFilter=hs.window.filter.new(true)
 focusedWindowChangedFilter:subscribe(hs.window.filter.windowFocused, function(w)
-    appWindowList = hs.application.get(w:application():name()):allWindows()
+    appWindowList = hs.application.get(hs.window.focusedWindow():application():name()):allWindows()
     appWindowIdx = 1
 end, true)
 
 
---spaceWatcher = hs.spaces.watcher.new(function(newSpaceNum)
-    --focusedAppName = hs.window.focusedWindow():application():name()
-    --appWindowList = hs.application.get(focusedAppName):allWindows()
-    --appWindowIdx = 1
---end)
---spaceWatcher:start()
+spaceWatcher = hs.spaces.watcher.new(function(newSpaceNum)
+    focusedAppName = hs.window.focusedWindow():application():name()
+    appWindowList = hs.application.get(focusedAppName):allWindows()
+    appWindowIdx = 1
+end)
+spaceWatcher:start()
 
 bindAppToNum('Google Chrome', '1')
 bindAppToNum('kitty', '2')
@@ -180,25 +183,15 @@ end
 -- }}}
 
 -- resize Mode {{{
---resize = hs.hotkey.modal.new(hyper, "r", "resize mode")
-resize = makeMode(hyper, "return", "resize/move mode")
-function bindResize(mod, key, direction)
-    local fn = function() spoon.WinWin:stepResize(direction) end
+resize = makeMode(hyper, "return", "resize mode")
+function bindResize(mod, key, fn)
     resize:bind(mod, key, fn, nil, fn)
 end
-function bindMoveMode(key, direction)
-    fn = function() spoon.WinWin:stepMove(direction) end
-    resize:bind('', key, fn, nil, fn)
-end
-bindMoveMode('h', 'left')
-bindMoveMode('j', 'down')
-bindMoveMode('k', 'up')
-bindMoveMode('l', 'right')
 
-bindResize({'shift'}, 'h', 'left')
-bindResize({'shift'}, 'j', 'down')
-bindResize({'shift'}, 'k', 'up')
-bindResize({'shift'}, 'l', 'right')
+bindResize('', 'h', hs.grid.resizeWindowThinner)
+bindResize('', 'j', hs.grid.resizeWindowTaller)
+bindResize('', 'k', hs.grid.resizeWindowShorter)
+bindResize('', 'l', hs.grid.resizeWindowWider)
 -- }}}
 
 -- logic for marking module {{{
