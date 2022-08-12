@@ -2,18 +2,9 @@
 local hyper = {"ctrl", "alt", "cmd"}
 local hyperS = {"ctrl", "alt", "cmd", "shift"}
 
-hs.loadSpoon("MiroWindowsManager")
 hs.loadSpoon("WinWin")
 
 hs.window.animationDuration = 0.0
-spoon.MiroWindowsManager:bindHotkeys({
-    up = {hyper, "up"},
-    down = {hyper, "down"},
-    right = {hyper, "right"},
-    left = {hyper, "left"},
-    fullscreen = {hyper, "f"},
-    nextscreen = {hyper, "g"}
-})
 
 hs.hotkey.bind(hyperS, "r", function()
     hs.reload()
@@ -21,7 +12,7 @@ end)
 
 -- helper functions {{{
 --
-hs.alert.defaultStyle.atScreenEdge = 1
+hs.alert.defaultStyle.atScreenEdge = 0
 hs.alert.defaultStyle.textSize = 20
 modealerts = {}
 function makeMode(mods, key, name)
@@ -135,31 +126,40 @@ hs.hotkey.bind(hyper, ';', function()
 end)
 
 appWindowList = {}
-appWindowIdx = 1
-function bindAppToNum(app, num)
-	hs.hotkey.bind(hyper, num, function()
-	    if hs.window.focusedWindow():application():name() == app then
-		if appWindowList and #appWindowList > 1 then
-		    appWindowIdx = math.fmod(appWindowIdx, #appWindowList) + 1
-		    appWindowList[appWindowIdx]:focus()
-		end
-	    else
-		hs.application.launchOrFocus(app)
-	    end
-	end)
+appWindowIdx = 0
+currentAppName = ''
+function resetCurrentApp(newAppName)
+    appWindowList = hs.application.get(newAppName):allWindows()
+    appWindowIdx = 0
+    currentAppName = newAppName
 end
+
+function bindAppToNum(app, num)
+    hs.hotkey.bind(hyper, num, function()
+	if hs.window.focusedWindow():application():name() == app then
+	    if appWindowList and #appWindowList > 1 then
+		appWindowIdx = math.fmod(appWindowIdx+1, #appWindowList)
+		appWindowList[appWindowIdx + 1]:focus()
+	    end
+	else
+	    hs.application.launchOrFocus(app)
+	end
+	hs.printf('appWindowIdx: %d', appWindowIdx)
+    end)
+end
+
 
 focusedWindowChangedFilter=hs.window.filter.new(true)
 focusedWindowChangedFilter:subscribe(hs.window.filter.windowFocused, function(w)
-    appWindowList = hs.application.get(hs.window.focusedWindow():application():name()):allWindows()
-    appWindowIdx = 1
+    local newAppName = hs.window.focusedWindow():application():name()
+    if currentAppName ~= newAppName then
+	resetCurrentApp(newAppName)
+    end
 end, true)
 
 
 spaceWatcher = hs.spaces.watcher.new(function(newSpaceNum)
-    focusedAppName = hs.window.focusedWindow():application():name()
-    appWindowList = hs.application.get(focusedAppName):allWindows()
-    appWindowIdx = 1
+    resetCurrentApp(hs.window.focusedWindow():application():name())
 end)
 spaceWatcher:start()
 
