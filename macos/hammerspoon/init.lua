@@ -128,23 +128,27 @@ end)
 appWindowList = {}
 appWindowIdx = 0
 currentAppName = ''
+lastAppName = ''
 function resetCurrentApp(newAppName)
     appWindowList = hs.application.get(newAppName):allWindows()
     appWindowIdx = 0
-    currentAppName = newAppName
+    if newAppName ~= currentAppName then
+	lastAppName = currentAppName
+	currentAppName = newAppName
+    end
 end
 
 function bindAppToNum(app, num)
     hs.hotkey.bind(hyper, num, function()
 	if hs.window.focusedWindow():application():name() == app then
-	    if appWindowList and #appWindowList > 1 then
-		appWindowIdx = math.fmod(appWindowIdx+1, #appWindowList)
-		appWindowList[appWindowIdx + 1]:focus()
-	    end
+	    --if appWindowList and #appWindowList > 1 then
+		--appWindowIdx = math.fmod(appWindowIdx+1, #appWindowList)
+		--appWindowList[appWindowIdx + 1]:focus()
+	    --end
+	    hs.application.launchOrFocus(lastAppName)
 	else
 	    hs.application.launchOrFocus(app)
 	end
-	hs.printf('appWindowIdx: %d', appWindowIdx)
     end)
 end
 
@@ -167,7 +171,7 @@ bindAppToNum('Google Chrome', '1')
 bindAppToNum('kitty', '2')
 bindAppToNum('Workplace Chat', '3')
 bindAppToNum('VS Code @ FB', '4')
-bindAppToNum('Todoist', '5')
+bindAppToNum('TickTick', '5')
 bindAppToNum('Microsoft Outlook', '6')
 bindAppToNum('WhatsApp', '7')
 bindAppToNum('Firefox', '8')
@@ -280,21 +284,23 @@ for i=1, #alphabet do
 end
 
 -- default mark
-function setDefaultMark(appname, mark)
-    local wf=hs.window.filter
-    filter=wf.new(false):setAppFilter(appname, {allowTitles=1})
-    filter:subscribe(wf.windowAllowed, function(w)
-	setWindowWithMark(w, mark)
-    end, true)
-    filter:subscribe(wf.windowDestroyed, function()
-	removeMark(mark)
-    end)
-end
+-- -- No longer needed since i'm doing app switching
+-- -- by hotkey
+--function setDefaultMark(appname, mark)
+    --local wf=hs.window.filter
+    --filter=wf.new(false):setAppFilter(appname, {allowTitles=1})
+    --filter:subscribe(wf.windowAllowed, function(w)
+	--setWindowWithMark(w, mark)
+    --end, true)
+    --filter:subscribe(wf.windowDestroyed, function()
+	--removeMark(mark)
+    --end)
+--end
 
-setDefaultMark('WhatsApp', 'w')
-setDefaultMark('Workplace Chat', 'c')
-setDefaultMark('Microsoft Outlook', 'm')
-setDefaultMark('Todoist', 't')
+--setDefaultMark('WhatsApp', 'w')
+--setDefaultMark('Workplace Chat', 'c')
+--setDefaultMark('Microsoft Outlook', 'm')
+--setDefaultMark('Todoist', 't')
 
 -- }}}
 
