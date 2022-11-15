@@ -745,10 +745,10 @@ nnoremap <M-S-k> <C-w>k
 nnoremap <M-S-j> <C-w>j
 nnoremap <M-S-h> <C-w>h
 nnoremap <M-S-l> <C-w>l
-nnoremap <M-S-=> <C-w>+
-nnoremap <M-S--> <C-w>-
-nnoremap <M-S-,> <C-w><
-nnoremap <M-S-.> <C-w>>
+nnoremap <M-S-=> 5<C-w>+
+nnoremap <M-S--> 5<C-w>-
+nnoremap <M-S-,> 5<C-w><
+nnoremap <M-S-.> 5<C-w>>
 nnoremap <M-q> <C-w>q
 
 
