@@ -288,7 +288,7 @@ EOF
 " key mappings {{{
 "nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gh     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <M-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
@@ -745,10 +745,10 @@ nnoremap <M-S-k> <C-w>k
 nnoremap <M-S-j> <C-w>j
 nnoremap <M-S-h> <C-w>h
 nnoremap <M-S-l> <C-w>l
-nnoremap <M-+> <C-w>+
-nnoremap <M-_> <C-w>-
-nnoremap <M-<> <C-w><
-nnoremap <M->> <C-w>>
+nnoremap <M-S-=> <C-w>+
+nnoremap <M-S--> <C-w>-
+nnoremap <M-S-,> <C-w><
+nnoremap <M-S-.> <C-w>>
 nnoremap <M-q> <C-w>q
 
 
