@@ -226,7 +226,7 @@ lspconfig.flow.setup{
   capabilities = capabilities
 }
 
-require('work')
+-- require('work')
 
 -- for lua support
 local runtime_path = vim.split(package.path, ';')
