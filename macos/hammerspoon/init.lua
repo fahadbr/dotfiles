@@ -43,7 +43,7 @@ bindMove('j', hs.grid.pushWindowDown)
 bindMove('k', hs.grid.pushWindowUp)
 bindMove('l', hs.grid.pushWindowRight)
 
-hs.hotkey.bind({'alt', 'shift'}, '-', function() hs.window.focusedWindow():sendToBack() end)
+--hs.hotkey.bind({'alt', 'shift'}, '-', function() hs.window.focusedWindow():sendToBack() end)
 
 hs.hotkey.bind(hyperS, 'right', function()
     hs.window.focusedWindow():moveOneScreenEast(true, true)
