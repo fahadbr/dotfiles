@@ -70,6 +70,7 @@ Plug 'vim-scripts/BufOnly.vim'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'rhysd/git-messenger.vim'
 Plug 'morhetz/gruvbox'
@@ -226,7 +227,7 @@ lspconfig.flow.setup{
   capabilities = capabilities
 }
 
-require('work')
+-- require('work')
 
 -- for lua support
 local runtime_path = vim.split(package.path, ';')
