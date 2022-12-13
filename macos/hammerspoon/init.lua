@@ -175,6 +175,7 @@ bindAppToNum('TickTick', '5')
 bindAppToNum('Microsoft Outlook', '6')
 bindAppToNum('WhatsApp', '7')
 bindAppToNum('Firefox', '8')
+bindAppToNum('Messages', '9')
 
 
 --visibleWindowFilter = hs.window.filter.new():setOverrideFilter({visible=true,fullscreen=false,currentSpace=true})
