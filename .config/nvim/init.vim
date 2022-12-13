@@ -733,8 +733,8 @@ vnoremap <leader>s* "vy:%s/<C-r>v//g<left><left>
 
 
 " terminal mappings
-nnoremap <M-t> :15split \| terminal<CR>
-tnoremap <M-Tab> <C-\><C-n>
+nnoremap <M-t> :botright 15split \| terminal<CR>
+tnoremap <M-S-t> <C-\><C-n>
 
 " window mappings
 nnoremap <M-S-k> <C-w>k
@@ -757,11 +757,6 @@ nnoremap <C-g><C-p> :lprevious<CR>
 nnoremap <C-g><C-n> :lnext<CR>
 nnoremap gp :cprevious<CR>
 nnoremap gn :cnext<CR>
-
-" insert mode mappings
-" mapping F12 to something so that it doesnt hang ultisnips
-inoremap <F12> <space>
-
 
 " cmdline mapping
 cnoremap <C-p> <Up>
