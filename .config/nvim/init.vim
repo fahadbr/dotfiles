@@ -22,8 +22,6 @@ set showmatch
 set cursorline
 set mouse+=a
 set hidden
-set splitbelow
-set splitright
 set linebreak
 
 set title
@@ -69,10 +67,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-scripts/BufOnly.vim'
-Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
-Plug 'tpope/vim-surround'
+Plug 'xolox/vim-session'
 Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'rhysd/git-messenger.vim'
 Plug 'morhetz/gruvbox'
@@ -86,30 +84,26 @@ Plug 'fenetikm/falcon'
 Plug 'mhartington/oceanic-next'
 Plug 'jsit/toast.vim', { 'as': 'toast' }
 Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
-"Plug 'vim-scripts/a.vim', { 'for' : ['c', 'cpp'] }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'ianks/vim-tsx'
 Plug 'yuezk/vim-js'
 Plug 'MaxMEllon/vim-jsx-pretty'
 
-if (!has("nvim-0.6.0"))
-  Plug 'SirVer/ultisnips'
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-else
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'hrsh7th/nvim-cmp'
-  Plug 'hrsh7th/cmp-nvim-lsp'
-  Plug 'hrsh7th/cmp-buffer'
-  Plug 'hrsh7th/cmp-path'
-  Plug 'hrsh7th/cmp-cmdline'
-  Plug 'saadparwaiz1/cmp_luasnip'
-  Plug 'L3MON4D3/LuaSnip'
-  Plug 'luukvbaal/nnn.nvim'
-  Plug 'nvim-lua/popup.nvim'
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-lua/telescope.nvim'
-  Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make'}
-endif
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'luukvbaal/nnn.nvim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lua/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make'}
+Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'nvim-treesitter/nvim-treesitter'
 
 call plug#end()
 
@@ -125,7 +119,8 @@ lua << EOF
 -- autocompletion {{{
 vim.o.completeopt = 'menuone,noselect'
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+-- capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 -- luasnip setup
 local luasnip = require('luasnip')
@@ -201,36 +196,38 @@ lspconfig.bashls.setup{
 }
 
 -- for c++ support
-lspconfig.ccls.setup{
-  capabilities = capabilities,
-  init_options = {
-    highlight = {
-      lsRanges = true;
-    }
-  }
-}
+-- lspconfig.ccls.setup{
+--   capabilities = capabilities,
+--   init_options = {
+--     highlight = {
+--       lsRanges = true;
+--     }
+--   }
+-- }
 
 -- for go support
-lspconfig.gopls.setup{
-  capabilities = capabilities,
-  init_options = {
-    completeUnimported = true,
-    usePlaceholders = true,
-    codelens = {
-      gc_details = true,
-      test = true
-    }
-  }
-}
+-- lspconfig.gopls.setup{
+--   capabilities = capabilities,
+--   init_options = {
+--     completeUnimported = true,
+--     usePlaceholders = true,
+--     codelens = {
+--       gc_details = true,
+--       test = true
+--     }
+--   }
+-- }
 
-lspconfig.pyright.setup{
-  capabilities = capabilities
-}
+-- lspconfig.pyright.setup{
+--   capabilities = capabilities
+-- }
 
 lspconfig.flow.setup{
   cmd = { 'flow', 'lsp' },
   capabilities = capabilities
 }
+
+-- require('work')
 
 -- for lua support
 local runtime_path = vim.split(package.path, ';')
@@ -267,9 +264,9 @@ require'lspconfig'.sumneko_lua.setup {
 -- })
 
 -- for viml support
-lspconfig.vimls.setup{
-  capabilities = capabilities,
-}
+--lspconfig.vimls.setup{
+--  capabilities = capabilities,
+--}
 
 --[[
 vim.lsp.callbacks['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
@@ -287,7 +284,7 @@ EOF
 " key mappings {{{
 "nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gh     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <M-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
@@ -297,7 +294,7 @@ nnoremap <silent> <leader>a    <cmd>lua vim.lsp.buf.code_action()<CR>
 "nnoremap <silent> <space>o    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 "nnoremap <silent> <space>s    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <silent> <leader>fm <cmd>lua vim.lsp.buf.formatting()<CR>
+nnoremap <silent> <leader>fm <cmd>lua vim.lsp.buf.format { async = false }<CR>
 
 command! Format execute 'lua vim.lsp.buf.formatting()'
 
@@ -313,7 +310,7 @@ lua << EOF
 require('telescope').load_extension('fzf')
 EOF
 
-nnoremap <c-p> :lua require'telescope.builtin'.git_files{}<CR>
+nnoremap <c-p> :Telescope myles<CR>
 nnoremap <space>o :lua require'telescope.builtin'.lsp_document_symbols{ path_display = shorten }<CR>
 nnoremap <space>s :lua require'telescope.builtin'.lsp_workspace_symbols{ path_display = shorten }<CR>
 " }}}
@@ -736,18 +733,22 @@ vnoremap <leader>s* "vy:%s/<C-r>v//g<left><left>
 
 
 " terminal mappings
-nnoremap <M-t> :15split \| terminal<CR>
-tnoremap <M-Tab> <C-\><C-n>
+nnoremap <M-t> :botright 15split \| terminal<CR>
+tnoremap <M-S-t> <C-\><C-n>
 
 " window mappings
 nnoremap <M-S-k> <C-w>k
 nnoremap <M-S-j> <C-w>j
 nnoremap <M-S-h> <C-w>h
 nnoremap <M-S-l> <C-w>l
-nnoremap <M-+> <C-w>+
-nnoremap <M-_> <C-w>-
-nnoremap <M-<> <C-w><
-nnoremap <M->> <C-w>>
+nnoremap <M-S-=> 5<C-w>+
+nnoremap <M-S--> 5<C-w>-
+nnoremap <M-S-,> 5<C-w><
+nnoremap <M-S-.> 5<C-w>>
+nnoremap <M-+> 5<C-w>+
+nnoremap <M-_> 5<C-w>-
+nnoremap <M-<> 5<C-w><
+nnoremap <M->> 5<C-w>>
 nnoremap <M-q> <C-w>q
 
 
@@ -756,11 +757,6 @@ nnoremap <C-g><C-p> :lprevious<CR>
 nnoremap <C-g><C-n> :lnext<CR>
 nnoremap gp :cprevious<CR>
 nnoremap gn :cnext<CR>
-
-" insert mode mappings
-" mapping F12 to something so that it doesnt hang ultisnips
-inoremap <F12> <space>
-
 
 " cmdline mapping
 cnoremap <C-p> <Up>

@@ -2,19 +2,9 @@
 local hyper = {"ctrl", "alt", "cmd"}
 local hyperS = {"ctrl", "alt", "cmd", "shift"}
 
-hs.loadSpoon("MiroWindowsManager")
 hs.loadSpoon("WinWin")
 
-
 hs.window.animationDuration = 0.0
-spoon.MiroWindowsManager:bindHotkeys({
-    up = {hyper, "up"},
-    down = {hyper, "down"},
-    right = {hyper, "right"},
-    left = {hyper, "left"},
-    fullscreen = {hyper, "f"},
-    nextscreen = {hyper, "g"}
-})
 
 hs.hotkey.bind(hyperS, "r", function()
     hs.reload()
@@ -22,7 +12,7 @@ end)
 
 -- helper functions {{{
 --
-hs.alert.defaultStyle.atScreenEdge = 1
+hs.alert.defaultStyle.atScreenEdge = 0
 hs.alert.defaultStyle.textSize = 20
 modealerts = {}
 function makeMode(mods, key, name)
@@ -37,22 +27,88 @@ end
 
 -- window movement {{{
 --
+hs.grid.setGrid(hs.geometry.size(12,6))
+hs.grid.setMargins(hs.geometry.size(5,5))
+
 hs.hotkey.bind(hyper, "c", function()
     spoon.WinWin:moveAndResize("center")
 end)
 
-function bindMove(key, direction)
-    fn = function() spoon.WinWin:stepMove(direction) end
+function bindMove(key, fn)
     hs.hotkey.bind(hyperS, key, fn, nil, fn)
 end
-bindMove('h', 'left')
-bindMove('j', 'down')
-bindMove('k', 'up')
-bindMove('l', 'right')
 
-hs.hotkey.bind({'alt', 'shift'}, '-', function() hs.window.focusedWindow():sendToBack() end)
+bindMove('h', hs.grid.pushWindowLeft)
+bindMove('j', hs.grid.pushWindowDown)
+bindMove('k', hs.grid.pushWindowUp)
+bindMove('l', hs.grid.pushWindowRight)
 
--- move window focus directionally
+--hs.hotkey.bind({'alt', 'shift'}, '-', function() hs.window.focusedWindow():sendToBack() end)
+
+hs.hotkey.bind(hyperS, 'right', function()
+    hs.window.focusedWindow():moveOneScreenEast(true, true)
+end)
+hs.hotkey.bind(hyperS, 'left', function()
+    hs.window.focusedWindow():moveOneScreenWest(true, true)
+end)
+-- }}}
+
+-- resize Mode {{{
+resize = makeMode(hyper, "return", "resize/move mode")
+
+-- use this function for repeating keys
+function bindResizeRepeat(mod, key, fn)
+    resize:bind(mod, key, fn, nil, fn)
+end
+
+bindResizeRepeat('shift', 'h', hs.grid.resizeWindowThinner)
+bindResizeRepeat('shift', 'j', hs.grid.resizeWindowTaller)
+bindResizeRepeat('shift', 'k', hs.grid.resizeWindowShorter)
+bindResizeRepeat('shift', 'l', hs.grid.resizeWindowWider)
+
+bindResizeRepeat('', 'h', hs.grid.pushWindowLeft)
+bindResizeRepeat('', 'j', hs.grid.pushWindowDown)
+bindResizeRepeat('', 'k', hs.grid.pushWindowUp)
+bindResizeRepeat('', 'l', hs.grid.pushWindowRight)
+
+function bindGrid(mod, key, x, y, w, h)
+    resize:bind(mod, key, function()
+	hs.grid.set(hs.window.focusedWindow(), hs.geometry.rect(x,y,w,h))
+    end)
+end
+
+-- resize and move in thirds of screen
+bindGrid('', 'x', 0,0,4,6)
+bindGrid('', 'c', 4,0,4,6)
+bindGrid('', 'v', 8,0,4,6)
+-- resize and move in halves of screen
+bindGrid('', 's', 0,0,6,6)
+bindGrid('', 'd', 3,0,6,6)
+bindGrid('', 'f', 6,0,6,6)
+-- resize and move in 2/3s of screen
+bindGrid('', 'w', 0,0,8,6)
+bindGrid('', 'e', 2,0,8,6)
+bindGrid('', 'r', 4,0,8,6)
+
+-- resize and move to corner regions of screen with half width and height
+bindGrid('shift', 'w', 0,0,6,3)
+bindGrid('shift', 'x', 0,3,6,3)
+bindGrid('shift', 'r', 6,0,6,3)
+bindGrid('shift', 'v', 6,3,6,3)
+
+-- resize and move to corner regions of screen with 1/3 width and 1/2 height
+bindGrid({'cmd', 'shift'}, 'w', 0,0,4,3)
+bindGrid({'cmd', 'shift'}, 'x', 0,3,4,3)
+bindGrid({'cmd', 'shift'}, 'r', 8,0,4,3)
+bindGrid({'cmd', 'shift'}, 'v', 8,3,4,3)
+
+hs.hotkey.bind(hyper, 'f', function()
+    hs.grid.set(hs.window.focusedWindow(), hs.geometry.rect(0,0,12,6))
+end)
+
+-- }}}
+
+-- window/app focus keybindings {{{
 hs.hotkey.bind(hyper, 'h', function()
     hs.window.focusedWindow():focusWindowWest(nil, true, true)
 end)
@@ -65,15 +121,62 @@ end)
 hs.hotkey.bind(hyper, 'l', function()
     hs.window.focusedWindow():focusWindowEast(nil, true, true)
 end)
-hs.hotkey.bind(hyperS, 'right', function()
-    spoon.WinWin:moveToScreen('right')
-end)
-hs.hotkey.bind(hyperS, 'left', function()
-    spoon.WinWin:moveToScreen('left')
-end)
 hs.hotkey.bind(hyper, ';', function()
     hs.hints.windowHints(hs.window.visibleWindows())
 end)
+
+appWindowList = {}
+appWindowIdx = 0
+currentAppName = ''
+lastAppName = ''
+function resetCurrentApp(newAppName)
+    appWindowList = hs.application.get(newAppName):allWindows()
+    appWindowIdx = 0
+    if newAppName ~= currentAppName then
+	lastAppName = currentAppName
+	currentAppName = newAppName
+    end
+end
+
+function bindAppToNum(app, num)
+    hs.hotkey.bind(hyper, num, function()
+	if hs.window.focusedWindow():application():name() == app then
+	    --if appWindowList and #appWindowList > 1 then
+		--appWindowIdx = math.fmod(appWindowIdx+1, #appWindowList)
+		--appWindowList[appWindowIdx + 1]:focus()
+	    --end
+	    hs.application.launchOrFocus(lastAppName)
+	else
+	    hs.application.launchOrFocus(app)
+	end
+    end)
+end
+
+
+focusedWindowChangedFilter=hs.window.filter.new(true)
+focusedWindowChangedFilter:subscribe(hs.window.filter.windowFocused, function(w)
+    local newAppName = hs.window.focusedWindow():application():name()
+    if currentAppName ~= newAppName then
+	resetCurrentApp(newAppName)
+    end
+end, true)
+
+
+spaceWatcher = hs.spaces.watcher.new(function(newSpaceNum)
+    resetCurrentApp(hs.window.focusedWindow():application():name())
+end)
+spaceWatcher:start()
+
+bindAppToNum('Google Chrome', '1')
+bindAppToNum('kitty', '2')
+bindAppToNum('Workplace Chat', '3')
+bindAppToNum('VS Code @ FB', '4')
+bindAppToNum('TickTick', '5')
+bindAppToNum('Microsoft Outlook', '6')
+bindAppToNum('WhatsApp', '7')
+bindAppToNum('Firefox', '8')
+bindAppToNum('Messages', '9')
+
 
 --visibleWindowFilter = hs.window.filter.new():setOverrideFilter({visible=true,fullscreen=false,currentSpace=true})
 --switcher = hs.window.switcher.new(visibleWindowFilter)
@@ -82,8 +185,44 @@ end)
 
 -- logic for spaces {{{
 --
+hs.hotkey.bind(hyperS, 'n', function()
+    local currentSpace = hs.spaces.focusedSpace()
+    local spacesForScreen = hs.spaces.spacesForScreen(hs.spaces.spaceDisplay(currentSpace))
+    local currentSpaceIdx = 0
+    for idx, id in pairs(spacesForScreen) do
+	if id == currentSpace then
+	    currentSpaceIdx = idx
+	    break
+	end
+    end
+    if currentSpaceIdx ~= 0 and currentSpaceIdx < #spacesForScreen then
+	hs.spaces.openMissionControl()
+	hs.spaces.moveWindowToSpace(hs.window.focusedWindow(), spacesForScreen[currentSpaceIdx+1])
+	hs.spaces.gotoSpace(spacesForScreen[currentSpaceIdx+1])
+	hs.spaces.closeMissionControl()
+    end
+end)
+
+hs.hotkey.bind(hyperS, 'p', function()
+    local currentSpace = hs.spaces.focusedSpace()
+    local spacesForScreen = hs.spaces.spacesForScreen(hs.spaces.spaceDisplay(currentSpace))
+    local currentSpaceIdx = 0
+    for idx, id in pairs(spacesForScreen) do
+	if id == currentSpace then
+	    currentSpaceIdx = idx
+	    break
+	end
+    end
+    if currentSpaceIdx ~= 0 and currentSpaceIdx > 1 then
+	hs.spaces.openMissionControl()
+	hs.spaces.moveWindowToSpace(hs.window.focusedWindow(), spacesForScreen[currentSpaceIdx-1])
+	hs.spaces.gotoSpace(spacesForScreen[currentSpaceIdx-1])
+	hs.spaces.closeMissionControl()
+    end
+end)
+
 function moveWindowToSpace(i)
-    spacesByDisplay = hs.spaces.missionControlSpaceNames()
+    local spacesByDisplay = hs.spaces.missionControlSpaceNames()
     for display, idNameTable in pairs(spacesByDisplay) do
 	for id, name in pairs(idNameTable) do
 	    nameIdx = string.match(name, "%d+")
@@ -101,28 +240,6 @@ end
 
 -- }}}
 
--- }}}
-
--- resize Mode {{{
---resize = hs.hotkey.modal.new(hyper, "r", "resize mode")
-resize = makeMode(hyper, "r", "resize/move mode")
-function bindResize(mod, key, direction)
-    local fn = function() spoon.WinWin:stepResize(direction) end
-    resize:bind(mod, key, fn, nil, fn)
-end
-function bindMoveMode(key, direction)
-    fn = function() spoon.WinWin:stepMove(direction) end
-    resize:bind('', key, fn, nil, fn)
-end
-bindMoveMode('h', 'left')
-bindMoveMode('j', 'down')
-bindMoveMode('k', 'up')
-bindMoveMode('l', 'right')
-
-bindResize({'shift'}, 'h', 'left')
-bindResize({'shift'}, 'j', 'down')
-bindResize({'shift'}, 'k', 'up')
-bindResize({'shift'}, 'l', 'right')
 -- }}}
 
 -- logic for marking module {{{
@@ -168,21 +285,23 @@ for i=1, #alphabet do
 end
 
 -- default mark
-function setDefaultMark(appname, mark)
-    local wf=hs.window.filter
-    filter=wf.new{appname}
-    filter:subscribe(wf.windowAllowed, function(w)
-	setWindowWithMark(w, mark)
-    end, true)
-    filter:subscribe(wf.windowDestroyed, function()
-	removeMark(mark)
-    end)
-end
+-- -- No longer needed since i'm doing app switching
+-- -- by hotkey
+--function setDefaultMark(appname, mark)
+    --local wf=hs.window.filter
+    --filter=wf.new(false):setAppFilter(appname, {allowTitles=1})
+    --filter:subscribe(wf.windowAllowed, function(w)
+	--setWindowWithMark(w, mark)
+    --end, true)
+    --filter:subscribe(wf.windowDestroyed, function()
+	--removeMark(mark)
+    --end)
+--end
 
-setDefaultMark('WhatsApp', 'w')
-setDefaultMark('Workplace Chat', 'c')
-setDefaultMark('Outlook', 'm')
-setDefaultMark('Todoist', 't')
+--setDefaultMark('WhatsApp', 'w')
+--setDefaultMark('Workplace Chat', 'c')
+--setDefaultMark('Microsoft Outlook', 'm')
+--setDefaultMark('Todoist', 't')
 
 -- }}}
 

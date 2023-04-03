@@ -44,17 +44,17 @@ defaults write com.apple.dock autohide-time-modifier -float 0.2; killall Dock
 #defaults write -g NSDocumentRevisionsWindowTransformAnimation -bool false
 
 # showing a toolbar or menu bar in full screen
-#defaults write -g NSToolbarFullScreenAnimationDuration -float 0
+defaults write -g NSToolbarFullScreenAnimationDuration -float 0
 
 # scrolling column views
 #defaults write -g NSBrowserColumnAnimationSpeedMultiplier -float 0
 
 # showing and hiding Mission Control, command+numbers
-#defaults write com.apple.dock expose-animation-duration -float 0
+defaults write com.apple.dock expose-animation-duration -float 0
 
 # showing and hiding Launchpad
-#defaults write com.apple.dock springboard-show-duration -float 0
-#defaults write com.apple.dock springboard-hide-duration -float 0
+defaults write com.apple.dock springboard-show-duration -float 0
+defaults write com.apple.dock springboard-hide-duration -float 0
 
 # changing pages in Launchpad
 #defaults write com.apple.dock springboard-page-duration -float 0
