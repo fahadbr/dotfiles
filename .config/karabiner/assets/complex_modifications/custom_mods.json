@@ -10,8 +10,7 @@
               "type": "device_if",
               "identifiers": [
                 {
-                  "vendor_id": 1452,
-                  "product_id": 835,
+                  "location_id": 41,
                   "description": "Built in Apple Keyboard"
                 }
               ]
@@ -45,8 +44,7 @@
               "type": "device_if",
               "identifiers": [
                 {
-                  "vendor_id": 1452,
-                  "product_id": 835,
+                  "location_id": 41,
                   "description": "Built in Apple Keyboard"
                 }
               ]
@@ -102,8 +100,7 @@
               "type": "device_if",
               "identifiers": [
                 {
-                  "vendor_id": 1452,
-                  "product_id": 835,
+                  "location_id": 41,
                   "description": "Built in Apple Keyboard"
                 }
               ]
@@ -122,6 +119,40 @@
           "to_if_alone": [
             {
               "key_code": "escape"
+            }
+          ],
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "Space to CTRL+OPT+CMD",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "location_id": 41,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "spacebar",
+            "modifiers": {}
+          },
+          "to": [
+            {
+              "key_code": "left_control",
+              "modifiers": ["left_option", "left_command"]
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "spacebar"
             }
           ],
           "type": "basic"
