@@ -167,15 +167,12 @@ spaceWatcher = hs.spaces.watcher.new(function(newSpaceNum)
 end)
 spaceWatcher:start()
 
-bindAppToNum('Google Chrome', '1')
+bindAppToNum('Safari', '1')
 bindAppToNum('kitty', '2')
-bindAppToNum('Workplace Chat', '3')
-bindAppToNum('VS Code @ FB', '4')
-bindAppToNum('TickTick', '5')
-bindAppToNum('Microsoft Outlook', '6')
-bindAppToNum('WhatsApp', '7')
-bindAppToNum('Firefox', '8')
-bindAppToNum('Messages', '9')
+bindAppToNum('TickTick', '3')
+bindAppToNum('Messages', '4')
+bindAppToNum('WhatsApp', '5')
+bindAppToNum('Mail', '6')
 
 
 --visibleWindowFilter = hs.window.filter.new():setOverrideFilter({visible=true,fullscreen=false,currentSpace=true})
@@ -311,6 +308,51 @@ end
 --hs.window.highlight.ui.overlayColor={1,1,1,0}
 --hs.window.highlight.ui.frameWidth=5
 --hs.window.highlight.start()
+-- }}}
+
+-- {{{ event tap
+local events = hs.eventtap.event.types
+local logger = hs.logger.new("keytracker", "debug")
+local heldDown = false
+local heldDownTime = 0
+
+-- Cases to handle
+-- A_MOD_DOWN B_DOWN B_UP A_MOD_UP => MOD+B
+-- A_MOD_DOWN B_DOWN A_MOD_UP B_UP => A,B
+-- A_MOD_DOWN A_MOD_UP => A if < .5 sec between keydown and keyup
+-- A_MOD_DOWN A_MOD_UP A_MOD_DOWN A_MOD_UP => A repeated if doubled tapped
+keyDownTracker = hs.eventtap.new({ events.keyDown, events.keyUp }, function (e)
+  local keyCode = e:getKeyCode()
+  local eventType = e:getType(true)
+  local eventDesc = ""
+  if eventType == events.keyDown then
+      eventDesc = "KEYDOWN"
+      if keyCode == 3 and not heldDown then
+      	heldDown = true
+	heldDownTime = e:timestamp()
+      end
+  elseif eventType == events.keyUp then
+      eventDesc = "KEYUP"
+      if keyCode == 3 then
+      	heldDown = false
+	keyUpTime = e:timestamp()
+	--i
+      end
+  end
+
+  local deleteOriginalKey = keyCode == 3 and heldDown
+  if heldDown == true then
+      local currentFlags = e:getFlags()
+      currentFlags.ctrl = true
+      e:setFlags(currentFlags)
+  end
+
+  logger.df("%s keycode %d, timestamp: %d", eventDesc, keyCode, e:timestamp())
+  return deleteOriginalKey
+end)
+--keyDownTracker:start()
+
+
 -- }}}
 
 hs.alert.show("Loaded HammerSpoon Config")

@@ -218,16 +218,14 @@ lspconfig.bashls.setup{
 --   }
 -- }
 
--- lspconfig.pyright.setup{
---   capabilities = capabilities
--- }
+lspconfig.pyright.setup{
+  capabilities = capabilities
+}
 
 lspconfig.flow.setup{
   cmd = { 'flow', 'lsp' },
   capabilities = capabilities
 }
-
--- require('work')
 
 -- for lua support
 local runtime_path = vim.split(package.path, ';')

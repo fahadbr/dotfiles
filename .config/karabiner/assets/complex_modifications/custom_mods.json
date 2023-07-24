@@ -126,7 +126,7 @@
       ]
     },
     {
-      "description": "Space to CTRL+OPT+CMD",
+      "description": "RCMD to CTRL+OPT+CMD",
       "manipulators": [
         {
           "conditions": [
@@ -141,7 +141,7 @@
             }
           ],
           "from": {
-            "key_code": "spacebar",
+            "key_code": "right_command",
             "modifiers": {}
           },
           "to": [
@@ -152,7 +152,7 @@
           ],
           "to_if_alone": [
             {
-              "key_code": "spacebar"
+              "key_code": "right_command"
             }
           ],
           "type": "basic"
