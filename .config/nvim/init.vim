@@ -144,24 +144,24 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
-    ['<Tab>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end,
-    ['<S-Tab>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end,
+--    ['<Tab>'] = function(fallback)
+--      if cmp.visible() then
+--        cmp.select_next_item()
+--      elseif luasnip.expand_or_jumpable() then
+--        luasnip.expand_or_jump()
+--      else
+--        fallback()
+--      end
+--    end,
+--    ['<S-Tab>'] = function(fallback)
+--      if cmp.visible() then
+--        cmp.select_prev_item()
+--      elseif luasnip.jumpable(-1) then
+--        luasnip.jump(-1)
+--      else
+--        fallback()
+--      end
+--    end,
   },
   sources = {
     { name = 'nvim_lsp' },
@@ -299,8 +299,6 @@ command! Format execute 'lua vim.lsp.buf.formatting()'
 
 " reload lsp
 nnoremap <leader>cr <cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>
-
-"autocmd CursorHold,CursorHoldI * lua require('tools').code_action_listener()
 "}}}
 
 " telescope {{{
@@ -308,9 +306,19 @@ lua << EOF
 require('telescope').load_extension('fzf')
 EOF
 
-nnoremap <c-p> :Telescope myles<CR>
+function! s:get_git_root()
+  let root = split(system('git rev-parse --show-toplevel'), '\n')[0]
+  return v:shell_error ? '' : root
+endfunction
+
+if empty(s:get_git_root())
+  nnoremap <M-S-p> :lua require'telescope.builtin'.find_files()<CR>
+else
+  nnoremap <M-S-p> :lua require'telescope.builtin'.git_files()<CR>
+endif
+nnoremap <M-p> :lua require'telescope.builtin'.buffers()<CR>
 nnoremap <space>o :lua require'telescope.builtin'.lsp_document_symbols{ path_display = shorten }<CR>
-nnoremap <space>s :lua require'telescope.builtin'.lsp_workspace_symbols{ path_display = shorten }<CR>
+nnoremap <space>s :lua require'telescope.builtin'.lsp_dynamic_workspace_symbols{ path_display = shorten }<CR>
 " }}}
 
 
@@ -576,46 +584,10 @@ au FileType python nmap <leader>fm :Format<CR>
 au FileType lua nnoremap <leader>K :help <C-r><C-w><CR>
 " }}}
 
-" todo.txt plugins {{{
-
-au BufNewFile,BufRead *.[Tt]odo.txt set filetype=todo
-au BufNewFile,BufRead *.[Dd]one.txt set filetype=todo
-au filetype todo setlocal omnifunc=todo#Complete
-"au filetype todo imap <buffer> + +<C-X><C-O>
-"au filetype todo imap <buffer> @ @<C-X><C-O>
-au filetype todo nmap <buffer> <localleader>d :call todo#PrioritizeAdd('D')<CR>
-au filetype todo nmap <buffer> <localleader>e :call todo#PrioritizeAdd('E')<CR>
-au filetype todo nmap <buffer> <localleader>f :call todo#PrioritizeAdd('F')<CR>
-au filetype todo nmap <buffer> <localleader>pd :execute "normal mq0df)x`q" \| delmarks q<CR>
-
-let g:TodoTxtForceDoneName='done.txt'
-let g:Todo_txt_prefix_creation_date=1
-let g:Todo_fold_char='x'
-" }}}
-
 " fzf options {{{
 
 let g:fzf_preview_window = ['down:50%', 'ctrl-p']
 
-" }}}
-
-" ale config {{{
-let g:ale_sign_error = '>>'
-let g:ale_sign_warning = '--'
-let g:ale_lint_on_text_changed = 0
-let g:ale_lint_on_insert_leave = 0
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_filetype_changed = 0
-let g:ale_enabled = 0
-let g:ale_linters = {
-      \ 'go': ['govet', 'golint', 'gofmt', 'gobuild'],
-      \ 'python': ['flake8'],
-      \ }
-let g:ale_go_golint_options = '-min_confidence=0.6'
-
-"let g:ale_go_golangci_lint_options = ' --fast --tests'
-nnoremap <leader>l :ALEToggle<CR>
 " }}}
 
 " airline {{{
@@ -730,14 +702,6 @@ vnoremap <leader>f "vy:silent grep '<C-r>v' \| cwindow<CR>
 vnoremap <leader>s* "vy:%s/<C-r>v//g<left><left>
 
 
-" terminal mappings
-nnoremap <M-t><M-n> :FloatermNew --cwd=<root><CR>
-nnoremap <M-t><M-t> :FloatermToggle<CR>
-tnoremap <M-t><M-t> <C-\><C-n>:FloatermToggle<CR>
-tnoremap <M-t><M-j> <C-\><C-n>:FloatermNext<CR>
-tnoremap <M-t><M-k> <C-\><C-n>:FloatermPrev<CR>
-tnoremap <M-t><M-q> <C-\><C-n>:FloatermKill<CR>
-tnoremap <M-S-t> <C-\><C-n>
 
 " window mappings
 nnoremap <M-S-k> <C-w>k
@@ -777,7 +741,7 @@ cabbrev W w
 cabbrev <expr> %% expand('%:p:h')
 
 " git mappings
-nnoremap <leader>gs :FloatermNew lazygit<CR>
+nnoremap <leader>gs :FloatermNew --width=0.9 --height=0.95 lazygit<CR>
 
 
 " custom fzf functions
@@ -821,18 +785,27 @@ endfunction
 " fzf config
 let g:fzf_layout = {'window': 'call OpenFloatingWin()'}
 
-function! s:get_git_root()
-  let root = split(system('git rev-parse --show-toplevel'), '\n')[0]
-  return v:shell_error ? '' : root
-endfunction
+"if empty(s:get_git_root())
+  "nnoremap <M-S-p> :Files<CR>
+"else
+  "nnoremap <M-S-p> :GFiles<CR>
+"endif
 
-if empty(s:get_git_root())
-  nnoremap <M-S-p> :Files<CR>
-else
-  nnoremap <M-S-p> :GFiles<CR>
-endif
+"nnoremap <M-p> :Buffers<CR>
 
-nnoremap <M-p> :Buffers<CR>
+" }}}
+
+" {{{ Floaterm mappings and options
+
+let g:floaterm_opener = 'edit'
+
+nnoremap <M-t><M-n> :FloatermNew --cwd=<root><CR>
+nnoremap <M-t><M-t> :FloatermToggle<CR>
+tnoremap <M-t><M-t> <C-\><C-n>:FloatermToggle<CR>
+tnoremap <M-t><M-j> <C-\><C-n>:FloatermNext<CR>
+tnoremap <M-t><M-k> <C-\><C-n>:FloatermPrev<CR>
+tnoremap <M-t><M-q> <C-\><C-n>:FloatermKill<CR>
+tnoremap <M-S-t> <C-\><C-n>
 
 " }}}
 
