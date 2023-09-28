@@ -63,7 +63,6 @@ Plug '$HOME/.fzf'
 Plug '$HOME/.dotfiles/fzfc'
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-scripts/BufOnly.vim'
@@ -104,6 +103,7 @@ Plug 'nvim-lua/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make'}
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'voldikss/vim-floaterm'
 
 call plug#end()
 
@@ -731,7 +731,12 @@ vnoremap <leader>s* "vy:%s/<C-r>v//g<left><left>
 
 
 " terminal mappings
-nnoremap <M-t> :botright 15split \| terminal<CR>
+nnoremap <M-t><M-n> :FloatermNew --cwd=<root><CR>
+nnoremap <M-t><M-t> :FloatermToggle<CR>
+tnoremap <M-t><M-t> <C-\><C-n>:FloatermToggle<CR>
+tnoremap <M-t><M-j> <C-\><C-n>:FloatermNext<CR>
+tnoremap <M-t><M-k> <C-\><C-n>:FloatermPrev<CR>
+tnoremap <M-t><M-q> <C-\><C-n>:FloatermKill<CR>
 tnoremap <M-S-t> <C-\><C-n>
 
 " window mappings
@@ -772,10 +777,8 @@ cabbrev W w
 cabbrev <expr> %% expand('%:p:h')
 
 " git mappings
-nnoremap <leader>gco :Gcheckout<CR>
-nnoremap <leader>gs :Git<CR>
-nnoremap <leader>gd :Gdiffsplit<CR>
-nnoremap <leader>gp :Git push<CR>
+nnoremap <leader>gs :FloatermNew lazygit<CR>
+
 
 " custom fzf functions
 " ripgrep search
