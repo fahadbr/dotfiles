@@ -15,9 +15,9 @@ if ! cat /etc/pam.d/sudo | grep -q pam_tid.so; then
 fi
 
 # allow press and hold in vscode
-defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
-defaults write com.visualstudio.code.oss ApplePressAndHoldEnabled -bool false
-defaults write com.facebook.fbvscode ApplePressAndHoldEnabled -bool false
+#defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+#defaults write com.visualstudio.code.oss ApplePressAndHoldEnabled -bool false
+#defaults write com.facebook.fbvscode ApplePressAndHoldEnabled -bool false
 
 # make the dock hide faster
 defaults write com.apple.dock autohide-delay -float 0; killall dock

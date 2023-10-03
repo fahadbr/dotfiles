@@ -167,12 +167,13 @@ spaceWatcher = hs.spaces.watcher.new(function(newSpaceNum)
 end)
 spaceWatcher:start()
 
-bindAppToNum('Safari', '1')
+bindAppToNum('Google Chrome', '1')
 bindAppToNum('kitty', '2')
 bindAppToNum('TickTick', '3')
 bindAppToNum('Messages', '4')
 bindAppToNum('WhatsApp', '5')
 bindAppToNum('Mail', '6')
+bindAppToNum('Slack', '7')
 
 
 --visibleWindowFilter = hs.window.filter.new():setOverrideFilter({visible=true,fullscreen=false,currentSpace=true})
