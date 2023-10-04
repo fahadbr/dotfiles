@@ -402,6 +402,11 @@ EOF
 
 nnoremap <leader>gb :Gitsigns toggle_current_line_blame<CR>
 nnoremap <leader>gh :Gitsigns preview_hunk<CR>
+nnoremap <leader>g+ :Gitsigns stage_hunk<CR>
+nnoremap <leader>g- :Gitsigns undo_stage_hunk<CR>
+nnoremap <leader>gn :Gitsigns next_hunk<CR>
+nnoremap <leader>gp :Gitsigns prev_hunk<CR>
+nnoremap <leader>gr :Gitsigns reset_hunk<CR>
 " }}}
 
 " golang vim-go options {{{
