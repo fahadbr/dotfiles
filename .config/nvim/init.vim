@@ -109,8 +109,6 @@ call plug#end()
 
 " neovim lsp config {{{
 "
-if (has("nvim-0.6.0"))
-
 " lua config {{{
 lua << EOF
 
@@ -280,6 +278,8 @@ command! Format execute 'lua vim.lsp.buf.formatting()'
 nnoremap <leader>cr <cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>
 "}}}
 
+" }}} neovim lsp config
+
 " telescope {{{
 lua << EOF
 require('telescope').load_extension('fzf')
@@ -298,13 +298,9 @@ endif
 nnoremap <M-p> :lua require'telescope.builtin'.buffers()<CR>
 nnoremap <space>o :lua require'telescope.builtin'.lsp_document_symbols{ path_display = shorten }<CR>
 nnoremap <space>s :lua require'telescope.builtin'.lsp_dynamic_workspace_symbols{ path_display = shorten }<CR>
-nnoremap <leader>fr :Telescope live_grep<CR>
+nnoremap <leader>fl :Telescope live_grep<CR>
 nnoremap <leader>fw :Telescope grep_string<CR>
 " }}}
-
-
-endif
-" }}} neovim lsp config
 
 " {{{ nnn config
 lua << EOF
