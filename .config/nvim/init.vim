@@ -206,17 +206,17 @@ lspconfig.bashls.setup{
 -- }
 
 -- for go support
--- lspconfig.gopls.setup{
---   capabilities = capabilities,
---   init_options = {
---     completeUnimported = true,
---     usePlaceholders = true,
---     codelens = {
---       gc_details = true,
---       test = true
---     }
---   }
--- }
+lspconfig.gopls.setup{
+  capabilities = capabilities,
+  init_options = {
+    completeUnimported = true,
+    usePlaceholders = true,
+    codelenses = {
+      gc_details = true,
+      test = true
+    }
+  }
+}
 
 lspconfig.pyright.setup{
   capabilities = capabilities
@@ -287,7 +287,7 @@ nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <M-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> <M-d> <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+nnoremap <silent> <M-d> <cmd>lua vim.diagnostic.open_float()<CR>
 nnoremap <silent> <leader>a    <cmd>lua vim.lsp.buf.code_action()<CR>
 "nnoremap <silent> <space>o    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 "nnoremap <silent> <space>s    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
