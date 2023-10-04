@@ -60,6 +60,7 @@ alias cp='cp --backup=numbered'
 alias ln='ln --backup=numbered'
 alias mv='mv -f --backup=numbered'
 alias rrm='/bin/rm' # "real rm"
+alias lg='lazygit'
 
 if [[ $WAYLAND_DISPLAY ]]; then
 	alias pbcopy='wl-copy'
