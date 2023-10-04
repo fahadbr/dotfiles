@@ -62,7 +62,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug '$HOME/.fzf'
 Plug '$HOME/.dotfiles/fzfc'
 Plug 'junegunn/fzf.vim'
-Plug 'airblade/vim-gitgutter'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-scripts/BufOnly.vim'
@@ -71,23 +70,20 @@ Plug 'xolox/vim-session'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-Plug 'rhysd/git-messenger.vim'
-Plug 'morhetz/gruvbox'
 Plug 'honza/vim-snippets'
 Plug 'inkarkat/vim-ReplaceWithRegister'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'fatih/vim-go'
+
+" themes
 Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 Plug 'fenetikm/falcon'
 Plug 'mhartington/oceanic-next'
 Plug 'jsit/toast.vim', { 'as': 'toast' }
-Plug 'rhysd/vim-clang-format', { 'for': 'cpp' }
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-Plug 'ianks/vim-tsx'
-Plug 'yuezk/vim-js'
-Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'morhetz/gruvbox'
 
+" newer neovim plugins
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -104,6 +100,7 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make'}
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'voldikss/vim-floaterm'
+Plug 'lewis6991/gitsigns.nvim'
 
 
 call plug#end()
@@ -357,6 +354,55 @@ nnoremap <leader>np :NnnPicker %:p:h<CR>
 nnoremap <leader>ne :NnnExplorer<CR>
 
 " }}} end nnn config
+
+" {{{ gitsigns config
+lua << EOF
+require('gitsigns').setup {
+  signs = {
+    add          = { text = '+' },
+    change       = { text = '~' },
+    delete       = { text = '_' },
+    topdelete    = { text = '‾' },
+    changedelete = { text = 'x' },
+    untracked    = { text = '┆' },
+  },
+  signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
+  numhl      = true, -- Toggle with `:Gitsigns toggle_numhl`
+  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+  watch_gitdir = {
+    follow_files = true
+  },
+  attach_to_untracked = true,
+  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+    delay = 500,
+    ignore_whitespace = false,
+  },
+  current_line_blame_formatter = '<abbrev_sha>: <author>, <author_time:%Y-%m-%d> - <summary>',
+  sign_priority = 6,
+  update_debounce = 100,
+  status_formatter = nil, -- Use default
+  max_file_length = 40000, -- Disable if file is longer than this (in lines)
+  preview_config = {
+    -- Options passed to nvim_open_win
+    border = 'single',
+    style = 'minimal',
+    relative = 'cursor',
+    row = 0,
+    col = 1
+  },
+  yadm = {
+    enable = false
+  },
+}
+EOF
+
+nnoremap <leader>gb :Gitsigns toggle_current_line_blame<CR>
+nnoremap <leader>gh :Gitsigns preview_hunk<CR>
+" }}}
 
 " golang vim-go options {{{
 
