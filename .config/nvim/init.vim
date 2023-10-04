@@ -105,6 +105,7 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'voldikss/vim-floaterm'
 
+
 call plug#end()
 
 " }}}
@@ -319,6 +320,8 @@ endif
 nnoremap <M-p> :lua require'telescope.builtin'.buffers()<CR>
 nnoremap <space>o :lua require'telescope.builtin'.lsp_document_symbols{ path_display = shorten }<CR>
 nnoremap <space>s :lua require'telescope.builtin'.lsp_dynamic_workspace_symbols{ path_display = shorten }<CR>
+nnoremap <leader>fr :Telescope live_grep<CR>
+nnoremap <leader>fw :Telescope grep_string<CR>
 " }}}
 
 
@@ -355,173 +358,6 @@ nnoremap <leader>ne :NnnExplorer<CR>
 
 " }}} end nnn config
 
-" coc.nvim autocomplete options {{{
-
-" Some servers have issues with backup files, see #649.
-set nobackup
-set nowritebackup
-
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set updatetime=300
-
-" Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
-
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-set signcolumn=yes
-
-if (!has("nvim-0.6.0"))
-  " Give more space for displaying messages.
-  set cmdheight=2
-
-  let g:coc_config_home='~/.dotfiles'
-  " uncomment this to install extensions automatically
-  "let g:coc_global_extensions=['coc-vimlsp', 'coc-ultisnips', 'coc-snippets', 'coc-python', 'coc-json', 'coc-cmake', 'coc-yaml']
-
-  " Use tab for trigger completion with characters ahead and navigate.
-  " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-  " other plugin before putting this into your config.
-  "inoremap <silent><expr> <TAB>
-       "\ pumvisible() ? "\<C-n>" :
-       "\ <SID>check_back_space() ? "\<TAB>" :
-       "\ coc#refresh()
-  "inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-  inoremap <silent><expr> <TAB>
-        \ coc#jumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ coc#refresh()
-
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-  endfunction
-
-  " Use <c-space> to trigger completion.
-  inoremap <silent><expr> <c-space> coc#refresh()
-
-  " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-  " position. Coc only does snippet and additional edit on confirm.
-  " <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
-  if exists('*complete_info')
-    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-  else
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-  endif
-
-  " Use `[g` and `]g` to navigate diagnostics
-  nmap <silent> [g <Plug>(coc-diagnostic-prev)
-  nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-  " GoTo code navigation.
-  nmap <silent> gd <Plug>(coc-definition)
-  nmap <silent> gy <Plug>(coc-type-definition)
-  nmap <silent> gi <Plug>(coc-implementation)
-  nmap <silent> gr <Plug>(coc-references)
-  nnoremap <leader>cr :CocRestart<CR>
-
-  " Use K to show documentation in preview window.
-  nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-  function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
-    else
-      call CocAction('doHover')
-    endif
-  endfunction
-
-  " Highlight the symbol and its references when holding the cursor.
-  autocmd CursorHold * silent call CocActionAsync('highlight')
-
-  " Symbol renaming.
-  nmap <leader>rn <Plug>(coc-rename)
-
-  " Applying codeAction to the selected region.
-  " Example: `<leader>aap` for current paragraph
-  xmap <leader>a  <Plug>(coc-codeaction-selected)
-  nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-  " Remap keys for applying codeAction to the current buffer.
-  nmap <leader>ac  <Plug>(coc-codeaction)
-  nmap <leader>al  <Plug>(coc-codelens-action)
-  " Apply AutoFix to problem on the current line.
-  nmap <leader>qf  <Plug>(coc-fix-current)
-
-  " Add `:Format` command to format current buffer.
-  command! -nargs=0 Format :call CocAction('format')
-
-  " Add `:Fold` command to fold current buffer.
-  command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-  " Add `:OR` command for organize imports of the current buffer.
-  command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-  " Organize Imports
-  nmap <leader>or :OR<CR>
-
-  " Add (Neo)Vim's native statusline support.
-  " NOTE: Please see `:h coc-status` for integrations with external plugins that
-  " provide custom statusline: lightline.vim, vim-airline.
-  set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-	if has('nvim-0.4.0') || has('patch-8.2.0750')
-	  nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-	  nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-	  inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-	  inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-	  vnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#nvim_scroll(1, 1) : "\<C-f>"
-	  vnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#nvim_scroll(0, 1) : "\<C-b>"
-	endif
-
-  " Mappings using CoCList:
-  " Show all diagnostics.
-  nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-  " Manage extensions.
-  nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-  " Show commands.
-  nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-  " Find symbol of current document.
-  nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-  " Search workspace symbols.
-  nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-  " Do default action for next item.
-  nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-  " Do default action for previous item.
-  nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-  " Resume latest coc list.
-  nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-
-" snippets {{{
-
-let g:UltiSnipsExpandTrigger='<M-tab>'
-let g:UltiSnipsJumpForwardTrigger='<Tab>'
-let g:UltiSnipsJumpBackwardTrigger='<S-Tab>'
-" }}}
-
-endif
-" }}}
-
-" c++ options {{{
-
-"nmap <leader>am <Plug>AddMissingScope
-
-" map to <Leader>fm in C++ code
-autocmd FileType c,cpp,objc nnoremap <buffer><Leader>fm :<C-u>ClangFormat<CR>
-autocmd FileType c,cpp,objc vnoremap <buffer><Leader>fm :ClangFormat<CR>
-
-let g:clang_format#detect_style_file = 1
-
-" }}}
-
-" rust options {{{
-
-au FileType rust nmap <leader>fm :RustFmt<CR>
-
-"}}}
-
 " golang vim-go options {{{
 
 let g:go_highlight_extra_types = 1
@@ -555,30 +391,7 @@ let g:go_decls_mode = 'fzf'
 " let g:go_list_type = 'quickfix'
 let g:go_list_type_commands = {"_guru": "quickfix"}
 
-
-au FileType go nmap <leader>gb <Plug>(go-build)
-au FileType go nmap <leader>gtf <Plug>(go-test-func)
-au FileType go nmap <leader>ga <Plug>(go-alternate-edit)
-au FileType go nmap <F1> <Plug>(go-doc)
-au FileType go nmap <F6> <Plug>(go-rename)
-au FileType go nmap <F7> <Plug>(go-referrers)
-au FileType go nmap <F12> :GoDecls<CR>
-au FileType go nmap <leader>ge <Plug>(go-iferr)
-au FileType go nmap <leader>gfs :GoFillStruct<CR>
-" search function name under curser
-au FileType go nmap <leader>ff :silent grep '^func ?\(?.*\)? <C-r><C-w>\(' \| cwindow<CR>
-" search type under curser
-au FileType go nmap <leader>ft :silent grep '^type <C-r><C-w>' \| cwindow<CR>
-" change T to (T, error) used for return values when cursor is within T
-au FileType go nmap <leader>se ciW(<C-r>-, error)
-" change (T, error) to T when cursor is on line and return type is last
-" parentheses on line
-au FileType go nmap <leader>de $F(lyt,F(df)h"0p
 " }}}
-
-" python options {{{
-au FileType python nmap <leader>fm :Format<CR>
-"" }}}
 
 " lua {{{
 au FileType lua nnoremap <leader>K :help <C-r><C-w><CR>
@@ -681,11 +494,11 @@ nnoremap <leader>w :w<CR>
 " reload the current buffer
 "nnoremap <leader>re :e!<CR>
 " find and replace the word under the cursor
-nnoremap <leader>s* :%s/\<<C-r><C-w>\>//g<left><left>
+"nnoremap <leader>s* :%s/\<<C-r><C-w>\>//g<left><left>
 " close other buffers
 nnoremap <leader>bo :BufOnly<CR>
 " search current word across all files
-nnoremap <leader>fw :silent grep '<C-r><C-w>' \| cwindow<CR>
+"nnoremap <leader>fw :silent grep '<C-r><C-w>' \| cwindow<CR>
 " changing instances of current word
 nnoremap <leader>cw :set hlsearch<CR>*Ncgn
 " searching for visual selection
@@ -695,11 +508,11 @@ vnoremap # "vy?\<<C-r>v\><CR>
 vnoremap g* "vy/<C-r>v<CR>
 vnoremap g# "vy?<C-r>v<CR>
 " changing instances of visual selection
-vnoremap <leader>cw "vy/<C-r>v<CR>Ncgn
+"vnoremap <leader>cw "vy/<C-r>v<CR>Ncgn
 " search all files from visual selection
-vnoremap <leader>f "vy:silent grep '<C-r>v' \| cwindow<CR>
+"vnoremap <leader>f "vy:silent grep '<C-r>v' \| cwindow<CR>
 " find and replace the visual selection
-vnoremap <leader>s* "vy:%s/<C-r>v//g<left><left>
+"vnoremap <leader>s* "vy:%s/<C-r>v//g<left><left>
 
 
 
@@ -742,56 +555,6 @@ cabbrev <expr> %% expand('%:p:h')
 
 " git mappings
 nnoremap <leader>gs :FloatermNew --width=0.9 --height=0.95 lazygit<CR>
-
-
-" custom fzf functions
-" ripgrep search
-command! -bang -nargs=* Rg
-      \ call fzf#vim#grep(
-      \   'rg --column --line-number --hidden --no-heading --color=always --smart-case '.shellescape(<q-args>), 1, fzf#vim#with_preview("down"), <bang>0)
-
-
-function! OpenFloatingWin()
-  let height = float2nr(&lines * 0.6)
-  let width = float2nr(&columns * 0.5)
-  let col = float2nr((&columns - width) / 2)
-  let row = float2nr((&lines - height) / 2)
-
-  "Set the position, size, etc. of the floating window.
-  "The size configuration here may not be so flexible, and there's room for further improvement.
-  let opts = {
-        \ 'relative': 'editor',
-        \ 'row': row,
-        \ 'col': col ,
-        \ 'width': width,
-        \ 'height': height
-        \ }
-
-  let buf = nvim_create_buf(v:false, v:true)
-  let win = nvim_open_win(buf, v:true, opts)
-
-  "Set Floating Window Highlighting
-  call setwinvar(win, '&winhl', 'Normal:Pmenu')
-
-  setlocal
-        \ buftype=nofile
-        \ nobuflisted
-        \ bufhidden=hide
-        \ nonumber
-        \ norelativenumber
-        \ signcolumn=no
-endfunction
-
-" fzf config
-let g:fzf_layout = {'window': 'call OpenFloatingWin()'}
-
-"if empty(s:get_git_root())
-  "nnoremap <M-S-p> :Files<CR>
-"else
-  "nnoremap <M-S-p> :GFiles<CR>
-"endif
-
-"nnoremap <M-p> :Buffers<CR>
 
 " }}}
 
