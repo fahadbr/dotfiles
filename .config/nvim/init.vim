@@ -72,7 +72,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'honza/vim-snippets'
 Plug 'inkarkat/vim-ReplaceWithRegister'
-Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'fatih/vim-go'
 
@@ -641,7 +640,3 @@ let g:AutoPairsShortcutBackInsert = ''
 let g:AutoPairsMapCR = 1
 " }}}
 
-" git messenger config {{{
-let g:git_messenger_include_diff = 'current'
-let g:git_messenger_always_into_popup = 1
-" }}}
