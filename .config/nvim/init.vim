@@ -306,7 +306,7 @@ nnoremap <leader>fw :Telescope grep_string<CR>
 lua << EOF
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all" (the five listed parsers should always be installed)
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "go", "json" },
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "go", "json", "scala" },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
