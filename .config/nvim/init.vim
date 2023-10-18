@@ -175,10 +175,7 @@ cmp.setup.cmdline(':', {
 
 local lspconfig = require('lspconfig')
 
-function attach_callbacks ()
-  --require('completion').on_attach()
-  --require('diagnostic').on_attach()
-end
+
 
 -- bash support
 lspconfig.bashls.setup{
@@ -242,14 +239,15 @@ require'lspconfig'.lua_ls.setup {
   },
 }
 
--- require('nlua.lsp.nvim').setup(require('lspconfig'), {
---   on_attach = attach_callbacks,
--- })
-
--- for viml support
---lspconfig.vimls.setup{
---  capabilities = capabilities,
---}
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics,
+  {
+      virtual_text = true,
+      signs = true,
+      update_in_insert = true,
+      underline = true
+  }
+)
 
 EOF
 "}}}
