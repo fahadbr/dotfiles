@@ -120,6 +120,8 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 -- luasnip setup
 local luasnip = require('luasnip')
+-- load snippets
+require("luasnip.loaders.from_snipmate").lazy_load()
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
