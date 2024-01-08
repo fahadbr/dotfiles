@@ -171,8 +171,8 @@ bindAppToNum('Google Chrome', '1')
 bindAppToNum('kitty', '2')
 bindAppToNum('TickTick', '3')
 bindAppToNum('Messages', '4')
-bindAppToNum('WhatsApp', '5')
-bindAppToNum('Mail', '6')
+bindAppToNum('zoom.us', '5')
+bindAppToNum('Calendar', '6')
 bindAppToNum('Slack', '7')
 
 
