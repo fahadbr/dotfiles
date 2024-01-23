@@ -27,7 +27,6 @@ if which nvim &>/dev/null; then
   export EDITOR=nvim
 fi
 export LESS="-R"
-export MOZ_USE_XINPUT2=1
 export MACHINE=${MACHINE:-"home"}
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
@@ -42,39 +41,42 @@ export NNN_FIFO='/tmp/nnn.fifo'
 export NNN_OPENER="$HOME/.config/nnn/plugins/nuke"
 export NNN_TRASH=0
 
-
 alias ls='ls -lrth --color=auto'
-alias grep='grep --color=auto'
 alias reapplyprofile='exec zsh'
 alias editprofile="$EDITOR $HOME/.zshrc && exec zsh"
 alias editzshcommon="$EDITOR $HOME/.dotfiles/zshcommon && exec zsh"
 alias editssh="$EDITOR $HOME/.ssh/config"
-alias sdu='systemctl --user'
-alias sd='systemctl'
-alias susd='sudo systemctl'
 alias view="$EDITOR -R"
-alias udc='udisksctl'
-alias open="xdg-open"
-alias cpr='rsync -ah --info=progress2'
-alias cp='cp --backup=numbered'
-alias ln='ln --backup=numbered'
-alias mv='mv -f --backup=numbered'
-alias rrm='/bin/rm' # "real rm"
 alias lg='lazygit'
 
-if [[ $WAYLAND_DISPLAY ]]; then
-	alias pbcopy='wl-copy'
-	alias pbpaste='wl-paste'
-elif uname | grep -q 'Linux'; then
-	alias pbcopy='xclip -i -sel clip'
-	alias pbpaste='xclip -o -sel clip'
+if uname | grep -q "Linux"; then
+  export MOZ_USE_XINPUT2=1
+  alias grep='grep --color=auto'
+  alias udc='udisksctl'
+  alias open="xdg-open"
+  alias cpr='rsync -ah --info=progress2'
+  alias cp='cp --backup=numbered'
+  alias ln='ln --backup=numbered'
+  alias mv='mv -f --backup=numbered'
+  alias rrm='/bin/rm' # "real rm"
+  alias sdu='systemctl --user'
+  alias sd='systemctl'
+  alias susd='sudo systemctl'
+  if [[ $WAYLAND_DISPLAY ]]; then
+    alias pbcopy='wl-copy'
+    alias pbpaste='wl-paste'
+  else
+    alias pbcopy='xclip -i -sel clip'
+    alias pbpaste='xclip -o -sel clip'
+  fi
+
+  if which trash-put &>/dev/null; then
+    alias rm='trash-put -v'
+    alias tp='trash-put'
+    export NNN_TRASH=1
+  fi
 fi
 
-if which trash-put &>/dev/null; then
-  alias rm='trash-put -v'
-  alias tp='trash-put'
-  export NNN_TRASH=1
-fi
 
 function n () # {{{
 {
