@@ -23,6 +23,7 @@ set cursorline
 set mouse+=a
 set hidden
 set linebreak
+set signcolumn=yes
 
 set title
 set ruler
@@ -250,7 +251,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   {
       virtual_text = true,
       signs = true,
-      update_in_insert = true,
+      update_in_insert = false,
       underline = true
   }
 )
@@ -317,6 +318,8 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 EOF
+
+au FileType scala nmap <localleader>m :lua require("telescope").extensions.metals.commands()<CR>
 
 " }}}
 
