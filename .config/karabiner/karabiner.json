@@ -26,7 +26,7 @@
                                         "identifiers": [
                                             {
                                                 "description": "Built in Apple Keyboard",
-                                                "location_id": 41
+                                                "location_id": 45
                                             }
                                         ],
                                         "type": "device_if"
@@ -52,6 +52,43 @@
                         ]
                     },
                     {
+                        "description": "RCMD to CTRL+OPT+CMD",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "description": "Built in Apple Keyboard",
+                                                "location_id": 45
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "right_command",
+                                    "modifiers": {}
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_control",
+                                        "modifiers": [
+                                            "left_option",
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "right_command"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Toggle caps_lock by pressing left_shift then right_shift",
                         "manipulators": [
                             {
@@ -60,7 +97,7 @@
                                         "identifiers": [
                                             {
                                                 "description": "Built in Apple Keyboard",
-                                                "location_id": 41
+                                                "location_id": 45
                                             }
                                         ],
                                         "type": "device_if"
@@ -109,43 +146,6 @@
                                 "to_if_alone": [
                                     {
                                         "key_code": "right_shift"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "RCMD to CTRL+OPT+CMD",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [
-                                            {
-                                                "description": "Built in Apple Keyboard",
-                                                "location_id": 41
-                                            }
-                                        ],
-                                        "type": "device_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "right_command",
-                                    "modifiers": {}
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_control",
-                                        "modifiers": [
-                                            "left_option",
-                                            "left_command"
-                                        ]
-                                    }
-                                ],
-                                "to_if_alone": [
-                                    {
-                                        "key_code": "right_command"
                                     }
                                 ],
                                 "type": "basic"
