@@ -22,7 +22,7 @@ setopt appendhistory extendedglob nomatch notify incappendhistory shwordsplit co
 unsetopt beep sharehistory
 bindkey -e
 
-export EDITOR=vim
+export EDITOR=${EDITOR:=vim}
 if which nvim &>/dev/null; then
   export EDITOR=nvim
 fi

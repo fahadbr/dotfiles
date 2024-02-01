@@ -320,6 +320,7 @@ vim.api.nvim_create_autocmd("FileType", {
 EOF
 
 au FileType scala nmap <localleader>m :lua require("telescope").extensions.metals.commands()<CR>
+au FileType sbt nmap <localleader>m :lua require("telescope").extensions.metals.commands()<CR>
 
 " }}}
 
