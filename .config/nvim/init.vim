@@ -84,6 +84,8 @@ Plug 'jsit/toast.vim', { 'as': 'toast' }
 Plug 'morhetz/gruvbox'
 
 " newer neovim plugins
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -102,10 +104,20 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'voldikss/vim-floaterm'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'scalameta/nvim-metals'
+Plug 'mfussenegger/nvim-jdtls'
 
 
 call plug#end()
 
+" }}}
+
+" {{{ mason config
+lua << EOF
+
+require("mason").setup()
+require("mason-lspconfig").setup()
+
+EOF
 " }}}
 
 " neovim lsp config {{{
@@ -283,6 +295,61 @@ nnoremap <leader>cr <cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<C
 
 " }}} neovim lsp config
 
+" {{{ nvim-jdtls config
+
+lua << EOF
+
+local jdtls_setup = require("jdtls.setup")
+
+local home = os.getenv("HOME")
+local root_markers = { ".git", "mvnw", "gradlew" }
+local root_dir = jdtls_setup.find_root(root_markers)
+local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")
+local workspace_dir = home .. "/.cache/jdtls/workspace/" .. project_name
+
+local mason_pkg_path = home .. "/.local/share/nvim/mason/packages"
+local jdtls_path = mason_pkg_path .. "/jdtls"
+local lombok_path = jdtls_path .. "/lombok.jar"
+-- TODO make config path dependent on system
+local config_path = jdtls_path .. "/config_mac_arm"
+local launcher_jar_path = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
+
+
+local jdtls_config = {
+  cmd = {
+      "java",
+      "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+      "-Declipse.product=org.eclipse.jdt.ls.core.product",
+      "-Dosgi.bundles.defaultStartLevel=4",
+      "-Dlog.protocol=true",
+      "-Dlog.level=ALL",
+      "-Xms1G",
+      "-javaagent:" .. lombok_path,
+      "--add-modules=ALL-SYSTEM",
+      "--add-opens", "java.base/java.util=ALL-UNNAMED",
+      "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+      "-jar", launcher_jar_path,
+      "-data", workspace_dir,
+      "-configuration", config_path,
+    },
+    cmd_env = {
+      GRADLE_HOME = home .. "/.sdkman/candidates/gradle/current/bin/gradle",
+    },
+}
+
+local nvim_jdtls_group = vim.api.nvim_create_augroup("nvim-jdtls", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "java" },
+  callback = function()
+    require("jdtls").start_or_attach(jdtls_config)
+  end,
+  group = nvim_jdtls_group,
+})
+
+EOF
+
+" }}}
+
 " {{{ nvim-metals config
 lua << EOF
 local metals_config = require("metals").bare_config()
@@ -310,7 +377,7 @@ vim.api.nvim_create_autocmd("FileType", {
   -- NOTE: You may or may not want java included here. You will need it if you
   -- want basic Java support but it may also conflict if you are using
   -- something like nvim-jdtls which also works on a java filetype autocmd.
-  pattern = { "scala", "sbt", "java" },
+  pattern = { "scala", "sbt" },
   callback = function()
     require("metals").initialize_or_attach(metals_config)
   end,
@@ -607,6 +674,10 @@ nnoremap <leader>ec :e ~/.config/nvim/init.vim<CR>
 " switch to previous buffer then close tab
 nnoremap <M-w> :bp\| bd #<CR>
 
+" insert date
+inoremap <C-d> <esc>:read !date<CR>kJA
+nnoremap <leader>id :read !date<CR>
+
 " Allow tab autocomplete
 
 " for moving back to diff file list when using merginal
@@ -751,3 +822,4 @@ let g:AutoPairsShortcutFastWrap = ''
 let g:AutoPairsShortcutBackInsert = ''
 let g:AutoPairsMapCR = 1
 " }}}
+"
