@@ -49,6 +49,15 @@ nmap <Leader>r  <Plug>ReplaceWithRegisterOperator
 nmap <Leader>rr <Plug>ReplaceWithRegisterLine
 xmap <Leader>r  <Plug>ReplaceWithRegisterVisual
 
+" autopairs {{{
+" disable auto pair shortcuts
+let g:AutoPairsShortcutJump = ''
+let g:AutoPairsShortcutToggle = "<M-'>"
+let g:AutoPairsShortcutFastWrap = ''
+let g:AutoPairsShortcutBackInsert = ''
+let g:AutoPairsMapCR = 1
+" }}}
+"
 " }}}
 
 " {{{ lazy plugin manager
@@ -406,7 +415,65 @@ au FileType sbt nmap <localleader>m :lua require("telescope").extensions.metals.
 
 " telescope {{{
 lua << EOF
-require('telescope').load_extension('fzf')
+local telescope = require('telescope')
+local telescope_utils = require('telescope.utils')
+telescope.load_extension('fzf')
+telescope.setup({
+  defaults = {
+      path_display = function(opts, path)
+        local tail = telescope_utils.path_tail(path)
+        return string.format("%s -- %s", tail, path)
+      end,
+  },
+})
+
+function is_git_repo()
+  vim.fn.system("git rev-parse --is-inside-work-tree")
+  return vim.v.shell_error == 0
+end
+
+function get_git_root()
+  local dot_git_path = vim.fn.finddir(".git", ".;")
+  return vim.fn.fnamemodify(dot_git_path, ":h")
+end
+
+local git_opts = {
+  cwd = get_git_root(),
+}
+
+-- this function allows finding all files in a git repo
+-- even if they havent been added
+function vim.find_files_from_project_git_root()
+  local opts = {}
+  if is_git_repo() then
+    opts = git_opts
+  end
+  opts.hidden = true
+  opts.follow = true
+
+  require("telescope.builtin").find_files(opts)
+end
+
+-- this function will use git ls-files if its a git repo
+-- otherwise fallback to find_files
+function vim.git_or_find_files()
+  if is_git_repo() then
+    require("telescope.builtin").git_files()
+  else
+    require("telescope.builtin").find_files()
+  end
+end
+
+-- this function will live grep from the git root
+-- if in a git repo
+function vim.live_grep_from_project_git_root()
+  local opts = {}
+  if is_git_repo() then
+    opts = git_opts
+  end
+  require("telescope.builtin").live_grep(opts)
+end
+
 EOF
 
 function! s:get_git_root()
@@ -414,15 +481,12 @@ function! s:get_git_root()
   return v:shell_error ? '' : root
 endfunction
 
-if empty(s:get_git_root())
-  nnoremap <M-S-p> :lua require'telescope.builtin'.find_files()<CR>
-else
-  nnoremap <M-S-p> :lua require'telescope.builtin'.git_files()<CR>
-endif
+nnoremap <C-p> :lua vim.find_files_from_project_git_root()<CR>
+nnoremap <M-S-p> :lua vim.git_or_find_files()<CR>
 nnoremap <M-p> :lua require'telescope.builtin'.buffers()<CR>
 nnoremap <space>o :lua require'telescope.builtin'.lsp_document_symbols{ path_display = shorten }<CR>
 nnoremap <space>s :lua require'telescope.builtin'.lsp_dynamic_workspace_symbols{ path_display = shorten }<CR>
-nnoremap <leader>fl :Telescope live_grep<CR>
+nnoremap <leader>fl :lua vim.live_grep_from_project_git_root()<CR>
 nnoremap <leader>fw :Telescope grep_string<CR>
 " }}}
 
@@ -827,12 +891,3 @@ let g:session_autoload = 'no'
 
 " }}}
 
-" autopairs {{{
-" disable auto pair shortcuts
-let g:AutoPairsShortcutJump = ''
-let g:AutoPairsShortcutToggle = "<M-'>"
-let g:AutoPairsShortcutFastWrap = ''
-let g:AutoPairsShortcutBackInsert = ''
-let g:AutoPairsMapCR = 1
-" }}}
-"
