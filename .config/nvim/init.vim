@@ -43,9 +43,7 @@ let maplocalleader = "-"
 filetype plugin indent on
 " }}}
 
-" plug {{{
-
-" pre-plug mappings {{{
+" pre-plugin mappings {{{
 
 nmap <Leader>r  <Plug>ReplaceWithRegisterOperator
 nmap <Leader>rr <Plug>ReplaceWithRegisterLine
@@ -53,62 +51,77 @@ xmap <Leader>r  <Plug>ReplaceWithRegisterVisual
 
 " }}}
 
-call plug#begin('~/.config/nvim/plugged')
+" {{{ lazy plugin manager
+lua << EOF
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'scrooloose/nerdcommenter'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug '$HOME/.fzf'
-Plug '$HOME/.dotfiles/fzfc'
-Plug 'junegunn/fzf.vim'
-Plug 'bronson/vim-trailing-whitespace'
-Plug 'jiangmiao/auto-pairs'
-Plug 'vim-scripts/BufOnly.vim'
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-session'
-Plug 'tpope/vim-sleuth'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
-Plug 'honza/vim-snippets'
-Plug 'inkarkat/vim-ReplaceWithRegister'
-Plug 'AndrewRadev/splitjoin.vim'
-Plug 'fatih/vim-go'
+local lazy = require("lazy")
+plugins = {
+  -- vimscript
+  "scrooloose/nerdtree",
+  "Xuyuanp/nerdtree-git-plugin",
+  "scrooloose/nerdcommenter",
+  "vim-airline/vim-airline",
+  "vim-airline/vim-airline-themes",
+  {"$HOME/.fzf", dev = true},
+  {"$HOME/.dotfiles/fzfc", dev = true},
+  "junegunn/fzf.vim",
+  "bronson/vim-trailing-whitespace",
+  "jiangmiao/auto-pairs",
+  "vim-scripts/BufOnly.vim",
+  {"xolox/vim-session", dependencies = {"xolox/vim-misc"}},
+  "tpope/vim-sleuth",
+  "tpope/vim-surround",
+  "tpope/vim-repeat",
+  "honza/vim-snippets",
+  "inkarkat/vim-ReplaceWithRegister",
+  "AndrewRadev/splitjoin.vim",
+  "fatih/vim-go",
 
-" themes
-Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
-Plug 'fenetikm/falcon'
-Plug 'mhartington/oceanic-next'
-Plug 'jsit/toast.vim', { 'as': 'toast' }
-Plug 'morhetz/gruvbox'
+  -- themes
+  {"challenger-deep-theme/vim", name = "challenger-deep", lazy = true},
+  {"fenetikm/falcon", lazy = true},
+  {"mhartington/oceanic-next", lazy = true},
+  {"jsit/toast.vim", name = "toast", lazy = true},
+  {"morhetz/gruvbox", lazy = true},
 
-" newer neovim plugins
-Plug 'williamboman/mason.nvim'
-Plug 'williamboman/mason-lspconfig.nvim'
-Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'saadparwaiz1/cmp_luasnip'
-Plug 'L3MON4D3/LuaSnip'
-Plug 'luukvbaal/nnn.nvim'
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-lua/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make'}
-Plug 'jose-elias-alvarez/null-ls.nvim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'voldikss/vim-floaterm'
-Plug 'lewis6991/gitsigns.nvim'
-Plug 'scalameta/nvim-metals'
-Plug 'mfussenegger/nvim-jdtls'
+  -- lua plugins
+  "williamboman/mason.nvim",
+  "williamboman/mason-lspconfig.nvim",
+  "neovim/nvim-lspconfig",
+  "hrsh7th/nvim-cmp",
+  "hrsh7th/cmp-nvim-lsp",
+  "hrsh7th/cmp-buffer",
+  "hrsh7th/cmp-path",
+  "hrsh7th/cmp-cmdline",
+  "saadparwaiz1/cmp_luasnip",
+  "L3MON4D3/LuaSnip",
+  "luukvbaal/nnn.nvim",
+  "nvim-lua/popup.nvim",
+  "nvim-lua/plenary.nvim",
+  "nvim-lua/telescope.nvim",
+  {"nvim-telescope/telescope-fzf-native.nvim", build = "make"},
+  "jose-elias-alvarez/null-ls.nvim",
+  {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate"},
+  "voldikss/vim-floaterm",
+  "lewis6991/gitsigns.nvim",
+  "scalameta/nvim-metals",
+  "mfussenegger/nvim-jdtls",
+}
 
-
-call plug#end()
-
+lazy.setup(plugins)
+EOF
 " }}}
 
 " {{{ mason config
