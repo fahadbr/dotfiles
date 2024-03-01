@@ -138,47 +138,7 @@ plugins = {
   "scrooloose/nerdtree",
   "Xuyuanp/nerdtree-git-plugin",
   "scrooloose/nerdcommenter",
-  {"vim-airline/vim-airline",
-    dependencies = {"vim-airline/vim-airline-themes"},
---    config = function(p, opts)
---        vim.g['airline#extensions#ale#enabled'] = 1
---        vim.g['airline_powerline_fonts'] = 1
---        vim.g.airline_theme = 'oceanicnext'
---
---        if vim.g.airline_symbols then
---					vim.g.airline_symbols = {}
---        end
---
---        -- unicode symbols
---        vim.g.airline_left_sep = '»'
---        vim.g.airline_left_sep = '▶'
---        vim.g.airline_right_sep = '«'
---        vim.g.airline_right_sep = '◀'
---        vim.g.airline_symbols.linenr = '␊'
---        vim.g.airline_symbols.linenr = '␤'
---        vim.g.airline_symbols.linenr = '¶'
---        vim.g.airline_symbols.branch = '⎇'
---        vim.g.airline_symbols.paste = 'ρ'
---        vim.g.airline_symbols.paste = 'Þ'
---        vim.g.airline_symbols.paste = '∥'
---        vim.g.airline_symbols.whitespace = 'Ξ'
---
---        -- airline symbols
---        vim.g.airline_left_sep = ''
---        vim.g.airline_left_alt_sep = ''
---        vim.g.airline_right_sep = ''
---        vim.g.airline_right_alt_sep = ''
---        vim.g.airline_symbols.branch = ''
---        vim.g.airline_symbols.readonly = ''
---        vim.g.airline_symbols.linenr = ''
---        vim.g.airline_highlighting_cache = 1
---
---        -- airline tabline
---        vim.g['airline#extensions#tabline#enabled'] = 1
---        vim.g['airline#extensions#tabline#tab_nr_type'] = 1
---        vim.g['airline#extensions#tabline#buffer_idx_mode'] = 1
---    end
-    },
+  {"vim-airline/vim-airline", dependencies = {"vim-airline/vim-airline-themes"}},
   {"$HOME/.fzf", dev = true},
   {"$HOME/.dotfiles/fzfc", dev = true},
   "junegunn/fzf.vim",
@@ -221,7 +181,7 @@ plugins = {
   {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function()
       require('nvim-treesitter.configs').setup {
         -- A list of parser names, or "all" (the five listed parsers should always be installed)
-        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "go", "json", "scala", "java", "markdown" },
+        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "go", "json", "scala", "java"},
 
         -- Install parsers synchronously (only applied to `ensure_installed`)
         sync_install = false,
@@ -621,11 +581,6 @@ nnoremap <space>o :lua require'telescope.builtin'.lsp_document_symbols{ path_dis
 nnoremap <space>s :lua require'telescope.builtin'.lsp_dynamic_workspace_symbols{ path_display = shorten }<CR>
 nnoremap <leader>fl :lua vim.live_grep_from_project_git_root()<CR>
 nnoremap <leader>fw :Telescope grep_string<CR>
-" }}}
-
-" {{{ treesitter
-
-
 " }}}
 
 " {{{ nnn config
