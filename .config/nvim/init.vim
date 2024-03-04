@@ -116,8 +116,50 @@ nmap <M-h> <Plug>AirlineSelectPrevTab
 
 " }}}
 
-" {{{ lazy plugin manager
+" lazy plugin manager {{{
 lua << EOF
+
+-- nvim-ufo spec {{{
+local nvim_ufo_plugin = {"kevinhwang91/nvim-ufo",
+  dependencies = {"kevinhwang91/promise-async"},
+  config = function()
+    vim.o.foldcolumn = '1'
+    vim.o.foldlevel = 99
+    vim.o.foldlevelstart = 99
+    vim.o.foldenable = true
+
+    local ufo = require('ufo')
+    vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+    vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+    vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds)
+    vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
+    vim.keymap.set('n', 'gh', function()
+    local winid = require('ufo').peekFoldedLinesUnderCursor()
+      if not winid then
+	vim.lsp.buf.hover()
+      end
+    end)
+
+    ufo.setup({
+      open_fold_hl_timeout = 150,
+      close_fold_kinds = {'imports', 'comment'},
+      preview = {
+	win_config = {
+	  border = {'', '─', '', '', '', '─', '', ''},
+	  winhighlight = 'Normal:Folded',
+	  winblend = 0
+	},
+	mappings = {
+	  scrollU = '<C-u>',
+	  scrollD = '<C-d>',
+	  jumpTop = '[',
+	  jumpBot = ']'
+	}
+      },
+    })
+  end}
+-- }}}
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -131,8 +173,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local lazy = require("lazy")
-plugins = {
+local plugins = {
   -- vimscript
   "scrooloose/nerdtree",
   "Xuyuanp/nerdtree-git-plugin",
@@ -206,13 +247,14 @@ plugins = {
   "lewis6991/gitsigns.nvim",
   "scalameta/nvim-metals",
   "mfussenegger/nvim-jdtls",
+	nvim_ufo_plugin,
 }
 
-lazy.setup(plugins)
+require("lazy").setup(plugins)
 EOF
 " }}}
 
-" {{{ mason config
+" mason config {{{
 lua << EOF
 
 require("mason").setup()
@@ -222,15 +264,18 @@ EOF
 " }}}
 
 " neovim lsp config {{{
-"
+
 " lua config {{{
 lua << EOF
 
 -- autocompletion {{{
 vim.o.completeopt = 'menuone,noselect'
 local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+capabilities.textDocument.foldingRange = {
+	dynamicRegistration = false,
+	lineFoldingOnly = true,
+}
 
 -- luasnip setup
 local luasnip = require('luasnip')
@@ -302,16 +347,6 @@ lspconfig.bashls.setup{
   capabilities = capabilities
 }
 
--- for c++ support
--- lspconfig.ccls.setup{
---   capabilities = capabilities,
---   init_options = {
---     highlight = {
---       lsRanges = true;
---     }
---   }
--- }
-
 -- for go support
 lspconfig.gopls.setup{
   capabilities = capabilities,
@@ -334,7 +369,7 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
-require'lspconfig'.lua_ls.setup {
+lspconfig.lua_ls.setup {
   settings = {
     Lua = {
       runtime = {
@@ -375,7 +410,8 @@ EOF
 " key mappings {{{
 "nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gh     <cmd>lua vim.lsp.buf.hover()<CR>
+" ufo plugin will proxy to this
+"nnoremap <silent> gh     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <M-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
@@ -396,7 +432,7 @@ nnoremap <leader>cr <cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<C
 
 " }}} neovim lsp config
 
-" {{{ nvim-jdtls config
+" nvim-jdtls config {{{
 
 lua << EOF
 
@@ -451,7 +487,7 @@ EOF
 
 " }}}
 
-" {{{ nvim-metals config
+" nvim-metals config {{{
 lua << EOF
 local metals_config = require("metals").bare_config()
 
@@ -564,7 +600,7 @@ nnoremap <leader>fl :lua vim.live_grep_from_project_git_root()<CR>
 nnoremap <leader>fw :Telescope grep_string<CR>
 " }}}
 
-" {{{ nnn config
+" nnn config {{{
 lua << EOF
 require("nnn").setup({
   explorer = {
@@ -594,7 +630,7 @@ nnoremap <leader>ne :NnnExplorer<CR>
 
 " }}} end nnn config
 
-" {{{ gitsigns config
+" gitsigns config {{{
 lua << EOF
 require('gitsigns').setup {
   signs = {
@@ -815,7 +851,7 @@ nnoremap <leader>lg :FloatermNew --width=0.9 --height=0.95 lazygit<CR>
 
 " }}}
 
-" {{{ Floaterm mappings and options
+" floaterm mappings and options {{{
 
 let g:floaterm_opener = 'edit'
 
