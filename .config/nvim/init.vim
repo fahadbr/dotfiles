@@ -98,6 +98,9 @@ let g:airline_highlighting_cache = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#fnamecollapse = 1
 
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
@@ -156,7 +159,7 @@ plugins = {
   {"mhartington/oceanic-next", lazy = true},
   {"jsit/toast.vim", name = "toast", lazy = true},
   {"morhetz/gruvbox", lazy = true},
-  {"rose-pine/neovim", as = "rose-pine", lazy = false},
+  {"rose-pine/neovim", name = "rose-pine", lazy = false},
 
   -- lua plugins
   "williamboman/mason.nvim",
