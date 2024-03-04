@@ -63,11 +63,8 @@ let g:AutoPairsMapCR = 1
 
 " airline {{{
 " Enable integration with airline
-let g:airline#extensions#ale#enabled = 1
 let g:airline_powerline_fonts = 1
-
-"let g:airline_theme = 'gruvbox'
-"let g:airline_theme = 'oceanicnext'
+let g:airline_theme = 'night_owl'
 
 if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
@@ -101,7 +98,6 @@ let g:airline_highlighting_cache = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
-
 
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
@@ -152,7 +148,7 @@ plugins = {
   "honza/vim-snippets",
   "inkarkat/vim-ReplaceWithRegister",
   "AndrewRadev/splitjoin.vim",
-  "fatih/vim-go",
+  {"fatih/vim-go", lazy = true},
 
   -- themes
   {"challenger-deep-theme/vim", name = "challenger-deep", lazy = true},
@@ -160,6 +156,7 @@ plugins = {
   {"mhartington/oceanic-next", lazy = true},
   {"jsit/toast.vim", name = "toast", lazy = true},
   {"morhetz/gruvbox", lazy = true},
+  {"rose-pine/neovim", as = "rose-pine", lazy = false},
 
   -- lua plugins
   "williamboman/mason.nvim",
@@ -180,43 +177,24 @@ plugins = {
   "jose-elias-alvarez/null-ls.nvim",
   {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function()
       require('nvim-treesitter.configs').setup {
-        -- A list of parser names, or "all" (the five listed parsers should always be installed)
-        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "go", "json", "scala", "java"},
-
-        -- Install parsers synchronously (only applied to `ensure_installed`)
+        ensure_installed = {
+					"c",
+					"lua",
+					"vim",
+					"vimdoc",
+					"query",
+					"go",
+					"json",
+					"scala",
+					"java",
+					"yaml",
+					"markdown",
+					"markdown_inline",
+				},
         sync_install = false,
-
-        -- Automatically install missing parsers when entering buffer
-        -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
         auto_install = true,
-
-        -- List of parsers to ignore installing (or "all")
-        -- ignore_install = { "javascript" },
-
-        ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-        -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-
         highlight = {
           enable = true,
-
-          -- -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-          -- -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-          -- -- the name of the parser)
-          -- -- list of language that will be disabled
-          -- disable = { "c", "rust" },
-          -- -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-          -- disable = function(lang, buf)
-          --     local max_filesize = 100 * 1024 -- 100 KB
-          --     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-          --     if ok and stats and stats.size > max_filesize then
-          --         return true
-          --     end
-          -- end,
-
-          -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-          -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-          -- Using this option may slow down your editor, and you may see some duplicate highlights.
-          -- Instead of true it can also be a list of languages
           additional_vim_regex_highlighting = false,
         },
       }
@@ -731,62 +709,6 @@ let g:fzf_preview_window = ['down:50%', 'ctrl-p']
 
 " }}}
 
-" airline {{{
-" Enable integration with airline
-"let g:airline#extensions#ale#enabled = 1
-"let g:airline_powerline_fonts = 1
-
-""let g:airline_theme = 'gruvbox'
-"let g:airline_theme = 'oceanicnext'
-
-"if !exists('g:airline_symbols')
-  "let g:airline_symbols = {}
-"endif
-
-"" unicode symbols
-"let g:airline_left_sep = '»'
-"let g:airline_left_sep = '▶'
-"let g:airline_right_sep = '«'
-"let g:airline_right_sep = '◀'
-"let g:airline_symbols.linenr = '␊'
-"let g:airline_symbols.linenr = '␤'
-"let g:airline_symbols.linenr = '¶'
-"let g:airline_symbols.branch = '⎇'
-"let g:airline_symbols.paste = 'ρ'
-"let g:airline_symbols.paste = 'Þ'
-"let g:airline_symbols.paste = '∥'
-"let g:airline_symbols.whitespace = 'Ξ'
-
-"" airline symbols
-"let g:airline_left_sep = ''
-"let g:airline_left_alt_sep = ''
-"let g:airline_right_sep = ''
-"let g:airline_right_alt_sep = ''
-"let g:airline_symbols.branch = ''
-"let g:airline_symbols.readonly = ''
-"let g:airline_symbols.linenr = ''
-"let g:airline_highlighting_cache = 1
-
-"" airline tabline
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#tab_nr_type = 1
-"let g:airline#extensions#tabline#buffer_idx_mode = 1
-
-
-nmap <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>AirlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <M-l> <Plug>AirlineSelectNextTab
-nmap <M-h> <Plug>AirlineSelectPrevTab
-
-" }}}
-
 " general mappings {{{
 
 
@@ -915,8 +837,7 @@ set termguicolors
 set background=dark
 set t_Co=256
 "colorscheme gruvbox
-colorscheme OceanicNext
-
+colorscheme rose-pine
 " transparent background
 "hi Normal guibg=NONE ctermbg=NONE
 "hi Pmenu guibg=#180018 ctermbg=234
