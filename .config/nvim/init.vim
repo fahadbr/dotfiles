@@ -37,7 +37,7 @@ set inccommand=nosplit
 
 au FocusGained,BufEnter * :checktime
 
-let mapleader = ","
+  let mapleader = ","
 let maplocalleader = "-"
 
 filetype plugin indent on
@@ -119,7 +119,7 @@ nmap <M-h> <Plug>AirlineSelectPrevTab
 " lazy plugin manager {{{
 lua << EOF
 
--- nvim-ufo spec {{{
+-- nvim-ufo plugin spec {{{
 local nvim_ufo_plugin = {"kevinhwang91/nvim-ufo",
   dependencies = {"kevinhwang91/promise-async"},
   config = function()
@@ -158,6 +158,48 @@ local nvim_ufo_plugin = {"kevinhwang91/nvim-ufo",
       },
     })
   end}
+-- }}}
+
+-- conform plugin spec {{{
+local conform_plugin = {"stevearc/conform.nvim", opts = {
+      formatters_by_ft = {
+        java = {"google-java-format"},
+        ["_"] = { "trim_whitespace" }
+      },
+      formatters = {
+        ["google-java-format"] = {
+          -- prepend_args = {"--aosp"},
+        },
+      },
+  }
+}
+-- }}}
+
+-- nvim-treesitter plugin spec {{{
+local nvim_treesitter_plugin = {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function()
+      require('nvim-treesitter.configs').setup {
+        ensure_installed = {
+          "c",
+          "lua",
+          "vim",
+          "vimdoc",
+          "query",
+          "go",
+          "json",
+          "scala",
+          "java",
+          "yaml",
+          "markdown",
+          "markdown_inline",
+        },
+        sync_install = false,
+        auto_install = true,
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = false,
+        },
+      }
+    end}
 -- }}}
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -219,35 +261,16 @@ local plugins = {
   "nvim-lua/telescope.nvim",
   {"nvim-telescope/telescope-fzf-native.nvim", build = "make"},
   "jose-elias-alvarez/null-ls.nvim",
-  {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function()
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = {
-          "c",
-          "lua",
-          "vim",
-          "vimdoc",
-          "query",
-          "go",
-          "json",
-          "scala",
-          "java",
-          "yaml",
-          "markdown",
-          "markdown_inline",
-        },
-        sync_install = false,
-        auto_install = true,
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false,
-        },
-      }
-    end},
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {}, config = function()
+    require("ibl").setup()
+  end},
   "voldikss/vim-floaterm",
   "lewis6991/gitsigns.nvim",
   "scalameta/nvim-metals",
   "mfussenegger/nvim-jdtls",
+  nvim_treesitter_plugin,
   nvim_ufo_plugin,
+  conform_plugin,
 }
 
 require("lazy").setup(plugins)
@@ -408,7 +431,6 @@ EOF
 "}}}
 
 " key mappings {{{
-"nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
 " ufo plugin will proxy to this
 "nnoremap <silent> gh     <cmd>lua vim.lsp.buf.hover()<CR>
@@ -418,6 +440,7 @@ nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> <M-d> <cmd>lua vim.diagnostic.open_float()<CR>
 nnoremap <silent> <leader>a    <cmd>lua vim.lsp.buf.code_action()<CR>
+" telescope is handling these mappings
 "nnoremap <silent> <space>o    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 "nnoremap <silent> <space>s    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
@@ -454,24 +477,24 @@ local launcher_jar_path = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equino
 
 local jdtls_config = {
   cmd = {
-      "java",
-      "-Declipse.application=org.eclipse.jdt.ls.core.id1",
-      "-Declipse.product=org.eclipse.jdt.ls.core.product",
-      "-Dosgi.bundles.defaultStartLevel=4",
-      "-Dlog.protocol=true",
-      "-Dlog.level=ALL",
-      "-Xms1G",
-      "-javaagent:" .. lombok_path,
-      "--add-modules=ALL-SYSTEM",
-      "--add-opens", "java.base/java.util=ALL-UNNAMED",
-      "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-      "-jar", launcher_jar_path,
-      "-data", workspace_dir,
-      "-configuration", config_path,
-    },
-    cmd_env = {
-      GRADLE_HOME = home .. "/.sdkman/candidates/gradle/current/bin/gradle",
-    },
+    "java",
+    "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+    "-Declipse.product=org.eclipse.jdt.ls.core.product",
+    "-Dosgi.bundles.defaultStartLevel=4",
+    "-Dlog.protocol=true",
+    "-Dlog.level=ALL",
+    "-Xms1G",
+    "-javaagent:" .. lombok_path,
+    "--add-modules=ALL-SYSTEM",
+    "--add-opens", "java.base/java.util=ALL-UNNAMED",
+    "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+    "-jar", launcher_jar_path,
+    "-data", workspace_dir,
+    "-configuration", config_path,
+  },
+  cmd_env = {
+    GRADLE_HOME = home .. "/.sdkman/candidates/gradle/current/bin/gradle",
+  },
 }
 
 local nvim_jdtls_group = vim.api.nvim_create_augroup("nvim-jdtls", { clear = true })
@@ -535,10 +558,10 @@ local telescope_utils = require('telescope.utils')
 telescope.load_extension('fzf')
 telescope.setup({
   defaults = {
-      path_display = function(opts, path)
-        local tail = telescope_utils.path_tail(path)
-        return string.format("%s -- %s", tail, path)
-      end,
+    path_display = function(opts, path)
+    local tail = telescope_utils.path_tail(path)
+    return string.format("%s -- %s", tail, path)
+    end,
   },
 })
 
