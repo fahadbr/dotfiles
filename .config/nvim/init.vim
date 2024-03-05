@@ -37,18 +37,11 @@ set inccommand=nosplit
 
 au FocusGained,BufEnter * :checktime
 
-  let mapleader = ","
+let mapleader = ","
 let maplocalleader = "-"
 
 filetype plugin indent on
 " }}}
-
-" before plugin settings {{{
-
-nmap <Leader>r  <Plug>ReplaceWithRegisterOperator
-nmap <Leader>rr <Plug>ReplaceWithRegisterLine
-xmap <Leader>r  <Plug>ReplaceWithRegisterVisual
-
 
 " autopairs {{{
 " disable auto pair shortcuts
@@ -57,8 +50,6 @@ let g:AutoPairsShortcutToggle = "<M-'>"
 let g:AutoPairsShortcutFastWrap = ''
 let g:AutoPairsShortcutBackInsert = ''
 let g:AutoPairsMapCR = 1
-" }}}
-"
 " }}}
 
 " airline {{{
@@ -228,13 +219,17 @@ local plugins = {
   "jiangmiao/auto-pairs",
   "vim-scripts/BufOnly.vim",
   {"xolox/vim-session", dependencies = {"xolox/vim-misc"}},
-  "tpope/vim-sleuth",
+  {"tpope/vim-sleuth", priority = 1000},
   "tpope/vim-surround",
   "tpope/vim-repeat",
   "honza/vim-snippets",
-  "inkarkat/vim-ReplaceWithRegister",
+  {"inkarkat/vim-ReplaceWithRegister", init = function()
+    vim.keymap.set('n', '<leader>r',  '<Plug>ReplaceWithRegisterOperator')
+    vim.keymap.set('n', '<leader>rr', '<Plug>ReplaceWithRegisterLine')
+    vim.keymap.set('x', '<leader>r',  '<Plug>ReplaceWithRegisterVisual')
+  end},
   "AndrewRadev/splitjoin.vim",
-  {"fatih/vim-go", lazy = true},
+  {"fatih/vim-go", ft = "go"},
 
   -- themes
   {"challenger-deep-theme/vim", name = "challenger-deep", lazy = true},
@@ -555,12 +550,23 @@ au FileType sbt nmap <localleader>m :lua require("telescope").extensions.metals.
 lua << EOF
 local telescope = require('telescope')
 local telescope_utils = require('telescope.utils')
+local telescope_builtin = require('telescope.builtin')
 telescope.load_extension('fzf')
 telescope.setup({
   defaults = {
+    vimgrep_arguments = {
+      "rg",
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
+      "--hidden"
+    },
     path_display = function(opts, path)
-    local tail = telescope_utils.path_tail(path)
-    return string.format("%s -- %s", tail, path)
+      local tail = telescope_utils.path_tail(path)
+      return string.format("%s -- %s", tail, path)
     end,
   },
 })
@@ -581,7 +587,7 @@ local git_opts = {
 
 -- this function allows finding all files in a git repo
 -- even if they havent been added
-function vim.find_files_from_project_git_root()
+local function find_files_from_project_git_root()
   local opts = {}
   if is_git_repo() then
     opts = git_opts
@@ -589,38 +595,43 @@ function vim.find_files_from_project_git_root()
   opts.hidden = true
   opts.follow = true
 
-  require("telescope.builtin").find_files(opts)
+  telescope_builtin.find_files(opts)
 end
 
 -- this function will use git ls-files if its a git repo
 -- otherwise fallback to find_files
-function vim.git_or_find_files()
+local function git_or_find_files()
   if is_git_repo() then
-    require("telescope.builtin").git_files()
+    telescope_builtin.git_files()
   else
-    require("telescope.builtin").find_files()
+    telescope_builtin.find_files()
   end
 end
 
 -- this function will live grep from the git root
 -- if in a git repo
-function vim.live_grep_from_project_git_root()
+local function live_grep_from_project_git_root()
   local opts = {}
   if is_git_repo() then
     opts = git_opts
   end
-  require("telescope.builtin").live_grep(opts)
+  telescope_builtin.live_grep(opts)
 end
 
-EOF
+local function nmap(key, func, description)
+  vim.keymap.set('n', key, func, {desc = description})
+end
 
-nnoremap <C-p> :lua vim.find_files_from_project_git_root()<CR>
-nnoremap <M-S-p> :lua vim.git_or_find_files()<CR>
-nnoremap <M-p> :lua require'telescope.builtin'.buffers()<CR>
-nnoremap <space>o :lua require'telescope.builtin'.lsp_document_symbols{ path_display = shorten }<CR>
-nnoremap <space>s :lua require'telescope.builtin'.lsp_dynamic_workspace_symbols{ path_display = shorten }<CR>
-nnoremap <leader>fl :lua vim.live_grep_from_project_git_root()<CR>
-nnoremap <leader>fw :Telescope grep_string<CR>
+nmap('<space>s', telescope_builtin.lsp_dynamic_workspace_symbols, 'LSP Dynamic Workspace Symbols')
+nmap('<C-p>', find_files_from_project_git_root, "Find Files From Git Root")
+nmap('<M-S-p>', git_or_find_files, "Git or Find Files")
+nmap('<M-p>', telescope_builtin.buffers, "List Buffers")
+nmap('<space>o', telescope_builtin.lsp_document_symbols, "LSP Document Symbols")
+nmap('<space>k', telescope_builtin.keymaps, "Keymaps")
+nmap('<leader>fl', live_grep_from_project_git_root, "Live Grep from Git Root")
+nmap('<leader>fw', telescope_builtin.grep_string, "Grep String Under Cursor")
+
+EOF
 " }}}
 
 " nnn config {{{
