@@ -67,7 +67,7 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme = 'night_owl'
 
 if !exists('g:airline_symbols')
-	let g:airline_symbols = {}
+  let g:airline_symbols = {}
 endif
 
 " unicode symbols
@@ -136,7 +136,7 @@ local nvim_ufo_plugin = {"kevinhwang91/nvim-ufo",
     vim.keymap.set('n', 'gh', function()
     local winid = require('ufo').peekFoldedLinesUnderCursor()
       if not winid then
-	vim.lsp.buf.hover()
+        vim.lsp.buf.hover()
       end
     end)
 
@@ -144,17 +144,17 @@ local nvim_ufo_plugin = {"kevinhwang91/nvim-ufo",
       open_fold_hl_timeout = 150,
       close_fold_kinds = {'imports', 'comment'},
       preview = {
-	win_config = {
-	  border = {'', '─', '', '', '', '─', '', ''},
-	  winhighlight = 'Normal:Folded',
-	  winblend = 0
-	},
-	mappings = {
-	  scrollU = '<C-u>',
-	  scrollD = '<C-d>',
-	  jumpTop = '[',
-	  jumpBot = ']'
-	}
+      win_config = {
+        border = {'', '─', '', '', '', '─', '', ''},
+        winhighlight = 'Normal:Folded',
+        winblend = 0
+      },
+      mappings = {
+        scrollU = '<C-u>',
+        scrollD = '<C-d>',
+        jumpTop = '[',
+        jumpBot = ']'
+      }
       },
     })
   end}
@@ -222,19 +222,19 @@ local plugins = {
   {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function()
       require('nvim-treesitter.configs').setup {
         ensure_installed = {
-					"c",
-					"lua",
-					"vim",
-					"vimdoc",
-					"query",
-					"go",
-					"json",
-					"scala",
-					"java",
-					"yaml",
-					"markdown",
-					"markdown_inline",
-				},
+          "c",
+          "lua",
+          "vim",
+          "vimdoc",
+          "query",
+          "go",
+          "json",
+          "scala",
+          "java",
+          "yaml",
+          "markdown",
+          "markdown_inline",
+        },
         sync_install = false,
         auto_install = true,
         highlight = {
@@ -247,7 +247,7 @@ local plugins = {
   "lewis6991/gitsigns.nvim",
   "scalameta/nvim-metals",
   "mfussenegger/nvim-jdtls",
-	nvim_ufo_plugin,
+  nvim_ufo_plugin,
 }
 
 require("lazy").setup(plugins)
@@ -273,8 +273,8 @@ vim.o.completeopt = 'menuone,noselect'
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 capabilities.textDocument.foldingRange = {
-	dynamicRegistration = false,
-	lineFoldingOnly = true,
+  dynamicRegistration = false,
+  lineFoldingOnly = true,
 }
 
 -- luasnip setup
