@@ -1,9 +1,6 @@
 " vim:foldmethod=marker
 
 " general option settings {{{
-set runtimepath^=~/.vim runtimepath+=~/.vim/after
-let &packpath = &runtimepath
-source ~/.vimrc
 
 syntax on
 set number
@@ -107,7 +104,7 @@ nmap <M-h> <Plug>AirlineSelectPrevTab
 
 " }}}
 
-" lazy plugin manager {{{
+" lazy.nvim (plugins) {{{
 lua << EOF
 
 -- nvim-ufo plugin spec {{{
@@ -151,18 +148,22 @@ local nvim_ufo_plugin = {"kevinhwang91/nvim-ufo",
   end}
 -- }}}
 
--- conform plugin spec {{{
-local conform_plugin = {"stevearc/conform.nvim", opts = {
-      formatters_by_ft = {
-        java = {"google-java-format"},
-        ["_"] = { "trim_whitespace" }
-      },
-      formatters = {
-        ["google-java-format"] = {
-          -- prepend_args = {"--aosp"},
+-- conform formatter plugin spec {{{
+local conform_plugin = {"stevearc/conform.nvim", config = function()
+      local conform = require('conform')
+      conform.setup({
+        formatters_by_ft = {
+          java = {"google-java-format"},
+          ["_"] = { "trim_whitespace" }
         },
-      },
-  }
+        formatters = {
+          ["google-java-format"] = {
+            -- prepend_args = {"--aosp"},
+          },
+        },
+    })
+    vim.keymap.set('n', '<leader>fc', conform.format, {desc = "Format Using Conform"})
+  end
 }
 -- }}}
 
@@ -261,8 +262,8 @@ local plugins = {
   end},
   "voldikss/vim-floaterm",
   "lewis6991/gitsigns.nvim",
-  "scalameta/nvim-metals",
   "mfussenegger/nvim-jdtls",
+  {"scalameta/nvim-metals", ft = {"scala", "sbt"}},
   nvim_treesitter_plugin,
   nvim_ufo_plugin,
   conform_plugin,
