@@ -119,8 +119,13 @@ local nvim_ufo_plugin = {"kevinhwang91/nvim-ufo",
     local ufo = require('ufo')
     vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
     vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
-    vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds)
-    vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
+    vim.keymap.set('n', 'zrr', require('ufo').openAllFolds)
+    vim.keymap.set('n', 'zmm', require('ufo').closeAllFolds)
+    for i=0,5 do
+      local opts = {desc = string.format('open/close all folds with level %d', i)}
+      vim.keymap.set('n', string.format('zr%d', i), function() require('ufo').closeFoldsWith(i) end, opts)
+      vim.keymap.set('n', string.format('zm%d', i), function() require('ufo').closeFoldsWith(i) end, opts)
+    end
     vim.keymap.set('n', 'gh', function()
     local winid = require('ufo').peekFoldedLinesUnderCursor()
       if not winid then
