@@ -123,8 +123,9 @@ local nvim_ufo_plugin = {"kevinhwang91/nvim-ufo",
     vim.keymap.set('n', 'zmm', require('ufo').closeAllFolds)
     for i=0,5 do
       local opts = {desc = string.format('open/close all folds with level %d', i)}
-      vim.keymap.set('n', string.format('zr%d', i), function() require('ufo').closeFoldsWith(i) end, opts)
-      vim.keymap.set('n', string.format('zm%d', i), function() require('ufo').closeFoldsWith(i) end, opts)
+      local foldWithLevel = function() require('ufo').closeFoldsWith(i) end
+      vim.keymap.set('n', string.format('zr%d', i), foldWithLevel, opts)
+      vim.keymap.set('n', string.format('zm%d', i), foldWithLevel, opts)
     end
     vim.keymap.set('n', 'gh', function()
     local winid = require('ufo').peekFoldedLinesUnderCursor()
@@ -137,17 +138,17 @@ local nvim_ufo_plugin = {"kevinhwang91/nvim-ufo",
       open_fold_hl_timeout = 150,
       close_fold_kinds = {'imports', 'comment'},
       preview = {
-      win_config = {
-        border = {'', '─', '', '', '', '─', '', ''},
-        winhighlight = 'Normal:Folded',
-        winblend = 0
-      },
-      mappings = {
-        scrollU = '<C-u>',
-        scrollD = '<C-d>',
-        jumpTop = '[',
-        jumpBot = ']'
-      }
+        win_config = {
+          border = {'', '─', '', '', '', '─', '', ''},
+          winhighlight = 'Normal:Folded',
+          winblend = 0
+        },
+        mappings = {
+          scrollU = '<C-u>',
+          scrollD = '<C-d>',
+          jumpTop = '[',
+          jumpBot = ']'
+        }
       },
     })
   end}
@@ -631,7 +632,13 @@ end
 nmap('<space>s', telescope_builtin.lsp_dynamic_workspace_symbols, 'LSP Dynamic Workspace Symbols')
 nmap('<C-p>', find_files_from_project_git_root, "Find Files From Git Root")
 nmap('<M-S-p>', git_or_find_files, "Git or Find Files")
-nmap('<M-p>', telescope_builtin.buffers, "List Buffers")
+nmap('<M-p>', function()
+  telescope_builtin.buffers({
+    show_all_buffers = false,
+    sort_mru = true,
+    ignore_current_buffer = true,
+  })
+end, "List Buffers")
 nmap('<space>o', telescope_builtin.lsp_document_symbols, "LSP Document Symbols")
 nmap('<space>k', telescope_builtin.keymaps, "Keymaps")
 nmap('<leader>fl', live_grep_from_project_git_root, "Live Grep from Git Root")
