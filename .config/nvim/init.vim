@@ -2,42 +2,52 @@
 
 " general option settings {{{
 
-syntax on
-set number
-set relativenumber
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set autoindent
-set smartindent
-set nowrap
-set nohlsearch
-set smartcase
-set ignorecase
-set incsearch
-set showmatch
-set cursorline
-set mouse+=a
-set hidden
-set linebreak
-set signcolumn=yes
+lua << EOF
 
-set title
-set ruler
-set undolevels=1000
-set backspace=indent,eol,start
-set autoread
-set grepprg=rg\ --vimgrep
+-- custom functions {{{
+function autocmd(event, opts)
+  vim.api.nvim_create_autocmd(event, opts)
+end
+-- }}}
 
-" neovim options
-set inccommand=nosplit
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.autoindent = true
+vim.o.smartindent = true
+vim.o.wrap = false
+vim.o.hlsearch = false
+vim.o.smartcase = true
+vim.o.ignorecase = true
+vim.o.incsearch = true
+vim.o.showmatch = true
+vim.o.cursorline = true
+vim.o.hidden = true
+vim.o.linebreak = true
+vim.o.title = true
+vim.o.ruler = true
+vim.o.autoread = true
+vim.o.tabstop = 2
+vim.o.softtabstop = 2
+vim.o.shiftwidth = 2
+vim.o.signcolumn = 'yes'
+vim.o.undolevels = 1000
+vim.o.grepprg = 'rg --vimgrep'
+vim.o.inccommand = 'nosplit'
 
-au FocusGained,BufEnter * :checktime
+-- use vim.opt instead of vim.o when accessing
+-- or modifying options in as a table/list
+-- see :h vim.opt
+vim.opt.mouse:append('a')
+vim.opt.backspace = {'indent', 'eol', 'start'}
 
-let mapleader = ","
-let maplocalleader = "-"
+autocmd({'FocusGained', 'BufEnter'}, {
+  pattern = {'*'},
+  command = 'checktime'
+})
 
-filetype plugin indent on
+vim.g.mapleader = ','
+vim.g.maplocalleader = '-'
+EOF
 " }}}
 
 " airline {{{
