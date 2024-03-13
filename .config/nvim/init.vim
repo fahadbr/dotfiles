@@ -40,15 +40,6 @@ let maplocalleader = "-"
 filetype plugin indent on
 " }}}
 
-" autopairs {{{
-" disable auto pair shortcuts
-let g:AutoPairsShortcutJump = ''
-let g:AutoPairsShortcutToggle = "<M-'>"
-let g:AutoPairsShortcutFastWrap = ''
-let g:AutoPairsShortcutBackInsert = ''
-let g:AutoPairsMapCR = 1
-" }}}
-
 " airline {{{
 " Enable integration with airline
 let g:airline_powerline_fonts = 1
@@ -200,14 +191,25 @@ local nvim_treesitter_plugin = {"nvim-treesitter/nvim-treesitter", build = ":TSU
     end}
 -- }}}
 
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+-- nvim-autopairs plugin spec {{{
+local nvim_autopairs = {
+  'windwp/nvim-autopairs',
+  event = 'InsertEnter',
+
+  -- use opts = {} for passing setup options
+  -- this is equalent to setup({}) function
+  config = true,
+}
+-- }}}
+
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
     lazypath,
   })
 end
@@ -215,67 +217,67 @@ vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
   -- vimscript
-  "scrooloose/nerdtree",
-  "Xuyuanp/nerdtree-git-plugin",
-  "scrooloose/nerdcommenter",
-  {"vim-airline/vim-airline", dependencies = {"vim-airline/vim-airline-themes"}},
-  {"$HOME/.fzf", dev = true},
-  {"$HOME/.dotfiles/fzfc", dev = true},
-  "junegunn/fzf.vim",
-  "bronson/vim-trailing-whitespace",
-  "jiangmiao/auto-pairs",
-  "vim-scripts/BufOnly.vim",
-  {"xolox/vim-session", dependencies = {"xolox/vim-misc"}},
-  {"tpope/vim-sleuth", priority = 1000},
-  "tpope/vim-surround",
-  "tpope/vim-repeat",
-  "honza/vim-snippets",
-  {"inkarkat/vim-ReplaceWithRegister", init = function()
+  'scrooloose/nerdtree',
+  'Xuyuanp/nerdtree-git-plugin',
+  'scrooloose/nerdcommenter',
+  {'vim-airline/vim-airline', dependencies = {'vim-airline/vim-airline-themes'}},
+  {'$HOME/.fzf', dev = true},
+  {'$HOME/.dotfiles/fzfc', dev = true},
+  'junegunn/fzf.vim',
+  'bronson/vim-trailing-whitespace',
+  'vim-scripts/BufOnly.vim',
+  {'xolox/vim-session', dependencies = {'xolox/vim-misc'}},
+  {'tpope/vim-sleuth', priority = 1000},
+  'tpope/vim-surround',
+  'tpope/vim-repeat',
+  'honza/vim-snippets',
+  {'inkarkat/vim-ReplaceWithRegister', init = function()
     vim.keymap.set('n', '<leader>r',  '<Plug>ReplaceWithRegisterOperator')
     vim.keymap.set('n', '<leader>rr', '<Plug>ReplaceWithRegisterLine')
     vim.keymap.set('x', '<leader>r',  '<Plug>ReplaceWithRegisterVisual')
   end},
-  "AndrewRadev/splitjoin.vim",
-  {"fatih/vim-go", ft = "go"},
+  'AndrewRadev/splitjoin.vim',
+  {'fatih/vim-go', ft = 'go'},
 
   -- themes
-  {"challenger-deep-theme/vim", name = "challenger-deep", lazy = true},
-  {"fenetikm/falcon", lazy = true},
-  {"mhartington/oceanic-next", lazy = true},
-  {"jsit/toast.vim", name = "toast", lazy = true},
-  {"morhetz/gruvbox", lazy = true},
-  {"rose-pine/neovim", name = "rose-pine", lazy = false},
+  {'challenger-deep-theme/vim', name = 'challenger-deep', lazy = true},
+  {'fenetikm/falcon', lazy = true},
+  {'mhartington/oceanic-next', lazy = true},
+  {'jsit/toast.vim', name = 'toast', lazy = true},
+  {'morhetz/gruvbox', lazy = true},
+  {'rose-pine/neovim', name = 'rose-pine', lazy = false},
 
   -- lua plugins
-  "williamboman/mason.nvim",
-  "williamboman/mason-lspconfig.nvim",
-  "neovim/nvim-lspconfig",
-  "hrsh7th/nvim-cmp",
-  "hrsh7th/cmp-nvim-lsp",
-  "hrsh7th/cmp-buffer",
-  "hrsh7th/cmp-path",
-  "hrsh7th/cmp-cmdline",
-  "saadparwaiz1/cmp_luasnip",
-  "L3MON4D3/LuaSnip",
-  "luukvbaal/nnn.nvim",
-  "nvim-lua/popup.nvim",
-  "nvim-lua/plenary.nvim",
-  "nvim-lua/telescope.nvim",
-  {"nvim-telescope/telescope-fzf-native.nvim", build = "make"},
-  "jose-elias-alvarez/null-ls.nvim",
-  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {}, config = function()
-    require("ibl").setup()
+  'williamboman/mason.nvim',
+  'williamboman/mason-lspconfig.nvim',
+  'neovim/nvim-lspconfig',
+  'hrsh7th/nvim-cmp',
+  'hrsh7th/cmp-nvim-lsp',
+  'hrsh7th/cmp-buffer',
+  'hrsh7th/cmp-path',
+  'hrsh7th/cmp-cmdline',
+  'saadparwaiz1/cmp_luasnip',
+  'L3MON4D3/LuaSnip',
+  'luukvbaal/nnn.nvim',
+  'nvim-lua/popup.nvim',
+  'nvim-lua/plenary.nvim',
+  'nvim-lua/telescope.nvim',
+  {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'},
+  'jose-elias-alvarez/null-ls.nvim',
+  { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {}, config = function()
+    require('ibl').setup()
   end},
-  "voldikss/vim-floaterm",
-  "lewis6991/gitsigns.nvim",
-  "mfussenegger/nvim-jdtls",
-  {"scalameta/nvim-metals", ft = {"scala", "sbt"}},
+  'voldikss/vim-floaterm',
+  'lewis6991/gitsigns.nvim',
+  'mfussenegger/nvim-jdtls',
+  {'scalameta/nvim-metals', ft = {'scala', 'sbt'}},
   nvim_treesitter_plugin,
   nvim_ufo_plugin,
   conform_plugin,
+  nvim_autopairs,
 }
 
-require("lazy").setup(plugins)
+require('lazy').setup(plugins)
 EOF
 " }}}
 
@@ -290,10 +292,9 @@ EOF
 
 " neovim lsp config {{{
 
-" lua config {{{
 lua << EOF
 
--- autocompletion {{{
+-- cmp autocompletion {{{
 vim.o.completeopt = 'menuone,noselect'
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
@@ -308,7 +309,7 @@ local luasnip = require('luasnip')
 require("luasnip.loaders.from_snipmate").lazy_load()
 
 -- nvim-cmp setup
-local cmp = require 'cmp'
+local cmp = require('cmp')
 cmp.setup {
   preselect = cmp.PreselectMode.None,
   snippet = {
@@ -361,11 +362,15 @@ cmp.setup.cmdline(':', {
   sources = cmp.config.sources({ { name = 'path' } }, { { name = 'cmdline' } })
 })
 
--- }}}
+-- binding between cmp and autopairs so they play nicely together
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+
+-- }}} end cmp config
+
+-- language server configs {{{
 
 local lspconfig = require('lspconfig')
-
-
 
 -- bash support
 lspconfig.bashls.setup{
@@ -428,11 +433,10 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
       underline = true
   }
 )
+-- }}}
 
 EOF
-"}}}
 
-" key mappings {{{
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
 " ufo plugin will proxy to this
 "nnoremap <silent> gh     <cmd>lua vim.lsp.buf.hover()<CR>
@@ -450,10 +454,8 @@ nnoremap <silent> <leader>fm <cmd>lua vim.lsp.buf.format { async = false }<CR>
 
 command! Format execute 'lua vim.lsp.buf.formatting()'
 
-
 " reload lsp
 nnoremap <leader>cr <cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>
-"}}}
 
 " }}} neovim lsp config
 
