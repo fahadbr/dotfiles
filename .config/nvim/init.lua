@@ -137,7 +137,7 @@ local conform_plugin = {
         },
       },
     })
-    nmap('<leader>fc', conform.format, "Format Using Conform")
+    nmap('<leader>fc', function() conform.format { lsp_fallback = true } end, "Format Using Conform")
   end
 }
 -- }}}
