@@ -95,7 +95,7 @@ local nvim_ufo_plugin = {
     nmap('zrr', ufo.openAllFolds, 'Open All Folds')
     nmap('zmm', ufo.closeAllFolds, 'Close All Folds')
     for i = 0, 5 do
-      local opts = { desc = string.format('open/close all folds with level %d', i) }
+      local opts = { desc = string.format('Open/Close all folds with level %d', i) }
       local foldWithLevel = function() require('ufo').closeFoldsWith(i) end
       nmap(string.format('zr%d', i), foldWithLevel, opts)
       nmap(string.format('zm%d', i), foldWithLevel, opts)
