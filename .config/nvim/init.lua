@@ -7,24 +7,31 @@ local function autocmd(event, opts)
   vim.api.nvim_create_autocmd(event, opts)
 end
 
-local function nmap(key, func, description)
-  vim.keymap.set('n', key, func, { desc = description })
+local function map_with_mode(mode, key, mapping, description)
+  if description == nil and type(mapping) == 'string' then
+    description = mapping
+  end
+  vim.keymap.set(mode, key, mapping, { desc = description })
 end
 
-local function imap(key, func, description)
-  vim.keymap.set('i', key, func, { desc = description })
+local function nmap(key, mapping, description)
+  map_with_mode('n', key, mapping, description)
 end
 
-local function vmap(key, func, description)
-  vim.keymap.set('v', key, func, { desc = description })
+local function imap(key, mapping, description)
+  map_with_mode('i', key, mapping, description)
 end
 
-local function cmap(key, func, description)
-  vim.keymap.set('c', key, func, { desc = description })
+local function vmap(key, mapping, description)
+  map_with_mode('v', key, mapping, description)
 end
 
-local function tmap(key, func, description)
-  vim.keymap.set('t', key, func, { desc = description })
+local function cmap(key, mapping, description)
+  map_with_mode('c', key, mapping, description)
+end
+
+local function tmap(key, mapping, description)
+  map_with_mode('t', key, mapping, description)
 end
 
 -- }}}
@@ -83,17 +90,17 @@ local nvim_ufo_plugin = {
     vim.o.foldenable = true
 
     local ufo = require('ufo')
-    vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
-    vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
-    vim.keymap.set('n', 'zrr', require('ufo').openAllFolds)
-    vim.keymap.set('n', 'zmm', require('ufo').closeAllFolds)
+    nmap('zR', ufo.openAllFolds, 'Open All Folds')
+    nmap('zM', ufo.closeAllFolds, 'Close All Folds')
+    nmap('zrr', ufo.openAllFolds, 'Open All Folds')
+    nmap('zmm', ufo.closeAllFolds, 'Close All Folds')
     for i = 0, 5 do
       local opts = { desc = string.format('open/close all folds with level %d', i) }
       local foldWithLevel = function() require('ufo').closeFoldsWith(i) end
-      vim.keymap.set('n', string.format('zr%d', i), foldWithLevel, opts)
-      vim.keymap.set('n', string.format('zm%d', i), foldWithLevel, opts)
+      nmap(string.format('zr%d', i), foldWithLevel, opts)
+      nmap(string.format('zm%d', i), foldWithLevel, opts)
     end
-    vim.keymap.set('n', 'gh', function()
+    nmap('gh', function()
       local winid = require('ufo').peekFoldedLinesUnderCursor()
       if not winid then
         vim.lsp.buf.hover()
@@ -103,6 +110,7 @@ local nvim_ufo_plugin = {
     ufo.setup({
       open_fold_hl_timeout = 150,
       close_fold_kinds = { 'imports', 'comment' },
+      enable_get_fold_virt_text = false,
       preview = {
         win_config = {
           border = { '', '─', '', '', '', '─', '', '' },
@@ -162,6 +170,8 @@ local nvim_treesitter_plugin = {
         "markdown",
         "markdown_inline",
       },
+      ignore_install = {},
+      modules = {},
       sync_install = false,
       auto_install = true,
       highlight = {
@@ -293,9 +303,9 @@ local plugins = {
   {
     'inkarkat/vim-ReplaceWithRegister',
     init = function()
-      vim.keymap.set('n', '<leader>r', '<Plug>ReplaceWithRegisterOperator')
-      vim.keymap.set('n', '<leader>rr', '<Plug>ReplaceWithRegisterLine')
-      vim.keymap.set('x', '<leader>r', '<Plug>ReplaceWithRegisterVisual')
+      nmap('<leader>r', '<Plug>ReplaceWithRegisterOperator')
+      nmap('<leader>rr', '<Plug>ReplaceWithRegisterLine')
+      map_with_mode('x', '<leader>r', '<Plug>ReplaceWithRegisterVisual')
     end
   },
   'AndrewRadev/splitjoin.vim',
