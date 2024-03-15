@@ -3,12 +3,28 @@
 -- general option settings {{{
 
 -- custom functions {{{
-function autocmd(event, opts)
+local function autocmd(event, opts)
   vim.api.nvim_create_autocmd(event, opts)
 end
 
-function nmap(key, func, description)
+local function nmap(key, func, description)
   vim.keymap.set('n', key, func, { desc = description })
+end
+
+local function imap(key, func, description)
+  vim.keymap.set('i', key, func, { desc = description })
+end
+
+local function vmap(key, func, description)
+  vim.keymap.set('v', key, func, { desc = description })
+end
+
+local function cmap(key, func, description)
+  vim.keymap.set('c', key, func, { desc = description })
+end
+
+local function tmap(key, func, description)
+  vim.keymap.set('t', key, func, { desc = description })
 end
 
 -- }}}
@@ -29,6 +45,7 @@ vim.o.linebreak = true
 vim.o.title = true
 vim.o.ruler = true
 vim.o.autoread = true
+vim.o.termguicolors = true
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
@@ -36,6 +53,7 @@ vim.o.signcolumn = 'yes'
 vim.o.undolevels = 1000
 vim.o.grepprg = 'rg --vimgrep'
 vim.o.inccommand = 'nosplit'
+vim.o.background = 'dark'
 
 -- use vim.opt instead of vim.o when accessing
 -- or modifying options in as a table/list
@@ -119,7 +137,7 @@ local conform_plugin = {
         },
       },
     })
-    vim.keymap.set('n', '<leader>fc', conform.format, { desc = "Format Using Conform" })
+    nmap('<leader>fc', conform.format, "Format Using Conform")
   end
 }
 -- }}}
@@ -162,7 +180,14 @@ local nvim_autopairs = {
 
   -- use opts = {} for passing setup options
   -- this is equalent to setup({}) function
-  config = true,
+  config = function()
+    local npairs = require('nvim-autopairs')
+    local Rule = require('nvim-autopairs.rule')
+    local cond = require('nvim-autopairs.conds')
+    npairs.setup({})
+    -- enables auto pairing of '<' with '>'
+    npairs.add_rule(Rule('<', '>'):with_move(cond.done()))
+  end,
 }
 -- }}}
 
@@ -251,8 +276,17 @@ local plugins = {
   'junegunn/fzf.vim',
   'bronson/vim-trailing-whitespace',
   'vim-scripts/BufOnly.vim',
-  { 'xolox/vim-session', dependencies = { 'xolox/vim-misc' } },
-  { 'tpope/vim-sleuth',  priority = 1000 },
+  {
+    'xolox/vim-session',
+    dependencies = { 'xolox/vim-misc' },
+    init = function()
+      vim.g.session_autosave = 'prompt'
+      -- let g:session_autosave_periodic = 5
+      vim.g.session_persist_colors = 0
+      vim.g.session_autoload = 'no'
+    end
+  },
+  { 'tpope/vim-sleuth', priority = 1000 },
   'tpope/vim-surround',
   'tpope/vim-repeat',
   'honza/vim-snippets',
@@ -265,16 +299,22 @@ local plugins = {
     end
   },
   'AndrewRadev/splitjoin.vim',
-  { 'fatih/vim-go',                      ft = 'go' },
+  { 'fatih/vim-go',     ft = 'go' },
   vim_airline,
 
   -- themes
-  { 'challenger-deep-theme/vim',         name = 'challenger-deep', lazy = true },
-  { 'fenetikm/falcon',                   lazy = true },
-  { 'mhartington/oceanic-next',          lazy = true },
-  { 'jsit/toast.vim',                    name = 'toast',           lazy = true },
-  { 'morhetz/gruvbox',                   lazy = true },
-  { 'rose-pine/neovim',                  name = 'rose-pine',       lazy = false },
+  { 'challenger-deep-theme/vim', name = 'challenger-deep', lazy = true },
+  { 'fenetikm/falcon',           lazy = true },
+  { 'mhartington/oceanic-next',  lazy = true },
+  { 'jsit/toast.vim',            name = 'toast',           lazy = true },
+  { 'morhetz/gruvbox',           lazy = true },
+  {
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    lazy = false,
+    priority = 1000,
+    config = function() vim.cmd.colorscheme('rose-pine') end,
+  },
 
   -- lua plugins
   { 'williamboman/mason.nvim',           config = true },
@@ -629,10 +669,6 @@ local function live_grep_from_project_git_root()
   telescope_builtin.live_grep(opts)
 end
 
-local function nmap(key, func, description)
-  vim.keymap.set('n', key, func, { desc = description })
-end
-
 nmap('<space>s', telescope_builtin.lsp_dynamic_workspace_symbols, 'LSP Dynamic Workspace Symbols')
 nmap('<C-p>', find_files_from_project_git_root, "Find Files From Git Root")
 nmap('<M-S-p>', git_or_find_files, "Git or Find Files")
@@ -691,8 +727,8 @@ gitsigns.setup {
     changedelete = { text = 'x' },
     untracked    = { text = '┆' },
   },
-  signcolumn                   = true, -- Toggle with `:Gitsigns toggle_signs`
-  numhl                        = true, -- Toggle with `:Gitsigns toggle_numhl`
+  signcolumn                   = true,  -- Toggle with `:Gitsigns toggle_signs`
+  numhl                        = true,  -- Toggle with `:Gitsigns toggle_numhl`
   linehl                       = false, -- Toggle with `:Gitsigns toggle_linehl`
   word_diff                    = false, -- Toggle with `:Gitsigns toggle_word_diff`
   watch_gitdir                 = {
@@ -709,7 +745,7 @@ gitsigns.setup {
   current_line_blame_formatter = '<abbrev_sha>: <author>, <author_time:%Y-%m-%d> - <summary>',
   sign_priority                = 6,
   update_debounce              = 100,
-  status_formatter             = nil, -- Use default
+  status_formatter             = nil,   -- Use default
   max_file_length              = 40000, -- Disable if file is longer than this (in lines)
   preview_config               = {
     -- Options passed to nvim_open_win
@@ -792,151 +828,94 @@ autocmd('FileType', {
 })
 -- }}}
 
+-- floaterm mappings and options {{{
+
+vim.g.floaterm_opener = 'edit'
+
+nmap('<M-t><M-n>', ':FloatermNew --cwd=<root><CR>', 'New floating terminal in cwd')
+nmap('<M-t><M-t>', ':FloatermToggle<CR>', 'Floaterm Toggle')
+nmap('<leader>lg', ':FloatermNew --width=0.9 --height=0.95 lazygit<CR>', 'Lazygit')
+tmap('<M-t><M-t>', '<C-\\><C-n>:FloatermToggle<CR>', 'Floaterm Toggle (terminal)')
+tmap('<M-t><M-j>', '<C-\\><C-n>:FloatermNext<CR>', 'FloatermNext (terminal)')
+tmap('<M-t><M-k>', '<C-\\><C-n>:FloatermPrev<CR>', 'FloatermPrev (terminal)')
+tmap('<M-t><M-q>', '<C-\\><C-n>:FloatermKill<CR>', 'FloatermKill (terminal)')
+tmap('<M-S-t>', '<C-\\><C-n>', 'Exit terminal mode')
+
+-- }}}
+
+-- general mappings {{{
+nmap('<leader>ec', function() vim.cmd.edit('~/.config/nvim/init.lua') end, 'Edit Neovim Config')
+nmap('<M-w>', function()
+  vim.cmd.bp()
+  vim.cmd.bd('#')
+end, 'Close buffer')
+
+imap('<C-d>', '<esc>:read !date<CR>kJA', 'Insert date into current line (insert)')
+nmap('<leader>id', ':read !date<CR>', 'Insert date into current line (normal)')
+nmap('<M-;>', ',', 'Remaps comma for moving char search backwards (opposite of ; in normal mode)')
+nmap('<C-q>', vim.cmd.quitall, 'Close all windows')
+nmap('<M-n>', ':NERDTreeToggle<CR>', 'NERDTreeToggle')
+nmap('<M-S-n>', ':NERDTreeFind<CR>', 'NERDTreeFind')
+nmap('<M-z>', ':set wrap!<CR>', 'Toggle line wrapping')
+nmap('<M-/>', ':set hlsearch!<CR>', 'Toggle search highlighting')
+nmap('<M-1>', ':set relativenumber!<CR>', 'Toggle relativenumber')
+nmap('<M-c>', ':cclose<CR>', 'Close quickfix list')
+nmap('<M-o>', '<C-o>:bd #<CR>', 'Close buffer and go to previous location')
+nmap('<leader>yl', [[:let @+=expand('%').":".line('.')<CR>"]], 'Copy the current file and line number into clipboard')
+nmap('<leader>w', vim.cmd.w, 'Write current buffer')
+nmap('<leader>bo', ':BufOnly<CR>', 'Close all other buffers')
+nmap('<leader>cw', ':set hlsearch<CR>*Ncgn', 'Change instances of word under cursor (repeat with .)')
+-- not really used so commented out
+-- nmap( '<leader>s*' , ':%s/\<<C-r><C-w>\>//g<left><left>',  'Find and replace word under the cursor')
+-- nmap( '<leader>fw' , ':silent grep '<C-r><C-w>' \| cwindow<CR>',  'Search files in rootdir for word under cursor')
+
+-- window mappings
+nmap('<M-S-k>', '<C-w>k', 'Focus window north')
+nmap('<M-S-j>', '<C-w>j', 'Focus window south')
+nmap('<M-S-h>', '<C-w>h', 'Focus window west')
+nmap('<M-S-l>', '<C-w>l', 'Focus window east')
+nmap('<M-S-=>', '5<C-w>+', 'Increase vertical window size')
+nmap('<M-S-->', '5<C-w>-', 'Decrease vertical window size')
+nmap('<M-S-,>', '5<C-w><', 'Decrease horizontal window size')
+nmap('<M-S-.>', '5<C-w>>', 'Increase horizontal window size')
+nmap('<M-+>', '5<C-w>+', 'Increase vertical window size')
+nmap('<M-_>', '5<C-w>-', 'Decrease vertical window size')
+nmap('<M-<>', '5<C-w><', 'Decrease horizontal window size')
+nmap('<M->>', '5<C-w>>', 'Increase horizontal window size')
+nmap('<M-q>', '<C-w>q', 'Close window')
+
+-- quickfix/loclist mappings
+nmap('<C-g><C-p>', ':lprevious<CR>', 'Loclist previous')
+nmap('<C-g><C-n>', ':lnext<CR>', 'Loclist next')
+nmap('gp', ':cprevious<CR>', 'Quickfix previous')
+nmap('gn', ':cnext<CR>', 'Quickfix next')
+
+vmap('<leader>/', '"vy/\\V<C-r>v<CR>', 'Search for vhighlighted text')
+vmap('*', '"vy/\\<<C-r>v\\><CR>', 'Search for vhighlighted word')
+vmap('#', '"vy?\\<<C-r>v\\><CR>', 'Backwards search for vhighlighted word')
+vmap('g*', '"vy/<C-r>v<CR>', 'Search for vhighlighted word (no word bounds)')
+vmap('g#', '"vy?<C-r>v<CR>', 'Backwards search for vhighlighted word (no word bounds)')
+
+-- cmdline mapping
+cmap('<C-p>', '<Up>', 'Cmd up')
+cmap('<C-n>', '<Down>', 'Cmd down')
+cmap('<C-a>', '<Home>', 'Cmd return to beginning of line')
+
+-- can use this to replace abbreviations after neovim 0.10 release
+-- vim.keymap.set('ca', 'W', 'w', { desc = '"W" as write alias command' })
+-- vim.keymap.set('ca', '%%', "expand('%:p:h')", { desc = '%% expands to buffer path in cmdline', expr = true })
+
+-- }}}
+
+-- misc vimscript options {{{
 vim.cmd([[
-" general mappings {{{
 
-" edit neovim config
-nnoremap <leader>ec :e ~/.config/nvim/init.lua<CR>
-
-" switch to previous buffer then close tab
-nnoremap <M-w> :bp\| bd #<CR>
-
-" insert date
-inoremap <C-d> <esc>:read !date<CR>kJA
-nnoremap <leader>id :read !date<CR>
-
-" Allow tab autocomplete
-
-" for moving back to diff file list when using merginal
-" to diff branches
-" e.g. 'dv' in merginal window to diff file
-" then ,d to close diff, buffer and move back to merginal window
-"nnoremap <leader>d :q \| bp \| bd # \| wincmd h<CR>
-
-" remaps comma for moving char search backwards (opposite of ; in normal mode)
-nnoremap <M-;> ,
-" close all windows
-nnoremap <C-q> :qa<CR>
-nnoremap <M-n> :NERDTreeToggle<CR>
-nnoremap <M-S-n> :NERDTreeFind<CR>
-nnoremap <M-z> :set wrap!<CR>
-nnoremap <M-/> :set hlsearch!<CR>
-nnoremap <M-1> :set relativenumber!<CR>
-nnoremap <M-c> :cclose<CR>
-nnoremap <M-o> <C-o>:bd #<CR>
-" copy the current file and line number into clipboard
-nnoremap <leader>yl :let @+=expand('%').":".line('.')<CR>
-" write the current buffer
-nnoremap <leader>w :w<CR>
-" reload the current buffer
-"nnoremap <leader>re :e!<CR>
-" find and replace the word under the cursor
-"nnoremap <leader>s* :%s/\<<C-r><C-w>\>//g<left><left>
-" close other buffers
-nnoremap <leader>bo :BufOnly<CR>
-" search current word across all files
-"nnoremap <leader>fw :silent grep '<C-r><C-w>' \| cwindow<CR>
-" changing instances of current word
-nnoremap <leader>cw :set hlsearch<CR>*Ncgn
-" searching for visual selection
-vnoremap <leader>/ "vy/\V<C-r>v<CR>
-vnoremap * "vy/\<<C-r>v\><CR>
-vnoremap # "vy?\<<C-r>v\><CR>
-vnoremap g* "vy/<C-r>v<CR>
-vnoremap g# "vy?<C-r>v<CR>
-" changing instances of visual selection
-"vnoremap <leader>cw "vy/<C-r>v<CR>Ncgn
-" search all files from visual selection
-"vnoremap <leader>f "vy:silent grep '<C-r>v' \| cwindow<CR>
-" find and replace the visual selection
-"vnoremap <leader>s* "vy:%s/<C-r>v//g<left><left>
-
-
-
-" window mappings
-nnoremap <M-S-k> <C-w>k
-nnoremap <M-S-j> <C-w>j
-nnoremap <M-S-h> <C-w>h
-nnoremap <M-S-l> <C-w>l
-nnoremap <M-S-=> 5<C-w>+
-nnoremap <M-S--> 5<C-w>-
-nnoremap <M-S-,> 5<C-w><
-nnoremap <M-S-.> 5<C-w>>
-nnoremap <M-+> 5<C-w>+
-nnoremap <M-_> 5<C-w>-
-nnoremap <M-<> 5<C-w><
-nnoremap <M->> 5<C-w>>
-nnoremap <M-q> <C-w>q
-
-
-" quickfix/location list navigation
-nnoremap <C-g><C-p> :lprevious<CR>
-nnoremap <C-g><C-n> :lnext<CR>
-nnoremap gp :cprevious<CR>
-nnoremap gn :cnext<CR>
-
-" cmdline mapping
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-cnoremap <C-a> <Home>
-" append meeting-"date".md to command line
-" for quickly making meeting note files
-cnoremap <M-m> -`date '+\%m\%d\%Y'.md`
-
-"" cmdline abbreviations
-"
+" cmdline abbreviations {{{
 " so we can use :W to write also
 cabbrev W w
 " write %% in command line to get the full path of the current buffer
 cabbrev <expr> %% expand('%:p:h')
-
-" git mappings
-nnoremap <leader>lg :FloatermNew --width=0.9 --height=0.95 lazygit<CR>
-
-" }}}
-
-" floaterm mappings and options {{{
-
-let g:floaterm_opener = 'edit'
-
-nnoremap <M-t><M-n> :FloatermNew --cwd=<root><CR>
-nnoremap <M-t><M-t> :FloatermToggle<CR>
-tnoremap <M-t><M-t> <C-\><C-n>:FloatermToggle<CR>
-tnoremap <M-t><M-j> <C-\><C-n>:FloatermNext<CR>
-tnoremap <M-t><M-k> <C-\><C-n>:FloatermPrev<CR>
-tnoremap <M-t><M-q> <C-\><C-n>:FloatermKill<CR>
-tnoremap <M-S-t> <C-\><C-n>
-
-" }}}
-
-" colors {{{
-
-"" Gruvbox
-" This HAS to be after plugged :)
-let g:gruvbox_contrast_dark='hard'
-
-let base16colorspace=256
-set termguicolors
-set background=dark
-set t_Co=256
-"colorscheme gruvbox
-colorscheme rose-pine
-" transparent background
-"hi Normal guibg=NONE ctermbg=NONE
-"hi Pmenu guibg=#180018 ctermbg=234
-
-if (has("nvim"))
-  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-endif
-" }}}
-
-" vim-session options {{{
-let g:session_autosave = 'prompt'
-"let g:session_autosave_periodic = 5
-let g:session_persist_colors = 0
-let g:session_autoload = 'no'
-
 " }}}
 
 ]])
+-- }}}
