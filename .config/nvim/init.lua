@@ -8,8 +8,9 @@ function autocmd(event, opts)
 end
 
 function nmap(key, func, description)
-  vim.keymap.set('n', key, func, {desc = description})
+  vim.keymap.set('n', key, func, { desc = description })
 end
+
 -- }}}
 
 vim.o.number = true
@@ -40,10 +41,10 @@ vim.o.inccommand = 'nosplit'
 -- or modifying options in as a table/list
 -- see :h vim.opt
 vim.opt.mouse:append('a')
-vim.opt.backspace = {'indent', 'eol', 'start'}
+vim.opt.backspace = { 'indent', 'eol', 'start' }
 
-autocmd({'FocusGained', 'BufEnter'}, {
-  pattern = {'*'},
+autocmd({ 'FocusGained', 'BufEnter' }, {
+  pattern = { '*' },
   command = 'checktime'
 })
 
@@ -54,8 +55,9 @@ vim.g.maplocalleader = '-'
 -- lazy.nvim (plugins) {{{
 
 -- nvim-ufo plugin spec {{{
-local nvim_ufo_plugin = {"kevinhwang91/nvim-ufo",
-  dependencies = {"kevinhwang91/promise-async"},
+local nvim_ufo_plugin = {
+  "kevinhwang91/nvim-ufo",
+  dependencies = { "kevinhwang91/promise-async" },
   config = function()
     vim.o.foldcolumn = '1'
     vim.o.foldlevel = 99
@@ -67,14 +69,14 @@ local nvim_ufo_plugin = {"kevinhwang91/nvim-ufo",
     vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
     vim.keymap.set('n', 'zrr', require('ufo').openAllFolds)
     vim.keymap.set('n', 'zmm', require('ufo').closeAllFolds)
-    for i=0,5 do
-      local opts = {desc = string.format('open/close all folds with level %d', i)}
+    for i = 0, 5 do
+      local opts = { desc = string.format('open/close all folds with level %d', i) }
       local foldWithLevel = function() require('ufo').closeFoldsWith(i) end
       vim.keymap.set('n', string.format('zr%d', i), foldWithLevel, opts)
       vim.keymap.set('n', string.format('zm%d', i), foldWithLevel, opts)
     end
     vim.keymap.set('n', 'gh', function()
-    local winid = require('ufo').peekFoldedLinesUnderCursor()
+      local winid = require('ufo').peekFoldedLinesUnderCursor()
       if not winid then
         vim.lsp.buf.hover()
       end
@@ -82,10 +84,10 @@ local nvim_ufo_plugin = {"kevinhwang91/nvim-ufo",
 
     ufo.setup({
       open_fold_hl_timeout = 150,
-      close_fold_kinds = {'imports', 'comment'},
+      close_fold_kinds = { 'imports', 'comment' },
       preview = {
         win_config = {
-          border = {'', '─', '', '', '', '─', '', ''},
+          border = { '', '─', '', '', '', '─', '', '' },
           winhighlight = 'Normal:Folded',
           winblend = 0
         },
@@ -97,53 +99,60 @@ local nvim_ufo_plugin = {"kevinhwang91/nvim-ufo",
         }
       },
     })
-  end}
+  end
+}
 -- }}}
 
 -- conform formatter plugin spec {{{
-local conform_plugin = {"stevearc/conform.nvim", config = function()
-      local conform = require('conform')
-      conform.setup({
-        formatters_by_ft = {
-          java = {"google-java-format"},
-          ["_"] = { "trim_whitespace" }
+local conform_plugin = {
+  "stevearc/conform.nvim",
+  config = function()
+    local conform = require('conform')
+    conform.setup({
+      formatters_by_ft = {
+        java = { "google-java-format" },
+        ["_"] = { "trim_whitespace" }
+      },
+      formatters = {
+        ["google-java-format"] = {
+          -- prepend_args = {"--aosp"},
         },
-        formatters = {
-          ["google-java-format"] = {
-            -- prepend_args = {"--aosp"},
-          },
-        },
+      },
     })
-    vim.keymap.set('n', '<leader>fc', conform.format, {desc = "Format Using Conform"})
+    vim.keymap.set('n', '<leader>fc', conform.format, { desc = "Format Using Conform" })
   end
 }
 -- }}}
 
 -- nvim-treesitter plugin spec {{{
-local nvim_treesitter_plugin = {"nvim-treesitter/nvim-treesitter", build = ":TSUpdate", config = function()
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = {
-          "c",
-          "lua",
-          "vim",
-          "vimdoc",
-          "query",
-          "go",
-          "json",
-          "scala",
-          "java",
-          "yaml",
-          "markdown",
-          "markdown_inline",
-        },
-        sync_install = false,
-        auto_install = true,
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false,
-        },
-      }
-    end}
+local nvim_treesitter_plugin = {
+  "nvim-treesitter/nvim-treesitter",
+  build = ":TSUpdate",
+  config = function()
+    require('nvim-treesitter.configs').setup {
+      ensure_installed = {
+        "c",
+        "lua",
+        "vim",
+        "vimdoc",
+        "query",
+        "go",
+        "json",
+        "scala",
+        "java",
+        "yaml",
+        "markdown",
+        "markdown_inline",
+      },
+      sync_install = false,
+      auto_install = true,
+      highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+      },
+    }
+  end
+}
 -- }}}
 
 -- nvim-autopairs plugin spec {{{
@@ -160,7 +169,7 @@ local nvim_autopairs = {
 -- vim-airline plugin spec {{{
 local vim_airline = {
   'vim-airline/vim-airline',
-  dependencies = {'vim-airline/vim-airline-themes'},
+  dependencies = { 'vim-airline/vim-airline-themes' },
   init = function()
     vim.cmd([[
       let g:airline_powerline_fonts = 1
@@ -237,36 +246,39 @@ local plugins = {
   'scrooloose/nerdtree',
   'Xuyuanp/nerdtree-git-plugin',
   'scrooloose/nerdcommenter',
-  {'$HOME/.fzf', dev = true},
-  {'$HOME/.dotfiles/fzfc', dev = true},
+  { '$HOME/.fzf',           dev = true },
+  { '$HOME/.dotfiles/fzfc', dev = true },
   'junegunn/fzf.vim',
   'bronson/vim-trailing-whitespace',
   'vim-scripts/BufOnly.vim',
-  {'xolox/vim-session', dependencies = {'xolox/vim-misc'}},
-  {'tpope/vim-sleuth', priority = 1000},
+  { 'xolox/vim-session', dependencies = { 'xolox/vim-misc' } },
+  { 'tpope/vim-sleuth',  priority = 1000 },
   'tpope/vim-surround',
   'tpope/vim-repeat',
   'honza/vim-snippets',
-  {'inkarkat/vim-ReplaceWithRegister', init = function()
-    vim.keymap.set('n', '<leader>r',  '<Plug>ReplaceWithRegisterOperator')
-    vim.keymap.set('n', '<leader>rr', '<Plug>ReplaceWithRegisterLine')
-    vim.keymap.set('x', '<leader>r',  '<Plug>ReplaceWithRegisterVisual')
-  end},
+  {
+    'inkarkat/vim-ReplaceWithRegister',
+    init = function()
+      vim.keymap.set('n', '<leader>r', '<Plug>ReplaceWithRegisterOperator')
+      vim.keymap.set('n', '<leader>rr', '<Plug>ReplaceWithRegisterLine')
+      vim.keymap.set('x', '<leader>r', '<Plug>ReplaceWithRegisterVisual')
+    end
+  },
   'AndrewRadev/splitjoin.vim',
-  {'fatih/vim-go', ft = 'go'},
+  { 'fatih/vim-go',                      ft = 'go' },
   vim_airline,
 
   -- themes
-  {'challenger-deep-theme/vim', name = 'challenger-deep', lazy = true},
-  {'fenetikm/falcon', lazy = true},
-  {'mhartington/oceanic-next', lazy = true},
-  {'jsit/toast.vim', name = 'toast', lazy = true},
-  {'morhetz/gruvbox', lazy = true},
-  {'rose-pine/neovim', name = 'rose-pine', lazy = false},
+  { 'challenger-deep-theme/vim',         name = 'challenger-deep', lazy = true },
+  { 'fenetikm/falcon',                   lazy = true },
+  { 'mhartington/oceanic-next',          lazy = true },
+  { 'jsit/toast.vim',                    name = 'toast',           lazy = true },
+  { 'morhetz/gruvbox',                   lazy = true },
+  { 'rose-pine/neovim',                  name = 'rose-pine',       lazy = false },
 
   -- lua plugins
-  {'williamboman/mason.nvim', config = true},
-  {'williamboman/mason-lspconfig.nvim', config = true},
+  { 'williamboman/mason.nvim',           config = true },
+  { 'williamboman/mason-lspconfig.nvim', config = true },
   'neovim/nvim-lspconfig',
   'hrsh7th/nvim-cmp',
   'hrsh7th/cmp-nvim-lsp',
@@ -279,15 +291,20 @@ local plugins = {
   'nvim-lua/popup.nvim',
   'nvim-lua/plenary.nvim',
   'nvim-lua/telescope.nvim',
-  {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'},
+  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   'jose-elias-alvarez/null-ls.nvim',
-  { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {}, config = function()
-    require('ibl').setup()
-  end},
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    main = 'ibl',
+    opts = {},
+    config = function()
+      require('ibl').setup()
+    end
+  },
   'voldikss/vim-floaterm',
   'lewis6991/gitsigns.nvim',
   'mfussenegger/nvim-jdtls',
-  {'scalameta/nvim-metals', ft = {'scala', 'sbt'}},
+  { 'scalameta/nvim-metals',                    ft = { 'scala', 'sbt' } },
   nvim_treesitter_plugin,
   nvim_ufo_plugin,
   conform_plugin,
@@ -378,12 +395,12 @@ cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 local lspconfig = require('lspconfig')
 
 -- bash support
-lspconfig.bashls.setup{
+lspconfig.bashls.setup {
   capabilities = capabilities
 }
 
 -- for go support
-lspconfig.gopls.setup{
+lspconfig.gopls.setup {
   capabilities = capabilities,
   init_options = {
     completeUnimported = true,
@@ -395,7 +412,7 @@ lspconfig.gopls.setup{
   }
 }
 
-lspconfig.pyright.setup{
+lspconfig.pyright.setup {
   capabilities = capabilities
 }
 
@@ -415,7 +432,7 @@ lspconfig.lua_ls.setup {
       },
       diagnostics = {
         -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
+        globals = { 'vim' },
       },
       workspace = {
         -- Make the server aware of Neovim runtime files
@@ -432,10 +449,10 @@ lspconfig.lua_ls.setup {
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics,
   {
-      virtual_text = true,
-      signs = true,
-      update_in_insert = false,
-      underline = true
+    virtual_text = true,
+    signs = true,
+    update_in_insert = false,
+    underline = true
   }
 )
 -- }}}
@@ -613,7 +630,7 @@ local function live_grep_from_project_git_root()
 end
 
 local function nmap(key, func, description)
-  vim.keymap.set('n', key, func, {desc = description})
+  vim.keymap.set('n', key, func, { desc = description })
 end
 
 nmap('<space>s', telescope_builtin.lsp_dynamic_workspace_symbols, 'LSP Dynamic Workspace Symbols')
@@ -639,23 +656,24 @@ require("nnn").setup({
     width = 35,
   },
   picker = {
-    cmd = "tmux new-session nnn",       -- command override (-p flag is implied)
+    cmd = "tmux new-session nnn", -- command override (-p flag is implied)
   },
   auto_open = {
-    setup = nil,       -- or "explorer" / "picker", auto open on setup function
-    tabpage = nil,     -- or "explorer" / "picker", auto open when opening new tabpage
-    empty = false,     -- only auto open on empty buffer
-    ft_ignore = {      -- dont auto open for these filetypes
+    setup = nil,   -- or "explorer" / "picker", auto open on setup function
+    tabpage = nil, -- or "explorer" / "picker", auto open when opening new tabpage
+    empty = false, -- only auto open on empty buffer
+    ft_ignore = {  -- dont auto open for these filetypes
       "gitcommit",
     }
   },
-  auto_close = true,  -- close tabpage/nvim when nnn is last window
+  auto_close = true,   -- close tabpage/nvim when nnn is last window
   replace_netrw = nil, -- or "explorer" / "picker"
   mappings = {},       -- table containing mappings, see below
   windownav = {        -- window movement mappings to navigate out of nnn
-  left = "<M-S-h>",
-  right = "<M-S-l>"
-}})
+    left = "<M-S-h>",
+    right = "<M-S-l>"
+  }
+})
 
 nmap('<leader>np', function() vim.cmd.NnnPicker('%:p:h') end, 'Show NnnPicker')
 nmap('<leader>ne', function() vim.cmd.NnnExplorer('%:p:h') end, 'Show NnnExplorer')
@@ -665,7 +683,7 @@ nmap('<leader>ne', function() vim.cmd.NnnExplorer('%:p:h') end, 'Show NnnExplore
 -- gitsigns config {{{
 local gitsigns = require('gitsigns')
 gitsigns.setup {
-  signs = {
+  signs                        = {
     add          = { text = '+' },
     change       = { text = '~' },
     delete       = { text = '_' },
@@ -673,27 +691,27 @@ gitsigns.setup {
     changedelete = { text = 'x' },
     untracked    = { text = '┆' },
   },
-  signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
-  numhl      = true, -- Toggle with `:Gitsigns toggle_numhl`
-  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
-  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
-  watch_gitdir = {
+  signcolumn                   = true, -- Toggle with `:Gitsigns toggle_signs`
+  numhl                        = true, -- Toggle with `:Gitsigns toggle_numhl`
+  linehl                       = false, -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff                    = false, -- Toggle with `:Gitsigns toggle_word_diff`
+  watch_gitdir                 = {
     follow_files = true
   },
-  attach_to_untracked = true,
-  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
-  current_line_blame_opts = {
+  attach_to_untracked          = true,
+  current_line_blame           = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+  current_line_blame_opts      = {
     virt_text = true,
     virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
     delay = 500,
     ignore_whitespace = false,
   },
   current_line_blame_formatter = '<abbrev_sha>: <author>, <author_time:%Y-%m-%d> - <summary>',
-  sign_priority = 6,
-  update_debounce = 100,
-  status_formatter = nil, -- Use default
-  max_file_length = 40000, -- Disable if file is longer than this (in lines)
-  preview_config = {
+  sign_priority                = 6,
+  update_debounce              = 100,
+  status_formatter             = nil, -- Use default
+  max_file_length              = 40000, -- Disable if file is longer than this (in lines)
+  preview_config               = {
     -- Options passed to nvim_open_win
     border = 'single',
     style = 'minimal',
@@ -701,7 +719,7 @@ gitsigns.setup {
     row = 0,
     col = 1
   },
-  yadm = {
+  yadm                         = {
     enable = false
   },
 }
@@ -742,7 +760,7 @@ vim.g.go_gopls_enabled = 0
 
 local golang_augroup = vim.api.nvim_create_augroup("golang", { clear = true })
 autocmd('FileType', {
-  pattern = {'go'},
+  pattern = { 'go' },
   callback = function()
     nmap('<localleader>gb', '<Plug>(go-build)', '<Plug>(go-build)')
     nmap('<localleader>gtf', '<Plug>(go-test-func)', '<Plug>(go-test-func)')
@@ -763,12 +781,12 @@ autocmd('FileType', {
     end, 'Search go type under cursor')
 
     nmap('<localleader>se',
-    'ciW(<C-r>-, error)',
-    'change T to (T, error) used for return values when cursor is within T')
+      'ciW(<C-r>-, error)',
+      'change T to (T, error) used for return values when cursor is within T')
 
     nmap('<localleader>de',
-    '$F(lyt,F(df)h"0p',
-    'change (T, error) to T when cursor is on line and return type is last parentheses on line')
+      '$F(lyt,F(df)h"0p',
+      'change (T, error) to T when cursor is on line and return type is last parentheses on line')
   end,
   group = golang_augroup,
 })
