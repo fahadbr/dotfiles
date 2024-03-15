@@ -1,12 +1,14 @@
-" vim:foldmethod=marker
+-- vim:foldmethod=marker
 
-" general option settings {{{
-
-lua << EOF
+-- general option settings {{{
 
 -- custom functions {{{
 function autocmd(event, opts)
   vim.api.nvim_create_autocmd(event, opts)
+end
+
+function nmap(key, func, description)
+  vim.keymap.set('n', key, func, {desc = description})
 end
 -- }}}
 
@@ -47,11 +49,9 @@ autocmd({'FocusGained', 'BufEnter'}, {
 
 vim.g.mapleader = ','
 vim.g.maplocalleader = '-'
-EOF
-" }}}
+-- }}}
 
-" lazy.nvim (plugins) {{{
-lua << EOF
+-- lazy.nvim (plugins) {{{
 
 -- nvim-ufo plugin spec {{{
 local nvim_ufo_plugin = {"kevinhwang91/nvim-ufo",
@@ -265,8 +265,8 @@ local plugins = {
   {'rose-pine/neovim', name = 'rose-pine', lazy = false},
 
   -- lua plugins
-  'williamboman/mason.nvim',
-  'williamboman/mason-lspconfig.nvim',
+  {'williamboman/mason.nvim', config = true},
+  {'williamboman/mason-lspconfig.nvim', config = true},
   'neovim/nvim-lspconfig',
   'hrsh7th/nvim-cmp',
   'hrsh7th/cmp-nvim-lsp',
@@ -295,21 +295,9 @@ local plugins = {
 }
 
 require('lazy').setup(plugins)
-EOF
-" }}}
+-- }}}
 
-" mason config {{{
-lua << EOF
-
-require("mason").setup()
-require("mason-lspconfig").setup()
-
-EOF
-" }}}
-
-" neovim lsp config {{{
-
-lua << EOF
+-- neovim lsp config {{{
 
 -- cmp autocompletion {{{
 vim.o.completeopt = 'menuone,noselect'
@@ -452,33 +440,27 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 )
 -- }}}
 
-EOF
+-- ufo plugin will proxy to vim.lsp.buf.hover() when lines are unfolded
+-- telescope lsp pickers will be used in place of
+-- - vim.lsp.buf.document_symbol()
+-- - vim.lsp.buf.workspace_symbol()
+nmap('gd', vim.lsp.buf.definition, 'LSP goto definition')
+nmap('gi', vim.lsp.buf.implementation, 'LSP goto implementation')
+nmap('<M-k>', vim.lsp.buf.signature_help, 'LSP signature_help')
+nmap('1gD', vim.lsp.buf.type_definition, 'LSP type definition')
+nmap('gr', vim.lsp.buf.references, 'LSP goto references')
+nmap('<M-d>', vim.diagnostic.open_float, 'LSP open floating diagnostics')
+nmap('<leader>a', vim.lsp.buf.code_action, 'LSP code action')
+nmap('<leader>rn', vim.lsp.buf.rename, 'LSP rename symbol')
+nmap('<leader>fm', vim.lsp.buf.format, 'LSP format buffer sync')
+nmap('<leader>cr', function() vim.lsp.stop_client(vim.lsp.get_active_clients()) end, 'Restart Active LSP Clients')
 
-nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
-" ufo plugin will proxy to this
-"nnoremap <silent> gh     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <M-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> <M-d> <cmd>lua vim.diagnostic.open_float()<CR>
-nnoremap <silent> <leader>a    <cmd>lua vim.lsp.buf.code_action()<CR>
-" telescope is handling these mappings
-"nnoremap <silent> <space>o    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-"nnoremap <silent> <space>s    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <silent> <leader>fm <cmd>lua vim.lsp.buf.format { async = false }<CR>
 
-command! Format execute 'lua vim.lsp.buf.formatting()'
 
-" reload lsp
-nnoremap <leader>cr <cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>
 
-" }}} neovim lsp config
+-- }}} neovim lsp config
 
-" nvim-jdtls config {{{
-
-lua << EOF
+-- nvim-jdtls config {{{
 
 local jdtls_setup = require("jdtls.setup")
 
@@ -527,12 +509,9 @@ vim.api.nvim_create_autocmd("FileType", {
   group = nvim_jdtls_group,
 })
 
-EOF
+-- }}}
 
-" }}}
-
-" nvim-metals config {{{
-lua << EOF
+-- nvim-metals config {{{
 local metals_config = require("metals").bare_config()
 
 -- Example of settings
@@ -541,39 +520,28 @@ metals_config.settings = {
   excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
 }
 
--- *READ THIS*
--- I *highly* recommend setting statusBarProvider to true, however if you do,
--- you *have* to have a setting to display this in your statusline or else
--- you'll not see any messages from metals. There is more info in the help
--- docs about this
--- metals_config.init_options.statusBarProvider = "on"
-
 -- Example if you are using cmp how to make sure the correct capabilities for snippets are set
 metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 
 -- Autocmd that will actually be in charging of starting the whole thing
 local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
-vim.api.nvim_create_autocmd("FileType", {
+autocmd('FileType', {
   -- NOTE: You may or may not want java included here. You will need it if you
   -- want basic Java support but it may also conflict if you are using
   -- something like nvim-jdtls which also works on a java filetype autocmd.
-  pattern = { "scala", "sbt" },
+  pattern = { 'scala', 'sbt' },
   callback = function()
-    require("metals").initialize_or_attach(metals_config)
+    require('metals').initialize_or_attach(metals_config)
+    nmap('<localleader>m', require('telescope').extensions.metals.commands, 'Show Metals Commands')
   end,
   group = nvim_metals_group,
 })
 
-EOF
 
-au FileType scala nmap <localleader>m :lua require("telescope").extensions.metals.commands()<CR>
-au FileType sbt nmap <localleader>m :lua require("telescope").extensions.metals.commands()<CR>
+-- }}}
 
-" }}}
-
-" telescope {{{
-lua << EOF
+-- telescope {{{
 local telescope = require('telescope')
 local telescope_utils = require('telescope.utils')
 local telescope_builtin = require('telescope.builtin')
@@ -663,11 +631,9 @@ nmap('<space>k', telescope_builtin.keymaps, "Keymaps")
 nmap('<leader>fl', live_grep_from_project_git_root, "Live Grep from Git Root")
 nmap('<leader>fw', telescope_builtin.grep_string, "Grep String Under Cursor")
 
-EOF
-" }}}
+-- }}}
 
-" nnn config {{{
-lua << EOF
+-- nnn config {{{
 require("nnn").setup({
   explorer = {
     width = 35,
@@ -690,15 +656,15 @@ require("nnn").setup({
   left = "<M-S-h>",
   right = "<M-S-l>"
 }})
-EOF
-nnoremap <leader>np :NnnPicker %:p:h<CR>
-nnoremap <leader>ne :NnnExplorer<CR>
 
-" }}} end nnn config
+nmap('<leader>np', function() vim.cmd.NnnPicker('%:p:h') end, 'Show NnnPicker')
+nmap('<leader>ne', function() vim.cmd.NnnExplorer('%:p:h') end, 'Show NnnExplorer')
 
-" gitsigns config {{{
-lua << EOF
-require('gitsigns').setup {
+-- }}} end nnn config
+
+-- gitsigns config {{{
+local gitsigns = require('gitsigns')
+gitsigns.setup {
   signs = {
     add          = { text = '+' },
     change       = { text = '~' },
@@ -739,86 +705,80 @@ require('gitsigns').setup {
     enable = false
   },
 }
-EOF
 
-nnoremap <leader>gb :Gitsigns toggle_current_line_blame<CR>
-nnoremap <leader>gh :Gitsigns preview_hunk<CR>
-nnoremap <leader>ga :Gitsigns stage_hunk<CR>
-nnoremap <leader>g- :Gitsigns undo_stage_hunk<CR>
-nnoremap <leader>gn :Gitsigns next_hunk<CR>
-nnoremap <leader>gp :Gitsigns prev_hunk<CR>
-nnoremap <leader>gr :Gitsigns reset_hunk<CR>
-" }}}
+nmap('<leader>gb', gitsigns.toggle_current_line_blame, 'gitsigns.toggle_current_line_blame')
+nmap('<leader>gh', gitsigns.preview_hunk, 'gitsigns.preview_hunk')
+nmap('<leader>ga', gitsigns.stage_hunk, 'gitsigns.stage_hunk')
+nmap('<leader>g-', gitsigns.undo_stage_hunk, 'gitsigns.undo_stage_hunk')
+nmap('<leader>gn', gitsigns.next_hunk, 'gitsigns.next_hunk')
+nmap('<leader>gp', gitsigns.prev_hunk, 'gitsigns.prev_hunk')
+nmap('<leader>gr', gitsigns.reset_hunk, 'gitsigns.reset_hunk')
 
-" golang vim-go options {{{
+-- }}}
 
-let g:go_highlight_extra_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_operators = 0
-let g:go_highlight_types = 1
-let g:go_highlight_variable_declarations = 1
-let g:go_highlight_variable_assignments = 1
+-- golang vim-go options {{{
 
-let g:go_auto_sameids = 0
-let g:go_fmt_command="goimports"
-let g:go_fmt_fail_silently = 1
-let g:go_doc_keywordprg_enabled = 0
-let g:go_code_completion_enabled = 0
-let g:go_def_mapping_enabled = 0 " maps gd to <Plug>(go-def)
-let g:go_echo_go_info = 0
+vim.g.go_highlight_extra_types = 1
+vim.g.go_highlight_fields = 1
+vim.g.go_highlight_functions = 1
+vim.g.go_highlight_function_calls = 1
+vim.g.go_highlight_methods = 1
+vim.g.go_highlight_operators = 0
+vim.g.go_highlight_types = 1
+vim.g.go_highlight_variable_declarations = 1
+vim.g.go_highlight_variable_assignments = 1
 
+vim.g.go_auto_sameids = 0
+vim.g.go_fmt_command = "goimports"
+vim.g.go_fmt_fail_silently = 1
+vim.g.go_doc_keywordprg_enabled = 0
+vim.g.go_code_completion_enabled = 0
+vim.g.go_def_mapping_enabled = 0 -- maps gd to <Plug>(go-def)
+vim.g.go_echo_go_info = 0
 
-" disabling gopls because coc.nvim starts this up
-let g:go_gopls_enabled = 0
-let g:go_def_mode="godef"
-let g:go_referrers_mode = 'guru'
-let g:go_info_mode = 'guru'
-let g:go_debug = []
-
-let g:go_decls_mode = 'fzf'
-"let g:go_gopls_options = ['-remote=auto']
-" let g:go_list_type = 'quickfix'
-let g:go_list_type_commands = {"_guru": "quickfix"}
+-- disabling gopls because nvim-lspconfig starts this up
+vim.g.go_gopls_enabled = 0
 
 
-au FileType go nmap <localleader>gb <Plug>(go-build)
-au FileType go nmap <localleader>gtf <Plug>(go-test-func)
-au FileType go nmap <localleader>ga <Plug>(go-alternate-edit)
-au FileType go nmap <F1> <Plug>(go-doc)
-au FileType go nmap <F6> <Plug>(go-rename)
-au FileType go nmap <F7> <Plug>(go-referrers)
-au FileType go nmap <F12> :GoDecls<CR>
-au FileType go nmap <localleader>ge <Plug>(go-iferr)
-au FileType go nmap <localleader>gfs :GoFillStruct<CR>
-" search function name under curser
-au FileType go nmap <localleader>ff :silent grep '^func ?\(?.*\)? <C-r><C-w>\(' \| cwindow<CR>
-" search type under curser
-au FileType go nmap <localleader>ft :silent grep '^type <C-r><C-w>' \| cwindow<CR>
-" change T to (T, error) used for return values when cursor is within T
-au FileType go nmap <localleader>se ciW(<C-r>-, error)
-" change (T, error) to T when cursor is on line and return type is last
-" parentheses on line
-au FileType go nmap <localleader>de $F(lyt,F(df)h"0p
-" }}}
+local golang_augroup = vim.api.nvim_create_augroup("golang", { clear = true })
+autocmd('FileType', {
+  pattern = {'go'},
+  callback = function()
+    nmap('<localleader>gb', '<Plug>(go-build)', '<Plug>(go-build)')
+    nmap('<localleader>gtf', '<Plug>(go-test-func)', '<Plug>(go-test-func)')
+    nmap('<localleader>ga', '<Plug>(go-alternate-edit)', '<Plug>(go-alternate-edit)')
+    nmap('<localleader>ge', '<Plug>(go-iferr)', '<Plug>(go-iferr)')
+    nmap('<localleader>gfs', vim.cmd.GoFillStruct, 'GoFillStruct')
 
-" lua {{{
-au FileType lua nnoremap <leader>K :help <C-r><C-w><CR>
-" }}}
+    nmap('<localleader>ff', function()
+      local word = vim.fn.expand('<cword>')
+      vim.cmd([[silent grep '^func ?\(?.*\)? ]] .. word .. [[\(']])
+      vim.cmd.cwindow()
+    end, 'Search go function name under cursor')
 
-" fzf options {{{
+    nmap('<localleader>ft', function()
+      local word = vim.fn.expand('<cword>')
+      vim.cmd(string.format("silent grep '^type %s'", word))
+      vim.cmd.cwindow()
+    end, 'Search go type under cursor')
 
-let g:fzf_preview_window = ['down:50%', 'ctrl-p']
+    nmap('<localleader>se',
+    'ciW(<C-r>-, error)',
+    'change T to (T, error) used for return values when cursor is within T')
 
-" }}}
+    nmap('<localleader>de',
+    '$F(lyt,F(df)h"0p',
+    'change (T, error) to T when cursor is on line and return type is last parentheses on line')
+  end,
+  group = golang_augroup,
+})
+-- }}}
 
+vim.cmd([[
 " general mappings {{{
 
-
 " edit neovim config
-nnoremap <leader>ec :e ~/.config/nvim/init.vim<CR>
+nnoremap <leader>ec :e ~/.config/nvim/init.lua<CR>
 
 " switch to previous buffer then close tab
 nnoremap <M-w> :bp\| bd #<CR>
@@ -961,3 +921,4 @@ let g:session_autoload = 'no'
 
 " }}}
 
+]])
