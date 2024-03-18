@@ -625,19 +625,19 @@ telescope.setup({
       "--smart-case",
       "--hidden"
     },
-    path_display = function(opts, path)
+    path_display = function(_, path)
       local tail = telescope_utils.path_tail(path)
       return string.format("%s -- %s", tail, path)
     end,
   },
 })
 
-function is_git_repo()
+local function is_git_repo()
   vim.fn.system("git rev-parse --is-inside-work-tree")
   return vim.v.shell_error == 0
 end
 
-function get_git_root()
+local function get_git_root()
   local dot_git_path = vim.fn.finddir(".git", ".;")
   return vim.fn.fnamemodify(dot_git_path, ":h")
 end
