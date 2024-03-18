@@ -1,1 +1,1 @@
-/Users/fahadriaz/.dotfiles/.config/nvim/init.lua
+.config/nvim/init.lua
