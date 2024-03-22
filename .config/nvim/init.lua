@@ -72,6 +72,10 @@ autocmd({ 'FocusGained', 'BufEnter' }, {
   pattern = { '*' },
   command = 'checktime'
 })
+autocmd({ 'Filetype' }, {
+  pattern = { 'markdown' },
+  callback = function(opts) vim.bo[opts.buf].textwidth = 80 end
+})
 
 vim.g.mapleader = ','
 vim.g.maplocalleader = '-'
@@ -342,7 +346,6 @@ local plugins = {
   'nvim-lua/plenary.nvim',
   'nvim-lua/telescope.nvim',
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-  'jose-elias-alvarez/null-ls.nvim',
   {
     'lukas-reineke/indent-blankline.nvim',
     main = 'ibl',
@@ -511,11 +514,11 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 -- telescope lsp pickers will be used in place of
 -- - vim.lsp.buf.document_symbol()
 -- - vim.lsp.buf.workspace_symbol()
-nmap('gd', vim.lsp.buf.definition, 'LSP goto definition')
-nmap('gi', vim.lsp.buf.implementation, 'LSP goto implementation')
+-- - vim.lsp.buf.definition()
+-- - vim.lsp.buf.implementation()
+-- - vim.lsp.buf.references()
+-- - vim.lsp.buf.type_definition()
 nmap('<M-k>', vim.lsp.buf.signature_help, 'LSP signature_help')
-nmap('1gD', vim.lsp.buf.type_definition, 'LSP type definition')
-nmap('gr', vim.lsp.buf.references, 'LSP goto references')
 nmap('<M-d>', vim.diagnostic.open_float, 'LSP open floating diagnostics')
 nmap('<leader>a', vim.lsp.buf.code_action, 'LSP code action')
 nmap('<leader>rn', vim.lsp.buf.rename, 'LSP rename symbol')
@@ -679,20 +682,24 @@ local function live_grep_from_project_git_root()
   telescope_builtin.live_grep(opts)
 end
 
-nmap('<space>s', telescope_builtin.lsp_dynamic_workspace_symbols, 'LSP Dynamic Workspace Symbols')
-nmap('<C-p>', find_files_from_project_git_root, "Find Files From Git Root")
-nmap('<M-S-p>', git_or_find_files, "Git or Find Files")
+nmap('gd', telescope_builtin.lsp_definitions, 'LSP goto definition (telescope)')
+nmap('gi', telescope_builtin.lsp_implementations, 'LSP goto implementation (telescope)')
+nmap('gr', telescope_builtin.lsp_references, 'LSP goto references (telescope)')
+nmap('<leader>gd', telescope_builtin.lsp_type_definitions, 'LSP type definition (telescope)')
+nmap('<space>s', telescope_builtin.lsp_dynamic_workspace_symbols, 'LSP Dynamic Workspace Symbols (telescope)')
+nmap('<C-p>', find_files_from_project_git_root, "Find Files From Git Root (telescope)")
+nmap('<M-S-p>', git_or_find_files, "Git or Find Files (telescope)")
 nmap('<M-p>', function()
   telescope_builtin.buffers({
     show_all_buffers = false,
     sort_mru = true,
     ignore_current_buffer = true,
   })
-end, "List Buffers")
-nmap('<space>o', telescope_builtin.lsp_document_symbols, "LSP Document Symbols")
-nmap('<space>k', telescope_builtin.keymaps, "Keymaps")
-nmap('<leader>fl', live_grep_from_project_git_root, "Live Grep from Git Root")
-nmap('<leader>fw', telescope_builtin.grep_string, "Grep String Under Cursor")
+end, "List Buffers (telescope)")
+nmap('<space>o', telescope_builtin.lsp_document_symbols, "LSP Document Symbols (telescope)")
+nmap('<space>k', telescope_builtin.keymaps, "Keymaps (telescope)")
+nmap('<leader>fl', live_grep_from_project_git_root, "Live Grep from Git Root (telescope)")
+nmap('<leader>fw', telescope_builtin.grep_string, "Grep String Under Cursor (telescope)")
 
 -- }}}
 
@@ -841,10 +848,12 @@ autocmd('FileType', {
 -- floaterm mappings and options {{{
 
 vim.g.floaterm_opener = 'edit'
+vim.g.floaterm_width = 0.9
+vim.g.floaterm_height = 0.95
 
 nmap('<M-t><M-n>', ':FloatermNew --cwd=<root><CR>', 'New floating terminal in cwd')
 nmap('<M-t><M-t>', ':FloatermToggle<CR>', 'Floaterm Toggle')
-nmap('<leader>lg', ':FloatermNew --width=0.9 --height=0.95 lazygit<CR>', 'Lazygit')
+nmap('<leader>lg', ':FloatermNew lazygit<CR>', 'Lazygit')
 tmap('<M-t><M-t>', '<C-\\><C-n>:FloatermToggle<CR>', 'Floaterm Toggle (terminal)')
 tmap('<M-t><M-j>', '<C-\\><C-n>:FloatermNext<CR>', 'FloatermNext (terminal)')
 tmap('<M-t><M-k>', '<C-\\><C-n>:FloatermPrev<CR>', 'FloatermPrev (terminal)')
@@ -858,6 +867,7 @@ nmap('<leader>ec', function() vim.cmd.edit('~/.config/nvim/init.lua') end, 'Edit
 nmap('<M-w>', function()
   vim.cmd.bp()
   vim.cmd.bd('#')
+  vim.cmd.AirlineRefresh()
 end, 'Close buffer')
 
 imap('<C-d>', '<esc>:read !date<CR>kJA', 'Insert date into current line (insert)')
@@ -870,7 +880,7 @@ nmap('<M-z>', ':set wrap!<CR>', 'Toggle line wrapping')
 nmap('<M-/>', ':set hlsearch!<CR>', 'Toggle search highlighting')
 nmap('<M-1>', ':set relativenumber!<CR>', 'Toggle relativenumber')
 nmap('<M-c>', ':cclose<CR>', 'Close quickfix list')
-nmap('<M-o>', '<C-o>:bd #<CR>', 'Close buffer and go to previous location')
+nmap('<M-o>', '<C-o>:bd # | AirlineRefresh<CR>', 'Close buffer and go to previous location')
 nmap('<leader>yl', [[:let @+=expand('%').":".line('.')<CR>"]], 'Copy the current file and line number into clipboard')
 nmap('<leader>w', vim.cmd.w, 'Write current buffer')
 nmap('<leader>bo', ':BufOnly<CR>', 'Close all other buffers')
