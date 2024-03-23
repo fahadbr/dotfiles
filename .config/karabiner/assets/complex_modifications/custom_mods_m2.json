@@ -1,0 +1,163 @@
+{
+  "title": "Caps Mods + Others M2",
+  "rules": [
+    {
+      "description": "CAPS_LOCK to CTRL or ESCAPE (If Alone)",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "location_id": 45,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": {}
+          },
+          "to": [
+            {
+              "key_code": "left_control",
+              "modifiers": []
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "escape"
+            }
+          ],
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "Toggle caps_lock by pressing left_shift then right_shift",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "location_id": 45,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "left_shift",
+            "modifiers": {
+              "mandatory": ["right_shift"],
+              "optional": ["caps_lock"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "caps_lock"
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "left_shift"
+            }
+          ],
+          "type": "basic"
+        },
+        {
+          "from": {
+            "key_code": "right_shift",
+            "modifiers": {
+              "mandatory": ["left_shift"],
+              "optional": ["caps_lock"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "caps_lock"
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "right_shift"
+            }
+          ],
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "Left CTRL to CTRL+OPT+CMD",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "location_id": 45,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "left_control",
+            "modifiers": {}
+          },
+          "to": [
+            {
+              "key_code": "left_control",
+              "modifiers": ["left_option", "left_command"]
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "escape"
+            }
+          ],
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "RCMD to CTRL+OPT+CMD",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "type": "device_if",
+              "identifiers": [
+                {
+                  "location_id": 45,
+                  "description": "Built in Apple Keyboard"
+                }
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "right_command",
+            "modifiers": {}
+          },
+          "to": [
+            {
+              "key_code": "left_control",
+              "modifiers": ["left_option", "left_command"]
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "right_command"
+            }
+          ],
+          "type": "basic"
+        }
+      ]
+    }
+  ]
+}
