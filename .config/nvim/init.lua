@@ -34,7 +34,21 @@ local function tmap(key, mapping, description)
   map_with_mode('t', key, mapping, description)
 end
 
+local function make_lsp_capabilities()
+  -- lsp capabilities (needs to be defined sooner for other plugins to use)
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+  capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true,
+  }
+  return capabilities
+end
+
 -- }}}
+
+vim.g.mapleader = ','
+vim.g.maplocalleader = '-'
 
 vim.o.number = true
 vim.o.relativenumber = true
@@ -61,6 +75,7 @@ vim.o.undolevels = 1000
 vim.o.grepprg = 'rg --vimgrep'
 vim.o.inccommand = 'nosplit'
 vim.o.background = 'dark'
+vim.o.completeopt = 'menuone,noselect'
 
 -- use vim.opt instead of vim.o when accessing
 -- or modifying options in as a table/list
@@ -77,8 +92,6 @@ autocmd({ 'Filetype' }, {
   callback = function(opts) vim.bo[opts.buf].textwidth = 80 end
 })
 
-vim.g.mapleader = ','
-vim.g.maplocalleader = '-'
 -- }}}
 
 -- lazy.nvim (plugins) {{{
@@ -253,6 +266,37 @@ local vim_airline = {
 
 -- }}}
 
+-- mason-lspconfig plugin spec {{{
+
+local mason_lspconfig_plugin = {
+  'williamboman/mason-lspconfig.nvim',
+  dependencies = { 'williamboman/mason.nvim', 'neovim/nvim-lspconfig' },
+  config = function()
+    local mlcfg = require('mason-lspconfig')
+    mlcfg.setup()
+    mlcfg.setup_handlers {
+      -- The first entry (without a key) will be the default handler
+      -- and will be called for each installed server that doesn't have
+      -- a dedicated handler.
+      function(server_name) -- default handler (optional)
+        require("lspconfig")[server_name].setup {}
+      end,
+      yamlls = function()
+        require('lspconfig').yamlls.setup {
+          capabilities = make_lsp_capabilities(),
+          settings = {
+            yaml = {
+              redhat = { telemetry = { enabled = false }},
+              schemaStore = { enable = true, url = ''},
+            }
+          }
+        }
+      end
+    }
+  end
+}
+-- }}}
+
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -317,8 +361,7 @@ local plugins = {
   },
 
   -- lua plugins
-  { 'williamboman/mason.nvim',           config = true },
-  { 'williamboman/mason-lspconfig.nvim', config = true },
+  { 'williamboman/mason.nvim',                  config = true },
   'neovim/nvim-lspconfig',
   'hrsh7th/nvim-cmp',
   'hrsh7th/cmp-nvim-lsp',
@@ -343,11 +386,12 @@ local plugins = {
   'voldikss/vim-floaterm',
   'lewis6991/gitsigns.nvim',
   'mfussenegger/nvim-jdtls',
-  { 'scalameta/nvim-metals',                    ft = { 'scala', 'sbt' } },
+  { 'scalameta/nvim-metals', ft = { 'scala', 'sbt' } },
   nvim_treesitter_plugin,
   nvim_ufo_plugin,
   conform_plugin,
   nvim_autopairs,
+  mason_lspconfig_plugin,
 }
 
 require('lazy').setup(plugins)
@@ -356,13 +400,6 @@ require('lazy').setup(plugins)
 -- neovim lsp config {{{
 
 -- cmp autocompletion {{{
-vim.o.completeopt = 'menuone,noselect'
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-capabilities.textDocument.foldingRange = {
-  dynamicRegistration = false,
-  lineFoldingOnly = true,
-}
 
 -- luasnip setup
 local luasnip = require('luasnip')
@@ -432,15 +469,16 @@ cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 -- language server configs {{{
 
 local lspconfig = require('lspconfig')
+local lsp_capabilities = make_lsp_capabilities()
 
 -- bash support
 lspconfig.bashls.setup {
-  capabilities = capabilities
+  capabilities = lsp_capabilities
 }
 
 -- for go support
 lspconfig.gopls.setup {
-  capabilities = capabilities,
+  capabilities = lsp_capabilities,
   init_options = {
     completeUnimported = true,
     usePlaceholders = true,
@@ -452,7 +490,7 @@ lspconfig.gopls.setup {
 }
 
 lspconfig.pyright.setup {
-  capabilities = capabilities
+  capabilities = lsp_capabilities
 }
 
 -- for lua support
