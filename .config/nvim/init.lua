@@ -304,10 +304,10 @@ local vim_kitty_plugin = {
   build = 'cp ./*.py ~/.config/kitty/',
   init = function()
     vim.g.kitty_navigator_no_mappings = 1
-    nmap('<M-S-k>', ':KittyNavigateUp<CR>', 'Focus window up')
-    nmap('<M-S-j>', ':KittyNavigateDown<CR>', 'Focus window down')
-    nmap('<M-S-h>', ':KittyNavigateLeft<CR>', 'Focus window left')
-    nmap('<M-S-l>', ':KittyNavigateRight<CR>', 'Focus window right')
+    nmap('<M-S-k>', vim.cmd.KittyNavigateUp, 'Focus window up')
+    nmap('<M-S-j>', vim.cmd.KittyNavigateDown, 'Focus window down')
+    nmap('<M-S-h>', vim.cmd.KittyNavigateLeft, 'Focus window left')
+    nmap('<M-S-l>', vim.cmd.KittyNavigateRight, 'Focus window right')
   end
 }
 
