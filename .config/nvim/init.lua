@@ -286,8 +286,8 @@ local mason_lspconfig_plugin = {
           capabilities = make_lsp_capabilities(),
           settings = {
             yaml = {
-              redhat = { telemetry = { enabled = false }},
-              schemaStore = { enable = true, url = ''},
+              redhat = { telemetry = { enabled = false } },
+              schemaStore = { enable = true, url = '' },
             }
           }
         }
@@ -295,6 +295,22 @@ local mason_lspconfig_plugin = {
     }
   end
 }
+-- }}}
+
+-- vim-kitty-navigator plugin spec {{{
+
+local vim_kitty_plugin = {
+  'knubie/vim-kitty-navigator',
+  build = 'cp ./*.py ~/.config/kitty/',
+  init = function()
+    vim.g.kitty_navigator_no_mappings = 1
+    nmap('<M-S-k>', ':KittyNavigateUp<CR>', 'Focus window up')
+    nmap('<M-S-j>', ':KittyNavigateDown<CR>', 'Focus window down')
+    nmap('<M-S-h>', ':KittyNavigateLeft<CR>', 'Focus window left')
+    nmap('<M-S-l>', ':KittyNavigateRight<CR>', 'Focus window right')
+  end
+}
+
 -- }}}
 
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
@@ -345,6 +361,7 @@ local plugins = {
   'AndrewRadev/splitjoin.vim',
   { 'fatih/vim-go',     ft = 'go' },
   vim_airline,
+  vim_kitty_plugin,
 
   -- themes
   { 'challenger-deep-theme/vim', name = 'challenger-deep', lazy = true },
@@ -914,10 +931,10 @@ nmap('<leader>cw', ':set hlsearch<CR>*Ncgn', 'Change instances of word under cur
 -- nmap( '<leader>fw' , ':silent grep '<C-r><C-w>' \| cwindow<CR>',  'Search files in rootdir for word under cursor')
 
 -- window mappings
-nmap('<M-S-k>', '<C-w>k', 'Focus window north')
-nmap('<M-S-j>', '<C-w>j', 'Focus window south')
-nmap('<M-S-h>', '<C-w>h', 'Focus window west')
-nmap('<M-S-l>', '<C-w>l', 'Focus window east')
+-- nmap('<M-S-k>', '<C-w>k', 'Focus window north')
+-- nmap('<M-S-j>', '<C-w>j', 'Focus window south')
+-- nmap('<M-S-h>', '<C-w>h', 'Focus window west')
+-- nmap('<M-S-l>', '<C-w>l', 'Focus window east')
 nmap('<M-S-=>', '5<C-w>+', 'Increase vertical window size')
 nmap('<M-S-->', '5<C-w>-', 'Decrease vertical window size')
 nmap('<M-S-,>', '5<C-w><', 'Decrease horizontal window size')
