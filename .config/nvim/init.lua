@@ -126,7 +126,7 @@ local nvim_ufo_plugin = {
 
     ufo.setup({
       open_fold_hl_timeout = 150,
-      close_fold_kinds = { 'imports', 'comment' },
+      close_fold_kinds_for_ft = { default = {'imports', 'comment' }},
       enable_get_fold_virt_text = false,
       preview = {
         win_config = {
@@ -967,6 +967,7 @@ nmap('<leader>cw', ':set hlsearch<CR>*Ncgn', 'Change instances of word under cur
 -- nmap( '<leader>fw' , ':silent grep '<C-r><C-w>' \| cwindow<CR>',  'Search files in rootdir for word under cursor')
 
 -- window mappings
+-- see vim-kitty-navigator for the next 4 mappings
 -- nmap('<M-S-k>', '<C-w>k', 'Focus window north')
 -- nmap('<M-S-j>', '<C-w>j', 'Focus window south')
 -- nmap('<M-S-h>', '<C-w>h', 'Focus window west')
