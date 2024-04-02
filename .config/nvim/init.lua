@@ -380,16 +380,6 @@ local plugins = {
   'junegunn/fzf.vim',
   'bronson/vim-trailing-whitespace',
   'vim-scripts/BufOnly.vim',
-  --{
-    --'xolox/vim-session',
-    --dependencies = { 'xolox/vim-misc' },
-    --init = function()
-      --vim.g.session_autosave = 'prompt'
-      ---- let g:session_autosave_periodic = 5
-      --vim.g.session_persist_colors = 0
-      --vim.g.session_autoload = 'no'
-    --end
-  --},
   { 'tpope/vim-sleuth', priority = 1000 },
   'tpope/vim-surround',
   'tpope/vim-repeat',
@@ -1008,27 +998,27 @@ cmap('<C-p>', '<Up>', 'Cmd up')
 cmap('<C-n>', '<Down>', 'Cmd down')
 cmap('<C-a>', '<Home>', 'Cmd return to beginning of line')
 
--- can use this to replace abbreviations after neovim 0.10 release
--- vim.keymap.set('ca', 'W', 'w', { desc = '"W" as write alias command' })
--- vim.keymap.set('ca', '%%', "expand('%:p:h')", { desc = '%% expands to buffer path in cmdline', expr = true })
+-- -- can use this to replace abbreviations after neovim 0.10 release
+-- -- vim.keymap.set('ca', 'W', 'w', { desc = '"W" as write alias command' })
+-- -- vim.keymap.set('ca', '%%', "expand('%:p:h')", { desc = '%% expands to buffer path in cmdline', expr = true })
 
--- custom commands
-vim.api.nvim_create_user_command('OpenProject',
-  function(opts)
-    local session_name = opts.fargs[1]
-    --local b = opts.bang and '!' or ''
-    vim.o.titlestring = session_name
-    --vim.api.nvim_exec2(string.format(':OpenSession%s %s', b, session_name), {output = 'true'})
-    local ok, result = pcall(vim.cmd.OpenSession, { args = { session_name }, bang = opts.bang })
-    if not ok then
-      vim.notify(result)
-    end
-  end,
-  {
-    nargs = 1,
-    bang = true
-  }
-)
+-- -- custom commands
+-- vim.api.nvim_create_user_command('OpenProject',
+--   function(opts)
+--     local session_name = opts.fargs[1]
+--     --local b = opts.bang and '!' or ''
+--     vim.o.titlestring = session_name
+--     --vim.api.nvim_exec2(string.format(':OpenSession%s %s', b, session_name), {output = 'true'})
+--     local ok, result = pcall(vim.cmd.OpenSession, { args = { session_name }, bang = opts.bang })
+--     if not ok then
+--       vim.notify(result)
+--     end
+--   end,
+--   {
+--     nargs = 1,
+--     bang = true
+--   }
+-- )
 
 -- }}}
 
