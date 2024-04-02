@@ -96,7 +96,7 @@ autocmd({ 'Filetype' }, {
 
 -- lazy.nvim (plugins) {{{
 
--- nvim-ufo plugin spec {{{
+---- nvim-ufo plugin spec {{{
 local nvim_ufo_plugin = {
   "kevinhwang91/nvim-ufo",
   dependencies = { "kevinhwang91/promise-async" },
@@ -146,7 +146,7 @@ local nvim_ufo_plugin = {
 }
 -- }}}
 
--- conform formatter plugin spec {{{
+---- conform formatter plugin spec {{{
 local conform_plugin = {
   "stevearc/conform.nvim",
   config = function()
@@ -167,7 +167,7 @@ local conform_plugin = {
 }
 -- }}}
 
--- nvim-treesitter plugin spec {{{
+---- nvim-treesitter plugin spec {{{
 local nvim_treesitter_plugin = {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
@@ -200,7 +200,7 @@ local nvim_treesitter_plugin = {
 }
 -- }}}
 
--- nvim-autopairs plugin spec {{{
+---- nvim-autopairs plugin spec {{{
 local nvim_autopairs = {
   'windwp/nvim-autopairs',
   event = 'InsertEnter',
@@ -218,7 +218,7 @@ local nvim_autopairs = {
 }
 -- }}}
 
--- vim-airline plugin spec {{{
+---- vim-airline plugin spec {{{
 local vim_airline = {
   'vim-airline/vim-airline',
   dependencies = { 'vim-airline/vim-airline-themes' },
@@ -266,7 +266,7 @@ local vim_airline = {
 
 -- }}}
 
--- mason-lspconfig plugin spec {{{
+---- mason-lspconfig plugin spec {{{
 
 local mason_lspconfig_plugin = {
   'williamboman/mason-lspconfig.nvim',
@@ -297,7 +297,7 @@ local mason_lspconfig_plugin = {
 }
 -- }}}
 
--- vim-kitty-navigator plugin spec {{{
+---- vim-kitty-navigator plugin spec {{{
 
 local vim_kitty_plugin = {
   'knubie/vim-kitty-navigator',
@@ -313,7 +313,7 @@ local vim_kitty_plugin = {
 
 -- }}}
 
--- persisted session plugin spec {{{
+---- persisted session plugin spec {{{
 local persisted_plugin_spec = {
   "olimorris/persisted.nvim",
   lazy = false, -- make sure the plugin is always loaded at startup
