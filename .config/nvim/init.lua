@@ -313,6 +313,17 @@ local vim_kitty_plugin = {
 
 -- }}}
 
+-- persisted session plugin spec {{{
+local persisted_plugin_spec = {
+  "olimorris/persisted.nvim",
+  lazy = false, -- make sure the plugin is always loaded at startup
+  config = function()
+    require('persisted').setup({})
+    require("telescope").load_extension("persisted")
+  end
+}
+-- }}}
+
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -336,16 +347,16 @@ local plugins = {
   'junegunn/fzf.vim',
   'bronson/vim-trailing-whitespace',
   'vim-scripts/BufOnly.vim',
-  {
-    'xolox/vim-session',
-    dependencies = { 'xolox/vim-misc' },
-    init = function()
-      vim.g.session_autosave = 'prompt'
-      -- let g:session_autosave_periodic = 5
-      vim.g.session_persist_colors = 0
-      vim.g.session_autoload = 'no'
-    end
-  },
+  --{
+    --'xolox/vim-session',
+    --dependencies = { 'xolox/vim-misc' },
+    --init = function()
+      --vim.g.session_autosave = 'prompt'
+      ---- let g:session_autosave_periodic = 5
+      --vim.g.session_persist_colors = 0
+      --vim.g.session_autoload = 'no'
+    --end
+  --},
   { 'tpope/vim-sleuth', priority = 1000 },
   'tpope/vim-surround',
   'tpope/vim-repeat',
@@ -409,6 +420,7 @@ local plugins = {
   conform_plugin,
   nvim_autopairs,
   mason_lspconfig_plugin,
+  persisted_plugin_spec,
 }
 
 require('lazy').setup(plugins)
@@ -741,6 +753,7 @@ nmap('<space>o', telescope_builtin.lsp_document_symbols, "LSP Document Symbols (
 nmap('<space>k', telescope_builtin.keymaps, "Keymaps (telescope)")
 nmap('<leader>fl', live_grep_from_project_git_root, "Live Grep from Git Root (telescope)")
 nmap('<leader>fw', telescope_builtin.grep_string, "Grep String Under Cursor (telescope)")
+nmap('<space>p', telescope.extensions.persisted.persisted, 'Show Sessions (telescope)')
 
 -- }}}
 
@@ -965,6 +978,24 @@ cmap('<C-a>', '<Home>', 'Cmd return to beginning of line')
 -- can use this to replace abbreviations after neovim 0.10 release
 -- vim.keymap.set('ca', 'W', 'w', { desc = '"W" as write alias command' })
 -- vim.keymap.set('ca', '%%', "expand('%:p:h')", { desc = '%% expands to buffer path in cmdline', expr = true })
+
+-- custom commands
+vim.api.nvim_create_user_command('OpenProject',
+  function(opts)
+    local session_name = opts.fargs[1]
+    --local b = opts.bang and '!' or ''
+    vim.o.titlestring = session_name
+    --vim.api.nvim_exec2(string.format(':OpenSession%s %s', b, session_name), {output = 'true'})
+    local ok, result = pcall(vim.cmd.OpenSession, { args = { session_name }, bang = opts.bang })
+    if not ok then
+      vim.notify(result)
+    end
+  end,
+  {
+    nargs = 1,
+    bang = true
+  }
+)
 
 -- }}}
 
