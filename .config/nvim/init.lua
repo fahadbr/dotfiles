@@ -365,11 +365,6 @@ local lualine_plugin = {
   'nvim-lualine/lualine.nvim',
   lazy = false,
   config = function()
-    local function get_cwd()
-      local full_path = vim.fn.getcwd()
-      return vim.fn.fnamemodify(full_path, ':t')
-    end
-
     local lualine = require('lualine')
     lualine.setup {
       options = {
@@ -380,7 +375,7 @@ local lualine_plugin = {
       sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = { get_cwd, 'filename' },
+        lualine_c = { 'o:titlestring', 'filename' },
         lualine_x = { 'encoding', 'fileformat', 'filetype' },
         lualine_y = { 'progress' },
         lualine_z = { 'location' }
