@@ -386,8 +386,8 @@ local lualine_plugin = {
         lualine_a = { 'mode', 'o:titlestring' },
         lualine_b = { width('branch', 120), width('diff', 120), width('diagnostics', 80) },
         lualine_c = { 'filename' },
-        lualine_x = { width('encoding', 80), width('fileformat', 80), width('filetype', 80) },
-        lualine_y = { width('progress', 80) },
+        lualine_x = { width('encoding', 120), width('fileformat', 120), width('filetype', 120) },
+        lualine_y = { width('progress', 120) },
         lualine_z = { width('location', 80) }
       },
     }
