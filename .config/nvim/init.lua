@@ -365,20 +365,30 @@ local lualine_plugin = {
   'nvim-lualine/lualine.nvim',
   lazy = false,
   config = function()
-    local lualine = require('lualine')
-    lualine.setup {
+    -- function used to create a component which will be disabled when
+    -- the window is below `width_size`
+    local function width(component, width_size)
+      return {
+        component,
+        cond = function()
+          return vim.fn.winwidth(0) > width_size
+        end
+      }
+    end
+
+    require('lualine').setup {
       options = {
         icons_enabled = true,
-        always_divide_middle = false
+        always_divide_middle = false,
       },
-      extensions = { 'nerdtree' },
+      extensions = { 'nerdtree', 'quickfix' },
       sections = {
         lualine_a = { 'mode', 'o:titlestring' },
-        lualine_b = { 'branch', 'diff', 'diagnostics' },
+        lualine_b = { width('branch', 120), width('diff', 120), width('diagnostics', 80) },
         lualine_c = { 'filename' },
-        lualine_x = { 'encoding', 'fileformat', 'filetype' },
-        lualine_y = { 'progress' },
-        lualine_z = { 'location' }
+        lualine_x = { width('encoding', 80), width('fileformat', 80), width('filetype', 80) },
+        lualine_y = { width('progress', 80) },
+        lualine_z = { width('location', 80) }
       },
     }
   end
