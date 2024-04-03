@@ -67,6 +67,7 @@ vim.o.title = true
 vim.o.ruler = true
 vim.o.autoread = true
 vim.o.termguicolors = true
+vim.o.mousemoveevent = true
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
@@ -82,6 +83,8 @@ vim.o.completeopt = 'menuone,noselect'
 -- see :h vim.opt
 vim.opt.mouse:append('a')
 vim.opt.backspace = { 'indent', 'eol', 'start' }
+vim.opt.sessionoptions:remove { 'blank' }
+vim.opt.sessionoptions:append { 'globals' }
 
 autocmd({ 'FocusGained', 'BufEnter' }, {
   pattern = { '*' },
@@ -126,7 +129,7 @@ local nvim_ufo_plugin = {
 
     ufo.setup({
       open_fold_hl_timeout = 150,
-      close_fold_kinds_for_ft = { default = {'imports', 'comment' }},
+      close_fold_kinds_for_ft = { default = { 'imports', 'comment' } },
       enable_get_fold_virt_text = false,
       preview = {
         win_config = {
@@ -357,6 +360,114 @@ local persisted_plugin_spec = {
 }
 -- }}}
 
+---- lualine plugin spec {{{
+local lualine_plugin = {
+  'nvim-lualine/lualine.nvim',
+  lazy = false,
+  config = function()
+    local function get_cwd()
+      local full_path = vim.fn.getcwd()
+      return vim.fn.fnamemodify(full_path, ':t')
+    end
+
+    local lualine = require('lualine')
+    lualine.setup {
+      options = {
+        icons_enabled = true,
+        always_divide_middle = false
+      },
+      extensions = { 'nerdtree' },
+      sections = {
+        lualine_a = { 'mode' },
+        lualine_b = { 'branch', 'diff', 'diagnostics' },
+        lualine_c = { get_cwd, 'filename' },
+        lualine_x = { 'encoding', 'fileformat', 'filetype' },
+        lualine_y = { 'progress' },
+        lualine_z = { 'location' }
+      },
+    }
+  end
+}
+--}}}
+
+---- nvim-web-devicons spec {{{
+
+local nvim_web_devicons = {
+  -- need a nerd font on the system for this
+  -- e.g. `brew install font-hack-nerd-font`
+  'nvim-tree/nvim-web-devicons',
+  config = function()
+    require('nvim-web-devicons').setup {
+      color_icons = false,
+      default = true,
+      strict = true,
+      override_by_extension = {
+        java = {
+          icon = "",
+          name = "java"
+        }
+      }
+    }
+  end
+}
+
+--}}}
+
+---- bufferline plugin spec {{{
+local bufferline_plugin = {
+  'akinsho/bufferline.nvim',
+  version = "*",
+  dependencies = 'nvim-tree/nvim-web-devicons',
+  config = function()
+    -- this changes the selected tab underline color
+    vim.api.nvim_set_hl(0, 'TabLineSel', { bg = '#dddddd' })
+    local bufferline = require('bufferline')
+    bufferline.setup {
+      options = {
+        themable = true,
+        diagnostics = 'nvim_lsp',
+        separator_style = 'thin',
+        color_icons = false,
+        indicator = {
+          style = 'underline'
+        },
+        numbers = 'ordinal',
+        hover = {
+          enabled = true,
+          delay = 200,
+          reveal = { 'close' },
+        },
+      },
+      highlights = {
+        tab_selected = {
+          --fg = {'Normal', attribute = 'bg'},
+          --bg = {'TabLineSel', attribute = 'bg'},
+          --bg = '#000000',
+          --fg = '#FFFFFF',
+        },
+      }
+    }
+
+    nmap('<leader>1', function() bufferline.go_to(1, true) end, 'Bufferline goto buffer 1')
+    nmap('<leader>2', function() bufferline.go_to(2, true) end, 'Bufferline goto buffer 2')
+    nmap('<leader>3', function() bufferline.go_to(3, true) end, 'Bufferline goto buffer 3')
+    nmap('<leader>4', function() bufferline.go_to(4, true) end, 'Bufferline goto buffer 4')
+    nmap('<leader>5', function() bufferline.go_to(5, true) end, 'Bufferline goto buffer 5')
+    nmap('<leader>6', function() bufferline.go_to(6, true) end, 'Bufferline goto buffer 6')
+    nmap('<leader>7', function() bufferline.go_to(7, true) end, 'Bufferline goto buffer 7')
+    nmap('<leader>8', function() bufferline.go_to(8, true) end, 'Bufferline goto buffer 8')
+    nmap('<leader>9', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
+    nmap('<leader>bp', vim.cmd.BufferLinePick, 'Interactively pick the buffer to focus')
+    nmap('<leader>bc', vim.cmd.BufferLinePickClose, 'Interactively pick the buffer to close')
+    nmap('<leader>bo', vim.cmd.BufferLineCloseOthers, 'Close other buffers')
+    nmap('<leader>br', vim.cmd.BufferLineCloseRight, 'Close buffers to the right')
+    nmap('<leader>bl', vim.cmd.BufferLineCloseLeft, 'Close buffers to the left')
+    nmap('<M-l>', vim.cmd.BufferLineCycleNext, 'Bufferline go to next buffer')
+    nmap('<M-h>', vim.cmd.BufferLineCyclePrev, 'bufferline go to previous buffer')
+  end,
+}
+--}}}
+
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -379,7 +490,6 @@ local plugins = {
   { '$HOME/.dotfiles/fzfc', dev = true },
   'junegunn/fzf.vim',
   'bronson/vim-trailing-whitespace',
-  'vim-scripts/BufOnly.vim',
   { 'tpope/vim-sleuth', priority = 1000 },
   'tpope/vim-surround',
   'tpope/vim-repeat',
@@ -394,7 +504,7 @@ local plugins = {
   },
   'AndrewRadev/splitjoin.vim',
   { 'fatih/vim-go',     ft = 'go' },
-  vim_airline,
+  --vim_airline,
   vim_kitty_plugin,
 
   -- themes
@@ -429,10 +539,7 @@ local plugins = {
   {
     'lukas-reineke/indent-blankline.nvim',
     main = 'ibl',
-    opts = {},
-    config = function()
-      require('ibl').setup()
-    end
+    config = true
   },
   'voldikss/vim-floaterm',
   'lewis6991/gitsigns.nvim',
@@ -444,6 +551,9 @@ local plugins = {
   nvim_autopairs,
   mason_lspconfig_plugin,
   persisted_plugin_spec,
+  lualine_plugin,
+  nvim_web_devicons,
+  bufferline_plugin,
 }
 
 require('lazy').setup(plugins)
@@ -944,7 +1054,6 @@ nmap('<leader>ec', function() vim.cmd.edit('~/.config/nvim/init.lua') end, 'Edit
 nmap('<M-w>', function()
   vim.cmd.bp()
   vim.cmd.bd('#')
-  vim.cmd.AirlineRefresh()
 end, 'Close buffer')
 
 imap('<C-d>', '<esc>:read !date<CR>kJA', 'Insert date into current line (insert)')
@@ -957,10 +1066,9 @@ nmap('<M-z>', ':set wrap!<CR>', 'Toggle line wrapping')
 nmap('<M-/>', ':set hlsearch!<CR>', 'Toggle search highlighting')
 nmap('<M-1>', ':set relativenumber!<CR>', 'Toggle relativenumber')
 nmap('<M-c>', ':cclose<CR>', 'Close quickfix list')
-nmap('<M-o>', '<C-o>:bd # | AirlineRefresh<CR>', 'Close buffer and go to previous location')
+nmap('<M-o>', '<C-o>:bd #', 'Close buffer and go to previous location')
 nmap('<leader>yl', [[:let @+=expand('%').":".line('.')<CR>"]], 'Copy the current file and line number into clipboard')
 nmap('<leader>w', vim.cmd.w, 'Write current buffer')
-nmap('<leader>bo', ':BufOnly<CR>', 'Close all other buffers')
 nmap('<leader>cw', ':set hlsearch<CR>*Ncgn', 'Change instances of word under cursor (repeat with .)')
 -- not really used so commented out
 -- nmap( '<leader>s*' , ':%s/\<<C-r><C-w>\>//g<left><left>',  'Find and replace word under the cursor')
