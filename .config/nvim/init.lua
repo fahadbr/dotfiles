@@ -373,9 +373,9 @@ local lualine_plugin = {
       },
       extensions = { 'nerdtree' },
       sections = {
-        lualine_a = { 'mode' },
+        lualine_a = { 'o:titlestring', 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = { 'o:titlestring', 'filename' },
+        lualine_c = { 'filename' },
         lualine_x = { 'encoding', 'fileformat', 'filetype' },
         lualine_y = { 'progress' },
         lualine_z = { 'location' }
