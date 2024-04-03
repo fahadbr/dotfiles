@@ -442,15 +442,14 @@ local bufferline_plugin = {
           delay = 200,
           reveal = { 'close' },
         },
+        custom_filter = function(buf_num)
+          local ft = vim.bo[buf_num].filetype
+          if ft == 'qf' or ft == 'help' then
+            return false
+          end
+          return true
+        end,
       },
-      highlights = {
-        tab_selected = {
-          --fg = {'Normal', attribute = 'bg'},
-          --bg = {'TabLineSel', attribute = 'bg'},
-          --bg = '#000000',
-          --fg = '#FFFFFF',
-        },
-      }
     }
 
     nmap('<leader>1', function() bufferline.go_to(1, true) end, 'Bufferline goto buffer 1')
