@@ -461,7 +461,16 @@ local bufferline_plugin = {
     nmap('<leader>7', function() bufferline.go_to(7, true) end, 'Bufferline goto buffer 7')
     nmap('<leader>8', function() bufferline.go_to(8, true) end, 'Bufferline goto buffer 8')
     nmap('<leader>9', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
-    nmap('<leader>bp', vim.cmd.BufferLinePick, 'Interactively pick the buffer to focus')
+    nmap('<M-1>', function() bufferline.go_to(1, true) end, 'Bufferline goto buffer 1')
+    nmap('<M-2>', function() bufferline.go_to(2, true) end, 'Bufferline goto buffer 2')
+    nmap('<M-3>', function() bufferline.go_to(3, true) end, 'Bufferline goto buffer 3')
+    nmap('<M-4>', function() bufferline.go_to(4, true) end, 'Bufferline goto buffer 4')
+    nmap('<M-5>', function() bufferline.go_to(5, true) end, 'Bufferline goto buffer 5')
+    nmap('<M-6>', function() bufferline.go_to(6, true) end, 'Bufferline goto buffer 6')
+    nmap('<M-7>', function() bufferline.go_to(7, true) end, 'Bufferline goto buffer 7')
+    nmap('<M-8>', function() bufferline.go_to(8, true) end, 'Bufferline goto buffer 8')
+    nmap('<M-9>', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
+    nmap('<leader>bf', vim.cmd.BufferLinePick, 'Interactively pick the buffer to focus')
     nmap('<leader>bc', vim.cmd.BufferLinePickClose, 'Interactively pick the buffer to close')
     nmap('<leader>bo', vim.cmd.BufferLineCloseOthers, 'Close other buffers')
     nmap('<leader>br', vim.cmd.BufferLineCloseRight, 'Close buffers to the right')
@@ -881,7 +890,7 @@ nmap('<C-p>', find_files_from_project_git_root, "Find Files From Git Root (teles
 nmap('<M-S-p>', git_or_find_files, "Git or Find Files (telescope)")
 nmap('<M-p>', function()
   telescope_builtin.buffers({
-    show_all_buffers = false,
+    show_all_buffers = true,
     sort_mru = true,
     ignore_current_buffer = true,
   })
@@ -1068,7 +1077,6 @@ nmap('<M-n>', ':NERDTreeToggle<CR>', 'NERDTreeToggle')
 nmap('<M-S-n>', ':NERDTreeFind<CR>', 'NERDTreeFind')
 nmap('<M-z>', ':set wrap!<CR>', 'Toggle line wrapping')
 nmap('<M-/>', ':set hlsearch!<CR>', 'Toggle search highlighting')
-nmap('<M-1>', ':set relativenumber!<CR>', 'Toggle relativenumber')
 nmap('<M-c>', ':cclose<CR>', 'Close quickfix list')
 nmap('<M-o>', '<C-o>:bd #', 'Close buffer and go to previous location')
 nmap('<leader>yl', [[:let @+=expand('%').":".line('.')<CR>"]], 'Copy the current file and line number into clipboard')
