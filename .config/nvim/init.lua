@@ -480,7 +480,6 @@ local plugins = {
   },
   'AndrewRadev/splitjoin.vim',
   { 'fatih/vim-go',     ft = 'go' },
-  --vim_airline,
   vim_kitty_plugin,
 
   -- themes
