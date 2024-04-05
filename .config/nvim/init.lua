@@ -284,6 +284,9 @@ local mason_lspconfig_plugin = {
       function(server_name) -- default handler (optional)
         require("lspconfig")[server_name].setup {}
       end,
+      -- ignoring jdtls because of the setup thats happening later in the file
+      -- eventually it might be best to move the set up here
+      jdtls = function() end,
       yamlls = function()
         require('lspconfig').yamlls.setup {
           capabilities = make_lsp_capabilities(),
@@ -390,6 +393,14 @@ local lualine_plugin = {
         lualine_y = { width('progress', 120) },
         lualine_z = { width('location', 80) }
       },
+      inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { { 'filename', separator = { left = '', right = '' }, color = { fg = '#cccccc', bg = '#555555' } } },
+        lualine_x = { { 'location', separator = { left = '', right = '' }, color = { fg = '#cccccc', bg = '#555555' } } },
+        lualine_y = {},
+        lualine_z = {},
+      }
     }
   end
 }
@@ -1078,7 +1089,7 @@ nmap('<M-S-n>', ':NERDTreeFind<CR>', 'NERDTreeFind')
 nmap('<M-z>', ':set wrap!<CR>', 'Toggle line wrapping')
 nmap('<M-/>', ':set hlsearch!<CR>', 'Toggle search highlighting')
 nmap('<M-c>', ':cclose<CR>', 'Close quickfix list')
-nmap('<M-o>', '<C-o>:bd #', 'Close buffer and go to previous location')
+nmap('<M-o>', '<C-o>:bd #<CR>', 'Close buffer and go to previous location')
 nmap('<leader>yl', [[:let @+=expand('%').":".line('.')<CR>"]], 'Copy the current file and line number into clipboard')
 nmap('<leader>w', vim.cmd.w, 'Write current buffer')
 nmap('<leader>cw', ':set hlsearch<CR>*Ncgn', 'Change instances of word under cursor (repeat with .)')
