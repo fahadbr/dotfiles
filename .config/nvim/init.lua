@@ -497,7 +497,7 @@ local plugins = {
   },
 
   -- lua plugins
-  { 'williamboman/mason.nvim',                  config = true },
+  { 'williamboman/mason.nvim', config = true },
   'neovim/nvim-lspconfig',
   'hrsh7th/nvim-cmp',
   'hrsh7th/cmp-nvim-lsp',
@@ -505,7 +505,7 @@ local plugins = {
   'hrsh7th/cmp-path',
   'hrsh7th/cmp-cmdline',
   'saadparwaiz1/cmp_luasnip',
-  'L3MON4D3/LuaSnip',
+  { 'L3MON4D3/LuaSnip',        version = "v2.*", build = "make install_jsregexp" },
   'luukvbaal/nnn.nvim',
   'nvim-lua/popup.nvim',
   'nvim-lua/plenary.nvim',
@@ -519,7 +519,7 @@ local plugins = {
   'voldikss/vim-floaterm',
   'lewis6991/gitsigns.nvim',
   'mfussenegger/nvim-jdtls',
-  { 'scalameta/nvim-metals', ft = { 'scala', 'sbt' } },
+  { 'scalameta/nvim-metals',                    ft = { 'scala', 'sbt' } },
   nvim_treesitter_plugin,
   nvim_ufo_plugin,
   conform_plugin,
@@ -542,6 +542,8 @@ require('lazy').setup(plugins)
 local luasnip = require('luasnip')
 -- load snippets
 require("luasnip.loaders.from_snipmate").lazy_load()
+require("custom_snippets").load()
+
 
 -- nvim-cmp setup
 local cmp = require('cmp')
