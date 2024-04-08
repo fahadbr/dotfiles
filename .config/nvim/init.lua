@@ -99,351 +99,6 @@ autocmd({ 'Filetype' }, {
 
 -- lazy.nvim (plugins) {{{
 
----- nvim-ufo plugin spec {{{
-local nvim_ufo_plugin = {
-  "kevinhwang91/nvim-ufo",
-  dependencies = { "kevinhwang91/promise-async" },
-  config = function()
-    vim.o.foldcolumn = '1'
-    vim.o.foldlevel = 99
-    vim.o.foldlevelstart = 99
-    vim.o.foldenable = true
-
-    local ufo = require('ufo')
-    nmap('zR', ufo.openAllFolds, 'Open All Folds')
-    nmap('zM', ufo.closeAllFolds, 'Close All Folds')
-    nmap('zrr', ufo.openAllFolds, 'Open All Folds')
-    nmap('zmm', ufo.closeAllFolds, 'Close All Folds')
-    for i = 0, 5 do
-      local opts = { desc = string.format('Open/Close all folds with level %d', i) }
-      local foldWithLevel = function() require('ufo').closeFoldsWith(i) end
-      nmap(string.format('zr%d', i), foldWithLevel, opts)
-      nmap(string.format('zm%d', i), foldWithLevel, opts)
-    end
-    nmap('gh', function()
-      local winid = require('ufo').peekFoldedLinesUnderCursor()
-      if not winid then
-        vim.lsp.buf.hover()
-      end
-    end)
-
-    ufo.setup({
-      open_fold_hl_timeout = 150,
-      close_fold_kinds_for_ft = { default = { 'imports', 'comment' } },
-      enable_get_fold_virt_text = false,
-      preview = {
-        win_config = {
-          border = { '', '─', '', '', '', '─', '', '' },
-          winhighlight = 'Normal:Folded',
-          winblend = 0
-        },
-        mappings = {
-          scrollU = '<C-u>',
-          scrollD = '<C-d>',
-          jumpTop = '[',
-          jumpBot = ']'
-        }
-      },
-    })
-  end
-}
--- }}}
-
----- conform formatter plugin spec {{{
-local conform_plugin = {
-  "stevearc/conform.nvim",
-  config = function()
-    local conform = require('conform')
-    conform.setup({
-      formatters_by_ft = {
-        java = { "google-java-format" },
-        ["_"] = { "trim_whitespace" }
-      },
-      formatters = {
-        ["google-java-format"] = {
-          -- prepend_args = {"--aosp"},
-        },
-      },
-    })
-    nmap('<leader>fc', function() conform.format { lsp_fallback = true } end, "Format Using Conform")
-  end
-}
--- }}}
-
----- nvim-treesitter plugin spec {{{
-local nvim_treesitter_plugin = {
-  "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-  config = function()
-    require('nvim-treesitter.configs').setup {
-      ensure_installed = {
-        "c",
-        "lua",
-        "vim",
-        "vimdoc",
-        "query",
-        "go",
-        "json",
-        "scala",
-        "java",
-        "yaml",
-        "markdown",
-        "markdown_inline",
-      },
-      ignore_install = {},
-      modules = {},
-      sync_install = false,
-      auto_install = true,
-      highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-      },
-    }
-  end
-}
--- }}}
-
----- nvim-autopairs plugin spec {{{
-local nvim_autopairs = {
-  'windwp/nvim-autopairs',
-  event = 'InsertEnter',
-
-  -- use opts = {} for passing setup options
-  -- this is equalent to setup({}) function
-  config = function()
-    local npairs = require('nvim-autopairs')
-    local Rule = require('nvim-autopairs.rule')
-    local cond = require('nvim-autopairs.conds')
-    npairs.setup({})
-    -- enables auto pairing of '<' with '>'
-    npairs.add_rule(Rule('<', '>'):with_move(cond.done()))
-  end,
-}
--- }}}
-
----- mason-lspconfig plugin spec {{{
-
-local mason_lspconfig_plugin = {
-  'williamboman/mason-lspconfig.nvim',
-  dependencies = { 'williamboman/mason.nvim', 'neovim/nvim-lspconfig' },
-  config = function()
-    local mlcfg = require('mason-lspconfig')
-    mlcfg.setup()
-    mlcfg.setup_handlers {
-      -- The first entry (without a key) will be the default handler
-      -- and will be called for each installed server that doesn't have
-      -- a dedicated handler.
-      function(server_name) -- default handler (optional)
-        require("lspconfig")[server_name].setup {}
-      end,
-      -- ignoring jdtls because of the setup thats happening later in the file
-      -- eventually it might be best to move the set up here
-      jdtls = function() end,
-      yamlls = function()
-        require('lspconfig').yamlls.setup {
-          capabilities = make_lsp_capabilities(),
-          settings = {
-            yaml = {
-              redhat = { telemetry = { enabled = false } },
-              schemaStore = { enable = true, url = '' },
-            }
-          }
-        }
-      end
-    }
-  end
-}
--- }}}
-
----- vim-kitty-navigator plugin spec {{{
-
-local vim_kitty_plugin = {
-  'knubie/vim-kitty-navigator',
-  build = 'cp ./*.py ~/.config/kitty/',
-  init = function()
-    vim.g.kitty_navigator_no_mappings = 1
-    nmap('<M-S-k>', vim.cmd.KittyNavigateUp, 'Focus window up')
-    nmap('<M-S-j>', vim.cmd.KittyNavigateDown, 'Focus window down')
-    nmap('<M-S-h>', vim.cmd.KittyNavigateLeft, 'Focus window left')
-    nmap('<M-S-l>', vim.cmd.KittyNavigateRight, 'Focus window right')
-  end
-}
-
--- }}}
-
----- persisted session plugin spec {{{
-local persisted_plugin_spec = {
-  "olimorris/persisted.nvim",
-  lazy = false, -- make sure the plugin is always loaded at startup
-  config = function()
-    local persisted = require('persisted')
-    persisted.setup({
-      telescope = {
-        reset_prompt = true,
-        mappings = {
-          change_branch = '<c-b>',
-          copy_session = '<m-c>',
-          delete_session = '<c-d>',
-        }
-      }
-    })
-
-    require("telescope").load_extension("persisted")
-
-    local augroup = vim.api.nvim_create_augroup("PersistedHooks", {})
-    autocmd({ "User" }, {
-      pattern = "PersistedTelescopeLoadPre",
-      group = augroup,
-      callback = function()
-        -- save the currently loaded session using the global variable
-        persisted.save({ session = vim.g.persisted_loaded_session })
-
-        -- delete all open buffers
-        vim.api.nvim_input("<ESC>:%bd!<CR>")
-      end,
-    })
-    autocmd({ 'User' }, {
-      pattern = 'PersistedLoadPost',
-      group = augroup,
-      callback = function(session)
-        -- set the process title to the directory name when a session is loaded
-        local dirname = vim.fn.fnamemodify(session.data.dir_path, ':t')
-        vim.o.titlestring = dirname
-      end,
-    })
-  end
-}
--- }}}
-
----- lualine plugin spec {{{
-local lualine_plugin = {
-  'nvim-lualine/lualine.nvim',
-  lazy = false,
-  config = function()
-    -- function used to create a component which will be disabled when
-    -- the window is below `width_size`
-    local function width(component, width_size)
-      return {
-        component,
-        cond = function()
-          return vim.fn.winwidth(0) > width_size
-        end
-      }
-    end
-
-    require('lualine').setup {
-      options = {
-        icons_enabled = true,
-        always_divide_middle = false,
-      },
-      extensions = { 'nerdtree', 'quickfix' },
-      sections = {
-        lualine_a = { 'mode', 'o:titlestring' },
-        lualine_b = { width('branch', 120), width('diff', 120), width('diagnostics', 80) },
-        lualine_c = { 'filename' },
-        lualine_x = { width('encoding', 120), width('fileformat', 120), width('filetype', 120) },
-        lualine_y = { width('progress', 120) },
-        lualine_z = { width('location', 80) }
-      },
-      inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = { { 'filename', separator = { left = '', right = '' }, color = { fg = '#cccccc', bg = '#555555' } } },
-        lualine_x = { { 'location', separator = { left = '', right = '' }, color = { fg = '#cccccc', bg = '#555555' } } },
-        lualine_y = {},
-        lualine_z = {},
-      }
-    }
-  end
-}
---}}}
-
----- nvim-web-devicons spec {{{
-
-local nvim_web_devicons = {
-  -- need a nerd font on the system for this
-  -- e.g. `brew install font-hack-nerd-font`
-  'nvim-tree/nvim-web-devicons',
-  config = function()
-    require('nvim-web-devicons').setup {
-      color_icons = false,
-      default = true,
-      strict = true,
-      override_by_extension = {
-        java = {
-          icon = "",
-          name = "java"
-        }
-      }
-    }
-  end
-}
-
---}}}
-
----- bufferline plugin spec {{{
-local bufferline_plugin = {
-  'akinsho/bufferline.nvim',
-  version = "*",
-  dependencies = 'nvim-tree/nvim-web-devicons',
-  config = function()
-    -- this changes the selected tab underline color
-    vim.api.nvim_set_hl(0, 'TabLineSel', { bg = '#dddddd' })
-    local bufferline = require('bufferline')
-    bufferline.setup {
-      options = {
-        themable = true,
-        diagnostics = 'nvim_lsp',
-        separator_style = 'thin',
-        color_icons = false,
-        indicator = {
-          style = 'underline'
-        },
-        numbers = 'ordinal',
-        hover = {
-          enabled = true,
-          delay = 200,
-          reveal = { 'close' },
-        },
-        custom_filter = function(buf_num)
-          local ft = vim.bo[buf_num].filetype
-          if ft == 'qf' or ft == 'help' then
-            return false
-          end
-          return true
-        end,
-      },
-    }
-
-    nmap('<leader>1', function() bufferline.go_to(1, true) end, 'Bufferline goto buffer 1')
-    nmap('<leader>2', function() bufferline.go_to(2, true) end, 'Bufferline goto buffer 2')
-    nmap('<leader>3', function() bufferline.go_to(3, true) end, 'Bufferline goto buffer 3')
-    nmap('<leader>4', function() bufferline.go_to(4, true) end, 'Bufferline goto buffer 4')
-    nmap('<leader>5', function() bufferline.go_to(5, true) end, 'Bufferline goto buffer 5')
-    nmap('<leader>6', function() bufferline.go_to(6, true) end, 'Bufferline goto buffer 6')
-    nmap('<leader>7', function() bufferline.go_to(7, true) end, 'Bufferline goto buffer 7')
-    nmap('<leader>8', function() bufferline.go_to(8, true) end, 'Bufferline goto buffer 8')
-    nmap('<leader>9', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
-    nmap('<M-1>', function() bufferline.go_to(1, true) end, 'Bufferline goto buffer 1')
-    nmap('<M-2>', function() bufferline.go_to(2, true) end, 'Bufferline goto buffer 2')
-    nmap('<M-3>', function() bufferline.go_to(3, true) end, 'Bufferline goto buffer 3')
-    nmap('<M-4>', function() bufferline.go_to(4, true) end, 'Bufferline goto buffer 4')
-    nmap('<M-5>', function() bufferline.go_to(5, true) end, 'Bufferline goto buffer 5')
-    nmap('<M-6>', function() bufferline.go_to(6, true) end, 'Bufferline goto buffer 6')
-    nmap('<M-7>', function() bufferline.go_to(7, true) end, 'Bufferline goto buffer 7')
-    nmap('<M-8>', function() bufferline.go_to(8, true) end, 'Bufferline goto buffer 8')
-    nmap('<M-9>', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
-    nmap('<leader>bf', vim.cmd.BufferLinePick, 'Interactively pick the buffer to focus')
-    nmap('<leader>bc', vim.cmd.BufferLinePickClose, 'Interactively pick the buffer to close')
-    nmap('<leader>bo', vim.cmd.BufferLineCloseOthers, 'Close other buffers')
-    nmap('<leader>br', vim.cmd.BufferLineCloseRight, 'Close buffers to the right')
-    nmap('<leader>bl', vim.cmd.BufferLineCloseLeft, 'Close buffers to the left')
-    nmap('<M-l>', vim.cmd.BufferLineCycleNext, 'Bufferline go to next buffer')
-    nmap('<M-h>', vim.cmd.BufferLineCyclePrev, 'bufferline go to previous buffer')
-  end,
-}
---}}}
-
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -466,7 +121,7 @@ local plugins = {
   { '$HOME/.dotfiles/fzfc', dev = true },
   'junegunn/fzf.vim',
   'bronson/vim-trailing-whitespace',
-  { 'tpope/vim-sleuth', priority = 1000 },
+  { 'tpope/vim-sleuth',          priority = 1000 },
   'tpope/vim-surround',
   'tpope/vim-repeat',
   'honza/vim-snippets',
@@ -479,8 +134,7 @@ local plugins = {
     end
   },
   'AndrewRadev/splitjoin.vim',
-  { 'fatih/vim-go',     ft = 'go' },
-  vim_kitty_plugin,
+  { 'fatih/vim-go',              ft = 'go' },
 
   -- themes
   { 'challenger-deep-theme/vim', name = 'challenger-deep', lazy = true },
@@ -520,15 +174,367 @@ local plugins = {
   'lewis6991/gitsigns.nvim',
   'mfussenegger/nvim-jdtls',
   { 'scalameta/nvim-metals',                    ft = { 'scala', 'sbt' } },
-  nvim_treesitter_plugin,
-  nvim_ufo_plugin,
-  conform_plugin,
-  nvim_autopairs,
-  mason_lspconfig_plugin,
-  persisted_plugin_spec,
-  lualine_plugin,
-  nvim_web_devicons,
-  bufferline_plugin,
+  -- nvim-ufo  {{{
+  {
+    "kevinhwang91/nvim-ufo",
+    dependencies = { "kevinhwang91/promise-async" },
+    config = function()
+      vim.o.foldcolumn = '1'
+      vim.o.foldlevel = 99
+      vim.o.foldlevelstart = 99
+      vim.o.foldenable = true
+
+      local ufo = require('ufo')
+      nmap('zR', ufo.openAllFolds, 'Open All Folds')
+      nmap('zM', ufo.closeAllFolds, 'Close All Folds')
+      nmap('zrr', ufo.openAllFolds, 'Open All Folds')
+      nmap('zmm', ufo.closeAllFolds, 'Close All Folds')
+      for i = 0, 5 do
+        local opts = { desc = string.format('Open/Close all folds with level %d', i) }
+        local foldWithLevel = function() require('ufo').closeFoldsWith(i) end
+        nmap(string.format('zr%d', i), foldWithLevel, opts)
+        nmap(string.format('zm%d', i), foldWithLevel, opts)
+      end
+      nmap('gh', function()
+        local winid = require('ufo').peekFoldedLinesUnderCursor()
+        if not winid then
+          vim.lsp.buf.hover()
+        end
+      end)
+
+      ufo.setup({
+        open_fold_hl_timeout = 150,
+        close_fold_kinds_for_ft = { default = { 'imports', 'comment' } },
+        enable_get_fold_virt_text = false,
+        preview = {
+          win_config = {
+            border = { '', '─', '', '', '', '─', '', '' },
+            winhighlight = 'Normal:Folded',
+            winblend = 0
+          },
+          mappings = {
+            scrollU = '<C-u>',
+            scrollD = '<C-d>',
+            jumpTop = '[',
+            jumpBot = ']'
+          }
+        },
+      })
+    end
+  },
+  -- }}}
+  -- conform formatter  {{{
+  {
+    "stevearc/conform.nvim",
+    config = function()
+      local conform = require('conform')
+      conform.setup({
+        formatters_by_ft = {
+          java = { "google-java-format" },
+          ["_"] = { "trim_whitespace" }
+        },
+        formatters = {
+          ["google-java-format"] = {
+            -- prepend_args = {"--aosp"},
+          },
+        },
+      })
+      nmap('<leader>fc', function() conform.format { lsp_fallback = true } end, "Format Using Conform")
+    end
+  },
+  -- }}}
+  -- nvim-treesitter  {{{
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    config = function()
+      require('nvim-treesitter.configs').setup {
+        ensure_installed = {
+          "c",
+          "lua",
+          "vim",
+          "vimdoc",
+          "query",
+          "go",
+          "json",
+          "scala",
+          "java",
+          "yaml",
+          "markdown",
+          "markdown_inline",
+        },
+        ignore_install = {},
+        modules = {},
+        sync_install = false,
+        auto_install = true,
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = false,
+        },
+      }
+    end
+  },
+  -- }}}
+  -- nvim-autopairs  {{{
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+
+    -- use opts = {} for passing setup options
+    -- this is equalent to setup({}) function
+    config = function()
+      local npairs = require('nvim-autopairs')
+      local Rule = require('nvim-autopairs.rule')
+      local cond = require('nvim-autopairs.conds')
+      npairs.setup({})
+      -- enables auto pairing of '<' with '>'
+      npairs.add_rule(Rule('<', '>'):with_move(cond.done()))
+    end,
+  },
+  -- }}}
+  -- mason-lspconfig  {{{
+
+  {
+    'williamboman/mason-lspconfig.nvim',
+    dependencies = { 'williamboman/mason.nvim', 'neovim/nvim-lspconfig' },
+    config = function()
+      local mlcfg = require('mason-lspconfig')
+      mlcfg.setup()
+      mlcfg.setup_handlers {
+        -- The first entry (without a key) will be the default handler
+        -- and will be called for each installed server that doesn't have
+        -- a dedicated handler.
+        function(server_name) -- default handler (optional)
+          require("lspconfig")[server_name].setup {}
+        end,
+        -- ignoring jdtls because of the setup thats happening later in the file
+        -- eventually it might be best to move the set up here
+        jdtls = function() end,
+        yamlls = function()
+          require('lspconfig').yamlls.setup {
+            capabilities = make_lsp_capabilities(),
+            settings = {
+              yaml = {
+                redhat = { telemetry = { enabled = false } },
+                schemaStore = { enable = true, url = '' },
+              }
+            }
+          }
+        end
+      }
+    end
+  },
+  -- }}}
+  -- vim-kitty-navigator  {{{
+
+  {
+    'knubie/vim-kitty-navigator',
+    build = 'cp ./*.py ~/.config/kitty/',
+    init = function()
+      vim.g.kitty_navigator_no_mappings = 1
+      nmap('<M-S-k>', vim.cmd.KittyNavigateUp, 'Focus window up')
+      nmap('<M-S-j>', vim.cmd.KittyNavigateDown, 'Focus window down')
+      nmap('<M-S-h>', vim.cmd.KittyNavigateLeft, 'Focus window left')
+      nmap('<M-S-l>', vim.cmd.KittyNavigateRight, 'Focus window right')
+    end
+  },
+
+  -- }}}
+  -- persisted session  {{{
+  {
+    "olimorris/persisted.nvim",
+    lazy = false, -- make sure the plugin is always loaded at startup
+    config = function()
+      local persisted = require('persisted')
+      persisted.setup({
+        telescope = {
+          reset_prompt = true,
+          mappings = {
+            change_branch = '<c-b>',
+            copy_session = '<m-c>',
+            delete_session = '<c-d>',
+          }
+        }
+      })
+
+      require("telescope").load_extension("persisted")
+
+      local augroup = vim.api.nvim_create_augroup("PersistedHooks", {})
+      autocmd({ "User" }, {
+        pattern = "PersistedTelescopeLoadPre",
+        group = augroup,
+        callback = function()
+          -- save the currently loaded session using the global variable
+          persisted.save({ session = vim.g.persisted_loaded_session })
+
+          -- delete all open buffers
+          vim.api.nvim_input("<ESC>:%bd!<CR>")
+        end,
+      })
+      autocmd({ 'User' }, {
+        pattern = 'PersistedLoadPost',
+        group = augroup,
+        callback = function(session)
+          -- set the process title to the directory name when a session is loaded
+          local dirname = vim.fn.fnamemodify(session.data.dir_path, ':t')
+          vim.o.titlestring = dirname
+        end,
+      })
+    end
+  },
+  -- }}}
+  -- lualine  {{{
+  {
+    'nvim-lualine/lualine.nvim',
+    lazy = false,
+    config = function()
+      -- function used to create a component which will be disabled when
+      -- the window is below `width_size`
+      local function width(component, width_size)
+        return {
+          component,
+          cond = function()
+            return vim.fn.winwidth(0) > width_size
+          end
+        }
+      end
+
+      require('lualine').setup {
+        options = {
+          icons_enabled = true,
+          always_divide_middle = false,
+        },
+        extensions = { 'nerdtree', 'quickfix' },
+        sections = {
+          lualine_a = { 'mode', 'o:titlestring' },
+          lualine_b = { width('branch', 120), width('diff', 120), width('diagnostics', 80) },
+          lualine_c = { 'filename' },
+          lualine_x = { width('encoding', 120), width('fileformat', 120), width('filetype', 120) },
+          lualine_y = { width('progress', 120) },
+          lualine_z = { width('location', 80) }
+        },
+        inactive_sections = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = { { 'filename', separator = { left = '', right = '' }, color = { fg = '#cccccc', bg = '#555555' } } },
+          lualine_x = { { 'location', separator = { left = '', right = '' }, color = { fg = '#cccccc', bg = '#555555' } } },
+          lualine_y = {},
+          lualine_z = {},
+        }
+      }
+    end
+  },
+  --}}}
+  -- nvim-web-devicons {{{
+  {
+    -- need a nerd font on the system for this
+    -- e.g. `brew install font-hack-nerd-font`
+    'nvim-tree/nvim-web-devicons',
+    config = function()
+      require('nvim-web-devicons').setup {
+        color_icons = false,
+        default = true,
+        strict = true,
+        override_by_extension = {
+          java = {
+            icon = "",
+            name = "java"
+          }
+        }
+      }
+    end
+  },
+
+  --}}}
+  -- bufferline  {{{
+  {
+    'akinsho/bufferline.nvim',
+    version = "*",
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    config = function()
+      -- this changes the selected tab underline color
+      vim.api.nvim_set_hl(0, 'TabLineSel', { bg = '#dddddd' })
+      local bufferline = require('bufferline')
+      bufferline.setup {
+        options = {
+          themable = true,
+          diagnostics = 'nvim_lsp',
+          separator_style = 'thin',
+          color_icons = false,
+          indicator = {
+            style = 'underline'
+          },
+          numbers = 'ordinal',
+          hover = {
+            enabled = true,
+            delay = 200,
+            reveal = { 'close' },
+          },
+          custom_filter = function(buf_num)
+            local ft = vim.bo[buf_num].filetype
+            if ft == 'qf' or ft == 'help' then
+              return false
+            end
+            return true
+          end,
+        },
+      }
+
+      nmap('<leader>1', function() bufferline.go_to(1, true) end, 'Bufferline goto buffer 1')
+      nmap('<leader>2', function() bufferline.go_to(2, true) end, 'Bufferline goto buffer 2')
+      nmap('<leader>3', function() bufferline.go_to(3, true) end, 'Bufferline goto buffer 3')
+      nmap('<leader>4', function() bufferline.go_to(4, true) end, 'Bufferline goto buffer 4')
+      nmap('<leader>5', function() bufferline.go_to(5, true) end, 'Bufferline goto buffer 5')
+      nmap('<leader>6', function() bufferline.go_to(6, true) end, 'Bufferline goto buffer 6')
+      nmap('<leader>7', function() bufferline.go_to(7, true) end, 'Bufferline goto buffer 7')
+      nmap('<leader>8', function() bufferline.go_to(8, true) end, 'Bufferline goto buffer 8')
+      nmap('<leader>9', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
+      nmap('<M-1>', function() bufferline.go_to(1, true) end, 'Bufferline goto buffer 1')
+      nmap('<M-2>', function() bufferline.go_to(2, true) end, 'Bufferline goto buffer 2')
+      nmap('<M-3>', function() bufferline.go_to(3, true) end, 'Bufferline goto buffer 3')
+      nmap('<M-4>', function() bufferline.go_to(4, true) end, 'Bufferline goto buffer 4')
+      nmap('<M-5>', function() bufferline.go_to(5, true) end, 'Bufferline goto buffer 5')
+      nmap('<M-6>', function() bufferline.go_to(6, true) end, 'Bufferline goto buffer 6')
+      nmap('<M-7>', function() bufferline.go_to(7, true) end, 'Bufferline goto buffer 7')
+      nmap('<M-8>', function() bufferline.go_to(8, true) end, 'Bufferline goto buffer 8')
+      nmap('<M-9>', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
+      nmap('<leader>bf', vim.cmd.BufferLinePick, 'Interactively pick the buffer to focus')
+      nmap('<leader>bc', vim.cmd.BufferLinePickClose, 'Interactively pick the buffer to close')
+      nmap('<leader>bo', vim.cmd.BufferLineCloseOthers, 'Close other buffers')
+      nmap('<leader>br', vim.cmd.BufferLineCloseRight, 'Close buffers to the right')
+      nmap('<leader>bl', vim.cmd.BufferLineCloseLeft, 'Close buffers to the left')
+      nmap('<M-l>', vim.cmd.BufferLineCycleNext, 'Bufferline go to next buffer')
+      nmap('<M-h>', vim.cmd.BufferLineCyclePrev, 'bufferline go to previous buffer')
+    end,
+  },
+  --}}}
+
+  -- TODO: pick one of the signature helpers
+  -- lsp_signature.nvim {{{
+  {
+    'ray-x/lsp_signature.nvim',
+    --enabled = false,
+    event = 'VeryLazy',
+    config = function()
+      require('lsp_signature').setup({
+        bind = true,
+        hint_enable = true,
+      })
+      imap('<M-k>', function()
+        require('lsp_signature').toggle_float_win()
+      end, "Function signature help")
+      imap('<M-n>', function()
+        require('lsp_signature').signature({ trigger = 'NextSignature'})
+      end, "Function signature next")
+    end
+  },
+  -- }}}
+  -- cmp-nvim-lsp-signature-help {{{
+  {
+    'hrsh7th/cmp-nvim-lsp-signature-help',
+    event = 'VeryLazy',
+  },
+  -- }}}
 }
 
 require('lazy').setup(plugins)
@@ -585,7 +591,8 @@ cmp.setup {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'buffer' },
-    { name = 'path' }
+    { name = 'path' },
+    { name = 'nvim_lsp_signature_help'},
   },
 }
 local common_cmp_mappings = {
@@ -686,6 +693,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 -- - vim.lsp.buf.references()
 -- - vim.lsp.buf.type_definition()
 nmap('<M-k>', vim.lsp.buf.signature_help, 'LSP signature_help')
+--imap('<M-k>', vim.lsp.buf.signature_help, 'LSP signature_help')
 nmap('<M-d>', vim.diagnostic.open_float, 'LSP open floating diagnostics')
 nmap('<leader>a', vim.lsp.buf.code_action, 'LSP code action')
 nmap('<leader>rn', vim.lsp.buf.rename, 'LSP rename symbol')
