@@ -34,6 +34,14 @@ local function tmap(key, mapping, description)
   map_with_mode('t', key, mapping, description)
 end
 
+local function xmap(key, mapping, description)
+  map_with_mode('x', key, mapping, description)
+end
+
+local function smap(key, mapping, description)
+  map_with_mode('s', key, mapping, description)
+end
+
 local function make_lsp_capabilities()
   -- lsp capabilities (needs to be defined sooner for other plugins to use)
   local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -43,6 +51,19 @@ local function make_lsp_capabilities()
     lineFoldingOnly = true,
   }
   return capabilities
+end
+
+local function dump_table(o)
+  if type(o) == 'table' then
+    local s = '{ '
+    for k, v in pairs(o) do
+      if type(k) ~= 'number' then k = '"' .. k .. '"' end
+      s = s .. '[' .. k .. '] = ' .. dump_table(v) .. ','
+    end
+    return s .. '} '
+  else
+    return tostring(o)
+  end
 end
 
 -- }}}
@@ -508,31 +529,17 @@ local plugins = {
     end,
   },
   --}}}
-
-  -- TODO: pick one of the signature helpers
-  -- lsp_signature.nvim {{{
+  -- lsp_overloads.nvim {{{
   {
-    'ray-x/lsp_signature.nvim',
-    --enabled = false,
+    'Issafalcon/lsp-overloads.nvim',
     event = 'VeryLazy',
     config = function()
-      require('lsp_signature').setup({
-        bind = true,
-        hint_enable = true,
-      })
-      imap('<M-k>', function()
-        require('lsp_signature').toggle_float_win()
-      end, "Function signature help")
-      imap('<M-n>', function()
-        require('lsp_signature').signature({ trigger = 'NextSignature'})
-      end, "Function signature next")
+      -- parameters dont get highlighted without this
+      local labelhl = vim.api.nvim_get_hl_by_name('Function', true)
+      vim.api.nvim_set_hl(0,
+        "LspSignatureActiveParameter",
+        { fg = labelhl.foreground, italic = true, bold = true })
     end
-  },
-  -- }}}
-  -- cmp-nvim-lsp-signature-help {{{
-  {
-    'hrsh7th/cmp-nvim-lsp-signature-help',
-    event = 'VeryLazy',
   },
   -- }}}
 }
@@ -592,7 +599,6 @@ cmp.setup {
     { name = 'luasnip' },
     { name = 'buffer' },
     { name = 'path' },
-    { name = 'nvim_lsp_signature_help'},
   },
 }
 local common_cmp_mappings = {
@@ -620,15 +626,34 @@ cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 
 local lspconfig = require('lspconfig')
 local lsp_capabilities = make_lsp_capabilities()
+local function on_attach(client)
+  if client.server_capabilities.signatureHelpProvider then
+    require('lsp-overloads').setup(client, {
+      ui = {
+        close_events = { "CursorMoved", "BufHidden", "InsertLeave" },
+      },
+      keymaps = {
+        next_signature = "<C-j>",
+        previous_signature = "<C-k>",
+        next_parameter = "<C-l>",
+        previous_parameter = "<C-h>",
+        close_signature = "<A-s>"
+      },
+      display_automatically = true
+    })
+  end
+end
 
 -- bash support
 lspconfig.bashls.setup {
-  capabilities = lsp_capabilities
+  capabilities = lsp_capabilities,
+  on_attach = on_attach,
 }
 
 -- for go support
 lspconfig.gopls.setup {
   capabilities = lsp_capabilities,
+  on_attach = on_attach,
   init_options = {
     completeUnimported = true,
     usePlaceholders = true,
@@ -640,7 +665,8 @@ lspconfig.gopls.setup {
 }
 
 lspconfig.pyright.setup {
-  capabilities = lsp_capabilities
+  capabilities = lsp_capabilities,
+  on_attach = on_attach,
 }
 
 -- for lua support
@@ -649,6 +675,7 @@ table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
 lspconfig.lua_ls.setup {
+  on_attach = on_attach,
   settings = {
     Lua = {
       runtime = {
@@ -743,6 +770,23 @@ local jdtls_config = {
   cmd_env = {
     GRADLE_HOME = home .. "/.sdkman/candidates/gradle/current/bin/gradle",
   },
+  on_attach = function(client)
+    if client.server_capabilities.signatureHelpProvider then
+      require('lsp-overloads').setup(client, {
+        ui = {
+          close_events = { "CursorMoved", "BufHidden", "InsertLeave" },
+        },
+        keymaps = {
+          next_signature = "<C-j>",
+          previous_signature = "<C-k>",
+          next_parameter = "<C-l>",
+          previous_parameter = "<C-h>",
+          close_signature = "<A-s>"
+        },
+        display_automatically = true
+      })
+    end
+  end
 }
 
 local nvim_jdtls_group = vim.api.nvim_create_augroup("nvim-jdtls", { clear = true })
@@ -766,7 +810,8 @@ metals_config.settings = {
 }
 
 -- Example if you are using cmp how to make sure the correct capabilities for snippets are set
-metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities()
+metals_config.capabilities = make_lsp_capabilities()
+metals_config.on_attach = on_attach
 
 
 -- Autocmd that will actually be in charging of starting the whole thing
@@ -1089,6 +1134,8 @@ vmap('*', '"vy/\\<<C-r>v\\><CR>', 'Search for vhighlighted word')
 vmap('#', '"vy?\\<<C-r>v\\><CR>', 'Backwards search for vhighlighted word')
 vmap('g*', '"vy/<C-r>v<CR>', 'Search for vhighlighted word (no word bounds)')
 vmap('g#', '"vy?<C-r>v<CR>', 'Backwards search for vhighlighted word (no word bounds)')
+-- this select mode mapping is useful for deleting default snippet text and moving on
+smap('<bs>', '<bs>i', 'Backspace enters insert mode when in select mode')
 
 -- cmdline mapping
 cmap('<C-p>', '<Up>', 'Cmd up')
