@@ -253,16 +253,21 @@ local plugins = {
         formatters_by_ft = {
           java = { "google-java-format" },
           toml = { "toml" },
+          xml = { "xmllint" },
+          json = { "jq" },
           ["_"] = { "trim_whitespace" },
         },
         formatters = {
           ["google-java-format"] = {
-            -- prepend_args = {"--aosp"},
+             prepend_args = {"--aosp"},
           },
           toml = {
             command = "prettier",
-            args = { "--plugin", "prettier-plugin-toml", "$FILENAME"}
-          }
+            args = { "--plugin", "prettier-plugin-toml", "$FILENAME" }
+          },
+          xmllint = {
+            env = { XMLLINT_INDENT = "    " }
+          },
         },
       })
       nmap('<leader>fc', function() conform.format { lsp_fallback = true } end, "Format Using Conform")
@@ -434,7 +439,7 @@ local plugins = {
         sections = {
           lualine_a = { 'mode', 'o:titlestring' },
           lualine_b = { width('branch', 120), width('diff', 120), width('diagnostics', 80) },
-          lualine_c = { {'filename', path = 4} },
+          lualine_c = { { 'filename', path = 4 } },
           lualine_x = { width('encoding', 120), width('fileformat', 120), width('filetype', 120) },
           lualine_y = { width('progress', 120) },
           lualine_z = { width('location', 80) }
@@ -915,7 +920,8 @@ nmap('<M-p>', function()
     ignore_current_buffer = true,
   })
 end, "List Buffers (telescope)")
-nmap('<space>o', telescope_builtin.lsp_document_symbols, "LSP Document Symbols (telescope)")
+nmap('<space>o', function() telescope_builtin.lsp_document_symbols { symbol_width = 120 } end,
+  "LSP Document Symbols (telescope)")
 nmap('<space>k', telescope_builtin.keymaps, "Keymaps (telescope)")
 nmap('<leader>fl', live_grep_from_project_git_root, "Live Grep from Git Root (telescope)")
 nmap('<leader>fw', telescope_builtin.grep_string, "Grep String Under Cursor (telescope)")
@@ -1125,7 +1131,7 @@ nmap('<M-q>', '<C-w>q', 'Close window')
 -- -- tab mappings
 nmap('<leader>tl', vim.cmd.tabnext)
 nmap('<leader>th', vim.cmd.tabprevious)
-nmap('<leader>tn', function() vim.cmd.tabnew('%') end )
+nmap('<leader>tn', function() vim.cmd.tabnew('%') end)
 nmap('<leader>to', vim.cmd.tabonly)
 nmap('<leader>tc', vim.cmd.tabclose)
 
