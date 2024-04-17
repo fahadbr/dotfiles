@@ -252,12 +252,17 @@ local plugins = {
       conform.setup({
         formatters_by_ft = {
           java = { "google-java-format" },
-          ["_"] = { "trim_whitespace" }
+          toml = { "toml" },
+          ["_"] = { "trim_whitespace" },
         },
         formatters = {
           ["google-java-format"] = {
             -- prepend_args = {"--aosp"},
           },
+          toml = {
+            command = "prettier",
+            args = { "--plugin", "prettier-plugin-toml", "$FILENAME"}
+          }
         },
       })
       nmap('<leader>fc', function() conform.format { lsp_fallback = true } end, "Format Using Conform")
@@ -429,7 +434,7 @@ local plugins = {
         sections = {
           lualine_a = { 'mode', 'o:titlestring' },
           lualine_b = { width('branch', 120), width('diff', 120), width('diagnostics', 80) },
-          lualine_c = { 'filename' },
+          lualine_c = { {'filename', path = 4} },
           lualine_x = { width('encoding', 120), width('fileformat', 120), width('filetype', 120) },
           lualine_y = { width('progress', 120) },
           lualine_z = { width('location', 80) }
@@ -437,7 +442,7 @@ local plugins = {
         inactive_sections = {
           lualine_a = {},
           lualine_b = {},
-          lualine_c = { { 'filename', separator = { left = '', right = '' }, color = { fg = '#cccccc', bg = '#555555' } } },
+          lualine_c = { { 'filename', path = 4, separator = { left = '', right = '' }, color = { fg = '#cccccc', bg = '#555555' } } },
           lualine_x = { { 'location', separator = { left = '', right = '' }, color = { fg = '#cccccc', bg = '#555555' } } },
           lualine_y = {},
           lualine_z = {},
@@ -482,6 +487,8 @@ local plugins = {
           diagnostics = 'nvim_lsp',
           separator_style = 'thin',
           color_icons = false,
+          max_name_length = 30,
+          max_prefix_length = 20,
           indicator = {
             style = 'underline'
           },
@@ -501,15 +508,6 @@ local plugins = {
         },
       }
 
-      nmap('<leader>1', function() bufferline.go_to(1, true) end, 'Bufferline goto buffer 1')
-      nmap('<leader>2', function() bufferline.go_to(2, true) end, 'Bufferline goto buffer 2')
-      nmap('<leader>3', function() bufferline.go_to(3, true) end, 'Bufferline goto buffer 3')
-      nmap('<leader>4', function() bufferline.go_to(4, true) end, 'Bufferline goto buffer 4')
-      nmap('<leader>5', function() bufferline.go_to(5, true) end, 'Bufferline goto buffer 5')
-      nmap('<leader>6', function() bufferline.go_to(6, true) end, 'Bufferline goto buffer 6')
-      nmap('<leader>7', function() bufferline.go_to(7, true) end, 'Bufferline goto buffer 7')
-      nmap('<leader>8', function() bufferline.go_to(8, true) end, 'Bufferline goto buffer 8')
-      nmap('<leader>9', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
       nmap('<M-1>', function() bufferline.go_to(1, true) end, 'Bufferline goto buffer 1')
       nmap('<M-2>', function() bufferline.go_to(2, true) end, 'Bufferline goto buffer 2')
       nmap('<M-3>', function() bufferline.go_to(3, true) end, 'Bufferline goto buffer 3')
@@ -519,6 +517,7 @@ local plugins = {
       nmap('<M-7>', function() bufferline.go_to(7, true) end, 'Bufferline goto buffer 7')
       nmap('<M-8>', function() bufferline.go_to(8, true) end, 'Bufferline goto buffer 8')
       nmap('<M-9>', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
+      nmap('<M-0>', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 10')
       nmap('<leader>bf', vim.cmd.BufferLinePick, 'Interactively pick the buffer to focus')
       nmap('<leader>bc', vim.cmd.BufferLinePickClose, 'Interactively pick the buffer to close')
       nmap('<leader>bo', vim.cmd.BufferLineCloseOthers, 'Close other buffers')
@@ -1103,11 +1102,11 @@ nmap('<M-o>', '<C-o>:bd #<CR>', 'Close buffer and go to previous location')
 nmap('<leader>yl', [[:let @+=expand('%').":".line('.')<CR>"]], 'Copy the current file and line number into clipboard')
 nmap('<leader>w', vim.cmd.w, 'Write current buffer')
 nmap('<leader>cw', ':set hlsearch<CR>*Ncgn', 'Change instances of word under cursor (repeat with .)')
--- not really used so commented out
+-- -- not really used so commented out
 -- nmap( '<leader>s*' , ':%s/\<<C-r><C-w>\>//g<left><left>',  'Find and replace word under the cursor')
 -- nmap( '<leader>fw' , ':silent grep '<C-r><C-w>' \| cwindow<CR>',  'Search files in rootdir for word under cursor')
 
--- window mappings
+-- -- window mappings
 -- see vim-kitty-navigator for the next 4 mappings
 -- nmap('<M-S-k>', '<C-w>k', 'Focus window north')
 -- nmap('<M-S-j>', '<C-w>j', 'Focus window south')
@@ -1123,7 +1122,14 @@ nmap('<M-<>', '5<C-w><', 'Decrease horizontal window size')
 nmap('<M->>', '5<C-w>>', 'Increase horizontal window size')
 nmap('<M-q>', '<C-w>q', 'Close window')
 
--- quickfix/loclist mappings
+-- -- tab mappings
+nmap('<leader>tl', vim.cmd.tabnext)
+nmap('<leader>th', vim.cmd.tabprevious)
+nmap('<leader>tn', function() vim.cmd.tabnew('%') end )
+nmap('<leader>to', vim.cmd.tabonly)
+nmap('<leader>tc', vim.cmd.tabclose)
+
+-- -- quickfix/loclist mappings
 nmap('<C-g><C-p>', ':lprevious<CR>', 'Loclist previous')
 nmap('<C-g><C-n>', ':lnext<CR>', 'Loclist next')
 nmap('gp', ':cprevious<CR>', 'Quickfix previous')
@@ -1134,10 +1140,10 @@ vmap('*', '"vy/\\<<C-r>v\\><CR>', 'Search for vhighlighted word')
 vmap('#', '"vy?\\<<C-r>v\\><CR>', 'Backwards search for vhighlighted word')
 vmap('g*', '"vy/<C-r>v<CR>', 'Search for vhighlighted word (no word bounds)')
 vmap('g#', '"vy?<C-r>v<CR>', 'Backwards search for vhighlighted word (no word bounds)')
--- this select mode mapping is useful for deleting default snippet text and moving on
+-- -- this select mode mapping is useful for deleting default snippet text and moving on
 smap('<bs>', '<bs>i', 'Backspace enters insert mode when in select mode')
 
--- cmdline mapping
+-- -- cmdline mapping
 cmap('<C-p>', '<Up>', 'Cmd up')
 cmap('<C-n>', '<Down>', 'Cmd down')
 cmap('<C-a>', '<Home>', 'Cmd return to beginning of line')
