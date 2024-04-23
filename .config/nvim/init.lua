@@ -259,7 +259,7 @@ local plugins = {
         },
         formatters = {
           ["google-java-format"] = {
-             prepend_args = {"--aosp"},
+            prepend_args = { "--aosp" },
           },
           toml = {
             command = "prettier",
@@ -378,6 +378,8 @@ local plugins = {
     config = function()
       local persisted = require('persisted')
       persisted.setup({
+        use_git_branch = true,
+        autoload = true,
         telescope = {
           reset_prompt = true,
           mappings = {
@@ -402,15 +404,22 @@ local plugins = {
           vim.api.nvim_input("<ESC>:%bd!<CR>")
         end,
       })
-      autocmd({ 'User' }, {
-        pattern = 'PersistedLoadPost',
-        group = augroup,
-        callback = function(session)
-          -- set the process title to the directory name when a session is loaded
-          local dirname = vim.fn.fnamemodify(session.data.dir_path, ':t')
-          vim.o.titlestring = dirname
-        end,
-      })
+
+      local function setdirname()
+        -- set the process title to the directory name when a session is loaded
+        local dir_path = vim.fn.getcwd()
+
+        -- -- not using session.data because for some reason it adds the git branch
+        -- -- at the end of the dir_path
+        -- if session.data then
+        --   dir_path = session.data.dir_path
+        -- end
+
+        local dirname = vim.fn.fnamemodify(dir_path, ':t')
+        vim.o.titlestring = dirname
+      end
+      autocmd({ 'User' }, { pattern = 'PersistedLoadPost', group = augroup, callback = setdirname })
+      autocmd({ 'User' }, { pattern = 'PersistedSavePost', group = augroup, callback = setdirname })
     end
   },
   -- }}}
@@ -909,7 +918,11 @@ end
 nmap('gd', telescope_builtin.lsp_definitions, 'LSP goto definition (telescope)')
 nmap('gi', telescope_builtin.lsp_implementations, 'LSP goto implementation (telescope)')
 nmap('gr', telescope_builtin.lsp_references, 'LSP goto references (telescope)')
-nmap('<leader>gd', telescope_builtin.lsp_type_definitions, 'LSP type definition (telescope)')
+nmap('<leader>ltd', telescope_builtin.lsp_type_definitions, 'LSP type definition (telescope)')
+nmap('<leader>lvd', function() telescope_builtin.lsp_definitions { jump_type = 'vsplit' } end,
+  'LSP goto definition vsplit (telescope)')
+nmap('<leader>lhd', function() telescope_builtin.lsp_definitions { jump_type = 'split' } end,
+  'LSP goto definition hsplit (telescope)')
 nmap('<space>s', telescope_builtin.lsp_dynamic_workspace_symbols, 'LSP Dynamic Workspace Symbols (telescope)')
 nmap('<C-p>', find_files_from_project_git_root, "Find Files From Git Root (telescope)")
 nmap('<M-S-p>', git_or_find_files, "Git or Find Files (telescope)")
@@ -924,6 +937,10 @@ nmap('<space>o', function() telescope_builtin.lsp_document_symbols { symbol_widt
   "LSP Document Symbols (telescope)")
 nmap('<space>k', telescope_builtin.keymaps, "Keymaps (telescope)")
 nmap('<leader>fl', live_grep_from_project_git_root, "Live Grep from Git Root (telescope)")
+nmap('<leader>fb', function()
+  local filename = vim.fn.expand('%')
+  telescope_builtin.live_grep { search_dirs = { filename }, path_display = 'hidden', results_title = filename }
+end, "Live Grep Current Buffer (telescope)")
 nmap('<leader>fw', telescope_builtin.grep_string, "Grep String Under Cursor (telescope)")
 nmap('<space>p', telescope.extensions.persisted.persisted, 'Show Sessions (telescope)')
 
