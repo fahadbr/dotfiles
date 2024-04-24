@@ -363,12 +363,23 @@ local plugins = {
   {
     'knubie/vim-kitty-navigator',
     build = 'cp ./*.py ~/.config/kitty/',
+    cond = function()
+      -- these mappings will take effect if this plugin isnt loaded
+      -- otherwise they are overridden below with the vim-kitty-navigator
+      -- mappings. the plugin isn't loaded if not running inside kitty
+      nmap('<M-S-k>', '<C-w>k', 'focus window north')
+      nmap('<M-S-j>', '<C-w>j', 'focus window south')
+      nmap('<M-S-h>', '<C-w>h', 'focus window west')
+      nmap('<M-S-l>', '<C-w>l', 'focus window east')
+      local kittypid = os.getenv("KITTY_PID")
+      return kittypid ~= nil and kittypid ~= ''
+    end,
     init = function()
       vim.g.kitty_navigator_no_mappings = 1
-      nmap('<M-S-k>', vim.cmd.KittyNavigateUp, 'Focus window up')
-      nmap('<M-S-j>', vim.cmd.KittyNavigateDown, 'Focus window down')
-      nmap('<M-S-h>', vim.cmd.KittyNavigateLeft, 'Focus window left')
-      nmap('<M-S-l>', vim.cmd.KittyNavigateRight, 'Focus window right')
+      nmap('<M-S-k>', vim.cmd.KittyNavigateUp, 'focus window up (kitty)')
+      nmap('<M-S-j>', vim.cmd.KittyNavigateDown, 'focus window down (kitty)')
+      nmap('<M-S-h>', vim.cmd.KittyNavigateLeft, 'focus window left (kitty)')
+      nmap('<M-S-l>', vim.cmd.KittyNavigateRight, 'focus window right (kitty)')
     end
   },
 
@@ -447,16 +458,16 @@ local plugins = {
         extensions = { 'nerdtree', 'quickfix' },
         sections = {
           lualine_a = { 'mode', 'o:titlestring' },
-          lualine_b = { width('branch', 120), width('diff', 120), width('diagnostics', 80) },
+          lualine_b = { width('branch', 160), width('diff', 160), width('diagnostics', 80) },
           lualine_c = { { 'filename', path = 4 } },
-          lualine_x = { width('encoding', 120), width('fileformat', 120), width('filetype', 120) },
+          lualine_x = { width('encoding', 160), width('fileformat', 160), width('filetype', 160) },
           lualine_y = { width('progress', 120) },
           lualine_z = { width('location', 80) }
         },
         inactive_sections = {
-          lualine_a = {},
+          lualine_a = { { 'o:titlestring', separator = { left = '', right = '' }, color = { fg = '#cccccc', bg = '#555555' } } },
           lualine_b = {},
-          lualine_c = { { 'filename', path = 4, separator = { left = '', right = '' }, color = { fg = '#cccccc', bg = '#555555' } } },
+          lualine_c = { { 'filename', path = 4 } },
           lualine_x = { { 'location', separator = { left = '', right = '' }, color = { fg = '#cccccc', bg = '#555555' } } },
           lualine_y = {},
           lualine_z = {},
@@ -736,6 +747,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 -- - vim.lsp.buf.references()
 -- - vim.lsp.buf.type_definition()
 nmap('<M-k>', vim.lsp.buf.signature_help, 'LSP signature_help')
+imap('<M-k>', vim.cmd.LspOverloadsSignature, 'LSP overloads signature_help')
 --imap('<M-k>', vim.lsp.buf.signature_help, 'LSP signature_help')
 nmap('<M-d>', vim.diagnostic.open_float, 'LSP open floating diagnostics')
 nmap('<leader>a', vim.lsp.buf.code_action, 'LSP code action')
@@ -1153,8 +1165,8 @@ nmap('<M-q>', '<C-w>q', 'close window')
 nmap('<leader>tl', vim.cmd.tabnext, 'tab next')
 nmap('<leader>th', vim.cmd.tabprevious, 'tab prev')
 nmap('<leader>tn', function() vim.cmd.tabnew('%') end, 'tab new')
-nmap('<leader>to', vim.cmd.tabonly, 'tab only')
 nmap('<leader>tc', vim.cmd.tabclose, 'tab close')
+nmap('<leader>to', vim.cmd.tabonly, 'tab only')
 nmap('<leader>tr', ':BufferLineTabRename ', 'tab rename')
 
 -- -- quickfix/loclist mappings
