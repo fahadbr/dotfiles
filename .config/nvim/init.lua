@@ -89,6 +89,8 @@ vim.o.ruler = true
 vim.o.autoread = true
 vim.o.termguicolors = true
 vim.o.mousemoveevent = true
+vim.o.splitright = true
+vim.o.splitbelow = true
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
@@ -378,8 +380,6 @@ local plugins = {
     config = function()
       local persisted = require('persisted')
       persisted.setup({
-        use_git_branch = true,
-        autoload = true,
         telescope = {
           reset_prompt = true,
           mappings = {
@@ -575,9 +575,12 @@ require("custom_snippets").load()
 local cmp = require('cmp')
 cmp.setup {
   preselect = cmp.PreselectMode.None,
+  performance = {
+    max_view_entries = 20
+  },
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)
+      luasnip.lsp_expand(args.body)
     end,
   },
   mapping = {
@@ -936,6 +939,7 @@ end, "List Buffers (telescope)")
 nmap('<space>o', function() telescope_builtin.lsp_document_symbols { symbol_width = 120 } end,
   "LSP Document Symbols (telescope)")
 nmap('<space>k', telescope_builtin.keymaps, "Keymaps (telescope)")
+nmap('<space>t', telescope_builtin.treesitter, "Treesitter (telescope)")
 nmap('<leader>fl', live_grep_from_project_git_root, "Live Grep from Git Root (telescope)")
 nmap('<leader>fb', function()
   local filename = vim.fn.expand('%')
@@ -1106,70 +1110,71 @@ tmap('<M-S-t>', '<C-\\><C-n>', 'Exit terminal mode')
 -- }}}
 
 -- general mappings {{{
-nmap('<leader>ec', function() vim.cmd.edit('~/.config/nvim/init.lua') end, 'Edit Neovim Config')
+nmap('<leader>ec', function() vim.cmd.edit('~/.config/nvim/init.lua') end, 'edit neovim config')
 nmap('<M-w>', function()
   vim.cmd.bp()
   vim.cmd.bd('#')
-end, 'Close buffer')
+end, 'close buffer')
 
-imap('<C-d>', '<esc>:read !date<CR>kJA', 'Insert date into current line (insert)')
-nmap('<leader>id', ':read !date<CR>', 'Insert date into current line (normal)')
-nmap('<M-;>', ',', 'Remaps comma for moving char search backwards (opposite of ; in normal mode)')
-nmap('<C-q>', vim.cmd.quitall, 'Close all windows')
-nmap('<M-n>', ':NERDTreeToggle<CR>', 'NERDTreeToggle')
-nmap('<M-S-n>', ':NERDTreeFind<CR>', 'NERDTreeFind')
-nmap('<M-z>', ':set wrap!<CR>', 'Toggle line wrapping')
-nmap('<M-/>', ':set hlsearch!<CR>', 'Toggle search highlighting')
-nmap('<M-c>', ':cclose<CR>', 'Close quickfix list')
-nmap('<M-o>', '<C-o>:bd #<CR>', 'Close buffer and go to previous location')
-nmap('<leader>yl', [[:let @+=expand('%').":".line('.')<CR>"]], 'Copy the current file and line number into clipboard')
-nmap('<leader>w', vim.cmd.w, 'Write current buffer')
-nmap('<leader>cw', ':set hlsearch<CR>*Ncgn', 'Change instances of word under cursor (repeat with .)')
+imap('<C-d>', '<esc>:read !date<CR>kJA', 'insert date into current line (insert)')
+nmap('<leader>id', ':read !date<CR>', 'insert date into current line (normal)')
+nmap('<M-;>', ',', 'remaps comma for moving char search backwards (opposite of ; in normal mode)')
+nmap('<C-q>', vim.cmd.quitall, 'close all windows')
+nmap('<M-n>', ':NERDTreeToggle<CR>', 'nerdtreetoggle')
+nmap('<M-S-n>', ':NERDTreeFind<CR>', 'nerdtreefind')
+nmap('<M-z>', ':set wrap!<CR>', 'toggle line wrapping')
+nmap('<M-/>', ':set hlsearch!<CR>', 'toggle search highlighting')
+nmap('<M-c>', ':cclose<CR>', 'close quickfix list')
+nmap('<M-o>', '<C-o>:bd #<CR>', 'close buffer and go to previous location')
+nmap('<leader>yl', [[:let @+=expand('%').":".line('.')<CR>"]], 'copy the current file and line number into clipboard')
+nmap('<leader>w', vim.cmd.w, 'write current buffer')
+nmap('<leader>cw', ':set hlsearch<CR>*Ncgn', 'change instances of word under cursor (repeat with .)')
 -- -- not really used so commented out
 -- nmap( '<leader>s*' , ':%s/\<<C-r><C-w>\>//g<left><left>',  'Find and replace word under the cursor')
 -- nmap( '<leader>fw' , ':silent grep '<C-r><C-w>' \| cwindow<CR>',  'Search files in rootdir for word under cursor')
 
 -- -- window mappings
 -- see vim-kitty-navigator for the next 4 mappings
--- nmap('<M-S-k>', '<C-w>k', 'Focus window north')
--- nmap('<M-S-j>', '<C-w>j', 'Focus window south')
--- nmap('<M-S-h>', '<C-w>h', 'Focus window west')
--- nmap('<M-S-l>', '<C-w>l', 'Focus window east')
-nmap('<M-S-=>', '5<C-w>+', 'Increase vertical window size')
-nmap('<M-S-->', '5<C-w>-', 'Decrease vertical window size')
-nmap('<M-S-,>', '5<C-w><', 'Decrease horizontal window size')
-nmap('<M-S-.>', '5<C-w>>', 'Increase horizontal window size')
-nmap('<M-+>', '5<C-w>+', 'Increase vertical window size')
-nmap('<M-_>', '5<C-w>-', 'Decrease vertical window size')
-nmap('<M-<>', '5<C-w><', 'Decrease horizontal window size')
-nmap('<M->>', '5<C-w>>', 'Increase horizontal window size')
-nmap('<M-q>', '<C-w>q', 'Close window')
+-- nmap('<M-S-k>', '<C-w>k', 'focus window north')
+-- nmap('<M-S-j>', '<C-w>j', 'focus window south')
+-- nmap('<M-S-h>', '<C-w>h', 'focus window west')
+-- nmap('<M-S-l>', '<C-w>l', 'focus window east')
+nmap('<M-S-=>', '5<C-w>+', 'increase vertical window size')
+nmap('<M-S-->', '5<C-w>-', 'decrease vertical window size')
+nmap('<M-S-,>', '5<C-w><', 'decrease horizontal window size')
+nmap('<M-S-.>', '5<C-w>>', 'increase horizontal window size')
+nmap('<M-+>', '5<C-w>+', 'increase vertical window size')
+nmap('<M-_>', '5<C-w>-', 'decrease vertical window size')
+nmap('<M-<>', '5<C-w><', 'decrease horizontal window size')
+nmap('<M->>', '5<C-w>>', 'increase horizontal window size')
+nmap('<M-q>', '<C-w>q', 'close window')
 
 -- -- tab mappings
-nmap('<leader>tl', vim.cmd.tabnext)
-nmap('<leader>th', vim.cmd.tabprevious)
-nmap('<leader>tn', function() vim.cmd.tabnew('%') end)
-nmap('<leader>to', vim.cmd.tabonly)
-nmap('<leader>tc', vim.cmd.tabclose)
+nmap('<leader>tl', vim.cmd.tabnext, 'tab next')
+nmap('<leader>th', vim.cmd.tabprevious, 'tab prev')
+nmap('<leader>tn', function() vim.cmd.tabnew('%') end, 'tab new')
+nmap('<leader>to', vim.cmd.tabonly, 'tab only')
+nmap('<leader>tc', vim.cmd.tabclose, 'tab close')
+nmap('<leader>tr', ':BufferLineTabRename ', 'tab rename')
 
 -- -- quickfix/loclist mappings
-nmap('<C-g><C-p>', ':lprevious<CR>', 'Loclist previous')
-nmap('<C-g><C-n>', ':lnext<CR>', 'Loclist next')
-nmap('gp', ':cprevious<CR>', 'Quickfix previous')
-nmap('gn', ':cnext<CR>', 'Quickfix next')
+nmap('<C-g><C-p>', ':lprevious<CR>', 'loclist previous')
+nmap('<C-g><C-n>', ':lnext<CR>', 'loclist next')
+nmap('gp', ':cprevious<CR>', 'quickfix previous')
+nmap('gn', ':cnext<CR>', 'quickfix next')
 
-vmap('<leader>/', '"vy/\\V<C-r>v<CR>', 'Search for vhighlighted text')
-vmap('*', '"vy/\\<<C-r>v\\><CR>', 'Search for vhighlighted word')
-vmap('#', '"vy?\\<<C-r>v\\><CR>', 'Backwards search for vhighlighted word')
-vmap('g*', '"vy/<C-r>v<CR>', 'Search for vhighlighted word (no word bounds)')
-vmap('g#', '"vy?<C-r>v<CR>', 'Backwards search for vhighlighted word (no word bounds)')
+vmap('<leader>/', '"vy/\\V<C-r>v<CR>', 'search for vhighlighted text')
+vmap('*', '"vy/\\<<C-r>v\\><CR>', 'search for vhighlighted word')
+vmap('#', '"vy?\\<<C-r>v\\><CR>', 'backwards search for vhighlighted word')
+vmap('g*', '"vy/<C-r>v<CR>', 'search for vhighlighted word (no word bounds)')
+vmap('g#', '"vy?<C-r>v<CR>', 'backwards search for vhighlighted word (no word bounds)')
 -- -- this select mode mapping is useful for deleting default snippet text and moving on
-smap('<bs>', '<bs>i', 'Backspace enters insert mode when in select mode')
+smap('<bs>', '<bs>i', 'backspace enters insert mode when in select mode')
 
 -- -- cmdline mapping
-cmap('<C-p>', '<Up>', 'Cmd up')
-cmap('<C-n>', '<Down>', 'Cmd down')
-cmap('<C-a>', '<Home>', 'Cmd return to beginning of line')
+cmap('<C-p>', '<Up>', 'cmd up')
+cmap('<C-n>', '<Down>', 'cmd down')
+cmap('<C-a>', '<Home>', 'cmd return to beginning of line')
 
 -- -- can use this to replace abbreviations after neovim 0.10 release
 -- -- vim.keymap.set('ca', 'W', 'w', { desc = '"W" as write alias command' })
