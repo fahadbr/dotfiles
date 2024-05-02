@@ -960,7 +960,7 @@ nmap('<M-p>', function()
   telescope_builtin.buffers({
     show_all_buffers = true,
     sort_mru = true,
-    ignore_current_buffer = true,
+    sort_lastused = true,
     preview = {
       hide_on_startup = true,
     },
