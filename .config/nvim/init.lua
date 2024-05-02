@@ -302,6 +302,8 @@ local plugins = {
         auto_install = true,
         highlight = {
           enable = true,
+          -- disabling dockerfile since it keeps giving errors
+          disable = { "dockerfile" },
           additional_vim_regex_highlighting = false,
         },
       }
@@ -544,10 +546,10 @@ local plugins = {
       nmap('<M-9>', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
       nmap('<M-0>', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 10')
       nmap('<leader>bf', vim.cmd.BufferLinePick, 'Interactively pick the buffer to focus')
-      nmap('<leader>bc', vim.cmd.BufferLinePickClose, 'Interactively pick the buffer to close')
-      nmap('<leader>bo', vim.cmd.BufferLineCloseOthers, 'Close other buffers')
-      nmap('<leader>br', vim.cmd.BufferLineCloseRight, 'Close buffers to the right')
-      nmap('<leader>bl', vim.cmd.BufferLineCloseLeft, 'Close buffers to the left')
+      nmap('<leader>bcp', vim.cmd.BufferLinePickClose, 'Interactively pick the buffer to close')
+      nmap('<leader>bo', vim.cmd.BufferLineCloseOthers, 'Close other buffers/bufonly')
+      nmap('<leader>bcr', vim.cmd.BufferLineCloseRight, 'Close buffers to the right')
+      nmap('<leader>bcl', vim.cmd.BufferLineCloseLeft, 'Close buffers to the left')
       nmap('<M-l>', vim.cmd.BufferLineCycleNext, 'Bufferline go to next buffer')
       nmap('<M-h>', vim.cmd.BufferLineCyclePrev, 'bufferline go to previous buffer')
     end,
@@ -880,6 +882,14 @@ telescope.setup({
       local tail = telescope_utils.path_tail(path)
       return string.format("%s -- %s", tail, path)
     end,
+    mappings = {
+      n = {
+        ["<leader>p"] = {
+          require('telescope.actions.layout').toggle_preview,
+          type = "action",
+        }
+      }
+    },
   },
 })
 
@@ -893,40 +903,45 @@ local function get_git_root()
   return vim.fn.fnamemodify(dot_git_path, ":h")
 end
 
-local git_opts = {
-  cwd = get_git_root(),
-}
+local function maybe_get_git_opts()
+  local opts = {
+    preview = {
+      hide_on_startup = true,
+    },
+  }
+  if is_git_repo() then
+    opts.cwd = get_git_root()
+  end
+  return opts
+end
+
+
 
 -- this function allows finding all files in a git repo
 -- even if they havent been added
 local function find_files_from_project_git_root()
-  local opts = {}
-  if is_git_repo() then
-    opts = git_opts
-  end
+  local opts = maybe_get_git_opts()
   opts.hidden = true
   opts.follow = true
-
   telescope_builtin.find_files(opts)
 end
 
 -- this function will use git ls-files if its a git repo
 -- otherwise fallback to find_files
 local function git_or_find_files()
+  local opts = maybe_get_git_opts()
   if is_git_repo() then
-    telescope_builtin.git_files()
+    telescope_builtin.git_files(opts)
   else
-    telescope_builtin.find_files()
+    telescope_builtin.find_files(opts)
   end
 end
 
 -- this function will live grep from the git root
 -- if in a git repo
 local function live_grep_from_project_git_root()
-  local opts = {}
-  if is_git_repo() then
-    opts = git_opts
-  end
+  local opts = maybe_get_git_opts()
+  opts.preview.hide_on_startup = false
   telescope_builtin.live_grep(opts)
 end
 
@@ -946,6 +961,9 @@ nmap('<M-p>', function()
     show_all_buffers = true,
     sort_mru = true,
     ignore_current_buffer = true,
+    preview = {
+      hide_on_startup = true,
+    },
   })
 end, "List Buffers (telescope)")
 nmap('<space>o', function() telescope_builtin.lsp_document_symbols { symbol_width = 120 } end,
@@ -1140,6 +1158,8 @@ nmap('<M-c>', ':cclose<CR>', 'close quickfix list')
 nmap('<M-o>', '<C-o>:bd #<CR>', 'close buffer and go to previous location')
 nmap('<leader>yl', [[:let @+=expand('%').":".line('.')<CR>"]], 'copy the current file and line number into clipboard')
 nmap('<leader>w', vim.cmd.w, 'write current buffer')
+nmap('<leader>bp', function() print(vim.fn.expand('%')) end, 'print relative filepath of current buffer')
+nmap('<leader>bP', function() print(vim.fn.expand('%:p')) end, 'print absolute filepath of current buffer')
 nmap('<leader>cw', ':set hlsearch<CR>*Ncgn', 'change instances of word under cursor (repeat with .)')
 -- -- not really used so commented out
 -- nmap( '<leader>s*' , ':%s/\<<C-r><C-w>\>//g<left><left>',  'Find and replace word under the cursor')
