@@ -91,6 +91,7 @@ vim.o.termguicolors = true
 vim.o.mousemoveevent = true
 vim.o.splitright = true
 vim.o.splitbelow = true
+vim.o.expandtab = true
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
@@ -144,7 +145,11 @@ local plugins = {
   { '$HOME/.dotfiles/fzfc', dev = true },
   'junegunn/fzf.vim',
   'bronson/vim-trailing-whitespace',
-  { 'tpope/vim-sleuth',          priority = 1000 },
+  {
+    'tpope/vim-sleuth',
+    init = function() vim.g.sleuth_java_heuristics = 0 end,
+    priority = 1000
+  },
   'tpope/vim-surround',
   'tpope/vim-repeat',
   'honza/vim-snippets',
@@ -165,6 +170,7 @@ local plugins = {
   { 'mhartington/oceanic-next',  lazy = true },
   { 'jsit/toast.vim',            name = 'toast',           lazy = true },
   { 'morhetz/gruvbox',           lazy = true },
+  -- rose-pine {{{
   {
     'rose-pine/neovim',
     name = 'rose-pine',
@@ -172,6 +178,7 @@ local plugins = {
     priority = 1000,
     config = function() vim.cmd.colorscheme('rose-pine') end,
   },
+  -- }}}
 
   -- lua plugins
   { 'williamboman/mason.nvim', config = true },
@@ -823,6 +830,10 @@ local nvim_jdtls_group = vim.api.nvim_create_augroup("nvim-jdtls", { clear = tru
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "java" },
   callback = function()
+    vim.bo.shiftwidth = 4
+    vim.bo.tabstop = 4
+    vim.bo.softtabstop = 4
+    vim.bo.expandtab = true
     require("jdtls").start_or_attach(jdtls_config)
   end,
   group = nvim_jdtls_group,
@@ -888,6 +899,9 @@ telescope.setup({
           require('telescope.actions.layout').toggle_preview,
           type = "action",
         }
+      },
+      i = {
+        ['<C-o>'] = function() telescope_builtin.resume({ cache_index = 1 }) end,
       }
     },
   },
@@ -945,43 +959,47 @@ local function live_grep_from_project_git_root()
   telescope_builtin.live_grep(opts)
 end
 
-nmap('gd', telescope_builtin.lsp_definitions, 'LSP goto definition (telescope)')
-nmap('gi', telescope_builtin.lsp_implementations, 'LSP goto implementation (telescope)')
-nmap('gr', telescope_builtin.lsp_references, 'LSP goto references (telescope)')
-nmap('<leader>ltd', telescope_builtin.lsp_type_definitions, 'LSP type definition (telescope)')
+nmap('gd', telescope_builtin.lsp_definitions, 'lsp goto definition (telescope)')
+nmap('gi', telescope_builtin.lsp_implementations, 'lsp goto implementation (telescope)')
+nmap('gr', telescope_builtin.lsp_references, 'lsp goto references (telescope)')
+nmap('<leader>ltd', telescope_builtin.lsp_type_definitions, 'lsp type definition (telescope)')
 nmap('<leader>lvd', function() telescope_builtin.lsp_definitions { jump_type = 'vsplit' } end,
-  'LSP goto definition vsplit (telescope)')
+  'lsp goto definition vsplit (telescope)')
 nmap('<leader>lhd', function() telescope_builtin.lsp_definitions { jump_type = 'split' } end,
-  'LSP goto definition hsplit (telescope)')
-nmap('<space>s', telescope_builtin.lsp_dynamic_workspace_symbols, 'LSP Dynamic Workspace Symbols (telescope)')
-nmap('<C-p>', find_files_from_project_git_root, "Find Files From Git Root (telescope)")
-nmap('<M-S-p>', git_or_find_files, "Git or Find Files (telescope)")
+  'lsp goto definition hsplit (telescope)')
+nmap('<space>s', telescope_builtin.lsp_dynamic_workspace_symbols, 'lsp dynamic workspace symbols (telescope)')
+nmap('<C-p>', find_files_from_project_git_root, 'find files from git root (telescope)')
+nmap('<M-S-p>', git_or_find_files, 'git or find files (telescope)')
 nmap('<M-p>', function()
   telescope_builtin.buffers({
     show_all_buffers = true,
     sort_mru = true,
-    sort_lastused = true,
+    ignore_current_buffer = true,
+    results_title = vim.fn.expand('%'),
     preview = {
       hide_on_startup = true,
     },
   })
-end, "List Buffers (telescope)")
+end, 'list buffers (telescope)')
 nmap('<space>o', function() telescope_builtin.lsp_document_symbols { symbol_width = 120 } end,
-  "LSP Document Symbols (telescope)")
-nmap('<space>k', telescope_builtin.keymaps, "Keymaps (telescope)")
-nmap('<space>t', telescope_builtin.treesitter, "Treesitter (telescope)")
-nmap('<leader>fl', live_grep_from_project_git_root, "Live Grep from Git Root (telescope)")
+  'lsp document symbols (telescope)')
+nmap('<space>k', telescope_builtin.keymaps, 'keymaps (telescope)')
+nmap('<space>t', telescope_builtin.treesitter, 'treesitter (telescope)')
+nmap('<space>b', telescope_builtin.builtin, 'telescope builtins (telescope)')
+nmap('<space>r', function() telescope_builtin.resume { cache_index = 1 } end, 'telescope resume picker (telescope)')
+nmap('<leader>fl', live_grep_from_project_git_root, 'live grep from git root (telescope)')
 nmap('<leader>fb', function()
-  local filename = vim.fn.expand('%')
-  telescope_builtin.live_grep { search_dirs = { filename }, path_display = 'hidden', results_title = filename }
-end, "Live Grep Current Buffer (telescope)")
-nmap('<leader>fw', telescope_builtin.grep_string, "Grep String Under Cursor (telescope)")
-nmap('<space>p', telescope.extensions.persisted.persisted, 'Show Sessions (telescope)')
+  telescope_builtin.current_buffer_fuzzy_find {
+    results_title = vim.fn.expand('%'),
+  }
+end, 'live grep current buffer (telescope)')
+nmap('<leader>fw', telescope_builtin.grep_string, 'grep string under cursor (telescope)')
+nmap('<space>p', telescope.extensions.persisted.persisted, 'show sessions (telescope)')
 
 -- }}}
 
 -- nnn config {{{
-require("nnn").setup({
+require('nnn').setup({
   explorer = {
     width = 35,
   },
