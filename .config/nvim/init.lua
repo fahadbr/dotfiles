@@ -889,10 +889,8 @@ telescope.setup({
       "--smart-case",
       "--hidden"
     },
-    path_display = function(_, path)
-      local tail = telescope_utils.path_tail(path)
-      return string.format("%s -- %s", tail, path)
-    end,
+    layout_strategy = 'flex',
+    path_display = { 'filename_first' },
     mappings = {
       n = {
         ["<leader>p"] = {
@@ -901,7 +899,10 @@ telescope.setup({
         }
       },
       i = {
-        ['<C-o>'] = function() telescope_builtin.resume({ cache_index = 1 }) end,
+        ['<C-o>'] = {
+          function() telescope_builtin.resume({ cache_index = 1 }) end,
+          opts = { desc = 'resume last telescope picker' },
+        },
       }
     },
   },
@@ -979,6 +980,10 @@ nmap('<M-p>', function()
     preview = {
       hide_on_startup = true,
     },
+    attach_mappings = function(_, map)
+      map({ 'i', 'n' }, '<M-w>', 'delete_buffer', { desc = 'close selected buffers' })
+      return true
+    end,
   })
 end, 'list buffers (telescope)')
 nmap('<space>o', function() telescope_builtin.lsp_document_symbols { symbol_width = 120 } end,
