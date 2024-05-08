@@ -34,7 +34,7 @@ hs.hotkey.bind(hyper, "c", function()
     spoon.WinWin:moveAndResize("center")
 end)
 
-function bindMove(key, fn)
+local function bindMove(key, fn)
     hs.hotkey.bind(hyperS, key, fn, nil, fn)
 end
 
@@ -176,10 +176,14 @@ bindAppToNum('Calendar', '6')
 bindAppToNum('Slack', '7')
 
 
---visibleWindowFilter = hs.window.filter.new():setOverrideFilter({visible=true,fullscreen=false,currentSpace=true})
---switcher = hs.window.switcher.new(visibleWindowFilter)
---hs.hotkey.bind('alt', 'tab', function() switcher:next() end)
---hs.hotkey.bind('alt-shift', 'tab', function() switcher:previous() end)
+visibleWindowFilter = hs.window.filter.new():setOverrideFilter({visible=true})
+switcher = hs.window.switcher.new(visibleWindowFilter)
+switcher.ui.showThumbnails = false
+switcher.ui.showSelectedThumbnail = false
+switcher.ui.textSize = 10
+--switcher.ui.thumbnailSize = 100
+hs.hotkey.bind('alt', 'tab', function() switcher:next() end)
+hs.hotkey.bind('alt-shift', 'tab', function() switcher:previous() end)
 
 -- logic for spaces {{{
 --
@@ -312,45 +316,45 @@ end
 -- }}}
 
 -- {{{ event tap
-local events = hs.eventtap.event.types
-local logger = hs.logger.new("keytracker", "debug")
-local heldDown = false
-local heldDownTime = 0
+--local events = hs.eventtap.event.types
+--local logger = hs.logger.new("keytracker", "debug")
+--local heldDown = false
+--local heldDownTime = 0
 
 -- Cases to handle
 -- A_MOD_DOWN B_DOWN B_UP A_MOD_UP => MOD+B
 -- A_MOD_DOWN B_DOWN A_MOD_UP B_UP => A,B
 -- A_MOD_DOWN A_MOD_UP => A if < .5 sec between keydown and keyup
 -- A_MOD_DOWN A_MOD_UP A_MOD_DOWN A_MOD_UP => A repeated if doubled tapped
-keyDownTracker = hs.eventtap.new({ events.keyDown, events.keyUp }, function (e)
-  local keyCode = e:getKeyCode()
-  local eventType = e:getType(true)
-  local eventDesc = ""
-  if eventType == events.keyDown then
-      eventDesc = "KEYDOWN"
-      if keyCode == 3 and not heldDown then
-      	heldDown = true
-	heldDownTime = e:timestamp()
-      end
-  elseif eventType == events.keyUp then
-      eventDesc = "KEYUP"
-      if keyCode == 3 then
-      	heldDown = false
-	keyUpTime = e:timestamp()
-	--i
-      end
-  end
-
-  local deleteOriginalKey = keyCode == 3 and heldDown
-  if heldDown == true then
-      local currentFlags = e:getFlags()
-      currentFlags.ctrl = true
-      e:setFlags(currentFlags)
-  end
-
-  logger.df("%s keycode %d, timestamp: %d", eventDesc, keyCode, e:timestamp())
-  return deleteOriginalKey
-end)
+-- keyDownTracker = hs.eventtap.new({ events.keyDown, events.keyUp }, function (e)
+--   local keyCode = e:getKeyCode()
+--   local eventType = e:getType(true)
+--   local eventDesc = ""
+--   if eventType == events.keyDown then
+--       eventDesc = "KEYDOWN"
+--       if keyCode == 3 and not heldDown then
+--       	heldDown = true
+-- 	heldDownTime = e:timestamp()
+--       end
+--   elseif eventType == events.keyUp then
+--       eventDesc = "KEYUP"
+--       if keyCode == 3 then
+--       	heldDown = false
+-- 	keyUpTime = e:timestamp()
+-- 	--i
+--       end
+--   end
+--
+--   local deleteOriginalKey = keyCode == 3 and heldDown
+--   if heldDown == true then
+--       local currentFlags = e:getFlags()
+--       currentFlags.ctrl = true
+--       e:setFlags(currentFlags)
+--   end
+--
+--   logger.df("%s keycode %d, timestamp: %d", eventDesc, keyCode, e:timestamp())
+--   return deleteOriginalKey
+-- end)
 --keyDownTracker:start()
 
 
