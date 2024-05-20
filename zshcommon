@@ -38,7 +38,7 @@ export LC_COLLATE="C"
 export PAGER="less $LESS"
 
 # allows previewing long shell history lines by pressing '?' in fzf
-export FZF_CTRL_R_OPTS="--preview 'echo {2..}' --preview-window 'hidden,wrap' --bind '?:toggle-preview'"
+export FZF_CTRL_R_OPTS="--height 50% --preview 'echo {2..}' --preview-window 'up,60%,hidden,wrap' --bind '?:toggle-preview'"
 
 export NNN_PLUG='p:preview-tui;z:autojump;f:fzcd;l:!less -R $nnn;b:!bat $nnn'
 export NNN_FIFO='/tmp/nnn.fifo'
@@ -52,6 +52,7 @@ alias editzshcommon="$EDITOR $HOME/.dotfiles/zshcommon && exec zsh"
 alias editssh="$EDITOR $HOME/.ssh/config"
 alias view="$EDITOR -R"
 alias lg='lazygit'
+alias printpath='echo $PATH | sed "s/:/\n/g"'
 
 if uname | grep -q "Linux"; then
   export MOZ_USE_XINPUT2=1

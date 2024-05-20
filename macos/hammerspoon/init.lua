@@ -315,6 +315,24 @@ end
 --hs.window.highlight.start()
 -- }}}
 
+-- shortcut to type clipboard {{{
+
+-- -- use this to type out the clipboard
+-- -- useful for when you cant paste into an application
+-- -- like a VDI
+hs.hotkey.bind(hyper, 'v', function ()
+    local clipboardContents = hs.pasteboard.getContents()
+    if clipboardContents == nil then
+	hs.alert.show("nil or invalid clipboard")
+	return
+    end
+
+    hs.eventtap.keyStrokes(clipboardContents)
+end)
+
+
+-- }}}
+
 -- {{{ event tap
 --local events = hs.eventtap.event.types
 --local logger = hs.logger.new("keytracker", "debug")
