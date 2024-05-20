@@ -1231,9 +1231,9 @@ cmap('<C-p>', '<Up>', 'cmd up')
 cmap('<C-n>', '<Down>', 'cmd down')
 cmap('<C-a>', '<Home>', 'cmd return to beginning of line')
 
--- -- can use this to replace abbreviations after neovim 0.10 release
--- -- vim.keymap.set('ca', 'W', 'w', { desc = '"W" as write alias command' })
--- -- vim.keymap.set('ca', '%%', "expand('%:p:h')", { desc = '%% expands to buffer path in cmdline', expr = true })
+-- can use this to replace abbreviations after neovim 0.10 release
+vim.keymap.set('ca', 'W', 'w', { desc = '"W" as write alias command' })
+vim.keymap.set('ca', '%%', "expand('%:p:h')", { desc = '%% expands to buffer path in cmdline', expr = true })
 
 -- -- custom commands
 -- vim.api.nvim_create_user_command('OpenProject',
@@ -1255,15 +1255,4 @@ cmap('<C-a>', '<Home>', 'cmd return to beginning of line')
 
 -- }}}
 
--- misc vimscript options {{{
-vim.cmd([[
-
-" cmdline abbreviations {{{
-" so we can use :W to write also
-cabbrev W w
-" write %% in command line to get the full path of the current buffer
-cabbrev <expr> %% expand('%:p:h')
-" }}}
-
-]])
 -- }}}
