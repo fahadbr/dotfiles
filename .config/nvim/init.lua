@@ -66,6 +66,15 @@ local function dump_table(o)
   end
 end
 
+-- merge_copy creates a new table with the results of t2
+-- merged into t1, where t2 keys will override t1 keys
+local function merge_copy(t1, t2)
+  local result = {}
+  for k,v in pairs(t1) do result[k] = v end
+  for k,v in pairs(t2) do result[k] = v end
+  return result
+end
+
 -- }}}
 
 vim.g.mapleader = ','
@@ -117,6 +126,15 @@ autocmd({ 'FocusGained', 'BufEnter' }, {
 autocmd({ 'Filetype' }, {
   pattern = { 'markdown' },
   callback = function(opts) vim.bo[opts.buf].textwidth = 80 end
+})
+
+local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+    pattern = "*",
+    callback = function()
+        vim.highlight.on_yank({timeout = 250})
+    end,
+    group = highlight_group,
 })
 
 -- }}}
@@ -267,9 +285,6 @@ local plugins = {
           ["_"] = { "trim_whitespace" },
         },
         formatters = {
-          ["google-java-format"] = {
-            prepend_args = { "--aosp" },
-          },
           toml = {
             command = "prettier",
             args = { "--plugin", "prettier-plugin-toml", "$FILENAME" }
@@ -874,7 +889,6 @@ autocmd('FileType', {
 
 -- telescope {{{
 local telescope = require('telescope')
-local telescope_utils = require('telescope.utils')
 local telescope_builtin = require('telescope.builtin')
 telescope.load_extension('fzf')
 telescope.setup({
@@ -960,14 +974,31 @@ local function live_grep_from_project_git_root()
   telescope_builtin.live_grep(opts)
 end
 
-nmap('gd', telescope_builtin.lsp_definitions, 'lsp goto definition (telescope)')
-nmap('gi', telescope_builtin.lsp_implementations, 'lsp goto implementation (telescope)')
-nmap('gr', telescope_builtin.lsp_references, 'lsp goto references (telescope)')
-nmap('<leader>ltd', telescope_builtin.lsp_type_definitions, 'lsp type definition (telescope)')
-nmap('<leader>lvd', function() telescope_builtin.lsp_definitions { jump_type = 'vsplit' } end,
-  'lsp goto definition vsplit (telescope)')
-nmap('<leader>lhd', function() telescope_builtin.lsp_definitions { jump_type = 'split' } end,
-  'lsp goto definition hsplit (telescope)')
+local cursor_layout_opts = {
+  layout_strategy = 'cursor',
+  layout_config = { height = 0.4, width = 180, preview_width = 100, preview_cutoff = 120 }
+}
+
+-- telescope version has been buggy
+-- nmap('gd', function()
+--   telescope_builtin.lsp_definitions(cursor_layout_opts)
+-- end, 'lsp goto definition (telescope)')
+nmap('gd', vim.lsp.buf.definition, 'go to definition')
+nmap('gi', function()
+  telescope_builtin.lsp_implementations(cursor_layout_opts)
+end, 'lsp goto implementation (telescope)')
+nmap('gr', function()
+  telescope_builtin.lsp_references(cursor_layout_opts)
+end, 'lsp goto references (telescope)')
+nmap('<leader>ltd', function()
+  telescope_builtin.lsp_type_definitions(cursor_layout_opts)
+end, 'lsp type definition (telescope)')
+nmap('<leader>lvd', function()
+  telescope_builtin.lsp_definitions(merge_copy(cursor_layout_opts, { jump_type = 'vsplit' }))
+end, 'lsp goto definition vsplit (telescope)')
+nmap('<leader>lhd', function()
+  telescope_builtin.lsp_definitions(merge_copy(cursor_layout_opts, { jump_type = 'split' }))
+end, 'lsp goto definition hsplit (telescope)')
 nmap('<space>s', telescope_builtin.lsp_dynamic_workspace_symbols, 'lsp dynamic workspace symbols (telescope)')
 nmap('<C-p>', find_files_from_project_git_root, 'find files from git root (telescope)')
 nmap('<M-S-p>', git_or_find_files, 'git or find files (telescope)')
@@ -1145,7 +1176,7 @@ autocmd('FileType', {
 })
 -- }}}
 
--- floaterm mappings and options {{{
+-- terminal mappings and options {{{
 
 vim.g.floaterm_opener = 'edit'
 vim.g.floaterm_width = 0.9
@@ -1159,6 +1190,12 @@ tmap('<M-t><M-j>', '<C-\\><C-n>:FloatermNext<CR>', 'FloatermNext (terminal)')
 tmap('<M-t><M-k>', '<C-\\><C-n>:FloatermPrev<CR>', 'FloatermPrev (terminal)')
 tmap('<M-t><M-q>', '<C-\\><C-n>:FloatermKill<CR>', 'FloatermKill (terminal)')
 tmap('<M-S-t>', '<C-\\><C-n>', 'Exit terminal mode')
+tmap('<M-S-h>', '<C-\\><C-n><C-w>h', 'focus window west')
+tmap('<M-S-j>', '<C-\\><C-n><C-w>j', 'focus window south')
+tmap('<M-S-k>', '<C-\\><C-n><C-w>k', 'focus window north')
+tmap('<M-S-l>', '<C-\\><C-n><C-w>l', 'focus window east')
+tmap('<C-PageUp>', '<C-\\><C-n><C-PageUp>', 'tab previous (terminal)')
+tmap('<C-PageDown>', '<C-\\><C-n><C-PageDown>', 'tab next (terminal)')
 
 -- }}}
 
@@ -1205,8 +1242,6 @@ nmap('<M->>', '5<C-w>>', 'increase horizontal window size')
 nmap('<M-q>', '<C-w>q', 'close window')
 
 -- -- tab mappings
-nmap('<leader>tl', vim.cmd.tabnext, 'tab next')
-nmap('<leader>th', vim.cmd.tabprevious, 'tab prev')
 nmap('<leader>tn', function() vim.cmd.tabnew('%') end, 'tab new')
 nmap('<leader>tc', vim.cmd.tabclose, 'tab close')
 nmap('<leader>to', vim.cmd.tabonly, 'tab only')
