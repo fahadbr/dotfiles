@@ -845,9 +845,9 @@ local nvim_jdtls_group = vim.api.nvim_create_augroup("nvim-jdtls", { clear = tru
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "java" },
   callback = function()
-    vim.bo.shiftwidth = 4
-    vim.bo.tabstop = 4
-    vim.bo.softtabstop = 4
+    vim.bo.shiftwidth = 2
+    vim.bo.tabstop = 2
+    vim.bo.softtabstop = 2
     vim.bo.expandtab = true
     require("jdtls").start_or_attach(jdtls_config)
   end,
