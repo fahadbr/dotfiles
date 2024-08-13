@@ -282,7 +282,7 @@ local plugins = {
           toml = { "toml" },
           xml = { "xmllint" },
           json = { "jq" },
-          python = { "autopep8" },
+          python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
           ["_"] = { "trim_whitespace" },
         },
         formatters = {
