@@ -392,19 +392,19 @@ local plugins = {
       -- these mappings will take effect if this plugin isnt loaded
       -- otherwise they are overridden below with the vim-kitty-navigator
       -- mappings. the plugin isn't loaded if not running inside kitty
-      nmap('<M-S-k>', '<C-w>k', 'focus window north')
-      nmap('<M-S-j>', '<C-w>j', 'focus window south')
-      nmap('<M-S-h>', '<C-w>h', 'focus window west')
-      nmap('<M-S-l>', '<C-w>l', 'focus window east')
+      nmap('<C-S-k>', '<C-w>k', 'focus window north')
+      nmap('<C-S-j>', '<C-w>j', 'focus window south')
+      nmap('<C-S-h>', '<C-w>h', 'focus window west')
+      nmap('<C-S-l>', '<C-w>l', 'focus window east')
       local kittypid = os.getenv("KITTY_PID")
       return kittypid ~= nil and kittypid ~= ''
     end,
     init = function()
       vim.g.kitty_navigator_no_mappings = 1
-      nmap('<M-S-k>', vim.cmd.KittyNavigateUp, 'focus window up (kitty)')
-      nmap('<M-S-j>', vim.cmd.KittyNavigateDown, 'focus window down (kitty)')
-      nmap('<M-S-h>', vim.cmd.KittyNavigateLeft, 'focus window left (kitty)')
-      nmap('<M-S-l>', vim.cmd.KittyNavigateRight, 'focus window right (kitty)')
+      nmap('<C-S-k>', vim.cmd.KittyNavigateUp, 'focus window up (kitty)')
+      nmap('<C-S-j>', vim.cmd.KittyNavigateDown, 'focus window down (kitty)')
+      nmap('<C-S-h>', vim.cmd.KittyNavigateLeft, 'focus window left (kitty)')
+      nmap('<C-S-l>', vim.cmd.KittyNavigateRight, 'focus window right (kitty)')
     end
   },
 
@@ -558,23 +558,25 @@ local plugins = {
         },
       }
 
-      nmap('<M-1>', function() bufferline.go_to(1, true) end, 'Bufferline goto buffer 1')
-      nmap('<M-2>', function() bufferline.go_to(2, true) end, 'Bufferline goto buffer 2')
-      nmap('<M-3>', function() bufferline.go_to(3, true) end, 'Bufferline goto buffer 3')
-      nmap('<M-4>', function() bufferline.go_to(4, true) end, 'Bufferline goto buffer 4')
-      nmap('<M-5>', function() bufferline.go_to(5, true) end, 'Bufferline goto buffer 5')
-      nmap('<M-6>', function() bufferline.go_to(6, true) end, 'Bufferline goto buffer 6')
-      nmap('<M-7>', function() bufferline.go_to(7, true) end, 'Bufferline goto buffer 7')
-      nmap('<M-8>', function() bufferline.go_to(8, true) end, 'Bufferline goto buffer 8')
-      nmap('<M-9>', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
-      nmap('<M-0>', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 10')
-      nmap('<leader>bf', vim.cmd.BufferLinePick, 'Interactively pick the buffer to focus')
-      nmap('<leader>bcp', vim.cmd.BufferLinePickClose, 'Interactively pick the buffer to close')
-      nmap('<leader>bo', vim.cmd.BufferLineCloseOthers, 'Close other buffers/bufonly')
+      nmap('<C-1>', function() bufferline.go_to(1, true) end, 'Bufferline goto buffer 1')
+      nmap('<C-2>', function() bufferline.go_to(2, true) end, 'Bufferline goto buffer 2')
+      nmap('<C-3>', function() bufferline.go_to(3, true) end, 'Bufferline goto buffer 3')
+      nmap('<C-4>', function() bufferline.go_to(4, true) end, 'Bufferline goto buffer 4')
+      nmap('<C-5>', function() bufferline.go_to(5, true) end, 'Bufferline goto buffer 5')
+      nmap('<C-6>', function() bufferline.go_to(6, true) end, 'Bufferline goto buffer 6')
+      nmap('<C-7>', function() bufferline.go_to(7, true) end, 'Bufferline goto buffer 7')
+      nmap('<C-8>', function() bufferline.go_to(8, true) end, 'Bufferline goto buffer 8')
+      nmap('<C-9>', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
+      nmap('<C-0>', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 10')
+
+      -- prefer using telescope for picking and closing specific buffers
+      --nmap('<leader>bf', vim.cmd.BufferLinePick, 'Interactively pick the buffer to focus')
+      --nmap('<leader>bcp', vim.cmd.BufferLinePickClose, 'Interactively pick the buffer to close')
+      nmap('<leader>bco', vim.cmd.BufferLineCloseOthers, 'Close other buffers/bufonly')
       nmap('<leader>bcr', vim.cmd.BufferLineCloseRight, 'Close buffers to the right')
       nmap('<leader>bcl', vim.cmd.BufferLineCloseLeft, 'Close buffers to the left')
-      nmap('<M-l>', vim.cmd.BufferLineCycleNext, 'Bufferline go to next buffer')
-      nmap('<M-h>', vim.cmd.BufferLineCyclePrev, 'bufferline go to previous buffer')
+      nmap('<C-l>', vim.cmd.BufferLineCycleNext, 'Bufferline go to next buffer')
+      nmap('<C-h>', vim.cmd.BufferLineCyclePrev, 'bufferline go to previous buffer')
     end,
   },
   --}}}
@@ -590,6 +592,26 @@ local plugins = {
         { fg = labelhl.foreground, italic = true, bold = true })
     end
   },
+  -- }}}
+  -- whichkey.nvim {{{
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+    keys = {
+      {
+        "<leader>?",
+        function()
+          require("which-key").show({ global = false })
+        end,
+        desc = "Buffer Local Keymaps (which-key)",
+      },
+    },
+  }
   -- }}}
 }
 
@@ -771,10 +793,10 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 -- - vim.lsp.buf.implementation()
 -- - vim.lsp.buf.references()
 -- - vim.lsp.buf.type_definition()
-nmap('<M-k>', vim.lsp.buf.signature_help, 'LSP signature_help')
-imap('<M-k>', vim.cmd.LspOverloadsSignature, 'LSP overloads signature_help')
+nmap('<leader>k', vim.lsp.buf.signature_help, 'LSP signature_help')
+imap('<C-k>', vim.cmd.LspOverloadsSignature, 'LSP overloads signature_help')
 --imap('<M-k>', vim.lsp.buf.signature_help, 'LSP signature_help')
-nmap('<M-d>', vim.diagnostic.open_float, 'LSP open floating diagnostics')
+nmap('<leader>ld', vim.diagnostic.open_float, 'LSP open floating diagnostics')
 nmap('<leader>a', vim.lsp.buf.code_action, 'LSP code action')
 nmap('<leader>rn', vim.lsp.buf.rename, 'LSP rename symbol')
 nmap('<leader>fm', vim.lsp.buf.format, 'LSP format buffer sync')
@@ -1001,9 +1023,9 @@ nmap('<leader>lhd', function()
   telescope_builtin.lsp_definitions(merge_copy(cursor_layout_opts, { jump_type = 'split' }))
 end, 'lsp goto definition hsplit (telescope)')
 nmap('<space>s', telescope_builtin.lsp_dynamic_workspace_symbols, 'lsp dynamic workspace symbols (telescope)')
-nmap('<C-p>', find_files_from_project_git_root, 'find files from git root (telescope)')
-nmap('<M-S-p>', git_or_find_files, 'git or find files (telescope)')
-nmap('<M-p>', function()
+nmap('<leader>pa', find_files_from_project_git_root, 'find files from git root (telescope)')
+nmap('<leader>pg', git_or_find_files, 'git files or find files (telescope)')
+nmap('<leader>pb', function()
   telescope_builtin.buffers({
     show_all_buffers = true,
     sort_mru = true,
@@ -1013,7 +1035,7 @@ nmap('<M-p>', function()
       hide_on_startup = true,
     },
     attach_mappings = function(_, map)
-      map({ 'i', 'n' }, '<M-w>', 'delete_buffer', { desc = 'close selected buffers' })
+      map({ 'i', 'n' }, '<C-w>', 'delete_buffer', { desc = 'close selected buffers' })
       return true
     end,
   })
@@ -1055,8 +1077,8 @@ require('nnn').setup({
   replace_netrw = nil, -- or "explorer" / "picker"
   mappings = {},       -- table containing mappings, see below
   windownav = {        -- window movement mappings to navigate out of nnn
-    left = "<M-S-h>",
-    right = "<M-S-l>"
+    left = "<C-S-h>",
+    right = "<C-S-l>"
   }
 })
 
@@ -1183,18 +1205,18 @@ vim.g.floaterm_opener = 'edit'
 vim.g.floaterm_width = 0.9
 vim.g.floaterm_height = 0.95
 
-nmap('<M-t><M-n>', ':FloatermNew --cwd=<root><CR>', 'New floating terminal in cwd')
-nmap('<M-t><M-t>', ':FloatermToggle<CR>', 'Floaterm Toggle')
+nmap('<C-t><C-n>', ':FloatermNew --cwd=<root><CR>', 'New floating terminal in cwd')
+nmap('<C-t><C-t>', ':FloatermToggle<CR>', 'Floaterm Toggle')
 nmap('<leader>lg', ':FloatermNew lazygit<CR>', 'Lazygit')
-tmap('<M-t><M-t>', '<C-\\><C-n>:FloatermToggle<CR>', 'Floaterm Toggle (terminal)')
-tmap('<M-t><M-j>', '<C-\\><C-n>:FloatermNext<CR>', 'FloatermNext (terminal)')
-tmap('<M-t><M-k>', '<C-\\><C-n>:FloatermPrev<CR>', 'FloatermPrev (terminal)')
-tmap('<M-t><M-q>', '<C-\\><C-n>:FloatermKill<CR>', 'FloatermKill (terminal)')
-tmap('<M-S-t>', '<C-\\><C-n>', 'Exit terminal mode')
-tmap('<M-S-h>', '<C-\\><C-n><C-w>h', 'focus window west')
-tmap('<M-S-j>', '<C-\\><C-n><C-w>j', 'focus window south')
-tmap('<M-S-k>', '<C-\\><C-n><C-w>k', 'focus window north')
-tmap('<M-S-l>', '<C-\\><C-n><C-w>l', 'focus window east')
+tmap('<C-t><C-t>', '<C-\\><C-n>:FloatermToggle<CR>', 'Floaterm Toggle (terminal)')
+tmap('<C-t><C-j>', '<C-\\><C-n>:FloatermNext<CR>', 'FloatermNext (terminal)')
+tmap('<C-t><C-k>', '<C-\\><C-n>:FloatermPrev<CR>', 'FloatermPrev (terminal)')
+tmap('<C-t><C-q>', '<C-\\><C-n>:FloatermKill<CR>', 'FloatermKill (terminal)')
+tmap('<C-t><esc>', '<C-\\><C-n>', 'Exit terminal mode')
+tmap('<C-S-h>', '<C-\\><C-n><C-w>h', 'focus window west')
+tmap('<C-S-j>', '<C-\\><C-n><C-w>j', 'focus window south')
+tmap('<C-S-k>', '<C-\\><C-n><C-w>k', 'focus window north')
+tmap('<C-S-l>', '<C-\\><C-n><C-w>l', 'focus window east')
 tmap('<C-PageUp>', '<C-\\><C-n><C-PageUp>', 'tab previous (terminal)')
 tmap('<C-PageDown>', '<C-\\><C-n><C-PageDown>', 'tab next (terminal)')
 
@@ -1202,21 +1224,22 @@ tmap('<C-PageDown>', '<C-\\><C-n><C-PageDown>', 'tab next (terminal)')
 
 -- general mappings {{{
 nmap('<leader>ec', function() vim.cmd.edit('~/.config/nvim/init.lua') end, 'edit neovim config')
-nmap('<M-w>', function()
+nmap('<leader>bd', function()
   vim.cmd.bp()
   vim.cmd.bd('#')
 end, 'close buffer')
 
+-- remapping <C-l> so it can be used to switch between buffers on the bufferline
+nmap('<leader><C-l>', '<C-l>', 'remapping the key to redraw the screen')
 imap('<C-d>', '<esc>:read !date<CR>kJA', 'insert date into current line (insert)')
 nmap('<leader>id', ':read !date<CR>', 'insert date into current line (normal)')
-nmap('<M-;>', ',', 'remaps comma for moving char search backwards (opposite of ; in normal mode)')
-nmap('<C-q>', vim.cmd.quitall, 'close all windows')
-nmap('<M-n>', ':NERDTreeToggle<CR>', 'nerdtreetoggle')
-nmap('<M-S-n>', ':NERDTreeFind<CR>', 'nerdtreefind')
-nmap('<M-z>', ':set wrap!<CR>', 'toggle line wrapping')
-nmap('<M-/>', ':set hlsearch!<CR>', 'toggle search highlighting')
-nmap('<M-c>', ':cclose<CR>', 'close quickfix list')
-nmap('<M-o>', '<C-o>:bd #<CR>', 'close buffer and go to previous location')
+nmap('<C-q>', ':confirm quitall<CR>', 'close all windows')
+nmap('<leader>nt', ':NERDTreeToggle<CR>', 'nerdtreetoggle')
+nmap('<leader>nf', ':NERDTreeFind<CR>', 'nerdtreefind')
+nmap('<leader>sw', ':set wrap!<CR>', 'toggle line wrapping')
+nmap('<leader>sh', ':set hlsearch!<CR>', 'toggle search highlighting')
+--nmap('<M-c>', ':cclose<CR>', 'close quickfix list')
+nmap('<C-BS>', '<C-o>:bd #<CR>', 'close buffer and go to previous location')
 nmap('<leader>yl', [[:let @+=expand('%').":".line('.')<CR>"]], 'copy the current file and line number into clipboard')
 nmap('<leader>w', vim.cmd.w, 'write current buffer')
 nmap('<leader>bp', function() print(vim.fn.expand('%')) end, 'print relative filepath of current buffer')
@@ -1232,15 +1255,11 @@ nmap('<leader>cw', ':set hlsearch<CR>*Ncgn', 'change instances of word under cur
 -- nmap('<M-S-j>', '<C-w>j', 'focus window south')
 -- nmap('<M-S-h>', '<C-w>h', 'focus window west')
 -- nmap('<M-S-l>', '<C-w>l', 'focus window east')
-nmap('<M-S-=>', '5<C-w>+', 'increase vertical window size')
-nmap('<M-S-->', '5<C-w>-', 'decrease vertical window size')
-nmap('<M-S-,>', '5<C-w><', 'decrease horizontal window size')
-nmap('<M-S-.>', '5<C-w>>', 'increase horizontal window size')
-nmap('<M-+>', '5<C-w>+', 'increase vertical window size')
-nmap('<M-_>', '5<C-w>-', 'decrease vertical window size')
-nmap('<M-<>', '5<C-w><', 'decrease horizontal window size')
-nmap('<M->>', '5<C-w>>', 'increase horizontal window size')
-nmap('<M-q>', '<C-w>q', 'close window')
+nmap('<C-k>', '5<C-w>+', 'increase vertical window size')
+nmap('<C-j>', '5<C-w>-', 'decrease vertical window size')
+nmap('<C-->', '5<C-w><', 'decrease horizontal window size')
+nmap('<C-=>', '5<C-w>>', 'increase horizontal window size')
+--nmap('<M-q>', '<C-w>q', 'close window')
 
 -- -- tab mappings
 nmap('<leader>tn', function() vim.cmd.tabnew('%') end, 'tab new')
