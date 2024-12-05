@@ -1,7 +1,13 @@
 export ZSH=${ZSH:-"$HOME/.oh-my-zsh"}
-ZSH_THEME="fahad"
-DISABLE_AUTO_UPDATE="false"
-DISABLE_UNTRACKED_FILES_DIRTY="true"
+export ZSH_THEME="fahad"
+export DISABLE_AUTO_UPDATE="false"
+export DISABLE_UNTRACKED_FILES_DIRTY="true"
+export MACHINE=${MACHINE:-"home"}
+export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+export ZSH_AUTOSUGGEST_USE_ASYNC=1
+export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+export HISTSIZE=130000
+export SAVEHIST=130001
 
 plugins=(
   git
@@ -18,8 +24,16 @@ fi
 
 source $ZSH/oh-my-zsh.sh
 
-setopt appendhistory extendedglob nomatch notify incappendhistory shwordsplit completeinword
-unsetopt beep sharehistory
+setopt extendedglob
+setopt nomatch
+setopt notify
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt incappendhistory
+setopt shwordsplit
+setopt completeinword
+unsetopt beep
+unsetopt sharehistory
 bindkey -e
 
 export EDITOR=${EDITOR:=vim}
@@ -27,12 +41,6 @@ if which nvim &>/dev/null; then
   export EDITOR=nvim
 fi
 export LESS="-R"
-export MACHINE=${MACHINE:-"home"}
-export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-export ZSH_AUTOSUGGEST_USE_ASYNC=1
-export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-export HISTSIZE=130000
-export SAVEHIST=130000
 export PATH="$HOME/.local/bin:$PATH"
 export LC_COLLATE="C"
 export PAGER="less $LESS"

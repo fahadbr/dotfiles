@@ -172,7 +172,7 @@ spaceWatcher = hs.spaces.watcher.new(function(newSpaceNum)
 end)
 spaceWatcher:start()
 
-bindAppToNum('Google Chrome', '1')
+bindAppToNum('Safari', '1')
 bindAppToNum('kitty', '2')
 bindAppToNum('TickTick', '3')
 bindAppToNum('Messages', '4')

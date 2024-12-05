@@ -19,9 +19,16 @@ fi
 #defaults write com.visualstudio.code.oss ApplePressAndHoldEnabled -bool false
 #defaults write com.facebook.fbvscode ApplePressAndHoldEnabled -bool false
 
+# allow press and hold globally
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+
 # make the dock hide faster
 defaults write com.apple.dock autohide-delay -float 0; killall dock
 defaults write com.apple.dock autohide-time-modifier -float 0.2; killall Dock
+
+# update key repeat rate (requires reboot)
+defaults write -g KeyRepeat -int 1
+defaults write -g InitialKeyRepeat -int 10
 
 # opening and closing windows and popovers
 #defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
