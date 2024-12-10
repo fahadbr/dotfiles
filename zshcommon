@@ -40,7 +40,13 @@ export EDITOR=${EDITOR:=vim}
 if which nvim &>/dev/null; then
   export EDITOR=nvim
 fi
-export LESS="-R"
+export LESS="-RF"
+export MACHINE=${MACHINE:-"home"}
+export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+export ZSH_AUTOSUGGEST_USE_ASYNC=1
+export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+export HISTSIZE=130000
+export SAVEHIST=130000
 export PATH="$HOME/.local/bin:$PATH"
 export LC_COLLATE="C"
 export PAGER="less $LESS"
@@ -112,7 +118,7 @@ function n () # {{{
     # stty lwrap undef
     # stty lnext undef
 
-    nnn -T t -c -d -U -A "$@"
+    LESS="-R" nnn -T t -c -d -U -A "$@"
 
     if [ -f "$NNN_TMPFILE" ]; then
             . "$NNN_TMPFILE"

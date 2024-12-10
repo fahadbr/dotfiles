@@ -221,6 +221,7 @@ local plugins = {
   'voldikss/vim-floaterm',
   'lewis6991/gitsigns.nvim',
   'mfussenegger/nvim-jdtls',
+  --{ 'nvim-java/nvim-java',                      config = true,          main = 'java' },
   { 'scalameta/nvim-metals',                    ft = { 'scala', 'sbt' } },
   -- nvim-ufo  {{{
   {
@@ -282,6 +283,7 @@ local plugins = {
           toml = { "toml" },
           xml = { "xmllint" },
           json = { "jq" },
+          sql = { "pg_format" },
           python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
           ["_"] = { "trim_whitespace" },
         },
@@ -292,10 +294,10 @@ local plugins = {
           },
           xmllint = {
             env = { XMLLINT_INDENT = "    " }
-          },
+          }
         },
       })
-      nmap('<leader>fc', function() conform.format { lsp_fallback = true } end, "Format Using Conform")
+      nmap('<leader>fc', function() conform.format { lsp_fallback = true, timeout_ms = 1000 } end, "Format Using Conform")
     end
   },
   -- }}}
@@ -718,6 +720,11 @@ local function on_attach(client)
   end
 end
 
+-- jdtls lspconfig setup through nvim-java
+-- make sure require('java').setup() is called before this
+-- lazy is handling this for us
+--lspconfig.jdtls.setup({})
+
 -- bash support
 lspconfig.bashls.setup {
   capabilities = lsp_capabilities,
@@ -809,72 +816,63 @@ nmap('<leader>cr', function() vim.lsp.stop_client(vim.lsp.get_active_clients()) 
 
 -- nvim-jdtls config {{{
 
-local jdtls_setup = require("jdtls.setup")
-
-local home = os.getenv("HOME")
-local root_markers = { ".git", "mvnw", "gradlew" }
-local root_dir = jdtls_setup.find_root(root_markers)
-local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")
-local workspace_dir = home .. "/.cache/jdtls/workspace/" .. project_name
-
-local mason_pkg_path = home .. "/.local/share/nvim/mason/packages"
-local jdtls_path = mason_pkg_path .. "/jdtls"
-local lombok_path = jdtls_path .. "/lombok.jar"
--- TODO make config path dependent on system
-local config_path = jdtls_path .. "/config_mac_arm"
-local launcher_jar_path = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
-
-
-local jdtls_config = {
-  cmd = {
-    "java",
-    "-Declipse.application=org.eclipse.jdt.ls.core.id1",
-    "-Declipse.product=org.eclipse.jdt.ls.core.product",
-    "-Dosgi.bundles.defaultStartLevel=4",
-    "-Dlog.protocol=true",
-    "-Dlog.level=ALL",
-    "-Xms1G",
-    "-javaagent:" .. lombok_path,
-    "--add-modules=ALL-SYSTEM",
-    "--add-opens", "java.base/java.util=ALL-UNNAMED",
-    "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-    "-jar", launcher_jar_path,
-    "-data", workspace_dir,
-    "-configuration", config_path,
-  },
-  cmd_env = {
-    GRADLE_HOME = home .. "/.sdkman/candidates/gradle/current/bin/gradle",
-  },
-  on_attach = function(client)
-    if client.server_capabilities.signatureHelpProvider then
-      require('lsp-overloads').setup(client, {
-        ui = {
-          close_events = { "CursorMoved", "BufHidden", "InsertLeave" },
-        },
-        keymaps = {
-          next_signature = "<C-j>",
-          previous_signature = "<C-k>",
-          next_parameter = "<C-l>",
-          previous_parameter = "<C-h>",
-          close_signature = "<A-s>"
-        },
-        display_automatically = true
-      })
-    end
-  end
-}
+ local jdtls_setup = require("jdtls.setup")
+ 
+ local home = os.getenv("HOME")
+ local root_markers = { ".git", "mvnw", "gradlew" }
+ local root_dir = jdtls_setup.find_root(root_markers)
+ local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")
+ local workspace_dir = home .. "/.cache/jdtls/workspace/" .. project_name
+ 
+ local install_path = require("mason-registry").get_package("jdtls"):get_install_path()
+ 
+ local mason_pkg_path = home .. "/.local/share/nvim/mason/packages"
+ local jdtls_path = mason_pkg_path .. "/jdtls"
+ local lombok_path = jdtls_path .. "/lombok.jar"
+ -- TODO make config path dependent on system
+ local config_path = jdtls_path .. "/config_mac_arm"
+ local launcher_jar_path = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
+ 
+ 
+ local jdtls_config = {
+   cmd = {
+     install_path .. "/bin/jdtls",
+     "--jvm-arg=-javaagent:" .. install_path .. "/lombok.jar",
+     "-data", workspace_dir
+   },
+   cmd_env = {
+     GRADLE_HOME = home .. "/.sdkman/candidates/gradle/current/bin/gradle",
+   },
+   on_attach = function(client)
+     if client.server_capabilities.signatureHelpProvider then
+       require('lsp-overloads').setup(client, {
+         ui = {
+           close_events = { "CursorMoved", "BufHidden", "InsertLeave" },
+         },
+         keymaps = {
+           next_signature = "<C-j>",
+           previous_signature = "<C-k>",
+           next_parameter = "<C-l>",
+           previous_parameter = "<C-h>",
+           close_signature = "<A-s>"
+         },
+         display_automatically = true
+       })
+     end
+   end
+ }
 
 local nvim_jdtls_group = vim.api.nvim_create_augroup("nvim-jdtls", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "java" },
-  callback = function()
-    vim.bo.shiftwidth = 2
-    vim.bo.tabstop = 2
-    vim.bo.softtabstop = 2
-    vim.bo.expandtab = true
-    require("jdtls").start_or_attach(jdtls_config)
-  end,
-  group = nvim_jdtls_group,
+pattern = { "java" },
+callback = function()
+vim.bo.shiftwidth = 2
+vim.bo.tabstop = 2
+vim.bo.softtabstop = 2
+vim.bo.expandtab = true
+require("jdtls").start_or_attach(jdtls_config)
+end,
+group = nvim_jdtls_group,
 })
 
 -- }}}
@@ -1125,9 +1123,6 @@ gitsigns.setup {
     relative = 'cursor',
     row = 0,
     col = 1
-  },
-  yadm                         = {
-    enable = false
   },
 }
 
