@@ -422,7 +422,7 @@ local plugins = {
           reset_prompt = true,
           mappings = {
             change_branch = '<c-b>',
-            copy_session = '<m-c>',
+            copy_session = '<c-c>',
             delete_session = '<c-d>',
           }
         }
