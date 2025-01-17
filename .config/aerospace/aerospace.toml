@@ -68,7 +68,7 @@ inner.horizontal = 20
 inner.vertical =   20
 outer.left =       20
 outer.bottom =     20
-outer.top =        60
+outer.top =        [{monitor."Built-in Retina Display" = 30}, 60]
 outer.right =      20
 
 # 'main' binding mode declaration
@@ -197,7 +197,7 @@ alt-shift-space = 'layout floating tiling'
 alt-v = 'split vertical'
 
 alt-s = 'layout v_accordion' # 'layout stacking' in i3
-alt-w = 'layout h_accordion' # 'layout tabbed' in i3
+alt-t = 'layout h_accordion' # 'layout tabbed' in i3
 alt-e = 'layout tiles horizontal vertical' # 'layout toggle split' in i3
 
 alt-enter = 'exec-and-forget /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d $HOME'
@@ -246,4 +246,7 @@ m = ['exec-and-forget open -a Messages', 'mode main']
 n = ['exec-and-forget open -a Notes', 'mode main']
 shift-c = ['exec-and-forget open -a Calendar', 'mode main']
 shift-m = ['exec-and-forget open -a Mail', 'mode main']
+esc = 'mode main'
+enter = 'mode main'
+alt-r = 'mode main'
 
