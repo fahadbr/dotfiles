@@ -23,8 +23,8 @@ fi
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 # make the dock hide faster
-defaults write com.apple.dock autohide-delay -float 0; killall dock
-defaults write com.apple.dock autohide-time-modifier -float 0.2; killall Dock
+defaults write com.apple.dock autohide-delay -float 0
+defaults write com.apple.dock autohide-time-modifier -float 0.2
 
 # update key repeat rate (requires reboot)
 defaults write -g KeyRepeat -int 1
@@ -72,3 +72,4 @@ defaults write com.apple.dock springboard-hide-duration -float 0
 # sending messages and opening windows for replies
 #defaults write com.apple.Mail DisableSendAnimations -bool true
 #defaults write com.apple.Mail DisableReplyAnimations -bool true
+killall dock
