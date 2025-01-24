@@ -1,5 +1,5 @@
 
-[ -f ~/.dotfiles/zshcommon ] && source ~/.dotfiles/zshcommon
+[ -f ~/.zshcommon ] && source ~/.zshcommon
 
 zstyle :omz:plugins:ssh-agent identities id_rsa github
 

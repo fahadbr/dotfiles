@@ -1,1 +1,0 @@
-common-config/.config/nvim/init.lua
