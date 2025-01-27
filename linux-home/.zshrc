@@ -33,3 +33,5 @@ fi
 if [ -d $HOME/Android/Sdk/tools/ ]; then
   export PATH="$PATH:$HOME/Android/Sdk/tools/"
 fi
+
+post_path_evals

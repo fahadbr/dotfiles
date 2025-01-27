@@ -198,5 +198,5 @@ function n () # {{{
 # zshrc files
 post_path_evals() {
   eval "$(zoxide init zsh)"
-  unset post_path_evals
+  unset -f post_path_evals
 }
