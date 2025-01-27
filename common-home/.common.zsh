@@ -8,6 +8,28 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 # }}}
 
+# {{{ oh-my-zsh variables and config
+#export ZSH=${ZSH:-"$HOME/.oh-my-zsh"}
+#export ZSH_THEME="fahad"
+#export DISABLE_AUTO_UPDATE="false"
+#export DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+#plugins=(
+  #git
+  #ssh-agent
+  #z
+  #zsh-interactive-cd
+  #zsh-autosuggestions
+  #zsh-syntax-highlighting
+#)
+
+if [[ -f ~/.ssh/id_rsa ]]; then
+  zstyle :omz:plugins:ssh-agent identities id_rsa
+fi
+
+#source $ZSH/oh-my-zsh.sh
+# }}}
+
 # {{{ antidote install and load
 ANTIDOTE_HOME=${ZDOTDIR:-$HOME}/.antidote
 if [[ ! -d ${ANTIDOTE_HOME} ]]; then
@@ -31,28 +53,6 @@ if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
 fi
 source ${zsh_plugins}.zsh
 
-# }}}
-
-# {{{ oh-my-zsh variables and config
-#export ZSH=${ZSH:-"$HOME/.oh-my-zsh"}
-#export ZSH_THEME="fahad"
-#export DISABLE_AUTO_UPDATE="false"
-#export DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-#plugins=(
-  #git
-  #ssh-agent
-  #z
-  #zsh-interactive-cd
-  #zsh-autosuggestions
-  #zsh-syntax-highlighting
-#)
-
-#if [[ -f ~/.ssh/id_rsa ]]; then
-  #zstyle :omz:plugins:ssh-agent identities id_rsa
-#fi
-
-#source $ZSH/oh-my-zsh.sh
 # }}}
 
 # {{{ zsh builtin options
