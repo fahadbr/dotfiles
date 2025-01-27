@@ -9,13 +9,5 @@ if [[ ! -d $HOME/.fzf ]]; then
 	~/.fzf/install
 fi
 
-if [[ ! -f $HOME/.config/nnn/plugins/preview-tui ]]; then
-  nnn_plugins_dir=$HOME/.config/nnn/plugins
-  mkdir -vp $nnn_plugins_dir
-  pushd $nnn_plugins_dir
-  curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs | sh
-  popd
-fi
-
 
 

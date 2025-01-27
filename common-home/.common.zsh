@@ -116,7 +116,7 @@ export FZF_CTRL_T_COMMAND="command find -L . -mindepth 1 \\( -fstype 'sysfs' -o 
 alias ls='ls -lrth --color=auto'
 alias reapplyprofile='exec zsh'
 alias editprofile="$EDITOR $HOME/.zshrc && exec zsh"
-alias editzshcommon="$EDITOR $HOME/.zshcommon && exec zsh"
+alias editzshcommon="$EDITOR $HOME/.common.zsh && exec zsh"
 alias editssh="$EDITOR $HOME/.ssh/config"
 alias view="$EDITOR -R"
 alias lg='lazygit'
@@ -150,40 +150,19 @@ if uname | grep -q "Linux"; then
   fi
 fi
 
-# {{{ nnn config
-export NNN_PLUG='p:preview-tui;z:autojump;f:fzcd;l:!less -R $nnn;b:!bat $nnn'
-export NNN_FIFO='/tmp/nnn.fifo'
-export NNN_OPENER="$HOME/.config/nnn/plugins/nuke"
-export NNN_TRASH=0
-function n () # {{{
-{
-    # Block nesting of nnn in subshells
-    if [ -n $NNNLVL ] && [ "${NNNLVL:-0}" -ge 1 ]; then
-        echo "nnn is already running"
-        return
-    fi
-
-    # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
-    # To cd on quit only on ^G, either remove the "export" as in:
-    #    NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-    #    (or, to a custom path: NNN_TMPFILE=/tmp/.lastd)
-    # or, export NNN_TMPFILE after nnn invocation
-    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-
-    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
-    # stty start undef
-    # stty stop undef
-    # stty lwrap undef
-    # stty lnext undef
-
-    LESS="-R" nnn -T t -c -d -U -A "$@"
-
-    if [ -f "$NNN_TMPFILE" ]; then
-            . "$NNN_TMPFILE"
-            rrm -f "$NNN_TMPFILE" > /dev/null
-    fi
+# {{{ yazi
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
 }
-# }}}
+
+function n() {
+  echo 'use "y" for yazi instead of nnn'
+}
 # }}}
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
