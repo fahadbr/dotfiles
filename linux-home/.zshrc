@@ -34,4 +34,30 @@ if [ -d $HOME/Android/Sdk/tools/ ]; then
   export PATH="$PATH:$HOME/Android/Sdk/tools/"
 fi
 
+export MOZ_USE_XINPUT2=1
+alias grep='grep --color=auto'
+alias udc='udisksctl'
+alias open="xdg-open"
+alias cpr='rsync -ah --info=progress2'
+alias cp='cp --backup=numbered'
+alias ln='ln --backup=numbered'
+alias mv='mv -f --backup=numbered'
+alias rrm='/bin/rm' # "real rm"
+alias sdu='systemctl --user'
+alias sd='systemctl'
+alias susd='sudo systemctl'
+if [[ $WAYLAND_DISPLAY ]]; then
+  alias pbcopy='wl-copy'
+  alias pbpaste='wl-paste'
+else
+  alias pbcopy='xclip -i -sel clip'
+  alias pbpaste='xclip -o -sel clip'
+fi
+
+if which trash-put &>/dev/null; then
+  alias rm='trash-put -v'
+  alias tp='trash-put'
+  export NNN_TRASH=1
+fi
+
 post_path_evals

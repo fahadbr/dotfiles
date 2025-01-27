@@ -90,9 +90,6 @@ alias la='ls -lAh'
 # }}}
 
 export EDITOR=${EDITOR:=vim}
-if which nvim &>/dev/null; then
-  export EDITOR=nvim
-fi
 export LESS="-RF"
 export MACHINE=${MACHINE:-"home"}
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
@@ -115,40 +112,12 @@ export FZF_CTRL_T_COMMAND="command find -L . -mindepth 1 \\( -fstype 'sysfs' -o 
 
 alias ls='ls -lrth --color=auto'
 alias reapplyprofile='exec zsh'
-alias editprofile="$EDITOR $HOME/.zshrc && exec zsh"
-alias editzshcommon="$EDITOR $HOME/.common.zsh && exec zsh"
-alias editssh="$EDITOR $HOME/.ssh/config"
-alias view="$EDITOR -R"
+alias editprofile="${EDITOR} ${HOME}/.zshrc && exec zsh"
+alias editzshcommon="${EDITOR} ${HOME}/.common.zsh && exec zsh"
+alias editssh="${EDITOR} ${HOME}/.ssh/config"
+alias view="${EDITOR} -R"
 alias lg='lazygit'
 alias printpath='echo $PATH | sed "s/:/\n/g"'
-
-if uname | grep -q "Linux"; then
-  export MOZ_USE_XINPUT2=1
-  alias grep='grep --color=auto'
-  alias udc='udisksctl'
-  alias open="xdg-open"
-  alias cpr='rsync -ah --info=progress2'
-  alias cp='cp --backup=numbered'
-  alias ln='ln --backup=numbered'
-  alias mv='mv -f --backup=numbered'
-  alias rrm='/bin/rm' # "real rm"
-  alias sdu='systemctl --user'
-  alias sd='systemctl'
-  alias susd='sudo systemctl'
-  if [[ $WAYLAND_DISPLAY ]]; then
-    alias pbcopy='wl-copy'
-    alias pbpaste='wl-paste'
-  else
-    alias pbcopy='xclip -i -sel clip'
-    alias pbpaste='xclip -o -sel clip'
-  fi
-
-  if which trash-put &>/dev/null; then
-    alias rm='trash-put -v'
-    alias tp='trash-put'
-    export NNN_TRASH=1
-  fi
-fi
 
 # {{{ yazi
 function y() {
@@ -176,6 +145,13 @@ function n() {
 # may exist on different paths which are set up on the machine specific
 # zshrc files
 post_path_evals() {
-  eval "$(zoxide init zsh)"
+  if which zoxide &>/dev/null; then
+    eval "$(zoxide init zsh)"
+  fi
+
+  if which nvim &>/dev/null; then
+    export EDITOR=nvim
+  fi
+
   unset -f post_path_evals
 }
