@@ -1,0 +1,15 @@
+[manager]
+  prepend_keymap = [
+    { on   = "!", run  = 'shell "$SHELL" --block', desc = "Open shell here" },
+    { on   = [",", "l", "o"], run  = 'linemode owner', desc = "Change linemode to show owner" },
+    { on   = [",", "l", "p"], run  = 'linemode permissions', desc = "Change linemode to show permissions" },
+    { on   = [",", "l", "b"], run  = 'linemode btime', desc = "Change linemode to show btime" },
+    { on   = [",", "l", "m"], run  = 'linemode mtime', desc = "Change linemode to show mtime" },
+    { on   = [",", "l", "s"], run  = 'linemode size', desc = "Change linemode to show size" },
+    { on   = [",", "l", "n"], run  = 'linemode none', desc = "Change linemode to show none" }
+  ]
+
+[[input.prepend_keymap]]
+on   = "<Esc>"
+run  = "close"
+desc = "Cancel input"
