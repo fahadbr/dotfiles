@@ -1,29 +1,61 @@
-export ZSH=${ZSH:-"$HOME/.oh-my-zsh"}
-export ZSH_THEME="fahad"
-export DISABLE_AUTO_UPDATE="false"
-export DISABLE_UNTRACKED_FILES_DIRTY="true"
-export MACHINE=${MACHINE:-"home"}
-export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-export ZSH_AUTOSUGGEST_USE_ASYNC=1
-export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-export HISTSIZE=130000
-export SAVEHIST=130001
+# vim:foldmethod=marker
 
-plugins=(
-  git
-  ssh-agent
-  z
-  zsh-interactive-cd
-  zsh-autosuggestions
-  zsh-syntax-highlighting
-)
+# {{{ Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+# }}}
 
-if [[ -f ~/.ssh/id_rsa ]]; then
-  zstyle :omz:plugins:ssh-agent identities id_rsa
+# {{{ antidote install and load
+ANTIDOTE_HOME=${ZDOTDIR:-$HOME}/.antidote
+if [[ ! -d ${ANTIDOTE_HOME} ]]; then
+  echo "installing antidote zsh plugin manager"
+  git clone --depth=1 https://github.com/mattmc3/antidote.git ${ANTIDOTE_HOME}
 fi
 
-source $ZSH/oh-my-zsh.sh
+# Lazy-load antidote and generate the static load file only when needed
+zsh_plugins=${ZDOTDIR:-$HOME}/.zsh_plugins
 
+# Ensure the .zsh_plugins.txt file exists so you can add plugins.
+[[ -f ${zsh_plugins}.txt ]] || touch ${zsh_plugins}.txt
+
+# Lazy-load antidote from its functions directory.
+fpath=(${ANTIDOTE_HOME}/functions $fpath)
+autoload -Uz antidote
+if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
+  (
+    antidote bundle <${zsh_plugins}.txt >${zsh_plugins}.zsh
+  )
+fi
+source ${zsh_plugins}.zsh
+
+# }}}
+
+# {{{ oh-my-zsh variables and config
+#export ZSH=${ZSH:-"$HOME/.oh-my-zsh"}
+#export ZSH_THEME="fahad"
+#export DISABLE_AUTO_UPDATE="false"
+#export DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+#plugins=(
+  #git
+  #ssh-agent
+  #z
+  #zsh-interactive-cd
+  #zsh-autosuggestions
+  #zsh-syntax-highlighting
+#)
+
+#if [[ -f ~/.ssh/id_rsa ]]; then
+  #zstyle :omz:plugins:ssh-agent identities id_rsa
+#fi
+
+#source $ZSH/oh-my-zsh.sh
+# }}}
+
+# {{{ zsh builtin options
 setopt extendedglob
 setopt nomatch
 setopt notify
@@ -35,6 +67,27 @@ setopt completeinword
 unsetopt beep
 unsetopt sharehistory
 bindkey -e
+# }}}
+
+# {{{ directories
+setopt auto_cd              # if the commands name is not a command but a directory, change to the directory
+setopt auto_pushd           # Push the current directory visited on the stack.
+setopt pushd_ignore_dups    # Do not store duplicates in the stack.
+setopt pushd_silent         # Do not print the directory stack after pushd or popd.
+setopt pushd_minus          # Exchanges the meanings of `+' and `-' when used with a number to specify a directory in the stack.
+
+for index ({1..9}) alias "$index"="cd +${index}"; unset index
+alias d='dirs -v'
+alias -- -='cd -'
+alias -g ...='cd ../..'
+alias -g ....='cd ../../..'
+alias -g .....='cd ../../..'
+alias -g ......='cd ../../../..'
+
+alias l='ls -lah'
+alias ll='ls -lh'
+alias la='ls -lAh'
+# }}}
 
 export EDITOR=${EDITOR:=vim}
 if which nvim &>/dev/null; then
@@ -46,23 +99,24 @@ export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 export ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 export HISTSIZE=130000
-export SAVEHIST=130000
+export SAVEHIST=130001
 export PATH="$HOME/.local/bin:$PATH"
 export LC_COLLATE="C"
 export PAGER="less $LESS"
 
 # allows previewing long shell history lines by pressing '?' in fzf
 export FZF_CTRL_R_OPTS="--height 50% --preview 'echo {2..}' --preview-window 'up,60%,hidden,wrap' --bind '?:toggle-preview'"
-
-export NNN_PLUG='p:preview-tui;z:autojump;f:fzcd;l:!less -R $nnn;b:!bat $nnn'
-export NNN_FIFO='/tmp/nnn.fifo'
-export NNN_OPENER="$HOME/.config/nnn/plugins/nuke"
-export NNN_TRASH=0
+export FZF_CTRL_T_COMMAND="command find -L . -mindepth 1 \\( -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
+    -o -type f -print \
+    -o -type d -print \
+    -o -type l -print 2> /dev/null | cut -b3-"
+ export FZF_ALT_C_COMMAND="command find -L . -mindepth 1 \\( -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
+          -o -type d -print 2> /dev/null | cut -b3-"
 
 alias ls='ls -lrth --color=auto'
 alias reapplyprofile='exec zsh'
 alias editprofile="$EDITOR $HOME/.zshrc && exec zsh"
-alias editzshcommon="$EDITOR $HOME/.dotfiles/zshcommon && exec zsh"
+alias editzshcommon="$EDITOR $HOME/.zshcommon && exec zsh"
 alias editssh="$EDITOR $HOME/.ssh/config"
 alias view="$EDITOR -R"
 alias lg='lazygit'
@@ -96,7 +150,11 @@ if uname | grep -q "Linux"; then
   fi
 fi
 
-
+# {{{ nnn config
+export NNN_PLUG='p:preview-tui;z:autojump;f:fzcd;l:!less -R $nnn;b:!bat $nnn'
+export NNN_FIFO='/tmp/nnn.fifo'
+export NNN_OPENER="$HOME/.config/nnn/plugins/nuke"
+export NNN_TRASH=0
 function n () # {{{
 {
     # Block nesting of nnn in subshells
@@ -126,6 +184,19 @@ function n () # {{{
     fi
 }
 # }}}
-
+# }}}
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# this function is to be called at the end of the
+# os specific .zshrc
+# the main reason for which is because some binaries
+# may exist on different paths which are set up on the machine specific
+# zshrc files
+post_path_evals() {
+  eval "$(zoxide init zsh)"
+  unset post_path_evals
+}
