@@ -1,5 +1,6 @@
 # vim:foldmethod=marker
 
+export ZDOTDIR=${HOME}/.zdotfiles
 # {{{ Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -38,7 +39,7 @@ if [[ ! -d ${ANTIDOTE_HOME} ]]; then
 fi
 
 # Lazy-load antidote and generate the static load file only when needed
-zsh_plugins=${ZDOTDIR:-$HOME}/.zsh_plugins
+zsh_plugins=${ZDOTDIR:-$HOME}/zsh_plugins
 
 # Ensure the .zsh_plugins.txt file exists so you can add plugins.
 [[ -f ${zsh_plugins}.txt ]] || touch ${zsh_plugins}.txt
@@ -66,7 +67,7 @@ setopt shwordsplit
 setopt completeinword
 unsetopt beep
 unsetopt sharehistory
-bindkey -e
+ bindkey -e
 # }}}
 
 # {{{ directories
@@ -113,7 +114,7 @@ export FZF_CTRL_T_COMMAND="command find -L . -mindepth 1 \\( -fstype 'sysfs' -o 
 alias ls='ls -lrth --color=auto'
 alias reapplyprofile='exec zsh'
 alias editprofile="${EDITOR} ${HOME}/.zshrc && exec zsh"
-alias editzshcommon="${EDITOR} ${HOME}/.common.zsh && exec zsh"
+alias editzshcommon="${EDITOR} ${HOME}/.zdotfiles/common.zsh && exec zsh"
 alias editssh="${EDITOR} ${HOME}/.ssh/config"
 alias view="${EDITOR} -R"
 alias lg='lazygit'
@@ -134,13 +135,12 @@ function n() {
 }
 # }}}
 
+#source ${ZDOTDIR}/vi-emulation.zsh
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[ -f ${ZDOTDIR}/p10k.zsh ] && source ${ZDOTDIR}/p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# this function is to be called at the end of the
-# os specific .zshrc
+# this function is to be called at the end of the os specific .zshrc
 # the main reason for which is because some binaries
 # may exist on different paths which are set up on the machine specific
 # zshrc files

@@ -1051,7 +1051,7 @@ nmap('<leader>fb', function()
   }
 end, 'live grep current buffer (telescope)')
 nmap('<leader>fw', telescope_builtin.grep_string, 'grep string under cursor (telescope)')
-nmap('<space>p', telescope.extensions.persisted.persisted, 'show sessions (telescope)')
+nmap('<space>tp', telescope.extensions.persisted.persisted, 'show sessions (telescope)')
 
 -- }}}
 

@@ -1,4 +1,4 @@
-[ -f ~/.common.zsh ] && source ~/.common.zsh
+[ -f ~/.zdotfiles/common.zsh ] && source ~/.zdotfiles/common.zsh
 
 alias kssh='kitty +kitten ssh'
 alias heic2jpg='for f in *.HEIC(:r); do sips -s format jpeg "$f.HEIC" --out "$f.jpeg"; done'
