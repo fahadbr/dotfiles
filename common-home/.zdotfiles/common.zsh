@@ -1,6 +1,6 @@
 # vim:foldmethod=marker
 
-export ZDOTDIR=${HOME}/.zdotfiles
+export ZDOTFILES=${HOME}/.zdotfiles
 # {{{ Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -32,14 +32,14 @@ fi
 # }}}
 
 # {{{ antidote install and load
-ANTIDOTE_HOME=${ZDOTDIR:-$HOME}/.antidote
+ANTIDOTE_HOME=${ZDOTFILES:-$HOME}/.antidote
 if [[ ! -d ${ANTIDOTE_HOME} ]]; then
   echo "installing antidote zsh plugin manager"
   git clone --depth=1 https://github.com/mattmc3/antidote.git ${ANTIDOTE_HOME}
 fi
 
 # Lazy-load antidote and generate the static load file only when needed
-zsh_plugins=${ZDOTDIR:-$HOME}/zsh_plugins
+zsh_plugins=${ZDOTFILES:-$HOME}/zsh_plugins
 
 # Ensure the .zsh_plugins.txt file exists so you can add plugins.
 [[ -f ${zsh_plugins}.txt ]] || touch ${zsh_plugins}.txt
@@ -135,9 +135,9 @@ function n() {
 }
 # }}}
 
-#source ${ZDOTDIR}/vi-emulation.zsh
+#source ${ZDOTFILES}/vi-emulation.zsh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[ -f ${ZDOTDIR}/p10k.zsh ] && source ${ZDOTDIR}/p10k.zsh
+[ -f ${ZDOTFILES}/p10k.zsh ] && source ${ZDOTFILES}/p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # this function is to be called at the end of the os specific .zshrc

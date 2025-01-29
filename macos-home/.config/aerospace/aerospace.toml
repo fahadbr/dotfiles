@@ -186,7 +186,7 @@ alt-shift-9 = 'move-node-to-workspace 9'
 #alt-shift-y = 'move-node-to-workspace Y'
 #alt-shift-z = 'move-node-to-workspace Z'
 
-alt-shift-f = 'fullscreen'
+alt-shift-f = 'fullscreen --no-outer-gaps'
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
@@ -213,7 +213,6 @@ alt-a = 'mode apps'
 [mode.service.binding]
 esc = ['reload-config', 'mode main']
 r = ['flatten-workspace-tree', 'mode main'] # reset layout
-f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
 
 # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
 #s = ['layout sticky tiling', 'mode main']
