@@ -613,6 +613,33 @@ local plugins = {
         desc = "Buffer Local Keymaps (which-key)",
       },
     },
+  },
+  -- }}}
+  -- harpoon {{{
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      local harpoon = require("harpoon")
+
+      -- REQUIRED
+      harpoon:setup()
+      -- REQUIRED
+
+      nmap("<space>ha", function() harpoon:list():add() end, "add to harpoon list")
+      nmap("<space>hh", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, "show harpoon ui")
+
+      for i = 0, 9 do
+	local desc = string.format("Select harpoon list entry %d", i)
+        local harpoonSelect = function() harpoon:list():select(i) end
+        nmap(string.format("<space>h%d", i), harpoonSelect, desc)
+      end
+
+      -- Toggle previous & next buffers stored within Harpoon list
+      nmap("<space>hp", function() harpoon:list():prev() end, "Go to prev harpoon buffer")
+      nmap("<space>hn", function() harpoon:list():next() end, "Go to next harpoon buffer")
+    end
   }
   -- }}}
 }
@@ -816,63 +843,63 @@ nmap('<leader>cr', function() vim.lsp.stop_client(vim.lsp.get_active_clients()) 
 
 -- nvim-jdtls config {{{
 
- local jdtls_setup = require("jdtls.setup")
- 
- local home = os.getenv("HOME")
- local root_markers = { ".git", "mvnw", "gradlew" }
- local root_dir = jdtls_setup.find_root(root_markers)
- local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")
- local workspace_dir = home .. "/.cache/jdtls/workspace/" .. project_name
- 
- local install_path = require("mason-registry").get_package("jdtls"):get_install_path()
- 
- local mason_pkg_path = home .. "/.local/share/nvim/mason/packages"
- local jdtls_path = mason_pkg_path .. "/jdtls"
- local lombok_path = jdtls_path .. "/lombok.jar"
- -- TODO make config path dependent on system
- local config_path = jdtls_path .. "/config_mac_arm"
- local launcher_jar_path = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
- 
- 
- local jdtls_config = {
-   cmd = {
-     install_path .. "/bin/jdtls",
-     "--jvm-arg=-javaagent:" .. install_path .. "/lombok.jar",
-     "-data", workspace_dir
-   },
-   cmd_env = {
-     GRADLE_HOME = home .. "/.sdkman/candidates/gradle/current/bin/gradle",
-   },
-   on_attach = function(client)
-     if client.server_capabilities.signatureHelpProvider then
-       require('lsp-overloads').setup(client, {
-         ui = {
-           close_events = { "CursorMoved", "BufHidden", "InsertLeave" },
-         },
-         keymaps = {
-           next_signature = "<C-j>",
-           previous_signature = "<C-k>",
-           next_parameter = "<C-l>",
-           previous_parameter = "<C-h>",
-           close_signature = "<A-s>"
-         },
-         display_automatically = true
-       })
-     end
-   end
- }
+local jdtls_setup = require("jdtls.setup")
+
+local home = os.getenv("HOME")
+local root_markers = { ".git", "mvnw", "gradlew" }
+local root_dir = jdtls_setup.find_root(root_markers)
+local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")
+local workspace_dir = home .. "/.cache/jdtls/workspace/" .. project_name
+
+local install_path = require("mason-registry").get_package("jdtls"):get_install_path()
+
+local mason_pkg_path = home .. "/.local/share/nvim/mason/packages"
+local jdtls_path = mason_pkg_path .. "/jdtls"
+local lombok_path = jdtls_path .. "/lombok.jar"
+-- TODO make config path dependent on system
+local config_path = jdtls_path .. "/config_mac_arm"
+local launcher_jar_path = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
+
+
+local jdtls_config = {
+  cmd = {
+    install_path .. "/bin/jdtls",
+    "--jvm-arg=-javaagent:" .. install_path .. "/lombok.jar",
+    "-data", workspace_dir
+  },
+  cmd_env = {
+    GRADLE_HOME = home .. "/.sdkman/candidates/gradle/current/bin/gradle",
+  },
+  on_attach = function(client)
+    if client.server_capabilities.signatureHelpProvider then
+      require('lsp-overloads').setup(client, {
+        ui = {
+          close_events = { "CursorMoved", "BufHidden", "InsertLeave" },
+        },
+        keymaps = {
+          next_signature = "<C-j>",
+          previous_signature = "<C-k>",
+          next_parameter = "<C-l>",
+          previous_parameter = "<C-h>",
+          close_signature = "<A-s>"
+        },
+        display_automatically = true
+      })
+    end
+  end
+}
 
 local nvim_jdtls_group = vim.api.nvim_create_augroup("nvim-jdtls", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
-pattern = { "java" },
-callback = function()
-vim.bo.shiftwidth = 2
-vim.bo.tabstop = 2
-vim.bo.softtabstop = 2
-vim.bo.expandtab = true
-require("jdtls").start_or_attach(jdtls_config)
-end,
-group = nvim_jdtls_group,
+  pattern = { "java" },
+  callback = function()
+    vim.bo.shiftwidth = 2
+    vim.bo.tabstop = 2
+    vim.bo.softtabstop = 2
+    vim.bo.expandtab = true
+    require("jdtls").start_or_attach(jdtls_config)
+  end,
+  group = nvim_jdtls_group,
 })
 
 -- }}}
@@ -1254,6 +1281,8 @@ nmap('<C-k>', '5<C-w>+', 'increase vertical window size')
 nmap('<C-j>', '5<C-w>-', 'decrease vertical window size')
 nmap('<C-->', '5<C-w><', 'decrease horizontal window size')
 nmap('<C-=>', '5<C-w>>', 'increase horizontal window size')
+nmap('_', '<C-w>s', 'horizontal split')
+nmap('|', '<C-w>v', 'vertical split')
 --nmap('<M-q>', '<C-w>q', 'close window')
 
 -- -- tab mappings
