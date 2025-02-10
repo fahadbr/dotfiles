@@ -72,4 +72,4 @@ defaults write com.apple.dock springboard-hide-duration -float 0
 # sending messages and opening windows for replies
 #defaults write com.apple.Mail DisableSendAnimations -bool true
 #defaults write com.apple.Mail DisableReplyAnimations -bool true
-killall dock
+killall Dock
