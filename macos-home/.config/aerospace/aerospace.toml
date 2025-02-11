@@ -124,7 +124,7 @@ alt-6 = 'workspace --auto-back-and-forth 6'
 alt-7 = 'workspace --auto-back-and-forth 7'
 alt-8 = 'workspace --auto-back-and-forth 8'
 alt-9 = 'workspace --auto-back-and-forth 9'
-alt-minus = 'workspace --auto-back-and-forth scratch'
+#alt-minus = 'workspace --auto-back-and-forth scratch'
 alt-n = 'workspace --wrap-around next'
 alt-p = 'workspace --wrap-around prev'
 

@@ -12,7 +12,7 @@ summon_app() {
 }
 
 app_closed() {
-  if [ "$(aerospace list-apps | grep $APP_NAME)" == "" ]; then
+  if [ "$(aerospace list-windows --monitor all --app-id $APP_ID)" == "" ]; then
     true
   else
     false
