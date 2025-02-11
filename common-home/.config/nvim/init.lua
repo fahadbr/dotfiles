@@ -159,8 +159,7 @@ local plugins = {
   'scrooloose/nerdtree',
   'Xuyuanp/nerdtree-git-plugin',
   'scrooloose/nerdcommenter',
-  { '$HOME/.fzf',           dev = true },
-  { '$HOME/.dotfiles/fzfc', dev = true },
+  { '.fzf',           dev = true, dir="~" },
   'junegunn/fzf.vim',
   'bronson/vim-trailing-whitespace',
   {
@@ -220,9 +219,9 @@ local plugins = {
   },
   'voldikss/vim-floaterm',
   'lewis6991/gitsigns.nvim',
-  'mfussenegger/nvim-jdtls',
+  --'mfussenegger/nvim-jdtls',
   --{ 'nvim-java/nvim-java',                      config = true,          main = 'java' },
-  { 'scalameta/nvim-metals',                    ft = { 'scala', 'sbt' } },
+  --{ 'scalameta/nvim-metals',                    ft = { 'scala', 'sbt' } },
   -- nvim-ufo  {{{
   {
     "kevinhwang91/nvim-ufo",
@@ -369,7 +368,7 @@ local plugins = {
         end,
         -- ignoring jdtls because of the setup thats happening later in the file
         -- eventually it might be best to move the set up here
-        jdtls = function() end,
+        --jdtls = function() end,
         yamlls = function()
           require('lspconfig').yamlls.setup {
             capabilities = make_lsp_capabilities(),
@@ -843,94 +842,94 @@ nmap('<leader>cr', function() vim.lsp.stop_client(vim.lsp.get_active_clients()) 
 
 -- nvim-jdtls config {{{
 
-local jdtls_setup = require("jdtls.setup")
+--local jdtls_setup = require("jdtls.setup")
 
-local home = os.getenv("HOME")
-local root_markers = { ".git", "mvnw", "gradlew" }
-local root_dir = jdtls_setup.find_root(root_markers)
-local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")
-local workspace_dir = home .. "/.cache/jdtls/workspace/" .. project_name
+--local home = os.getenv("HOME")
+--local root_markers = { ".git", "mvnw", "gradlew" }
+--local root_dir = jdtls_setup.find_root(root_markers)
+--local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")
+--local workspace_dir = home .. "/.cache/jdtls/workspace/" .. project_name
 
-local install_path = require("mason-registry").get_package("jdtls"):get_install_path()
+--local install_path = require("mason-registry").get_package("jdtls"):get_install_path()
 
-local mason_pkg_path = home .. "/.local/share/nvim/mason/packages"
-local jdtls_path = mason_pkg_path .. "/jdtls"
-local lombok_path = jdtls_path .. "/lombok.jar"
--- TODO make config path dependent on system
-local config_path = jdtls_path .. "/config_mac_arm"
-local launcher_jar_path = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
+--local mason_pkg_path = home .. "/.local/share/nvim/mason/packages"
+--local jdtls_path = mason_pkg_path .. "/jdtls"
+--local lombok_path = jdtls_path .. "/lombok.jar"
+---- TODO make config path dependent on system
+--local config_path = jdtls_path .. "/config_mac_arm"
+--local launcher_jar_path = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
 
 
-local jdtls_config = {
-  cmd = {
-    install_path .. "/bin/jdtls",
-    "--jvm-arg=-javaagent:" .. install_path .. "/lombok.jar",
-    "-data", workspace_dir
-  },
-  cmd_env = {
-    GRADLE_HOME = home .. "/.sdkman/candidates/gradle/current/bin/gradle",
-  },
-  on_attach = function(client)
-    if client.server_capabilities.signatureHelpProvider then
-      require('lsp-overloads').setup(client, {
-        ui = {
-          close_events = { "CursorMoved", "BufHidden", "InsertLeave" },
-        },
-        keymaps = {
-          next_signature = "<C-j>",
-          previous_signature = "<C-k>",
-          next_parameter = "<C-l>",
-          previous_parameter = "<C-h>",
-          close_signature = "<A-s>"
-        },
-        display_automatically = true
-      })
-    end
-  end
-}
+--local jdtls_config = {
+  --cmd = {
+    --install_path .. "/bin/jdtls",
+    --"--jvm-arg=-javaagent:" .. install_path .. "/lombok.jar",
+    --"-data", workspace_dir
+  --},
+  --cmd_env = {
+    --GRADLE_HOME = home .. "/.sdkman/candidates/gradle/current/bin/gradle",
+  --},
+  --on_attach = function(client)
+    --if client.server_capabilities.signatureHelpProvider then
+      --require('lsp-overloads').setup(client, {
+        --ui = {
+          --close_events = { "CursorMoved", "BufHidden", "InsertLeave" },
+        --},
+        --keymaps = {
+          --next_signature = "<C-j>",
+          --previous_signature = "<C-k>",
+          --next_parameter = "<C-l>",
+          --previous_parameter = "<C-h>",
+          --close_signature = "<A-s>"
+        --},
+        --display_automatically = true
+      --})
+    --end
+  --end
+--}
 
-local nvim_jdtls_group = vim.api.nvim_create_augroup("nvim-jdtls", { clear = true })
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "java" },
-  callback = function()
-    vim.bo.shiftwidth = 2
-    vim.bo.tabstop = 2
-    vim.bo.softtabstop = 2
-    vim.bo.expandtab = true
-    require("jdtls").start_or_attach(jdtls_config)
-  end,
-  group = nvim_jdtls_group,
-})
+--local nvim_jdtls_group = vim.api.nvim_create_augroup("nvim-jdtls", { clear = true })
+--vim.api.nvim_create_autocmd("FileType", {
+  --pattern = { "java" },
+  --callback = function()
+    --vim.bo.shiftwidth = 2
+    --vim.bo.tabstop = 2
+    --vim.bo.softtabstop = 2
+    --vim.bo.expandtab = true
+    --require("jdtls").start_or_attach(jdtls_config)
+  --end,
+  --group = nvim_jdtls_group,
+--})
 
 -- }}}
 
 -- nvim-metals config {{{
-local metals_config = require("metals").bare_config()
+--local metals_config = require("metals").bare_config()
 
--- Example of settings
-metals_config.settings = {
-  showImplicitArguments = true,
-  excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
-}
+---- Example of settings
+--metals_config.settings = {
+  --showImplicitArguments = true,
+  --excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
+--}
 
--- Example if you are using cmp how to make sure the correct capabilities for snippets are set
-metals_config.capabilities = make_lsp_capabilities()
-metals_config.on_attach = on_attach
+---- Example if you are using cmp how to make sure the correct capabilities for snippets are set
+--metals_config.capabilities = make_lsp_capabilities()
+--metals_config.on_attach = on_attach
 
 
--- Autocmd that will actually be in charging of starting the whole thing
-local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
-autocmd('FileType', {
-  -- NOTE: You may or may not want java included here. You will need it if you
-  -- want basic Java support but it may also conflict if you are using
-  -- something like nvim-jdtls which also works on a java filetype autocmd.
-  pattern = { 'scala', 'sbt' },
-  callback = function()
-    require('metals').initialize_or_attach(metals_config)
-    nmap('<localleader>m', require('telescope').extensions.metals.commands, 'Show Metals Commands')
-  end,
-  group = nvim_metals_group,
-})
+---- Autocmd that will actually be in charging of starting the whole thing
+--local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+--autocmd('FileType', {
+  ---- NOTE: You may or may not want java included here. You will need it if you
+  ---- want basic Java support but it may also conflict if you are using
+  ---- something like nvim-jdtls which also works on a java filetype autocmd.
+  --pattern = { 'scala', 'sbt' },
+  --callback = function()
+    --require('metals').initialize_or_attach(metals_config)
+    --nmap('<localleader>m', require('telescope').extensions.metals.commands, 'Show Metals Commands')
+  --end,
+  --group = nvim_metals_group,
+--})
 
 
 -- }}}
