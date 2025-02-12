@@ -25,7 +25,7 @@ fi
 #)
 
 if [[ -f ~/.ssh/id_rsa ]]; then
-  zstyle :omz:plugins:ssh-agent identities id_rsa
+  zstyle :omz:plugins:ssh-agent identities id_rsa id_ed25519
 fi
 
 #source $ZSH/oh-my-zsh.sh

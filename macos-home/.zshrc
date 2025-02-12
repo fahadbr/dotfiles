@@ -8,3 +8,10 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH="${HOME}/go/bin:${PATH}"
 
 post_path_evals
+
+source ~/.lcldevrc
+
+export https_proxy="http://127.0.0.1:8888"
+export HTTPS_PROXY="$https_proxy"
+export http_proxy="$https_proxy"
+export HTTP_PROXY="$https_proxy"
