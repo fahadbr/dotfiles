@@ -103,10 +103,10 @@ outer.right =      20
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#focus
-alt-h = 'focus left'
-alt-j = 'focus down'
-alt-k = 'focus up'
-alt-l = 'focus right'
+alt-h = 'focus --boundaries all-monitors-outer-frame left'
+alt-j = 'focus --boundaries all-monitors-outer-frame down'
+alt-k = 'focus --boundaries all-monitors-outer-frame up'
+alt-l = 'focus --boundaries all-monitors-outer-frame right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move
 alt-shift-h = 'move left'
@@ -140,6 +140,9 @@ alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
 alt-shift-minus = 'move-node-to-workspace scratch'
 
+alt-shift-left = 'move-workspace-to-monitor prev'
+alt-shift-right = 'move-workspace-to-monitor next'
+
 alt-shift-f = 'fullscreen --no-outer-gaps'
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
@@ -155,32 +158,13 @@ alt-t = 'layout h_accordion' # 'layout tabbed' in i3
 alt-e = 'layout tiles horizontal vertical' # 'layout toggle split' in i3
 
 alt-enter = 'exec-and-forget /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d $HOME'
-#alt-space = 'exec-and-forget /Applications/kitty.app/Contents/MacOS/kitty --hold -T "ghetto rofi" sh -c "aerospace workspace $(aerospace list-workspaces --all | fzf)"'
-#alt-space = 'exec-and-forget /Applications/kitty.app/Contents/MacOS/kitty --hold -T "ghetto rofi" sh -c "ls"'
 alt-shift-w = 'exec-and-forget aerospace focus --window-id $(aerospace list-windows --monitor all | choose | cut -d "|" -f 1)'
+alt-shift-c = 'reload-config'
 
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
-alt-shift-semicolon = 'mode service'
 alt-r = 'mode resize'
 alt-a = 'mode apps'
-# 'service' binding mode declaration.
-# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
-[mode.service.binding]
-esc = ['reload-config', 'mode main']
-f = ['flatten-workspace-tree', 'mode main'] # reset layout
-
-# sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
-#s = ['layout sticky tiling', 'mode main']
-
-alt-shift-h = ['join-with left', 'mode main']
-alt-shift-j = ['join-with down', 'mode main']
-alt-shift-k = ['join-with up', 'mode main']
-alt-shift-l = ['join-with right', 'mode main']
-
-down = 'volume down'
-up = 'volume up'
-shift-down = ['volume set 0', 'mode main']
 
 [mode.resize.binding]
 l = 'resize width +100'
@@ -206,8 +190,11 @@ esc = 'mode main'
 enter = 'mode main'
 alt-r = 'mode main'
 
+[workspace-to-monitor-force-assignment]
+9 = 'secondary'
+
 [[on-window-detected]]
-if.app-name-regex-substring = 'Messages|TickTick|Notes|WhatsApp|Finder|ChatGPT'
+if.app-name-regex-substring = 'Messages|TickTick|Notes|WhatsApp|Finder|ChatGPT|Citrix'
 check-further-callbacks = true
 run = ['layout floating']  # The callback itself
 

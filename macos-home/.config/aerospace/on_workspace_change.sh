@@ -15,7 +15,8 @@ notify_sketchybar() {
   if [ "$curr_workspace" = "scratch" ]; then
     curr_workspace=$prev_workspace
   fi
-  sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$curr_workspace PREV_WORKSPACE=$prev_workspace
+  visible_workspaces="$(aerospace list-workspaces --monitor all --visible)"
+  sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$curr_workspace PREV_WORKSPACE=$prev_workspace VISIBLE_WORKSPACES="$visible_workspaces"
 }
 
 move_from_scratch

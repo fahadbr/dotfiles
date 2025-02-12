@@ -63,7 +63,7 @@ sketchybar --default "${default[@]}"
 
 sketchybar --add event aerospace_workspace_change
 
-for sid in $(aerospace list-workspaces --monitor focused); do
+for sid in $(aerospace list-workspaces --monitor all); do
     if [ "$sid" = "scratch" ]; then
       continue
     fi
@@ -74,6 +74,7 @@ for sid in $(aerospace list-workspaces --monitor focused); do
         background.corner_radius=5 \
         background.height=$ITEM_HEIGHT \
         background.drawing=off \
+        background.border_color="$GREY" \
         icon.drawing=off \
         label.font.size=14.0 \
         label="$sid" \
