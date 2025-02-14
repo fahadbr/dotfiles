@@ -9,7 +9,7 @@
   "filterLinkHints": false,
   "waitForEnterForFilteredHints": true,
   "hideHud": false,
-  "keyMappings": "# Insert your preferred key mappings here.\nunmap H\nunmap J\nunmap K\nunmap L\nmap H previousTab\nmap L nextTab\nmap J goBack\nmap K goForward\nmap <a-H> previousTab\nmap <a-L> nextTab\nmap <a-J> goBack\nmap <a-K> goForward",
+  "keyMappings": "# Insert your preferred key mappings here.\nunmap H\nunmap J\nunmap K\nunmap L\nmap H previousTab\nmap L nextTab\nmap J goBack\nmap K goForward\nmap <c-H> previousTab\nmap <c-L> nextTab\nmap <c-J> goBack\nmap <c-K> goForward",
   "linkHintCharacters": "sadfjklewcmpgh",
   "linkHintNumbers": "0123456789",
   "newTabUrl": "about:newtab",

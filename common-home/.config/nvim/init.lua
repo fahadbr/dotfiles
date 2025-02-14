@@ -139,6 +139,21 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- }}}
 
+-- navigation bindings and checks for kitty and tmux {{{
+local kittypid = os.getenv("KITTY_PID")
+local in_kitty = kittypid ~= nil and kittypid ~= ''
+local tmuxenv = os.getenv("TMUX")
+local in_tmux = tmuxenv ~= nil and tmuxenv ~= ''
+
+if not in_tmux and not in_kitty then
+  nmap('<C-S-k>', '<C-w>k', 'focus window north')
+  nmap('<C-S-j>', '<C-w>j', 'focus window south')
+  nmap('<C-S-h>', '<C-w>h', 'focus window west')
+  nmap('<C-S-l>', '<C-w>l', 'focus window east')
+end
+
+-- }}}
+
 -- lazy.nvim (plugins) {{{
 
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
@@ -159,7 +174,7 @@ local plugins = {
   'scrooloose/nerdtree',
   'Xuyuanp/nerdtree-git-plugin',
   'scrooloose/nerdcommenter',
-  { '.fzf',           dev = true, dir="~" },
+  { '.fzf',                      dev = true,               dir = "~" },
   'junegunn/fzf.vim',
   'bronson/vim-trailing-whitespace',
   {
@@ -388,18 +403,7 @@ local plugins = {
 
   {
     'knubie/vim-kitty-navigator',
-    build = 'cp ./*.py ~/.config/kitty/',
-    cond = function()
-      -- these mappings will take effect if this plugin isnt loaded
-      -- otherwise they are overridden below with the vim-kitty-navigator
-      -- mappings. the plugin isn't loaded if not running inside kitty
-      nmap('<C-S-k>', '<C-w>k', 'focus window north')
-      nmap('<C-S-j>', '<C-w>j', 'focus window south')
-      nmap('<C-S-h>', '<C-w>h', 'focus window west')
-      nmap('<C-S-l>', '<C-w>l', 'focus window east')
-      local kittypid = os.getenv("KITTY_PID")
-      return kittypid ~= nil and kittypid ~= ''
-    end,
+    cond = in_kitty and not in_tmux,
     init = function()
       vim.g.kitty_navigator_no_mappings = 1
       nmap('<C-S-k>', vim.cmd.KittyNavigateUp, 'focus window up (kitty)')
@@ -630,7 +634,7 @@ local plugins = {
       nmap("<space>hh", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, "show harpoon ui")
 
       for i = 0, 9 do
-	local desc = string.format("Select harpoon list entry %d", i)
+        local desc = string.format("Select harpoon list entry %d", i)
         local harpoonSelect = function() harpoon:list():select(i) end
         nmap(string.format("<space>h%d", i), harpoonSelect, desc)
       end
@@ -861,44 +865,44 @@ nmap('<leader>cr', function() vim.lsp.stop_client(vim.lsp.get_active_clients()) 
 
 
 --local jdtls_config = {
-  --cmd = {
-    --install_path .. "/bin/jdtls",
-    --"--jvm-arg=-javaagent:" .. install_path .. "/lombok.jar",
-    --"-data", workspace_dir
-  --},
-  --cmd_env = {
-    --GRADLE_HOME = home .. "/.sdkman/candidates/gradle/current/bin/gradle",
-  --},
-  --on_attach = function(client)
-    --if client.server_capabilities.signatureHelpProvider then
-      --require('lsp-overloads').setup(client, {
-        --ui = {
-          --close_events = { "CursorMoved", "BufHidden", "InsertLeave" },
-        --},
-        --keymaps = {
-          --next_signature = "<C-j>",
-          --previous_signature = "<C-k>",
-          --next_parameter = "<C-l>",
-          --previous_parameter = "<C-h>",
-          --close_signature = "<A-s>"
-        --},
-        --display_automatically = true
-      --})
-    --end
-  --end
+--cmd = {
+--install_path .. "/bin/jdtls",
+--"--jvm-arg=-javaagent:" .. install_path .. "/lombok.jar",
+--"-data", workspace_dir
+--},
+--cmd_env = {
+--GRADLE_HOME = home .. "/.sdkman/candidates/gradle/current/bin/gradle",
+--},
+--on_attach = function(client)
+--if client.server_capabilities.signatureHelpProvider then
+--require('lsp-overloads').setup(client, {
+--ui = {
+--close_events = { "CursorMoved", "BufHidden", "InsertLeave" },
+--},
+--keymaps = {
+--next_signature = "<C-j>",
+--previous_signature = "<C-k>",
+--next_parameter = "<C-l>",
+--previous_parameter = "<C-h>",
+--close_signature = "<A-s>"
+--},
+--display_automatically = true
+--})
+--end
+--end
 --}
 
 --local nvim_jdtls_group = vim.api.nvim_create_augroup("nvim-jdtls", { clear = true })
 --vim.api.nvim_create_autocmd("FileType", {
-  --pattern = { "java" },
-  --callback = function()
-    --vim.bo.shiftwidth = 2
-    --vim.bo.tabstop = 2
-    --vim.bo.softtabstop = 2
-    --vim.bo.expandtab = true
-    --require("jdtls").start_or_attach(jdtls_config)
-  --end,
-  --group = nvim_jdtls_group,
+--pattern = { "java" },
+--callback = function()
+--vim.bo.shiftwidth = 2
+--vim.bo.tabstop = 2
+--vim.bo.softtabstop = 2
+--vim.bo.expandtab = true
+--require("jdtls").start_or_attach(jdtls_config)
+--end,
+--group = nvim_jdtls_group,
 --})
 
 -- }}}
@@ -908,8 +912,8 @@ nmap('<leader>cr', function() vim.lsp.stop_client(vim.lsp.get_active_clients()) 
 
 ---- Example of settings
 --metals_config.settings = {
-  --showImplicitArguments = true,
-  --excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
+--showImplicitArguments = true,
+--excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
 --}
 
 ---- Example if you are using cmp how to make sure the correct capabilities for snippets are set
@@ -920,15 +924,15 @@ nmap('<leader>cr', function() vim.lsp.stop_client(vim.lsp.get_active_clients()) 
 ---- Autocmd that will actually be in charging of starting the whole thing
 --local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
 --autocmd('FileType', {
-  ---- NOTE: You may or may not want java included here. You will need it if you
-  ---- want basic Java support but it may also conflict if you are using
-  ---- something like nvim-jdtls which also works on a java filetype autocmd.
-  --pattern = { 'scala', 'sbt' },
-  --callback = function()
-    --require('metals').initialize_or_attach(metals_config)
-    --nmap('<localleader>m', require('telescope').extensions.metals.commands, 'Show Metals Commands')
-  --end,
-  --group = nvim_metals_group,
+---- NOTE: You may or may not want java included here. You will need it if you
+---- want basic Java support but it may also conflict if you are using
+---- something like nvim-jdtls which also works on a java filetype autocmd.
+--pattern = { 'scala', 'sbt' },
+--callback = function()
+--require('metals').initialize_or_attach(metals_config)
+--nmap('<localleader>m', require('telescope').extensions.metals.commands, 'Show Metals Commands')
+--end,
+--group = nvim_metals_group,
 --})
 
 
