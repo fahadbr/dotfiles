@@ -158,7 +158,7 @@ alt-t = 'layout h_accordion' # 'layout tabbed' in i3
 alt-e = 'layout tiles horizontal vertical' # 'layout toggle split' in i3
 
 alt-enter = 'exec-and-forget /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d $HOME'
-alt-shift-w = 'exec-and-forget aerospace focus --window-id $(aerospace list-windows --monitor all --format "%{workspace}[%{monitor-id}]%{right-padding} | %{app-name}%{right-padding} | %{window-title}%{right-padding}" | choose | cut -d "|" -f 1)'
+alt-shift-w = 'exec-and-forget aerospace focus --window-id $(aerospace list-windows --monitor all --format "%{workspace}[%{monitor-id}]%{right-padding} | %{app-name}%{right-padding} | %{window-title}%{right-padding} | %{window-id}" | choose | cut -d "|" -f 4)'
 alt-shift-c = 'reload-config'
 alt-shift-r = 'exec-and-forget sketchybar --reload'
 
@@ -178,17 +178,15 @@ alt-r = 'mode main'
 
 
 [mode.apps.binding]
-k = ['exec-and-forget open -a kitty', 'mode main']
-s = ['exec-and-forget open -a Safari', 'mode main']
-b = ['exec-and-forget open -a "Google Chrome"', 'mode main']
-t = ['exec-and-forget $HOME/.config/aerospace/scratch.sh com.TickTick.task.mac TickTick', 'mode main']
-c = ['exec-and-forget $HOME/.config/aerospace/scratch.sh com.openai.chat ChatGPT', 'mode main']
-m = ['exec-and-forget $HOME/.config/aerospace/scratch.sh com.apple.MobileSMS Messages', 'mode main']
-n = ['exec-and-forget $HOME/.config/aerospace/scratch.sh com.apple.Notes Notes', 'mode main']
-w = ['exec-and-forget $HOME/.config/aerospace/scratch.sh net.whatsapp.WhatsApp WhatsApp', 'mode main']
-shift-c = ['exec-and-forget open -a Calendar', 'mode main']
-shift-m = ['exec-and-forget open -a Mail', 'mode main']
-z = ['exec-and-forget open -a "zoom.us"', 'mode main']
+alt-b = ['exec-and-forget $HOME/.config/aerospace/focus.sh browser', 'mode main']
+alt-t = ['exec-and-forget $HOME/.config/aerospace/focus.sh terminal', 'mode main']
+alt-c = ['exec-and-forget $HOME/.config/aerospace/focus.sh calendar', 'mode main']
+alt-i = ['exec-and-forget $HOME/.config/aerospace/focus.sh message', 'mode main']
+alt-n = ['exec-and-forget $HOME/.config/aerospace/focus.sh notes', 'mode main']
+alt-w = ['exec-and-forget $HOME/.config/aerospace/scratch.sh net.whatsapp.WhatsApp WhatsApp', 'mode main']
+alt-m = ['exec-and-forget $HOME/.config/aerospace/focus.sh mail', 'mode main']
+alt-x = ['exec-and-forget $HOME/.config/aerospace/focus.sh todo', 'mode main']
+alt-z = ['exec-and-forget open -a "zoom.us"', 'mode main']
 esc = 'mode main'
 enter = 'mode main'
 alt-r = 'mode main'
@@ -203,14 +201,21 @@ run = ['layout floating']  # The callback itself
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'Citrix Viewer'
-if.window-title-regex-substring = 'IB|MSG|APPT|APPX'
+if.window-title-regex-substring = 'Launchpad'
+check-further-callbacks = false
+run = ['move-node-to-workspace scratch']  # The callback itself
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'Citrix Viewer'
+check-further-callbacks = true
+run = ['move-node-to-workspace 1']  # The callback itself
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'Citrix Viewer'
+if.window-title-regex-substring = 'IB|MSG|APPT|APPX|New Tab'
 check-further-callbacks = true
 run = ['layout tiling']  # The callback itself
 
-[[on-window-detected]]
-if.app-name-regex-substring = 'Citrix'
-check-further-callbacks = true
-run = ['move-node-to-workspace 1']  # The callback itself
 
 [[on-window-detected]]
 if.window-title-regex-substring = 'rofi'
