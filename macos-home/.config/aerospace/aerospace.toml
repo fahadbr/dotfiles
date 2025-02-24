@@ -147,7 +147,7 @@ alt-shift-f = 'fullscreen --no-outer-gaps'
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+#alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
 alt-shift-space = 'layout floating tiling'
 #alt-h = 'split horizontal'
@@ -157,7 +157,7 @@ alt-s = 'layout v_accordion' # 'layout stacking' in i3
 alt-t = 'layout h_accordion' # 'layout tabbed' in i3
 alt-e = 'layout tiles horizontal vertical' # 'layout toggle split' in i3
 
-alt-enter = 'exec-and-forget /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d $HOME'
+alt-enter = 'exec-and-forget kitten @ action new_os_window'
 alt-shift-w = 'exec-and-forget aerospace focus --window-id $(aerospace list-windows --monitor all --format "%{workspace}[%{monitor-id}]%{right-padding} | %{app-name}%{right-padding} | %{window-title}%{right-padding} | %{window-id}" | choose | cut -d "|" -f 4)'
 alt-shift-c = 'reload-config'
 alt-shift-r = 'exec-and-forget sketchybar --reload'
@@ -195,7 +195,7 @@ alt-r = 'mode main'
 9 = 'secondary'
 
 [[on-window-detected]]
-if.app-name-regex-substring = 'Messages|TickTick|Notes|WhatsApp|Finder|ChatGPT'
+if.app-name-regex-substring = 'Messages|TickTick|Notes|WhatsApp|Finder|ChatGPT|Obsidian|Zoom'
 check-further-callbacks = true
 run = ['layout floating']  # The callback itself
 
@@ -217,7 +217,3 @@ check-further-callbacks = true
 run = ['layout tiling']  # The callback itself
 
 
-[[on-window-detected]]
-if.window-title-regex-substring = 'rofi'
-check-further-callbacks = true
-run = ['layout floating']  # The callback itself

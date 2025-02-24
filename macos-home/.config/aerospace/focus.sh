@@ -23,7 +23,7 @@ case "$focus_cat" in
     ;;
   notes)
     if [ "$machine" = "work" ]; then
-      $scratch 'com.apple.Notes' 'Notes'
+      $scratch 'md.obsidian' 'Obsidian'
     else
       $scratch 'com.apple.Notes' 'Notes'
     fi

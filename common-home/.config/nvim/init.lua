@@ -222,7 +222,6 @@ local plugins = {
   'hrsh7th/cmp-cmdline',
   'saadparwaiz1/cmp_luasnip',
   { 'L3MON4D3/LuaSnip',        version = "v2.*", build = "make install_jsregexp" },
-  'luukvbaal/nnn.nvim',
   'nvim-lua/popup.nvim',
   'nvim-lua/plenary.nvim',
   'nvim-lua/telescope.nvim',
@@ -1084,36 +1083,6 @@ nmap('<leader>fw', telescope_builtin.grep_string, 'grep string under cursor (tel
 nmap('<space>tp', telescope.extensions.persisted.persisted, 'show sessions (telescope)')
 
 -- }}}
-
--- nnn config {{{
-require('nnn').setup({
-  explorer = {
-    width = 35,
-  },
-  picker = {
-    cmd = "tmux new-session nnn", -- command override (-p flag is implied)
-  },
-  auto_open = {
-    setup = nil,   -- or "explorer" / "picker", auto open on setup function
-    tabpage = nil, -- or "explorer" / "picker", auto open when opening new tabpage
-    empty = false, -- only auto open on empty buffer
-    ft_ignore = {  -- dont auto open for these filetypes
-      "gitcommit",
-    }
-  },
-  auto_close = true,   -- close tabpage/nvim when nnn is last window
-  replace_netrw = nil, -- or "explorer" / "picker"
-  mappings = {},       -- table containing mappings, see below
-  windownav = {        -- window movement mappings to navigate out of nnn
-    left = "<C-S-h>",
-    right = "<C-S-l>"
-  }
-})
-
-nmap('<leader>np', function() vim.cmd.NnnPicker('%:p:h') end, 'Show NnnPicker')
-nmap('<leader>ne', function() vim.cmd.NnnExplorer('%:p:h') end, 'Show NnnExplorer')
-
--- }}} end nnn config
 
 -- gitsigns config {{{
 local gitsigns = require('gitsigns')
