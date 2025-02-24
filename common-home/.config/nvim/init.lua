@@ -1218,7 +1218,7 @@ tmap('<C-PageDown>', '<C-\\><C-n><C-PageDown>', 'tab next (terminal)')
 
 -- general mappings {{{
 nmap('<leader>ec', function() vim.cmd.edit('~/.config/nvim/init.lua') end, 'edit neovim config')
-nmap('<space>x', function()
+nmap('<leader>x', function()
   vim.cmd.bp()
   vim.cmd.bd('#')
 end, 'close buffer')
