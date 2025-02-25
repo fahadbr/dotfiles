@@ -29,12 +29,7 @@ case "$focus_cat" in
     fi
     ;;
   calendar)
-    if [ "$machine" = "work" ]; then
-      wid=$(aerospace list-windows --monitor all --app-bundle-id 'com.citrix.receiver.icaviewer.mac' | awk '/APPT/ {print $1}')
-      aerospace focus --window-id $wid
-    else
-      open -a 'Calendar'
-    fi
+    open -a 'Calendar'
     ;;
   terminal)
     open -a 'kitty'
@@ -46,6 +41,9 @@ case "$focus_cat" in
     else
       open -a 'Mail'
     fi
+    ;;
+  bbfunction)
+    open 'bbg://screens/'
     ;;
   todo)
       $scratch 'com.TickTick.task.mac' 'TickTick'

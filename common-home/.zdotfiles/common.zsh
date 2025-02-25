@@ -1,6 +1,7 @@
 # vim:foldmethod=marker
 
 export ZDOTFILES=${HOME}/.zdotfiles
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
 # {{{ Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.

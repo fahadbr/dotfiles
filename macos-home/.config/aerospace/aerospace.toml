@@ -179,12 +179,13 @@ alt-r = 'mode main'
 
 [mode.apps.binding]
 alt-b = ['exec-and-forget $HOME/.config/aerospace/focus.sh browser', 'mode main']
-alt-t = ['exec-and-forget $HOME/.config/aerospace/focus.sh terminal', 'mode main']
 alt-c = ['exec-and-forget $HOME/.config/aerospace/focus.sh calendar', 'mode main']
+alt-f = ['exec-and-forget $HOME/.config/aerospace/focus.sh bbfunction', 'mode main']
 alt-i = ['exec-and-forget $HOME/.config/aerospace/focus.sh message', 'mode main']
-alt-n = ['exec-and-forget $HOME/.config/aerospace/focus.sh notes', 'mode main']
-alt-w = ['exec-and-forget $HOME/.config/aerospace/scratch.sh net.whatsapp.WhatsApp WhatsApp', 'mode main']
 alt-m = ['exec-and-forget $HOME/.config/aerospace/focus.sh mail', 'mode main']
+alt-n = ['exec-and-forget $HOME/.config/aerospace/focus.sh notes', 'mode main']
+alt-t = ['exec-and-forget $HOME/.config/aerospace/focus.sh terminal', 'mode main']
+alt-w = ['exec-and-forget $HOME/.config/aerospace/scratch.sh net.whatsapp.WhatsApp WhatsApp', 'mode main']
 alt-x = ['exec-and-forget $HOME/.config/aerospace/focus.sh todo', 'mode main']
 alt-z = ['exec-and-forget open -a "zoom.us"', 'mode main']
 esc = 'mode main'
