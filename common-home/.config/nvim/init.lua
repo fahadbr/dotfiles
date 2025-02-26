@@ -1062,7 +1062,8 @@ nmap('<space>b', function()
       hide_on_startup = true,
     },
     attach_mappings = function(_, map)
-      map({ 'i', 'n' }, '<C-w>', 'delete_buffer', { desc = 'close selected buffers' })
+      map({ 'i', 'n' }, '<C-x>', 'delete_buffer', { desc = 'close selected buffers' })
+      map({ 'i', 'n' }, '<C-s>', 'select_horizontal', { desc = 'open selection in a horizontal split' })
       return true
     end,
   })
