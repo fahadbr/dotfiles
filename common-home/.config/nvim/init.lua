@@ -770,6 +770,11 @@ lspconfig.gopls.setup {
     codelenses = {
       gc_details = true,
       test = true
+    },
+  },
+  settings = {
+    gopls = {
+      gofumpt = true
     }
   }
 }
