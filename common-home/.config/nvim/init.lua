@@ -833,10 +833,11 @@ nmap('<leader>k', vim.lsp.buf.signature_help, 'LSP signature_help')
 imap('<C-k>', vim.cmd.LspOverloadsSignature, 'LSP overloads signature_help')
 --imap('<M-k>', vim.lsp.buf.signature_help, 'LSP signature_help')
 nmap('<leader>ld', vim.diagnostic.open_float, 'LSP open floating diagnostics')
-nmap('<leader>a', vim.lsp.buf.code_action, 'LSP code action')
-nmap('<leader>rn', vim.lsp.buf.rename, 'LSP rename symbol')
-nmap('<leader>fm', vim.lsp.buf.format, 'LSP format buffer sync')
-nmap('<leader>cr', function() vim.lsp.stop_client(vim.lsp.get_active_clients()) end, 'Restart Active LSP Clients')
+nmap('<leader>la', vim.lsp.buf.code_action, 'LSP code action')
+vmap('<leader>la', vim.lsp.buf.code_action, 'LSP code action')
+nmap('<leader>lr', vim.lsp.buf.rename, 'LSP rename symbol')
+nmap('<leader>lf', vim.lsp.buf.format, 'LSP format buffer sync')
+nmap('<leader>lcr', function() vim.lsp.stop_client(vim.lsp.get_active_clients()) end, 'LSP Client Restart (restart all active clients)')
 
 
 
