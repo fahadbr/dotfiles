@@ -6,7 +6,7 @@ export WLR_DRM_NO_MODIFIERS=1
 export _JAVA_AWT_WM_NONREPARENTING=1
 export MOZ_ENABLE_WAYLAND=1
 
-export PATH="$HOME/.dotfiles/scripts:$HOME/.local/bin:$GOPATH/bin:$HOME/.cargo/bin/:${PATH}"
+export PATH="$HOME/.dotfiles/scripts:$HOME/.local/bin:${PATH}"
 
 printcolors() {
 	for c in black white red blue green cyan magenta yellow; do
