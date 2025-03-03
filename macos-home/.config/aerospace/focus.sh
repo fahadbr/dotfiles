@@ -8,7 +8,7 @@ scratch="${aerospace_cfg_dir}/scratch.sh"
 case "$focus_cat" in
   message)
     if [ "$machine" = "work" ]; then
-      wid=$(aerospace list-windows --monitor all --app-bundle-id 'com.citrix.receiver.icaviewer.mac' | grep 'IB' | awk '/IB/ {print $1}')
+      wid=$(aerospace list-windows --monitor all --app-bundle-id 'com.citrix.receiver.icaviewer.mac' | awk '/IB - / {print $1}' | head -n 1)
       aerospace focus --window-id $wid
     else
       $scratch com.apple.MobileSMS Messages
