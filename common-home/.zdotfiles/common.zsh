@@ -59,8 +59,15 @@ bindkey '^z' push-input # save the current line, clear it, and then bring it bac
 
 case $TERM in
     xterm*)
-	#15 char left truncated PWD
-        precmd () {print -Pn "\e]0;%15<..<%~%<<\a"}
+	precmd () {
+	  #15 char left truncated PWD
+	  print -Pn "\e]0;%15<..<%~%<<\a"
+	}
+	preexec () {
+	  # cmd name only, or if this is sudo or ssh, the next cmd
+	  local CMD=${1[(wr)^(*=*|sudo|ssh|mosh|rake|-*)]:gs/%/%%}
+	  print -Pn "\e]0;$CMD\a"
+	}
         ;;
 esac
 
