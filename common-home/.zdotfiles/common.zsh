@@ -11,25 +11,11 @@ fi
 # }}}
 
 # {{{ oh-my-zsh variables and config
-#export ZSH=${ZSH:-"$HOME/.oh-my-zsh"}
-#export ZSH_THEME="fahad"
-#export DISABLE_AUTO_UPDATE="false"
-#export DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-#plugins=(
-  #git
-  #ssh-agent
-  #z
-  #zsh-interactive-cd
-  #zsh-autosuggestions
-  #zsh-syntax-highlighting
-#)
 
 if [[ -f ~/.ssh/id_rsa ]]; then
   zstyle :omz:plugins:ssh-agent identities id_rsa id_ed25519
 fi
 
-#source $ZSH/oh-my-zsh.sh
 # }}}
 
 # {{{ antidote install and load
@@ -68,7 +54,16 @@ setopt shwordsplit
 setopt completeinword
 unsetopt beep
 unsetopt sharehistory
- bindkey -e
+bindkey -e
+bindkey '^z' push-input # save the current line, clear it, and then bring it back in the next prompt
+
+case $TERM in
+    xterm*)
+	#15 char left truncated PWD
+        precmd () {print -Pn "\e]0;%15<..<%~%<<\a"}
+        ;;
+esac
+
 # }}}
 
 # {{{ directories
