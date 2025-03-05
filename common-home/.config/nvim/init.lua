@@ -323,14 +323,14 @@ local plugins = {
       require('nvim-treesitter.configs').setup {
         ensure_installed = {
           "c",
+          "cpp",
+          "python",
           "lua",
           "vim",
           "vimdoc",
           "query",
           "go",
           "json",
-          "scala",
-          "java",
           "yaml",
           "markdown",
           "markdown_inline",
