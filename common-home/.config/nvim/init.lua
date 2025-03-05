@@ -1037,10 +1037,12 @@ local function current_buffer_fuzzy_find()
   }
 end
 
-local cursor_layout_opts = {
-  layout_strategy = 'cursor',
-  layout_config = { height = 0.4, width = 180, preview_width = 100, preview_cutoff = 120 }
-}
+local function cursor_layout_opts()
+  return {
+    layout_strategy = 'cursor',
+    layout_config = { height = 0.4, width = 180, preview_width = 100, preview_cutoff = 120 }
+  }
+end
 
 -- telescope version has been buggy
 -- nmap('gd', function()
@@ -1048,19 +1050,19 @@ local cursor_layout_opts = {
 -- end, 'lsp goto definition (telescope)')
 nmap('gd', vim.lsp.buf.definition, 'go to definition')
 nmap('gi', function()
-  telescope_builtin.lsp_implementations(cursor_layout_opts)
+  telescope_builtin.lsp_implementations(cursor_layout_opts())
 end, 'lsp goto implementation (telescope)')
 nmap('gr', function()
-  telescope_builtin.lsp_references(cursor_layout_opts)
+  telescope_builtin.lsp_references(cursor_layout_opts())
 end, 'lsp goto references (telescope)')
 nmap('<space>ltd', function()
-  telescope_builtin.lsp_type_definitions(cursor_layout_opts)
+  telescope_builtin.lsp_type_definitions(cursor_layout_opts())
 end, 'lsp type definition (telescope)')
 nmap('<space>lvd', function()
-  telescope_builtin.lsp_definitions(merge_copy(cursor_layout_opts, { jump_type = 'vsplit' }))
+  telescope_builtin.lsp_definitions(merge_copy(cursor_layout_opts(), { jump_type = 'vsplit' }))
 end, 'lsp goto definition vsplit (telescope)')
 nmap('<space>lhd', function()
-  telescope_builtin.lsp_definitions(merge_copy(cursor_layout_opts, { jump_type = 'split' }))
+  telescope_builtin.lsp_definitions(merge_copy(cursor_layout_opts(), { jump_type = 'split' }))
 end, 'lsp goto definition hsplit (telescope)')
 nmap('<space>ls', telescope_builtin.lsp_dynamic_workspace_symbols, 'lsp dynamic workspace symbols (telescope)')
 nmap('<space>a', find_files_from_project_git_root, 'find files from git root (telescope)')
