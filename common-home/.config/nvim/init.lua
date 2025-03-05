@@ -311,6 +311,7 @@ local plugins = {
         },
       })
       nmap('<leader>fc', function() conform.format { lsp_fallback = true, timeout_ms = 1000 } end, "Format Using Conform")
+      vmap('<leader>fc', function() conform.format { lsp_fallback = true, timeout_ms = 1000 } end, "Format Using Conform")
     end
   },
   -- }}}
@@ -1030,6 +1031,12 @@ local function live_grep_from_project_git_root()
   telescope_builtin.live_grep(opts)
 end
 
+local function current_buffer_fuzzy_find()
+  telescope_builtin.current_buffer_fuzzy_find {
+    results_title = vim.fn.expand('%'),
+  }
+end
+
 local cursor_layout_opts = {
   layout_strategy = 'cursor',
   layout_config = { height = 0.4, width = 180, preview_width = 100, preview_cutoff = 120 }
@@ -1046,16 +1053,16 @@ end, 'lsp goto implementation (telescope)')
 nmap('gr', function()
   telescope_builtin.lsp_references(cursor_layout_opts)
 end, 'lsp goto references (telescope)')
-nmap('<leader>ltd', function()
+nmap('<space>ltd', function()
   telescope_builtin.lsp_type_definitions(cursor_layout_opts)
 end, 'lsp type definition (telescope)')
-nmap('<leader>lvd', function()
+nmap('<space>lvd', function()
   telescope_builtin.lsp_definitions(merge_copy(cursor_layout_opts, { jump_type = 'vsplit' }))
 end, 'lsp goto definition vsplit (telescope)')
-nmap('<leader>lhd', function()
+nmap('<space>lhd', function()
   telescope_builtin.lsp_definitions(merge_copy(cursor_layout_opts, { jump_type = 'split' }))
 end, 'lsp goto definition hsplit (telescope)')
-nmap('<space>s', telescope_builtin.lsp_dynamic_workspace_symbols, 'lsp dynamic workspace symbols (telescope)')
+nmap('<space>ls', telescope_builtin.lsp_dynamic_workspace_symbols, 'lsp dynamic workspace symbols (telescope)')
 nmap('<space>a', find_files_from_project_git_root, 'find files from git root (telescope)')
 nmap('<space>f', git_or_find_files, 'git files or find files (telescope)')
 nmap('<space>b', function()
@@ -1074,19 +1081,19 @@ nmap('<space>b', function()
     end,
   })
 end, 'list buffers (telescope)')
-nmap('<space>o', function() telescope_builtin.lsp_document_symbols { symbol_width = 120 } end,
+nmap('<space>o', function() telescope_builtin.lsp_document_symbols { symbol_width = 60, ignore_symbols = { 'variable', 'field' } } end,
   'lsp document symbols (telescope)')
 nmap('<space>tk', telescope_builtin.keymaps, 'keymaps (telescope)')
 nmap('<space>tt', telescope_builtin.treesitter, 'treesitter (telescope)')
 nmap('<space>tb', telescope_builtin.builtin, 'telescope builtins (telescope)')
-nmap('<space>r', function() telescope_builtin.resume { cache_index = 1 } end, 'telescope resume picker (telescope)')
-nmap('<leader>fl', live_grep_from_project_git_root, 'live grep from git root (telescope)')
-nmap('<leader>fb', function()
-  telescope_builtin.current_buffer_fuzzy_find {
-    results_title = vim.fn.expand('%'),
-  }
-end, 'live grep current buffer (telescope)')
-nmap('<leader>fw', telescope_builtin.grep_string, 'grep string under cursor (telescope)')
+nmap('<space>tr', function() telescope_builtin.resume { cache_index = 1 } end, 'telescope resume picker (telescope)')
+
+nmap('<leader>fl', live_grep_from_project_git_root, 'DEPRECATED live grep from git root (telescope)')
+nmap('<leader>fb', current_buffer_fuzzy_find, 'DEPRECATED live grep current buffer (telescope)')
+nmap('<leader>fw', telescope_builtin.grep_string, 'DEPRECATED grep string under cursor (telescope)')
+nmap('<space>sl', live_grep_from_project_git_root, 'live grep from git root (telescope)')
+nmap('<space>sb', current_buffer_fuzzy_find, 'live grep current buffer (telescope)')
+nmap('<space>sw', telescope_builtin.grep_string, 'grep string under cursor (telescope)')
 nmap('<space>tp', telescope.extensions.persisted.persisted, 'show sessions (telescope)')
 
 -- }}}
