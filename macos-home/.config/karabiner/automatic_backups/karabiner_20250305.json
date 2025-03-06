@@ -5,6 +5,36 @@
                 "parameters": { "basic.simultaneous_threshold_milliseconds": 100 },
                 "rules": [
                     {
+                        "description": "CAPS_LOCK to CTRL or ESCAPE (If Alone)",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "description": "Built in Apple Keyboard",
+                                                "location_id": 45
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "caps_lock",
+                                    "modifiers": {}
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_control",
+                                        "modifiers": []
+                                    }
+                                ],
+                                "to_if_alone": [{ "key_code": "escape" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Toggle caps_lock by pressing left_shift then right_shift",
                         "manipulators": [
                             {
@@ -13,7 +43,7 @@
                                         "identifiers": [
                                             {
                                                 "description": "Built in Apple Keyboard",
-                                                "location_id": 209
+                                                "location_id": 45
                                             }
                                         ],
                                         "type": "device_if"
@@ -53,7 +83,7 @@
                                         "identifiers": [
                                             {
                                                 "description": "Built in Apple Keyboard",
-                                                "location_id": 209
+                                                "location_id": 45
                                             }
                                         ],
                                         "type": "device_if"
@@ -70,36 +100,6 @@
                                     }
                                 ],
                                 "to_if_alone": [{ "key_code": "right_command" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "CAPS_LOCK to CTRL or ESCAPE (If Alone)",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [
-                                            {
-                                                "description": "Built in Apple Keyboard",
-                                                "location_id": 209
-                                            }
-                                        ],
-                                        "type": "device_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "caps_lock",
-                                    "modifiers": {}
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_control",
-                                        "modifiers": []
-                                    }
-                                ],
-                                "to_if_alone": [{ "key_code": "escape" }],
                                 "type": "basic"
                             }
                         ]

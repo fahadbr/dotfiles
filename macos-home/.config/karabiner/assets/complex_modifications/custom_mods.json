@@ -1,5 +1,5 @@
 {
-  "title": "Caps Mods + Others",
+  "title": "Caps Mods + Others M3",
   "rules": [
     {
       "description": "CAPS_LOCK to CTRL or ESCAPE (If Alone)",
@@ -10,7 +10,7 @@
               "type": "device_if",
               "identifiers": [
                 {
-                  "product_id": 834,
+                  "location_id": 209,
                   "description": "Built in Apple Keyboard"
                 }
               ]
@@ -44,7 +44,7 @@
               "type": "device_if",
               "identifiers": [
                 {
-                  "product_id": 834,
+                  "location_id": 209,
                   "description": "Built in Apple Keyboard"
                 }
               ]
@@ -100,7 +100,7 @@
               "type": "device_if",
               "identifiers": [
                 {
-                  "product_id": 834,
+                  "location_id": 209,
                   "description": "Built in Apple Keyboard"
                 }
               ]
@@ -134,7 +134,7 @@
               "type": "device_if",
               "identifiers": [
                 {
-                  "product_id": 834,
+                  "location_id": 209,
                   "description": "Built in Apple Keyboard"
                 }
               ]
