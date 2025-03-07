@@ -643,6 +643,25 @@ local plugins = {
       nmap("<space>hp", function() harpoon:list():prev() end, "Go to prev harpoon buffer")
       nmap("<space>hn", function() harpoon:list():next() end, "Go to next harpoon buffer")
     end
+  },
+  -- }}}
+  -- nvim-tmux-navigation {{{
+  {
+    'alexghergh/nvim-tmux-navigation',
+    cond = in_tmux,
+    config = function()
+      require 'nvim-tmux-navigation'.setup {
+        disable_when_zoomed = true, -- defaults to false
+        keybindings = {
+          left = "<C-S-h>",
+          down = "<C-S-j>",
+          up = "<C-S-k>",
+          right = "<C-S-l>",
+          last_active = "<C-\\>",
+          next = "<C-Space>",
+        }
+      }
+    end
   }
   -- }}}
 }
@@ -843,7 +862,8 @@ nmap('<leader>la', vim.lsp.buf.code_action, 'LSP code action')
 vmap('<leader>la', vim.lsp.buf.code_action, 'LSP code action')
 nmap('<leader>lr', vim.lsp.buf.rename, 'LSP rename symbol')
 nmap('<leader>lf', vim.lsp.buf.format, 'LSP format buffer sync')
-nmap('<leader>lcr', function() vim.lsp.stop_client(vim.lsp.get_active_clients()) end, 'LSP Client Restart (restart all active clients)')
+nmap('<leader>lcr', function() vim.lsp.stop_client(vim.lsp.get_active_clients()) end,
+  'LSP Client Restart (restart all active clients)')
 
 
 
@@ -1083,7 +1103,8 @@ nmap('<space>b', function()
     end,
   })
 end, 'list buffers (telescope)')
-nmap('<space>o', function() telescope_builtin.lsp_document_symbols { symbol_width = 60, ignore_symbols = { 'variable', 'field' } } end,
+nmap('<space>o',
+  function() telescope_builtin.lsp_document_symbols { symbol_width = 60, ignore_symbols = { 'variable', 'field' } } end,
   'lsp document symbols (telescope)')
 nmap('<space>tk', telescope_builtin.keymaps, 'keymaps (telescope)')
 nmap('<space>tt', telescope_builtin.treesitter, 'treesitter (telescope)')
