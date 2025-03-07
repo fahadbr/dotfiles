@@ -563,16 +563,16 @@ local plugins = {
         },
       }
 
-      nmap('<leader>1', function() bufferline.go_to(1, true) end, 'Bufferline goto buffer 1')
-      nmap('<leader>2', function() bufferline.go_to(2, true) end, 'Bufferline goto buffer 2')
-      nmap('<leader>3', function() bufferline.go_to(3, true) end, 'Bufferline goto buffer 3')
-      nmap('<leader>4', function() bufferline.go_to(4, true) end, 'Bufferline goto buffer 4')
-      nmap('<leader>5', function() bufferline.go_to(5, true) end, 'Bufferline goto buffer 5')
-      nmap('<leader>6', function() bufferline.go_to(6, true) end, 'Bufferline goto buffer 6')
-      nmap('<leader>7', function() bufferline.go_to(7, true) end, 'Bufferline goto buffer 7')
-      nmap('<leader>8', function() bufferline.go_to(8, true) end, 'Bufferline goto buffer 8')
-      nmap('<leader>9', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
-      nmap('<leader>0', function() bufferline.go_to(10, true) end, 'Bufferline goto buffer 10')
+      nmap('g1', function() bufferline.go_to(1, true) end, 'Bufferline goto buffer 1')
+      nmap('g2', function() bufferline.go_to(2, true) end, 'Bufferline goto buffer 2')
+      nmap('g3', function() bufferline.go_to(3, true) end, 'Bufferline goto buffer 3')
+      nmap('g4', function() bufferline.go_to(4, true) end, 'Bufferline goto buffer 4')
+      nmap('g5', function() bufferline.go_to(5, true) end, 'Bufferline goto buffer 5')
+      nmap('g6', function() bufferline.go_to(6, true) end, 'Bufferline goto buffer 6')
+      nmap('g7', function() bufferline.go_to(7, true) end, 'Bufferline goto buffer 7')
+      nmap('g8', function() bufferline.go_to(8, true) end, 'Bufferline goto buffer 8')
+      nmap('g9', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
+      nmap('g0', function() bufferline.go_to(10, true) end, 'Bufferline goto buffer 10')
 
       -- prefer using telescope for picking and closing specific buffers
       --nmap('<leader>bf', vim.cmd.BufferLinePick, 'Interactively pick the buffer to focus')
