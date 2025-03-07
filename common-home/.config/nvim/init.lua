@@ -1074,7 +1074,7 @@ nmap('<space>b', function()
     ignore_current_buffer = true,
     results_title = vim.fn.expand('%'),
     preview = {
-      hide_on_startup = true,
+      hide_on_startup = false,
     },
     attach_mappings = function(_, map)
       map({ 'i', 'n' }, '<C-x>', 'delete_buffer', { desc = 'close selected buffers' })
