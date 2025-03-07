@@ -146,10 +146,10 @@ local tmuxenv = os.getenv("TMUX")
 local in_tmux = tmuxenv ~= nil and tmuxenv ~= ''
 
 if not in_tmux and not in_kitty then
-  nmap('<C-S-k>', '<C-w>k', 'focus window north')
-  nmap('<C-S-j>', '<C-w>j', 'focus window south')
-  nmap('<C-S-h>', '<C-w>h', 'focus window west')
-  nmap('<C-S-l>', '<C-w>l', 'focus window east')
+  nmap('<C-k>', '<C-w>k', 'focus window north')
+  nmap('<C-j>', '<C-w>j', 'focus window south')
+  nmap('<C-h>', '<C-w>h', 'focus window west')
+  nmap('<C-l>', '<C-w>l', 'focus window east')
 end
 
 -- }}}
@@ -257,12 +257,12 @@ local plugins = {
         nmap(string.format('zr%d', i), foldWithLevel, desc)
         nmap(string.format('zm%d', i), foldWithLevel, desc)
       end
-      nmap('gh', function()
+      nmap('K', function()
         local winid = require('ufo').peekFoldedLinesUnderCursor()
         if not winid then
           vim.lsp.buf.hover()
         end
-      end)
+      end, 'peak fold (ufo) or lsp hover')
 
       ufo.setup({
         open_fold_hl_timeout = 150,
@@ -563,16 +563,16 @@ local plugins = {
         },
       }
 
-      nmap('<C-1>', function() bufferline.go_to(1, true) end, 'Bufferline goto buffer 1')
-      nmap('<C-2>', function() bufferline.go_to(2, true) end, 'Bufferline goto buffer 2')
-      nmap('<C-3>', function() bufferline.go_to(3, true) end, 'Bufferline goto buffer 3')
-      nmap('<C-4>', function() bufferline.go_to(4, true) end, 'Bufferline goto buffer 4')
-      nmap('<C-5>', function() bufferline.go_to(5, true) end, 'Bufferline goto buffer 5')
-      nmap('<C-6>', function() bufferline.go_to(6, true) end, 'Bufferline goto buffer 6')
-      nmap('<C-7>', function() bufferline.go_to(7, true) end, 'Bufferline goto buffer 7')
-      nmap('<C-8>', function() bufferline.go_to(8, true) end, 'Bufferline goto buffer 8')
-      nmap('<C-9>', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
-      nmap('<C-0>', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 10')
+      nmap('<leader>1', function() bufferline.go_to(1, true) end, 'Bufferline goto buffer 1')
+      nmap('<leader>2', function() bufferline.go_to(2, true) end, 'Bufferline goto buffer 2')
+      nmap('<leader>3', function() bufferline.go_to(3, true) end, 'Bufferline goto buffer 3')
+      nmap('<leader>4', function() bufferline.go_to(4, true) end, 'Bufferline goto buffer 4')
+      nmap('<leader>5', function() bufferline.go_to(5, true) end, 'Bufferline goto buffer 5')
+      nmap('<leader>6', function() bufferline.go_to(6, true) end, 'Bufferline goto buffer 6')
+      nmap('<leader>7', function() bufferline.go_to(7, true) end, 'Bufferline goto buffer 7')
+      nmap('<leader>8', function() bufferline.go_to(8, true) end, 'Bufferline goto buffer 8')
+      nmap('<leader>9', function() bufferline.go_to(9, true) end, 'Bufferline goto buffer 9')
+      nmap('<leader>0', function() bufferline.go_to(10, true) end, 'Bufferline goto buffer 10')
 
       -- prefer using telescope for picking and closing specific buffers
       --nmap('<leader>bf', vim.cmd.BufferLinePick, 'Interactively pick the buffer to focus')
@@ -580,8 +580,8 @@ local plugins = {
       nmap('<leader>bco', vim.cmd.BufferLineCloseOthers, 'Close other buffers/bufonly')
       nmap('<leader>bcr', vim.cmd.BufferLineCloseRight, 'Close buffers to the right')
       nmap('<leader>bcl', vim.cmd.BufferLineCloseLeft, 'Close buffers to the left')
-      nmap('<C-l>', vim.cmd.BufferLineCycleNext, 'Bufferline go to next buffer')
-      nmap('<C-h>', vim.cmd.BufferLineCyclePrev, 'bufferline go to previous buffer')
+      nmap('gn', vim.cmd.BufferLineCycleNext, 'Bufferline go to next buffer')
+      nmap('gp', vim.cmd.BufferLineCyclePrev, 'bufferline go to previous buffer')
     end,
   },
   --}}}
@@ -653,10 +653,10 @@ local plugins = {
       require 'nvim-tmux-navigation'.setup {
         disable_when_zoomed = true, -- defaults to false
         keybindings = {
-          left = "<C-S-h>",
-          down = "<C-S-j>",
-          up = "<C-S-k>",
-          right = "<C-S-l>",
+          left = "<C-h>",
+          down = "<C-j>",
+          up = "<C-k>",
+          right = "<C-l>",
           last_active = "<C-\\>",
           next = "<C-Space>",
         }
@@ -1282,14 +1282,10 @@ nmap('<leader>cw', ':set hlsearch<CR>*Ncgn', 'change instances of word under cur
 
 -- -- window mappings
 -- see vim-kitty-navigator for the next 4 mappings
--- nmap('<M-S-k>', '<C-w>k', 'focus window north')
--- nmap('<M-S-j>', '<C-w>j', 'focus window south')
--- nmap('<M-S-h>', '<C-w>h', 'focus window west')
--- nmap('<M-S-l>', '<C-w>l', 'focus window east')
-nmap('<C-=>', '5<C-w>+', 'increase vertical window size')
-nmap('<C-->', '5<C-w>-', 'decrease vertical window size')
-nmap('<C-,>', '5<C-w><', 'decrease horizontal window size')
-nmap('<C-.>', '5<C-w>>', 'increase horizontal window size')
+nmap('<C-Up>', '5<C-w>+', 'increase vertical window size')
+nmap('<C-Down>', '5<C-w>-', 'decrease vertical window size')
+nmap('<C-Left>', '5<C-w><', 'decrease horizontal window size')
+nmap('<C-Right>', '5<C-w>>', 'increase horizontal window size')
 nmap('_', '<C-w>s', 'horizontal split')
 nmap('|', '<C-w>v', 'vertical split')
 --nmap('<M-q>', '<C-w>q', 'close window')
@@ -1303,8 +1299,8 @@ nmap('<leader>tr', ':BufferLineTabRename ', 'tab rename')
 -- -- quickfix/loclist mappings
 nmap('<C-g><C-p>', ':lprevious<CR>', 'loclist previous')
 nmap('<C-g><C-n>', ':lnext<CR>', 'loclist next')
-nmap('gp', ':cprevious<CR>', 'quickfix previous')
-nmap('gn', ':cnext<CR>', 'quickfix next')
+nmap('<leader>qp', ':cprevious<CR>', 'quickfix previous')
+nmap('<leader>qn', ':cnext<CR>', 'quickfix next')
 
 vmap('<leader>/', '"vy/\\V<C-r>v<CR>', 'search for vhighlighted text')
 vmap('*', '"vy/\\<<C-r>v\\><CR>', 'search for vhighlighted word')
