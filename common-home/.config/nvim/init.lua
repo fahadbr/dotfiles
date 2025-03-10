@@ -672,7 +672,7 @@ local plugins = {
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
     config = function()
-      require('nvim-tmux-navigation').setup {
+      require('nvim-treesitter.configs').setup {
         textobjects = {
           select = {
             enable = true,
