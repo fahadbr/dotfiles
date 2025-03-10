@@ -297,7 +297,7 @@ local plugins = {
           xml = { "xmllint" },
           json = { "jq" },
           sql = { "pg_format" },
-          python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
+          python = { "ruff_fix", "ruff_format", "ruff_organize_imports", "yapf" },
           go = { "golines" },
           ["_"] = { "trim_whitespace" },
         },
