@@ -298,6 +298,7 @@ local plugins = {
           json = { "jq" },
           sql = { "pg_format" },
           python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
+          go = { "golines" },
           ["_"] = { "trim_whitespace" },
         },
         formatters = {
@@ -307,6 +308,9 @@ local plugins = {
           },
           xmllint = {
             env = { XMLLINT_INDENT = "    " }
+          },
+          golines = {
+            args = { "-m", "120"}
           }
         },
       })
