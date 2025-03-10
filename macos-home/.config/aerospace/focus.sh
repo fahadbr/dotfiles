@@ -16,9 +16,17 @@ case "$focus_cat" in
     ;;
   browser)
     if [ "$machine" = "work" ]; then
-      open -a 'Google Chrome'
+      browser_app='Google Chrome'
+      browser_bundle='com.google.Chrome'
     else
-      open -a 'Safari'
+      browser_app='Safari'
+      browser_bundle='com.apple.Safari'
+    fi
+    browser_wid="$(aerospace list-windows --workspace focused --app-bundle-id $browser_bundle --format '%{window-id}')"
+    if [[ $browser_wid ]]; then
+      aerospace focus --window-id $browser_wid
+    else
+      open -a "$browser_app"
     fi
     ;;
   notes)
@@ -32,7 +40,12 @@ case "$focus_cat" in
     open -a 'Calendar'
     ;;
   terminal)
-    open -a 'kitty'
+    term_windowid="$(aerospace list-windows --workspace focused --app-bundle-id 'net.kovidgoyal.kitty' --format '%{window-id}')"
+    if [[ $term_windowid ]]; then
+      aerospace focus --window-id $term_windowid
+    else
+      open -a 'kitty'
+    fi
     ;;
   mail)
     if [ "$machine" = "work" ]; then
