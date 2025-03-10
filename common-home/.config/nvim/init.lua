@@ -676,22 +676,18 @@ local plugins = {
         textobjects = {
           select = {
             enable = true,
+            lookahead = true,
             keymaps = {
               -- You can use the capture groups defined in textobjects.scm
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ac"] = "@class.outer",
-              ["iaw"] = "@assignment.inner",
-              ["aaw"] = "@assignment.outer",
-              ["ial"] = "@assignment.lhs",
-              ["iar"] = "@assignment.rhs",
-              -- You can optionally set descriptions to the mappings (used in the desc parameter of
-              -- nvim_buf_set_keymap) which plugins like which-key display
+              ["af"] = { query = "@function.outer", desc = "Select outer part of function" },
+              ["if"] = { query = "@function.inner", desc = "Select inner part of function" },
+              ["ac"] = { query = "@class.outer", desc = "Select outer part of class" },
+              ["aa"] = { query = "@assignment.outer", desc = "Select whole assignment statement" },
+              ["ial"] = { query = "@assignment.lhs", desc = "Select left side of assignment statement" },
+              ["iar"] = { query = "@assignment.rhs", desc = "Select right side of assignment statement" },
               ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-              -- You can also use captures from other query groups like `locals.scm`
               ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
             },
-            include_surrounding_whitespace = true,
           },
         },
       }
