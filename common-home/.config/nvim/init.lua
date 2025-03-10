@@ -671,6 +671,7 @@ local plugins = {
   -- nvim-treesitter-objects {{{
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
       require('nvim-treesitter.configs').setup {
         textobjects = {
