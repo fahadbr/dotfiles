@@ -7,39 +7,43 @@ local function autocmd(event, opts)
   vim.api.nvim_create_autocmd(event, opts)
 end
 
-local function map_with_mode(mode, key, mapping, description)
+local function map_with_mode(mode, key, mapping, description, remap)
   if description == nil and type(mapping) == 'string' then
     description = mapping
   end
-  vim.keymap.set(mode, key, mapping, { desc = description })
+  vim.keymap.set(mode, key, mapping, { desc = description, remap = remap })
 end
 
 local function nmap(key, mapping, description)
-  map_with_mode('n', key, mapping, description)
+  map_with_mode('n', key, mapping, description, false)
 end
 
 local function imap(key, mapping, description)
-  map_with_mode('i', key, mapping, description)
+  map_with_mode('i', key, mapping, description, false)
+end
+
+local function imap_remap(key, mapping, description, remap)
+  map_with_mode('i', key, mapping, description, remap)
 end
 
 local function vmap(key, mapping, description)
-  map_with_mode('v', key, mapping, description)
+  map_with_mode('v', key, mapping, description, false)
 end
 
 local function cmap(key, mapping, description)
-  map_with_mode('c', key, mapping, description)
+  map_with_mode('c', key, mapping, description, false)
 end
 
 local function tmap(key, mapping, description)
-  map_with_mode('t', key, mapping, description)
+  map_with_mode('t', key, mapping, description, false)
 end
 
 local function xmap(key, mapping, description)
-  map_with_mode('x', key, mapping, description)
+  map_with_mode('x', key, mapping, description, false)
 end
 
 local function smap(key, mapping, description)
-  map_with_mode('s', key, mapping, description)
+  map_with_mode('s', key, mapping, description, false)
 end
 
 local function make_lsp_capabilities()
@@ -310,7 +314,7 @@ local plugins = {
             env = { XMLLINT_INDENT = "    " }
           },
           golines = {
-            args = { "-m", "120"}
+            args = { "-m", "120" }
           }
         },
       })
@@ -1317,6 +1321,10 @@ nmap('<C-Right>', '5<C-w>>', 'increase horizontal window size')
 nmap('_', '<C-w>s', 'horizontal split')
 nmap('|', '<C-w>v', 'vertical split')
 --nmap('<M-q>', '<C-w>q', 'close window')
+imap_remap('<C-k>', '<C-o><C-k>', 'focus window north', true)
+imap_remap('<C-j>', '<C-o><C-j>', 'focus window south', true)
+imap_remap('<C-h>', '<C-o><C-h>', 'focus window west', true)
+imap_remap('<C-l>', '<C-o><C-l>', 'focus window east', true)
 
 -- -- tab mappings
 nmap('<leader>tn', function() vim.cmd.tabnew('%') end, 'tab new')
@@ -1329,6 +1337,7 @@ nmap('<C-g><C-p>', ':lprevious<CR>', 'loclist previous')
 nmap('<C-g><C-n>', ':lnext<CR>', 'loclist next')
 nmap('<leader>qp', ':cprevious<CR>', 'quickfix previous')
 nmap('<leader>qn', ':cnext<CR>', 'quickfix next')
+
 
 vmap('<leader>/', '"vy/\\V<C-r>v<CR>', 'search for vhighlighted text')
 vmap('*', '"vy/\\<<C-r>v\\><CR>', 'search for vhighlighted word')
