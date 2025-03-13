@@ -493,7 +493,7 @@ local plugins = {
         sections = {
           lualine_a = { 'mode', 'o:titlestring' },
           lualine_b = { width('branch', 160), width('diff', 160), width('diagnostics', 80) },
-          lualine_c = { { 'filename', path = 4 } },
+          lualine_c = { { 'filename', path = 1, shortening_target = 40 } },
           lualine_x = { width('encoding', 160), width('fileformat', 160), width('filetype', 160) },
           lualine_y = { width('progress', 120) },
           lualine_z = { width('location', 80) }
