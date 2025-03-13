@@ -126,8 +126,6 @@ end)
 
 -- }}}
 
--- }}}
-
 -- logic for marking module {{{
 --
 marks = {}
@@ -192,7 +190,7 @@ end
 
 -- }}}
 
--- shortcut to type clipboard {{{
+-- helpful keybindings for shortcuts {{{
 
 -- -- use this to type out the clipboard
 -- -- useful for when you cant paste into an application
@@ -209,52 +207,13 @@ hs.hotkey.bind(hyper, 'v', function()
   end)
 end)
 
-
--- }}}
-
--- {{{ event tap
---local events = hs.eventtap.event.types
---local logger = hs.logger.new("keytracker", "debug")
---local heldDown = false
---local heldDownTime = 0
-
--- Cases to handle
--- A_MOD_DOWN B_DOWN B_UP A_MOD_UP => MOD+B
--- A_MOD_DOWN B_DOWN A_MOD_UP B_UP => A,B
--- A_MOD_DOWN A_MOD_UP => A if < .5 sec between keydown and keyup
--- A_MOD_DOWN A_MOD_UP A_MOD_DOWN A_MOD_UP => A repeated if doubled tapped
--- keyDownTracker = hs.eventtap.new({ events.keyDown, events.keyUp }, function (e)
---   local keyCode = e:getKeyCode()
---   local eventType = e:getType(true)
---   local eventDesc = ""
---   if eventType == events.keyDown then
---       eventDesc = "KEYDOWN"
---       if keyCode == 3 and not heldDown then
---       	heldDown = true
--- 	heldDownTime = e:timestamp()
---       end
---   elseif eventType == events.keyUp then
---       eventDesc = "KEYUP"
---       if keyCode == 3 then
---       	heldDown = false
--- 	keyUpTime = e:timestamp()
--- 	--i
---       end
---   end
---
---   local deleteOriginalKey = keyCode == 3 and heldDown
---   if heldDown == true then
---       local currentFlags = e:getFlags()
---       currentFlags.ctrl = true
---       e:setFlags(currentFlags)
---   end
---
---   logger.df("%s keycode %d, timestamp: %d", eventDesc, keyCode, e:timestamp())
---   return deleteOriginalKey
--- end)
---keyDownTracker:start()
+hs.hotkey.bind(hyperS, 'v', function()
+  hs.application.launchOrFocus('bbvpn2')
+  hs.eventtap.keyStroke({'cmd', 'shift'}, 'c')
+end)
 
 
 -- }}}
+
 
 hs.alert.show("Loaded HammerSpoon Config")
