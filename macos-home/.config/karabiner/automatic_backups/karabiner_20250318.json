@@ -116,17 +116,6 @@
                     "ignore": false,
                     "mouse_flip_horizontal_wheel": true,
                     "mouse_flip_vertical_wheel": true
-                },
-                {
-                    "identifiers": {
-                        "is_keyboard": true,
-                        "is_pointing_device": true,
-                        "product_id": 45083,
-                        "vendor_id": 1133
-                    },
-                    "ignore": false,
-                    "mouse_flip_horizontal_wheel": true,
-                    "mouse_flip_vertical_wheel": true
                 }
             ],
             "name": "Default profile",

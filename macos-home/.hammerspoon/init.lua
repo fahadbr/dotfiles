@@ -169,24 +169,38 @@ for i = 1, #alphabet do
   end)
 end
 
--- default mark
--- -- No longer needed since i'm doing app switching
--- -- by hotkey
---function setDefaultMark(appname, mark)
---local wf=hs.window.filter
---filter=wf.new(false):setAppFilter(appname, {allowTitles=1})
---filter:subscribe(wf.windowAllowed, function(w)
---setWindowWithMark(w, mark)
---end, true)
---filter:subscribe(wf.windowDestroyed, function()
---removeMark(mark)
---end)
---end
 
---setDefaultMark('WhatsApp', 'w')
---setDefaultMark('Workplace Chat', 'c')
---setDefaultMark('Microsoft Outlook', 'm')
---setDefaultMark('Todoist', 't')
+-- }}}
+
+-- caffinate automator {{{
+
+citrixwatcher = hs.application.watcher.new(function(appName, event, appObj)
+  if appObj:name() == "Citrix Viewer" then
+    -- for initiating the caffeinate assertion
+    -- the correct event to watch for should actually be "launched"
+    -- but for some reason this never gets received for "Citrix Viewer"
+    -- the next best thing is to check for when its focused and add an additional
+    -- check to see if we already set the displayIdle assertion
+    if event == hs.application.watcher.activated and hs.caffeinate.get('displayIdle') == false then
+      --start caffeinate
+      hs.alert.show('Caffeinate Started')
+      hs.caffeinate.set('displayIdle', true, false)
+    elseif event == hs.application.watcher.terminated then
+      -- the below check makes sure that citrix is no longer running
+      -- there are some cases where other citrix apps have been opened
+      -- and quit while the main citrix app still remains open
+      if hs.application.get("Citrix Viewer") == nil then
+        -- end caffeinate
+        hs.alert.show('Caffeinate Terminated')
+        hs.caffeinate.set('displayIdle', false, false)
+      end
+    end
+  end
+  -- print statement for debugging
+  --hs.printf('app: ' .. appObj:name() .. ' , event: ' .. event)
+end)
+
+citrixwatcher:start()
 
 -- }}}
 
@@ -209,7 +223,7 @@ end)
 
 hs.hotkey.bind(hyperS, 'v', function()
   hs.application.launchOrFocus('bbvpn2')
-  hs.eventtap.keyStroke({'cmd', 'shift'}, 'c')
+  hs.eventtap.keyStroke({ 'cmd', 'shift' }, 'c')
 end)
 
 
