@@ -16,8 +16,8 @@ case "$focus_cat" in
     ;;
   browser)
     if [ "$machine" = "work" ]; then
-      browser_app='Google Chrome'
-      browser_bundle='com.google.Chrome'
+      browser_app='Firefox'
+      browser_bundle='org.mozilla.firefox'
     else
       browser_app='Safari'
       browser_bundle='com.apple.Safari'
