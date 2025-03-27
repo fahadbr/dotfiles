@@ -840,34 +840,43 @@ lspconfig.pyright.setup {
 }
 
 -- for lua support
-local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, "lua/?.lua")
-table.insert(runtime_path, "lua/?/init.lua")
-
 lspconfig.lua_ls.setup {
-  on_attach = on_attach,
-  settings = {
-    Lua = {
+  on_init = function(client)
+    if client.workspace_folders then
+      local path = client.workspace_folders[1].name
+      if path ~= vim.fn.stdpath('config') and (vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc')) then
+        return
+      end
+    end
+
+    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
       runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        version = 'LuaJIT',
-        -- Setup your lua path
-        path = runtime_path,
+        -- Tell the language server which version of Lua you're using
+        -- (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT'
       },
+      -- Make the server aware of Neovim runtime files
       diagnostics = {
         -- Get the language server to recognize the `vim` global
         globals = { 'vim' },
       },
       workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = vim.api.nvim_get_runtime_file("", true),
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME
+          -- Depending on the usage, you might want to add additional paths here.
+          -- "${3rd}/luv/library"
+          -- "${3rd}/busted/library",
+        }
+        -- or pull in all of 'runtimepath'. NOTE: this is a lot slower and will cause issues when working on your own configuration (see https://github.com/neovim/nvim-lspconfig/issues/3189)
+        -- library = vim.api.nvim_get_runtime_file("", true)
+      }
+    })
+  end,
+  settings = {
+    Lua = {
+    }
+  }
 }
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -1304,7 +1313,8 @@ nmap('<leader>sh', ':set hlsearch!<CR>', 'toggle search highlighting')
 --nmap('<M-c>', ':cclose<CR>', 'close quickfix list')
 nmap('<BS>', '<C-o>:bd #<CR>', 'close buffer and go to previous location')
 nmap('yFL', [[:let @+=expand('%').":".line('.')<CR>"]], 'yank/copy the current file and line number into clipboard')
-nmap('yFW', [[:let @+=expand('%')."::<C-r><C-w>"<CR>"]], 'yank/copy the current file and word under cursor into clipboard')
+nmap('yFW', [[:let @+=expand('%')."::<C-r><C-w>"<CR>"]],
+  'yank/copy the current file and word under cursor into clipboard')
 nmap('<leader>w', vim.cmd.w, 'write current buffer')
 nmap('<leader>bp', function() print(vim.fn.expand('%')) end, 'print relative filepath of current buffer')
 nmap('<leader>bP', function() print(vim.fn.expand('%:p')) end, 'print absolute filepath of current buffer')
