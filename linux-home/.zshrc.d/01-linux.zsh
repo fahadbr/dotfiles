@@ -1,6 +1,3 @@
-
-[ -f ~/.zdotfiles/common.zsh ] && source ~/.zdotfiles/common.zsh
-
 # wayland env
 export WLR_DRM_NO_MODIFIERS=1
 export _JAVA_AWT_WM_NONREPARENTING=1
