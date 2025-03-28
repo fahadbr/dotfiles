@@ -2,6 +2,9 @@
 
 set -ex
 
+# this dir is created ahead of time
+# so that stow only links the files into the directory
+# rather the the whole dir itself
 mkdir -p ${HOME}/.zshrc.d
 
 stow -R -t ${HOME} common-home
@@ -14,9 +17,9 @@ fi
 
 # clone and install fzf
 if [[ ! -d $HOME/.fzf ]]; then
-	echo "installing fzf"
-	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-	~/.fzf/install --completion --key-bindings --no-update-rc --no-bash
+    echo "installing fzf"
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install --completion --key-bindings --no-update-rc --no-bash
 fi
 
 
