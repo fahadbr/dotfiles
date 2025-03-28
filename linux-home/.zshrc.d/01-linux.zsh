@@ -40,5 +40,3 @@ if which trash-put &>/dev/null; then
   alias tp='trash-put'
   export NNN_TRASH=1
 fi
-
-post_path_evals

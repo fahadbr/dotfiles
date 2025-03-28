@@ -7,5 +7,3 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 export PATH="${HOME}/go/bin:${PATH}"
 
-post_path_evals
-

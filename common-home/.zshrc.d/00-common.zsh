@@ -142,19 +142,3 @@ function n() {
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [ -f ${ZDOTFILES}/p10k.zsh ] && source ${ZDOTFILES}/p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# this function is to be called at the end of the os specific .zshrc
-# the main reason for which is because some binaries
-# may exist on different paths which are set up on the machine specific
-# zshrc files
-post_path_evals() {
-  if which zoxide &>/dev/null; then
-    eval "$(zoxide init zsh)"
-  fi
-
-  if which nvim &>/dev/null; then
-    export EDITOR=nvim
-  fi
-
-  unset -f post_path_evals
-}
