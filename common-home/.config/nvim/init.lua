@@ -299,6 +299,7 @@ local plugins = {
           java = { "google-java-format" },
           toml = { "toml" },
           xml = { "xmllint" },
+          xsd = { "xmllint" },
           json = { "jq" },
           sql = { "pg_format" },
           python = { "ruff_fix", "ruff_format", "ruff_organize_imports", "yapf" },
