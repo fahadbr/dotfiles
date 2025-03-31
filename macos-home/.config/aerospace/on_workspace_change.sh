@@ -20,4 +20,4 @@ notify_sketchybar() {
 }
 
 move_from_scratch
-notify_sketchybar
+#notify_sketchybar
