@@ -22,7 +22,7 @@ case "$focus_cat" in
       browser_app='Safari'
       browser_bundle='com.apple.Safari'
     fi
-    browser_wid="$(aerospace list-windows --workspace focused --app-bundle-id $browser_bundle --format '%{window-id}')"
+    browser_wid="$(aerospace list-windows --workspace focused --app-bundle-id $browser_bundle --format '%{window-id}' | head -n 1)"
     if [[ $browser_wid ]]; then
       aerospace focus --window-id $browser_wid
     else
