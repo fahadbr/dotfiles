@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>KeyboardShortcuts_delete</key>
+	<string>{"carbonModifiers":256,"carbonKeyCode":51}</string>
+	<key>KeyboardShortcuts_pin</key>
+	<string>{"carbonModifiers":256,"carbonKeyCode":35}</string>
+	<key>KeyboardShortcuts_popup</key>
+	<string>{"carbonKeyCode":9,"carbonModifiers":768}</string>
+	<key>NSStatusItem Preferred Position Item-0</key>
+	<real>518</real>
+	<key>NSStatusItem Visible Item-1</key>
+	<false/>
+	<key>NSWindow Frame com.sindresorhus.Settings.FrameAutosaveName</key>
+	<string>1665 538 510 474 0 0 3840 1175 </string>
+	<key>SUEnableAutomaticChecks</key>
+	<false/>
+	<key>SUHasLaunchedBefore</key>
+	<true/>
+	<key>SULastCheckTime</key>
+	<date>2025-04-02T15:04:11Z</date>
+	<key>SUUpdateGroupIdentifier</key>
+	<integer>1350734032</integer>
+	<key>enabledPasteboardTypes</key>
+	<array>
+		<string>public.rtf</string>
+		<string>public.png</string>
+		<string>public.tiff</string>
+		<string>public.utf8-plain-text</string>
+		<string>public.html</string>
+		<string>public.file-url</string>
+	</array>
+	<key>migrations</key>
+	<dict>
+		<key>2024-07-01-version-2</key>
+		<true/>
+	</dict>
+	<key>pasteByDefault</key>
+	<true/>
+	<key>popupPosition</key>
+	<string>center</string>
+	<key>removeFormattingByDefault</key>
+	<true/>
+	<key>searchMode</key>
+	<string>fuzzy</string>
+	<key>showFooter</key>
+	<true/>
+	<key>showSearch</key>
+	<true/>
+	<key>showTitle</key>
+	<true/>
+	<key>windowSize</key>
+	<string>[450,800]</string>
+</dict>
+</plist>
