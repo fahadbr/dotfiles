@@ -124,6 +124,17 @@ hs.hotkey.bind(hyper, ';', function()
   hs.hints.windowHints(hs.window.visibleWindows())
 end)
 
+appMode = makeMode(hyper, 'a', 'application mode')
+appMode:bind('', 'n', function()
+  window = hs.window.find('Obsidian'):focus()
+  appMode:exit()
+end)
+appMode:bind('', 'i', function()
+  window = hs.window.find('IB - '):focus()
+  appMode:exit()
+end)
+
+
 -- }}}
 
 -- logic for marking module {{{
@@ -222,12 +233,29 @@ hs.hotkey.bind(hyper, 'v', function()
 end)
 
 hs.hotkey.bind(hyperS, 'v', function()
-  hs.application.launchOrFocus('bbvpn2')
-  hs.eventtap.keyStroke({ 'cmd', 'shift' }, 'c')
+  local bbvpn = hs.application.get('bbvpn2')
+  bbvpn:activate()
+  bbvpn:selectMenuItem({'Action', 'Connect'})
+end)
+
+hs.hotkey.bind(hyper, 'b', function()
+  local firefox = hs.application.get('Firefox')
+  firefox:activate()
+  firefox:selectMenuItem({'File', 'New Tab'})
+  firefox:selectMenuItem({'Bookmarks', 'Search Bookmarks'})
+end)
+
+hs.urlevent.bind('bbvpnConnected', function()
+  hs.printf('bbvpn connected callback')
+  if hs.application.get("Citrix Viewer") == nil then
+    -- do this if citrix isnt running
+    local firefox = hs.application.get('Firefox')
+    firefox:activate()
+    firefox:selectMenuItem({'Bookmarks', 'Bookmarks Toolbar', 'BBA'})
+  end
 end)
 
 
 -- }}}
-
 
 hs.alert.show("Loaded HammerSpoon Config")
