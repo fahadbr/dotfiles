@@ -184,11 +184,11 @@ local plugins = {
     end
   },
 -- }}}
-  'Xuyuanp/nerdtree-git-plugin',
-  'scrooloose/nerdcommenter',
+  {'Xuyuanp/nerdtree-git-plugin'},
+  {'scrooloose/nerdcommenter'},
   { '.fzf',                    dev = true,   dir = "~" },
-  'junegunn/fzf.vim',
-  'bronson/vim-trailing-whitespace',
+  {'junegunn/fzf.vim'},
+  {'bronson/vim-trailing-whitespace'},
 -- {{{ vim-sleuth
   {
     'tpope/vim-sleuth',
@@ -196,9 +196,9 @@ local plugins = {
     priority = 1000
   },
 -- }}}
-  'tpope/vim-surround',
-  'tpope/vim-repeat',
-  'honza/vim-snippets',
+  {'tpope/vim-surround'},
+  {'tpope/vim-repeat'},
+  {'honza/vim-snippets'},
 -- {{{ ReplaceWithRegister
   {
     'inkarkat/vim-ReplaceWithRegister',
@@ -209,13 +209,13 @@ local plugins = {
     end
   },
 -- }}}
-  'AndrewRadev/splitjoin.vim',
+  {'AndrewRadev/splitjoin.vim'},
 
   -- lua plugins
   { 'williamboman/mason.nvim', config = true },
   { 'L3MON4D3/LuaSnip',                         version = "v2.*", build = "make install_jsregexp" },
-  'nvim-lua/popup.nvim',
-  'nvim-lua/plenary.nvim',
+  {'nvim-lua/popup.nvim'},
+  {'nvim-lua/plenary.nvim'},
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
 -- {{{ indent-blankline
   {
