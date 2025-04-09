@@ -15,9 +15,9 @@ return {
       fr.tmap('<C-t><C-k>', '<C-\\><C-n>:FloatermPrev<CR>', 'FloatermPrev (terminal)')
       fr.tmap('<C-t><C-q>', '<C-\\><C-n>:FloatermKill<CR>', 'FloatermKill (terminal)')
 
-      fr.nmap('<leader>lg', ':FloatermNew lazygit<CR>', 'Lazygit')
-      fr.nmap('<leader>fg', ':FloatermNew lazygit<CR>', 'Lazygit')
-      fr.nmap('<leader>fy', ':FloatermNew yazi<CR>', 'Yazi')
+      --fr.nmap('<leader>lg', ':FloatermNew lazygit<CR>', 'Lazygit')
+      --fr.nmap('<C-t><C-l>', ':FloatermNew lazygit<CR>', 'Lazygit')
+      fr.nmap('<C-t><C-y>', ':FloatermNew yazi<CR>', 'Yazi')
     end
   },
   -- }}}

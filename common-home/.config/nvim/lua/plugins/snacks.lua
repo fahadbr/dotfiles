@@ -1,0 +1,28 @@
+-- vim:foldmethod=marker
+-- see lazy plugin spec at
+-- https://lazy.folke.io/spec
+return {
+  "folke/snacks.nvim",
+  opts = {
+    notifier = {
+      style = 'fancy'
+    },
+    lazygit = {},
+    gitbrowse = {
+      url_patterns = {
+        ["%.bloomberg.com"] = {
+          branch = "/tree/{branch}",
+          file = "/blob/{branch}/{file}#L{line_start}-L{line_end}",
+          permalink = "/blob/{commit}/{file}#L{line_start}-L{line_end}",
+          commit = "/commit/{commit}",
+        }
+      }
+    },
+  },
+  keys = {
+    { '<leader>lg', function() Snacks.lazygit() end,   desc = 'Lazygit (snacks)' },
+    { '<C-t><C-l>', function() Snacks.lazygit() end,   desc = 'Lazygit (snacks)' },
+    { '<leader>gB', function() Snacks.gitbrowse() end, desc = 'Open repo of the active file in the browser' },
+    { '<leader>gU', function() Snacks.gitbrowse.get_url() end, desc = 'Open repo of the active file in the browser' },
+  }
+}
