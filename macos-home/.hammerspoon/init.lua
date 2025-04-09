@@ -36,14 +36,13 @@ end
 hs.grid.setGrid(hs.geometry.size(12, 6))
 hs.grid.setMargins(hs.geometry.size(5, 5))
 
-hs.hotkey.bind(hyper, "c", function()
-  spoon.WinWin:moveAndResize("center")
-end)
-
 local function bindMove(key, fn)
   hs.hotkey.bind(hyperS, key, fn, nil, fn)
 end
 
+bindMove('c', function()
+  spoon.WinWin:moveAndResize("center")
+end)
 bindMove('h', hs.grid.pushWindowLeft)
 bindMove('j', hs.grid.pushWindowDown)
 bindMove('k', hs.grid.pushWindowUp)
@@ -108,31 +107,31 @@ end)
 -- }}}
 
 -- window/app focus keybindings {{{
-hs.hotkey.bind(hyper, 'h', function()
-  hs.window.focusedWindow():focusWindowWest(nil, true, true)
-end)
-hs.hotkey.bind(hyper, 'j', function()
-  hs.window.focusedWindow():focusWindowSouth(nil, true, true)
-end)
-hs.hotkey.bind(hyper, 'k', function()
-  hs.window.focusedWindow():focusWindowNorth(nil, true, true)
-end)
-hs.hotkey.bind(hyper, 'l', function()
-  hs.window.focusedWindow():focusWindowEast(nil, true, true)
-end)
-hs.hotkey.bind(hyper, ';', function()
-  hs.hints.windowHints(hs.window.visibleWindows())
-end)
-
-appMode = makeMode(hyper, 'a', 'application mode')
-appMode:bind('', 'n', function()
-  window = hs.window.find('Obsidian'):focus()
-  appMode:exit()
-end)
-appMode:bind('', 'i', function()
-  window = hs.window.find('IB - '):focus()
-  appMode:exit()
-end)
+-- hs.hotkey.bind(hyper, 'h', function()
+--   hs.window.focusedWindow():focusWindowWest(nil, true, true)
+-- end)
+-- hs.hotkey.bind(hyper, 'j', function()
+--   hs.window.focusedWindow():focusWindowSouth(nil, true, true)
+-- end)
+-- hs.hotkey.bind(hyper, 'k', function()
+--   hs.window.focusedWindow():focusWindowNorth(nil, true, true)
+-- end)
+-- hs.hotkey.bind(hyper, 'l', function()
+--   hs.window.focusedWindow():focusWindowEast(nil, true, true)
+-- end)
+-- hs.hotkey.bind(hyper, ';', function()
+--   hs.hints.windowHints(hs.window.visibleWindows())
+-- end)
+--
+-- appMode = makeMode(hyper, 'a', 'application mode')
+-- appMode:bind('', 'n', function()
+--   window = hs.window.find('Obsidian'):focus()
+--   appMode:exit()
+-- end)
+-- appMode:bind('', 'i', function()
+--   window = hs.window.find('IB - '):focus()
+--   appMode:exit()
+-- end)
 
 
 -- }}}
@@ -232,12 +231,14 @@ hs.hotkey.bind(hyper, 'v', function()
   end)
 end)
 
+-- connect vpn
 hs.hotkey.bind(hyperS, 'v', function()
   local bbvpn = hs.application.get('bbvpn2')
   bbvpn:activate()
   bbvpn:selectMenuItem({'Action', 'Connect'})
 end)
 
+-- search bookmarks in firefox
 hs.hotkey.bind(hyper, 'b', function()
   local firefox = hs.application.get('Firefox')
   firefox:activate()
@@ -245,6 +246,23 @@ hs.hotkey.bind(hyper, 'b', function()
   firefox:selectMenuItem({'Bookmarks', 'Search Bookmarks'})
 end)
 
+-- search tabs in firefox
+hs.hotkey.bind(hyper, 't', function()
+  local firefox = hs.application.get('Firefox')
+  firefox:activate()
+  firefox:selectMenuItem({'File', 'New Tab'})
+  --hs.eventtap.keyStroke({'cmd'}, "l")
+  hs.eventtap.keyStrokes("@tabs ")
+end)
+
+-- go to chatgpt
+hs.hotkey.bind(hyper, 'c', function()
+  local firefox = hs.application.get('Firefox')
+  firefox:activate()
+  hs.eventtap.keyStroke({'cmd'}, "1")
+end)
+
+-- start bba after vpn connected
 hs.urlevent.bind('bbvpnConnected', function()
   hs.printf('bbvpn connected callback')
   if hs.application.get("Citrix Viewer") == nil then

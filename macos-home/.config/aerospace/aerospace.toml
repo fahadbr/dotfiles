@@ -22,7 +22,7 @@ exec-on-workspace-change = ['/bin/bash', '-c', '$HOME/.config/aerospace/on_works
 start-at-login = false
 
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
-enable-normalization-flatten-containers = false
+enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = false
 
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
@@ -116,6 +116,11 @@ alt-shift-j = 'move down'
 alt-shift-k = 'move up'
 alt-shift-l = 'move right'
 
+cmd-alt-ctrl-h = ['join-with left', 'layout v_accordion']
+cmd-alt-ctrl-j = ['join-with down', 'layout h_accordion']
+cmd-alt-ctrl-k = ['join-with up', 'layout h_accordion']
+cmd-alt-ctrl-l = ['join-with right', 'layout v_accordion']
+
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
 alt-1 = 'workspace --auto-back-and-forth 1'
 alt-2 = 'workspace --auto-back-and-forth 2'
@@ -153,7 +158,7 @@ alt-shift-f = 'fullscreen --no-outer-gaps'
 
 alt-shift-space = 'layout floating tiling'
 #alt-h = 'split horizontal'
-alt-v = 'split vertical'
+#alt-v = 'split vertical'
 
 alt-s = 'layout v_accordion' # 'layout stacking' in i3
 alt-t = 'layout h_accordion' # 'layout tabbed' in i3

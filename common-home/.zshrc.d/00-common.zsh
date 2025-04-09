@@ -80,7 +80,7 @@ setopt pushd_ignore_dups    # Do not store duplicates in the stack.
 setopt pushd_silent         # Do not print the directory stack after pushd or popd.
 setopt pushd_minus          # Exchanges the meanings of `+' and `-' when used with a number to specify a directory in the stack.
 
-for index ({1..9}) alias "$index"="cd +${index}"; unset index
+for index ({1..9}) alias "$index"="cd -${index}"; unset index
 alias d='dirs -v'
 alias -- -='cd -'
 alias -g ...='cd ../..'
