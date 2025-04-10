@@ -155,10 +155,21 @@ return {
       fr.nmap('<space>tr', function() telescope_builtin.resume { cache_index = 1 } end,
         'telescope resume picker (telescope)')
 
+      fr.nmap('<space>tp', telescope.extensions.persisted.persisted, 'show sessions (telescope)')
       fr.nmap('<space>sl', live_grep_from_project_git_root, 'live grep from git root (telescope)')
       fr.nmap('<space>sb', current_buffer_fuzzy_find, 'live grep current buffer (telescope)')
       fr.nmap('<space>sw', telescope_builtin.grep_string, 'grep string under cursor (telescope)')
-      fr.nmap('<space>tp', telescope.extensions.persisted.persisted, 'show sessions (telescope)')
+      fr.nmap("<space>sg", function()
+        vim.ui.input({ prompt = "Enter glob pattern (e.g. *.lua): " }, function(input)
+          if input then
+            require('telescope.builtin').live_grep({
+              additional_args = function()
+                return { "--glob", input }
+              end
+            })
+          end
+        end)
+      end, "Live grep with glob filter")
     end
   },
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },

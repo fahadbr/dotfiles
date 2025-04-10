@@ -13,7 +13,7 @@ local yazi = {
   keys = {
     -- 👇 in this section, choose your own keymappings!
     {
-      "<C-t><C-f>", -- 'f' for current file
+      "<C-t><C-e>", -- 'e' doesn't represent anything, its just more ergonomic
       mode = { "n", "v" },
       "<cmd>Yazi<cr>",
       desc = "Open yazi at the current file",

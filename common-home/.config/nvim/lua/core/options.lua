@@ -31,7 +31,7 @@ vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
 vim.o.signcolumn = 'yes'
 vim.o.undolevels = 1000
-vim.o.grepprg = 'rg --vimgrep'
+vim.o.grepprg = 'rg --vimgrep --hidden --smart-case'
 vim.o.inccommand = 'nosplit'
 vim.o.background = 'dark'
 vim.o.completeopt = 'menuone,noselect'
@@ -53,11 +53,20 @@ autocmd({ 'Filetype' }, {
   callback = function(opts) vim.bo[opts.buf].textwidth = 80 end
 })
 
-local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
-vim.api.nvim_create_autocmd("TextYankPost", {
+autocmd('TextYankPost', {
   pattern = "*",
   callback = function()
     vim.highlight.on_yank({ timeout = 250 })
   end,
-  group = highlight_group,
+  group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
 })
+
+vim.api.nvim_create_user_command('Grep', function(opts)
+  local args = table.concat(opts.fargs, ' ')
+  vim.cmd('silent! grep! ' .. args)
+  vim.cmd('cwindow')
+end, {
+  nargs = '+',
+  complete = 'file',
+})
+
