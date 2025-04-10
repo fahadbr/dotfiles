@@ -22,7 +22,6 @@ return {
   keys = {
     { '<leader>lg', function() Snacks.lazygit() end,   desc = 'Lazygit (snacks)' },
     { '<C-t><C-l>', function() Snacks.lazygit() end,   desc = 'Lazygit (snacks)' },
-    { '<leader>gB', function() Snacks.gitbrowse() end, desc = 'Open repo of the active file in the browser' },
-    { '<leader>gU', function() Snacks.gitbrowse.get_url() end, desc = 'Open repo of the active file in the browser' },
+    { '<leader>gB', function() Snacks.gitbrowse() end, mode = {'n', 'x'}, desc = 'Open repo of the active file in the browser' },
   }
 }

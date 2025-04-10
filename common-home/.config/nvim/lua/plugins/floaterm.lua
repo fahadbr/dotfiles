@@ -3,6 +3,7 @@ return {
   -- vim-floaterm {{{
   {
     'voldikss/vim-floaterm',
+    enabled = false,
     config = function()
       vim.g.floaterm_opener = 'edit'
       vim.g.floaterm_width = 0.9
