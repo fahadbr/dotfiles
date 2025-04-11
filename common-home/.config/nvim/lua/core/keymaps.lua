@@ -57,7 +57,6 @@ end
 -- }}}
 
 -- general mappings {{{
-nmap('<leader>ec', function() vim.cmd.edit('~/.config/nvim/init.lua') end, 'edit neovim config')
 nmap('<leader>x', function()
   vim.cmd.bp()
   vim.cmd.bd('#')
@@ -70,8 +69,6 @@ nmap('<leader>id', ':read !date<CR>', 'insert date into current line (normal)')
 nmap('<C-q>', ':confirm quitall<CR>', 'close all windows')
 nmap('<leader>TW', ':set wrap!<CR>', 'toggle line wrapping')
 nmap('<leader>sh', ':set hlsearch!<CR>', 'toggle search highlighting')
---nmap('<M-c>', ':cclose<CR>', 'close quickfix list')
-nmap('<BS>', '<C-o>:bd #<CR>', 'close buffer and go to previous location')
 nmap('yFL', [[:let @+=expand('%').":".line('.')<CR>"]], 'yank/copy the current file and line number into clipboard')
 nmap('yFW', [[:let @+=expand('%')."::<C-r><C-w>"<CR>"]],
   'yank/copy the current file and word under cursor into clipboard')
@@ -99,7 +96,7 @@ imap_remap('<C-l>', '<C-o><C-l>', 'focus window east', true)
 
 -- -- tab mappings
 nmap('<leader>tn', function() vim.cmd.tabnew('%') end, 'tab new')
-nmap('<leader>tc', vim.cmd.tabclose, 'tab close')
+nmap('<leader>tx', vim.cmd.tabclose, 'tab close')
 nmap('<leader>to', vim.cmd.tabonly, 'tab only')
 --nmap('<leader>tr', ':BufferLineTabRename ', 'tab rename')
 
