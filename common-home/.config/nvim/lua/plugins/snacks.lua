@@ -3,11 +3,13 @@
 -- https://lazy.folke.io/spec
 return {
   "folke/snacks.nvim",
+  event = 'BufEnter',
   opts = {
     notifier = {
       style = 'fancy'
     },
     lazygit = {},
+    indent = {},
     gitbrowse = {
       url_patterns = {
         ["%.bloomberg.com"] = {

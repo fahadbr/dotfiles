@@ -233,9 +233,11 @@ end)
 
 -- connect vpn
 hs.hotkey.bind(hyperS, 'v', function()
-  local bbvpn = hs.application.get('bbvpn2')
-  bbvpn:activate()
-  bbvpn:selectMenuItem({'Action', 'Connect'})
+  local app = 'bbvpn2'
+  if hs.application.launchOrFocus(app) then
+    local bbvpn = hs.application.get(app)
+    bbvpn:selectMenuItem({'Action', 'Connect'})
+  end
 end)
 
 -- search bookmarks in firefox

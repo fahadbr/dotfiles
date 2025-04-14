@@ -5,12 +5,13 @@ return {
   {
     'echasnovski/mini.nvim',
     version = '*',
-    enabled = false,
+    enabled = true,
     config = function()
-      local notify = require('mini.notify')
-      notify.setup()
-      vim.notify = notify.make_notify()
+      require('mini.trailspace').setup()
+      require('mini.splitjoin').setup()
+      require('mini.icons').setup()
 
+      MiniIcons.mock_nvim_web_devicons()
     end
   }
 }

@@ -7,10 +7,6 @@ return {
     end
   },
   {'Xuyuanp/nerdtree-git-plugin'},
-  {'scrooloose/nerdcommenter'},
-  { '.fzf',                    dev = true,   dir = "~" },
-  {'junegunn/fzf.vim'},
-  {'bronson/vim-trailing-whitespace'},
   { -- vim-sleuth
     'tpope/vim-sleuth',
     init = function() vim.g.sleuth_java_heuristics = 0 end,
@@ -27,5 +23,4 @@ return {
       fr.xmap('<leader>r', '<Plug>ReplaceWithRegisterVisual')
     end
   },
-  {'AndrewRadev/splitjoin.vim'},
 }
