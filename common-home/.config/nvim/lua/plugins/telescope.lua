@@ -165,12 +165,12 @@ return {
         'telescope resume picker (telescope)')
 
       fr.nmap('<space>tp', telescope.extensions.persisted.persisted, 'show sessions (telescope)')
-      fr.nmap('<space>sl', live_grep_git_root_current_filetype,
-        'live grep from git root with current buffer filetype (telescope)')
-      fr.nmap('<space>sL', live_grep_from_project_git_root, 'live grep from git root (telescope)')
       fr.nmap('<space>sb', current_buffer_fuzzy_find, 'live grep current buffer (telescope)')
-      fr.map({'n', 'x'}, '<space>sw', grep_string_git_root_current_filetype, {desc = 'grep string under cursor with current buffer filetype (telescope)'})
-      fr.map({'n', 'x'}, '<space>sW', telescope_builtin.grep_string, {desc = 'grep string under cursor (telescope)'})
+      fr.map({'n', 'x'}, '<space>sw', telescope_builtin.grep_string, {desc = 'grep string under cursor (telescope)'})
+      fr.map({'n', 'x'}, '<space>sW', grep_string_git_root_current_filetype, {desc = 'grep string under cursor with current buffer filetype (telescope)'})
+      fr.nmap('<space>sL', live_grep_git_root_current_filetype,
+        'live grep from git root with current buffer filetype (telescope)')
+      fr.nmap('<space>sl', live_grep_from_project_git_root, 'live grep from git root (telescope)')
       fr.nmap("<space>sg", function()
         vim.ui.input({ prompt = "Enter glob pattern (e.g. *.lua): " }, function(input)
           if input then
