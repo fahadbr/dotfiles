@@ -1,42 +1,48 @@
-M = {}
 
-function M.map_with_mode(mode, key, mapping, description, remap)
-  if description == nil and type(mapping) == 'string' then
-    description = mapping
+local kittypid = os.getenv("KITTY_PID")
+local tmuxenv = os.getenv("TMUX")
+M = {
+  in_kitty = kittypid ~= nil and kittypid ~= '',
+  in_tmux = tmuxenv ~= nil and tmuxenv ~= '',
+}
+
+function M.map(mode, key, mapping, opts)
+  if opts.desc == nil and type(mapping) == 'string' then
+    opts.desc = mapping
   end
-  vim.keymap.set(mode, key, mapping, { desc = description, remap = remap })
+  vim.keymap.set(mode, key, mapping, opts)
 end
 
 function M.nmap(key, mapping, description)
-  M.map_with_mode('n', key, mapping, description, false)
+  M.map('n', key, mapping, {desc = description})
 end
 
 function M.imap(key, mapping, description)
-  M.map_with_mode('i', key, mapping, description, false)
+  M.map('i', key, mapping, {desc = description})
 end
 
 function M.imap_remap(key, mapping, description, remap)
-  M.map_with_mode('i', key, mapping, description, remap)
+  M.map('i', key, mapping, {desc = description, remap = remap})
 end
 
 function M.vmap(key, mapping, description)
-  M.map_with_mode('v', key, mapping, description, false)
+  M.map('v', key, mapping, {desc = description})
 end
 
 function M.cmap(key, mapping, description)
-  M.map_with_mode('c', key, mapping, description, false)
+  M.map('c', key, mapping, {desc = description})
 end
 
 function M.tmap(key, mapping, description)
-  M.map_with_mode('t', key, mapping, description, false)
+  M.map('t', key, mapping, {desc = description})
 end
 
 function M.xmap(key, mapping, description)
-  M.map_with_mode('x', key, mapping, description, false)
+  M.map('x', key, mapping, {desc = description})
 end
 
 function M.smap(key, mapping, description)
-  M.map_with_mode('s', key, mapping, description, false)
+  M.map('s', key, mapping, {desc = description})
 end
 
 function M.autocmd(event, opts)
@@ -58,7 +64,7 @@ end
 
 -- merge_copy creates a new table with the results of t2
 -- merged into t1, where t2 keys will override t1 keys
-local function merge_copy(t1, t2)
+function M.merge_copy(t1, t2)
   local result = {}
   for k, v in pairs(t1) do result[k] = v end
   for k, v in pairs(t2) do result[k] = v end

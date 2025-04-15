@@ -31,7 +31,7 @@ return {
 
   {
     'knubie/vim-kitty-navigator',
-    cond = in_kitty and not in_tmux,
+    cond = fr.in_kitty and not fr.in_tmux,
     init = function()
       vim.g.kitty_navigator_no_mappings = 1
       fr.nmap('<C-S-k>', vim.cmd.KittyNavigateUp, 'focus window up (kitty)')
@@ -45,7 +45,7 @@ return {
   -- nvim-tmux-navigation {{{
   {
     'alexghergh/nvim-tmux-navigation',
-    cond = in_tmux,
+    cond = fr.in_tmux,
     config = function()
       require 'nvim-tmux-navigation'.setup {
         disable_when_zoomed = true, -- defaults to false

@@ -53,11 +53,7 @@ return {
       end
 
       local function maybe_get_git_opts()
-        local opts = {
-          preview = {
-            hide_on_startup = true,
-          },
-        }
+        local opts = {}
         if is_git_repo() then
           opts.cwd = get_git_root()
         end
@@ -90,8 +86,21 @@ return {
       -- if in a git repo
       local function live_grep_from_project_git_root()
         local opts = maybe_get_git_opts()
-        opts.preview.hide_on_startup = false
         telescope_builtin.live_grep(opts)
+      end
+
+      local function live_grep_git_root_current_filetype()
+        local opts = maybe_get_git_opts()
+        opts.type_filter = vim.bo.filetype
+        opts.results_title = string.format('Results (%s)', vim.bo.filetype)
+        telescope_builtin.live_grep(opts)
+      end
+
+      local function grep_string_git_root_current_filetype()
+        local opts = maybe_get_git_opts()
+        opts.additional_args = {'--type=' .. vim.bo.filetype}
+        opts.results_title = string.format('Results (%s)', vim.bo.filetype)
+        telescope_builtin.grep_string(opts)
       end
 
       local function current_buffer_fuzzy_find()
@@ -156,17 +165,19 @@ return {
         'telescope resume picker (telescope)')
 
       fr.nmap('<space>tp', telescope.extensions.persisted.persisted, 'show sessions (telescope)')
-      fr.nmap('<space>sl', live_grep_from_project_git_root, 'live grep from git root (telescope)')
+      fr.nmap('<space>sl', live_grep_git_root_current_filetype,
+        'live grep from git root with current buffer filetype (telescope)')
+      fr.nmap('<space>sL', live_grep_from_project_git_root, 'live grep from git root (telescope)')
       fr.nmap('<space>sb', current_buffer_fuzzy_find, 'live grep current buffer (telescope)')
-      fr.nmap('<space>sw', telescope_builtin.grep_string, 'grep string under cursor (telescope)')
+      fr.map({'n', 'x'}, '<space>sw', grep_string_git_root_current_filetype, {desc = 'grep string under cursor with current buffer filetype (telescope)'})
+      fr.map({'n', 'x'}, '<space>sW', telescope_builtin.grep_string, {desc = 'grep string under cursor (telescope)'})
       fr.nmap("<space>sg", function()
         vim.ui.input({ prompt = "Enter glob pattern (e.g. *.lua): " }, function(input)
           if input then
-            require('telescope.builtin').live_grep({
-              additional_args = function()
-                return { "--glob", input }
-              end
-            })
+            local opts = maybe_get_git_opts()
+            opts.glob_pattern = input
+            opts.results_title = string.format('Results (%s)', input)
+            telescope_builtin.live_grep(opts)
           end
         end)
       end, "Live grep with glob filter")
