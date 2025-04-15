@@ -4,6 +4,23 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    version = false,
+    event = { "BufEnter", "VeryLazy" },
+    lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline
+    init = function(plugin)
+      -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
+      -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
+      -- no longer trigger the **nvim-treesitter** module to be loaded in time.
+      -- Luckily, the only things that those plugins need are the custom queries, which we make available
+      -- during startup.
+      require("lazy.core.loader").add_to_rtp(plugin)
+      require("nvim-treesitter.query_predicates")
+    end,
+    cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
+    keys = {
+      { "<c-space>", desc = "Increment Selection" },
+      { "<bs>",      desc = "Decrement Selection", mode = "x" },
+    },
     config = function()
       require('nvim-treesitter.configs').setup {
         ignore_install = {},
@@ -16,6 +33,15 @@ return {
           disable = { "dockerfile" },
           additional_vim_regex_highlighting = false,
         },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "<C-space>",
+            node_incremental = "<C-space>",
+            scope_incremental = false,
+            node_decremental = "<bs>",
+          },
+        }
       }
     end
   },
@@ -23,7 +49,7 @@ return {
   -- nvim-treesitter-objects {{{
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    event = 'VeryLazy',
     config = function()
       require('nvim-treesitter.configs').setup {
         textobjects = {
@@ -50,7 +76,7 @@ return {
   -- nvim-ts-autotag {{{
   {
     'windwp/nvim-ts-autotag',
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    event = 'VeryLazy',
     config = function()
       require('nvim-ts-autotag').setup {
         opts = {
