@@ -25,5 +25,6 @@ return {
     { '<leader>lg', function() Snacks.lazygit() end,   desc = 'Lazygit (snacks)' },
     { '<C-t><C-l>', function() Snacks.lazygit() end,   desc = 'Lazygit (snacks)' },
     { '<leader>gB', function() Snacks.gitbrowse() end, mode = {'n', 'x'}, desc = 'Open repo of the active file in the browser' },
+    { '<space>H', function() Snacks.notifier.show_history() end, desc = 'show Snacks notifier history' },
   }
 }

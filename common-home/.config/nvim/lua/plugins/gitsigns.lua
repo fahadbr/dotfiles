@@ -21,13 +21,14 @@ return {
         watch_gitdir                 = {
           follow_files = true
         },
+        auto_attach = true,
         attach_to_untracked          = true,
         current_line_blame           = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
         current_line_blame_opts      = {
           virt_text = true,
           virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
           delay = 500,
-          ignore_whitespace = false,
+          ignore_whitespace = true,
         },
         current_line_blame_formatter = '<abbrev_sha>: <author>, <author_time:%Y-%m-%d> - <summary>',
         sign_priority                = 6,
@@ -42,15 +43,51 @@ return {
           row = 0,
           col = 1
         },
+        on_attach = function (bufnr)
+          local gitsigns = require('gitsigns')
+          local function map(key, mapping, desc)
+            fr.map({'n'}, key, mapping, {desc = desc, buffer = bufnr})
+          end
+          map('<leader>ga', gitsigns.stage_hunk, 'gitsigns.stage_hunk')
+          map('<leader>gb', gitsigns.blame, 'gitsigns.blame')
+          map('<leader>gd', gitsigns.diffthis, 'gitsigns.diffthis')
+          map('<leader>gh', gitsigns.preview_hunk, 'gitsigns.preview_hunk')
+          map('<leader>gn', gitsigns.next_hunk, 'gitsigns.next_hunk')
+          map('<leader>gp', gitsigns.prev_hunk, 'gitsigns.prev_hunk')
+          map('<leader>gr', gitsigns.reset_hunk, 'gitsigns.reset_hunk')
+          map('<leader>gs', gitsigns.select_hunk, 'gitsigns.select_hunk')
+          map('<leader>gtb', gitsigns.toggle_current_line_blame, 'gitsigns.toggle_current_line_blame')
+          map('<leader>gtd', gitsigns.toggle_deleted, 'gitsigns.toggle_deleted')
+          map('<leader>gtw', gitsigns.toggle_word_diff, 'gitsigns.toggle_word_diff')
+          map('<leader>gtl', gitsigns.toggle_linehl, 'gitsigns.toggle_linehl')
+          map('<leader>gts', gitsigns.toggle_signs, 'gitsigns.toggle_signs')
+          map('<leader>gtn', gitsigns.toggle_numhl, 'gitsigns.toggle_numhl')
+          map('<leader>gu', gitsigns.undo_stage_hunk, 'gitsigns.undo_stage_hunk')
+          map('<leader>gR', gitsigns.reset_buffer, 'gitsigns.reset_buffer')
+          map('<leader>gA', gitsigns.stage_buffer, 'gitsigns.stage_buffer')
+        end
       }
+          -- local function map(key, mapping, desc)
+          --   fr.map({'n'}, key, mapping, {desc = desc, buffer = bufnr})
+          -- end
+          -- map('<leader>ga', gitsigns.stage_hunk, 'gitsigns.stage_hunk')
+          -- map('<leader>gb', gitsigns.blame, 'gitsigns.blame')
+          -- map('<leader>gd', gitsigns.diffthis, 'gitsigns.diff_this')
+          -- map('<leader>gh', gitsigns.preview_hunk, 'gitsigns.preview_hunk')
+          -- map('<leader>gn', gitsigns.next_hunk, 'gitsigns.next_hunk')
+          -- map('<leader>gp', gitsigns.prev_hunk, 'gitsigns.prev_hunk')
+          -- map('<leader>gr', gitsigns.reset_hunk, 'gitsigns.reset_hunk')
+          -- map('<leader>gs', gitsigns.select_hunk, 'gitsigns.select_hunk')
+          -- map('<leader>gtb', gitsigns.toggle_current_line_blame, 'gitsigns.toggle_current_line_blame')
+          -- map('<leader>gtd', gitsigns.toggle_deleted, 'gitsigns.toggle_deleted')
+          -- map('<leader>gtw', gitsigns.toggle_word_diff, 'gitsigns.toggle_word_diff')
+          -- map('<leader>gtl', gitsigns.toggle_linehl, 'gitsigns.toggle_linehl')
+          -- map('<leader>gts', gitsigns.toggle_signs, 'gitsigns.toggle_signs')
+          -- map('<leader>gtn', gitsigns.toggle_numhl, 'gitsigns.toggle_numhl')
+          -- map('<leader>gu', gitsigns.undo_stage_hunk, 'gitsigns.undo_stage_hunk')
+          -- map('<leader>gR', gitsigns.reset_buffer, 'gitsigns.reset_buffer')
+          -- map('<leader>gA', gitsigns.stage_buffer, 'gitsigns.stage_buffer')
 
-      fr.nmap('<leader>gb', gitsigns.toggle_current_line_blame, 'gitsigns.toggle_current_line_blame')
-      fr.nmap('<leader>gh', gitsigns.preview_hunk, 'gitsigns.preview_hunk')
-      fr.nmap('<leader>ga', gitsigns.stage_hunk, 'gitsigns.stage_hunk')
-      fr.nmap('<leader>g-', gitsigns.undo_stage_hunk, 'gitsigns.undo_stage_hunk')
-      fr.nmap('<leader>gn', gitsigns.next_hunk, 'gitsigns.next_hunk')
-      fr.nmap('<leader>gp', gitsigns.prev_hunk, 'gitsigns.prev_hunk')
-      fr.nmap('<leader>gr', gitsigns.reset_hunk, 'gitsigns.reset_hunk')
     end
   },
   -- }}}
