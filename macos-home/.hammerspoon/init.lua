@@ -13,16 +13,25 @@ end)
 -- helper functions {{{
 --
 hs.alert.defaultStyle.atScreenEdge = 0
-hs.alert.defaultStyle.textSize = 20
+hs.alert.defaultStyle.textSize = 16
+hs.alert.defaultStyle.textFont = 'FiraCode Nerd Font Mono'
+hs.alert.defaultStyle.radius = 10
+hs.alert.defaultStyle.fillColor = { white = 0.1, alpha = 1 }
 modealerts = {}
 function makeMode(mods, key, name)
   local mode = hs.hotkey.modal.new(mods, key)
   function mode:entered()
-    modealerts[name] = hs.alert.show(name, hs.alert.defaultStyle, hs.screen.mainScreen(),
-      'indefinite')
+    modealerts[name] = hs.alert.show(
+      name,
+      hs.alert.defaultStyle,
+      hs.screen.mainScreen(),
+      'indefinite'
+    )
   end
 
-  function mode:exited() hs.alert.closeSpecific(modealerts[name]) end
+  function mode:exited()
+    hs.alert.closeSpecific(modealerts[name])
+  end
 
   mode:bind('', 'escape', function() mode:exit() end)
   mode:bind('', 'return', function() mode:exit() end)
@@ -219,6 +228,81 @@ citrixwatcher:start()
 -- -- use this to type out the clipboard
 -- -- useful for when you cant paste into an application
 -- -- like a VDI
+
+-- Zoom Mode {{{
+zoomModeText = [[
+Zoom Mode
+
+Toggle Audio:         hyper+z
+Toggle Video:         hyper+v
+Leave Meeting:        hyper+x
+Copy Invite Link:     hyper+c
+Toggle Minimal View:  m]]
+zoomMode = makeMode(hyper, 'z', zoomModeText)
+
+-- toggle audio mute
+zoomMode:bind(hyper, 'z', function()
+  zoom = hs.application.get('zoom.us')
+  if zoom ~= nil then
+    if zoom:findMenuItem({'Meeting', 'Mute audio'}) then
+      zoom:selectMenuItem({'Meeting', 'Mute audio'})
+    else
+      zoom:selectMenuItem({'Meeting', 'Unmute audio'})
+    end
+  end
+  zoomMode:exit()
+end)
+
+-- toggle video on
+zoomMode:bind(hyper, 'v', function()
+  zoom = hs.application.get('zoom.us')
+  if zoom ~= nil then
+    if zoom:findMenuItem({'Meeting', 'Start video'}) then
+      zoom:selectMenuItem({'Meeting', 'Start video'})
+    else
+      zoom:selectMenuItem({'Meeting', 'Stop video'})
+    end
+  end
+  zoomMode:exit()
+end)
+
+-- toggle minimal view
+zoomMode:bind('', 'm', function()
+  zoom = hs.application.get('zoom.us')
+  if zoom ~= nil then
+    if zoom:findMenuItem({'Meeting', 'Exit minimal view'}) then
+      zoom:selectMenuItem({'Meeting', 'Exit minimal view'})
+    else
+      zoom:selectMenuItem({'Meeting', 'Enter minimal view'})
+    end
+  end
+  zoomMode:exit()
+end)
+
+zoomMode:bind(hyper, 'c', function()
+  zoom = hs.application.get('zoom.us')
+  if zoom ~= nil then
+    zoom:selectMenuItem({'Meeting', 'Copy invite link'})
+  end
+  zoomMode:exit()
+end)
+
+zoomMode:bind(hyper, 'x', function()
+  zoom = hs.application.get('zoom.us')
+  if zoom ~= nil then
+    if zoom:findMenuItem({'Meeting', 'Exit minimal view'}) then
+      zoom:selectMenuItem({'Meeting', 'Exit minimal view'})
+    end
+    zoom:activate()
+    hs.eventtap.keyStroke({'cmd'}, "w")
+  end
+  zoomMode:exit()
+end)
+
+-- }}}
+
+
+
 hs.hotkey.bind(hyper, 'v', function()
   local clipboardContents = hs.pasteboard.getContents()
   if clipboardContents == nil then
