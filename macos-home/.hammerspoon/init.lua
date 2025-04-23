@@ -1,12 +1,12 @@
 -- vim:foldmethod=marker:ts=2:sw=2:expandtab
-local hyper = { "ctrl", "alt", "cmd" }
-local hyperS = { "ctrl", "alt", "cmd", "shift" }
+local hyper = { 'ctrl', 'alt', 'cmd' }
+local hyperS = { 'ctrl', 'alt', 'cmd', 'shift' }
 
-hs.loadSpoon("WinWin")
+hs.loadSpoon('WinWin')
 
 hs.window.animationDuration = 0.0
 
-hs.hotkey.bind(hyperS, "r", function()
+hs.hotkey.bind(hyperS, 'r', function()
   hs.reload()
 end)
 
@@ -21,20 +21,19 @@ modealerts = {}
 function makeMode(mods, key, name)
   local mode = hs.hotkey.modal.new(mods, key)
   function mode:entered()
-    modealerts[name] = hs.alert.show(
-      name,
-      hs.alert.defaultStyle,
-      hs.screen.mainScreen(),
-      'indefinite'
-    )
+    modealerts[name] = hs.alert.show(name, hs.alert.defaultStyle, hs.screen.mainScreen(), 'indefinite')
   end
 
   function mode:exited()
     hs.alert.closeSpecific(modealerts[name])
   end
 
-  mode:bind('', 'escape', function() mode:exit() end)
-  mode:bind('', 'return', function() mode:exit() end)
+  mode:bind('', 'escape', function()
+    mode:exit()
+  end)
+  mode:bind('', 'return', function()
+    mode:exit()
+  end)
   return mode
 end
 
@@ -50,7 +49,7 @@ local function bindMove(key, fn)
 end
 
 bindMove('c', function()
-  spoon.WinWin:moveAndResize("center")
+  spoon.WinWin:moveAndResize('center')
 end)
 bindMove('h', hs.grid.pushWindowLeft)
 bindMove('j', hs.grid.pushWindowDown)
@@ -61,7 +60,7 @@ bindMove('l', hs.grid.pushWindowRight)
 -- }}}
 
 -- resize Mode {{{
-resize = makeMode(hyper, "return", "resize/move mode")
+resize = makeMode(hyper, 'return', 'resize/move mode')
 
 -- use this function for repeating keys
 function bindResizeRepeat(mod, key, fn)
@@ -142,7 +141,6 @@ end)
 --   appMode:exit()
 -- end)
 
-
 -- }}}
 
 -- logic for marking module {{{
@@ -168,8 +166,34 @@ function focusMark(mark)
   end
 end
 
-alphabet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-  'w', 'x', 'y', 'z' }
+alphabet = {
+  'a',
+  'b',
+  'c',
+  'd',
+  'e',
+  'f',
+  'g',
+  'h',
+  'i',
+  'j',
+  'k',
+  'l',
+  'm',
+  'n',
+  'o',
+  'p',
+  'q',
+  'r',
+  's',
+  't',
+  'u',
+  'v',
+  'w',
+  'x',
+  'y',
+  'z',
+}
 
 markMode = makeMode(hyper, 'm', 'mark mode')
 for i = 1, #alphabet do
@@ -188,13 +212,12 @@ for i = 1, #alphabet do
   end)
 end
 
-
 -- }}}
 
 -- caffinate automator {{{
 
 citrixwatcher = hs.application.watcher.new(function(appName, event, appObj)
-  if appObj:name() == "Citrix Viewer" then
+  if appObj:name() == 'Citrix Viewer' then
     -- for initiating the caffeinate assertion
     -- the correct event to watch for should actually be "launched"
     -- but for some reason this never gets received for "Citrix Viewer"
@@ -208,7 +231,7 @@ citrixwatcher = hs.application.watcher.new(function(appName, event, appObj)
       -- the below check makes sure that citrix is no longer running
       -- there are some cases where other citrix apps have been opened
       -- and quit while the main citrix app still remains open
-      if hs.application.get("Citrix Viewer") == nil then
+      if hs.application.get('Citrix Viewer') == nil then
         -- end caffeinate
         hs.alert.show('Caffeinate Terminated')
         hs.caffeinate.set('displayIdle', false, false)
@@ -233,21 +256,21 @@ citrixwatcher:start()
 zoomModeText = [[
 Zoom Mode
 
-Toggle Audio:         hyper+z
-Toggle Video:         hyper+v
-Leave Meeting:        hyper+x
-Copy Invite Link:     hyper+c
-Toggle Minimal View:  m]]
+Toggle Audio        = hyper+z
+Toggle Video        = hyper+v
+Leave Meeting       = hyper+x
+Copy Invite Link    = hyper+c
+Toggle Minimal View = m]]
 zoomMode = makeMode(hyper, 'z', zoomModeText)
 
 -- toggle audio mute
 zoomMode:bind(hyper, 'z', function()
   zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
-    if zoom:findMenuItem({'Meeting', 'Mute audio'}) then
-      zoom:selectMenuItem({'Meeting', 'Mute audio'})
+    if zoom:findMenuItem({ 'Meeting', 'Mute audio' }) then
+      zoom:selectMenuItem({ 'Meeting', 'Mute audio' })
     else
-      zoom:selectMenuItem({'Meeting', 'Unmute audio'})
+      zoom:selectMenuItem({ 'Meeting', 'Unmute audio' })
     end
   end
   zoomMode:exit()
@@ -257,10 +280,10 @@ end)
 zoomMode:bind(hyper, 'v', function()
   zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
-    if zoom:findMenuItem({'Meeting', 'Start video'}) then
-      zoom:selectMenuItem({'Meeting', 'Start video'})
+    if zoom:findMenuItem({ 'Meeting', 'Start video' }) then
+      zoom:selectMenuItem({ 'Meeting', 'Start video' })
     else
-      zoom:selectMenuItem({'Meeting', 'Stop video'})
+      zoom:selectMenuItem({ 'Meeting', 'Stop video' })
     end
   end
   zoomMode:exit()
@@ -270,10 +293,10 @@ end)
 zoomMode:bind('', 'm', function()
   zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
-    if zoom:findMenuItem({'Meeting', 'Exit minimal view'}) then
-      zoom:selectMenuItem({'Meeting', 'Exit minimal view'})
+    if zoom:findMenuItem({ 'Meeting', 'Exit minimal view' }) then
+      zoom:selectMenuItem({ 'Meeting', 'Exit minimal view' })
     else
-      zoom:selectMenuItem({'Meeting', 'Enter minimal view'})
+      zoom:selectMenuItem({ 'Meeting', 'Enter minimal view' })
     end
   end
   zoomMode:exit()
@@ -282,7 +305,7 @@ end)
 zoomMode:bind(hyper, 'c', function()
   zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
-    zoom:selectMenuItem({'Meeting', 'Copy invite link'})
+    zoom:selectMenuItem({ 'Meeting', 'Copy invite link' })
   end
   zoomMode:exit()
 end)
@@ -290,23 +313,60 @@ end)
 zoomMode:bind(hyper, 'x', function()
   zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
-    if zoom:findMenuItem({'Meeting', 'Exit minimal view'}) then
-      zoom:selectMenuItem({'Meeting', 'Exit minimal view'})
+    if zoom:findMenuItem({ 'Meeting', 'Exit minimal view' }) then
+      zoom:selectMenuItem({ 'Meeting', 'Exit minimal view' })
     end
     zoom:activate()
-    hs.eventtap.keyStroke({'cmd'}, "w")
+    hs.eventtap.keyStroke({ 'cmd' }, 'w')
   end
   zoomMode:exit()
 end)
 
 -- }}}
 
+-- Browser Mode {{{
 
+browserModeText = [[
+Browser Mode
+
+Search Bookmarks = hyper+b
+Search Tabs      = hyper+t
+Open ChatGPT     = hyper+c]]
+browserMode = makeMode(hyper, 'b', browserModeText)
+
+-- search bookmarks in firefox
+browserMode:bind(hyper, 'b', function()
+  local firefox = hs.application.get('Firefox')
+  firefox:activate()
+  firefox:selectMenuItem({ 'File', 'New Tab' })
+  firefox:selectMenuItem({ 'Bookmarks', 'Search Bookmarks' })
+  browserMode:exit()
+end)
+
+-- search tabs in firefox
+browserMode:bind(hyper, 't', function()
+  local firefox = hs.application.get('Firefox')
+  firefox:activate()
+  firefox:selectMenuItem({ 'File', 'New Tab' })
+  --hs.eventtap.keyStroke({'cmd'}, "l")
+  hs.eventtap.keyStrokes('@tabs ')
+  browserMode:exit()
+end)
+
+-- go to chatgpt
+browserMode:bind(hyper, 'c', function()
+  local firefox = hs.application.get('Firefox')
+  firefox:activate()
+  hs.eventtap.keyStroke({ 'cmd' }, '1')
+  browserMode:exit()
+end)
+
+-- }}}
 
 hs.hotkey.bind(hyper, 'v', function()
   local clipboardContents = hs.pasteboard.getContents()
   if clipboardContents == nil then
-    hs.alert.show("nil or invalid clipboard")
+    hs.alert.show('nil or invalid clipboard')
     return
   end
 
@@ -320,46 +380,21 @@ hs.hotkey.bind(hyperS, 'v', function()
   local app = 'bbvpn2'
   if hs.application.launchOrFocus(app) then
     local bbvpn = hs.application.get(app)
-    bbvpn:selectMenuItem({'Action', 'Connect'})
+    bbvpn:selectMenuItem({ 'Action', 'Connect' })
   end
-end)
-
--- search bookmarks in firefox
-hs.hotkey.bind(hyper, 'b', function()
-  local firefox = hs.application.get('Firefox')
-  firefox:activate()
-  firefox:selectMenuItem({'File', 'New Tab'})
-  firefox:selectMenuItem({'Bookmarks', 'Search Bookmarks'})
-end)
-
--- search tabs in firefox
-hs.hotkey.bind(hyper, 't', function()
-  local firefox = hs.application.get('Firefox')
-  firefox:activate()
-  firefox:selectMenuItem({'File', 'New Tab'})
-  --hs.eventtap.keyStroke({'cmd'}, "l")
-  hs.eventtap.keyStrokes("@tabs ")
-end)
-
--- go to chatgpt
-hs.hotkey.bind(hyper, 'c', function()
-  local firefox = hs.application.get('Firefox')
-  firefox:activate()
-  hs.eventtap.keyStroke({'cmd'}, "1")
 end)
 
 -- start bba after vpn connected
 hs.urlevent.bind('bbvpnConnected', function()
   hs.printf('bbvpn connected callback')
-  if hs.application.get("Citrix Viewer") == nil then
+  if hs.application.get('Citrix Viewer') == nil then
     -- do this if citrix isnt running
     local firefox = hs.application.get('Firefox')
     firefox:activate()
-    firefox:selectMenuItem({'Bookmarks', 'Bookmarks Toolbar', 'BBA'})
+    firefox:selectMenuItem({ 'Bookmarks', 'Bookmarks Toolbar', 'BBA' })
   end
 end)
 
-
 -- }}}
 
-hs.alert.show("Loaded HammerSpoon Config")
+hs.alert.show('Loaded HammerSpoon Config')

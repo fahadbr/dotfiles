@@ -25,6 +25,12 @@ return {
           line_up = 'gk',
         }
       })
+      require('mini.align').setup({
+        mappings = {
+          start = '<leader>ma',
+          start_with_preview = '<leader>mA',
+        }
+      })
 
       MiniIcons.mock_nvim_web_devicons()
     end

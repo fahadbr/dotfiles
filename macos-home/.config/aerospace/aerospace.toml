@@ -204,9 +204,24 @@ alt-r = 'mode main'
 9 = 'secondary'
 
 [[on-window-detected]]
-if.app-name-regex-substring = 'Messages|TickTick|Notes|WhatsApp|Finder|ChatGPT|Obsidian|Zoom|Bitwarden|Calendar|Parallels'
+if.app-name-regex-substring = 'Messages|TickTick|Notes|WhatsApp|Finder|ChatGPT|Obsidian|Bitwarden|Calendar|Parallels'
 check-further-callbacks = true
 run = ['layout floating']  # The callback itself
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'Firefox|Safari|Chrome|qutebrowser'
+check-further-callbacks = true
+run = ['move-node-to-workspace 2']  # The callback itself
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'kitty|Ghostty|Terminal'
+check-further-callbacks = true
+run = ['move-node-to-workspace 2']  # The callback itself
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'Zoom'
+check-further-callbacks = true
+run = ['move-node-to-workspace 4']  # The callback itself
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'Citrix Viewer'
