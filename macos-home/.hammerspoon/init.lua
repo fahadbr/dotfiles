@@ -256,12 +256,18 @@ citrixwatcher:start()
 zoomModeText = [[
 Zoom Mode
 
+Focus Zoom          = hyper+enter
 Toggle Audio        = hyper+z
 Toggle Video        = hyper+v
 Leave Meeting       = hyper+x
 Copy Invite Link    = hyper+c
 Toggle Minimal View = m]]
 zoomMode = makeMode(hyper, 'z', zoomModeText)
+
+zoomMode:bind(hyper, 'return', function()
+  hs.application.launchOrFocus('zoom.us')
+  zoomMode:exit()
+end)
 
 -- toggle audio mute
 zoomMode:bind(hyper, 'z', function()
@@ -329,10 +335,16 @@ end)
 browserModeText = [[
 Browser Mode
 
+Focus Browser    = hyper+enter
 Search Bookmarks = hyper+b
 Search Tabs      = hyper+t
 Open ChatGPT     = hyper+c]]
 browserMode = makeMode(hyper, 'b', browserModeText)
+
+browserMode:bind(hyper, 'return', function()
+  hs.application.launchOrFocus('Firefox')
+  browserMode:exit()
+end)
 
 -- search bookmarks in firefox
 browserMode:bind(hyper, 'b', function()
@@ -357,10 +369,43 @@ end)
 browserMode:bind(hyper, 'c', function()
   local firefox = hs.application.get('Firefox')
   firefox:activate()
-  hs.eventtap.keyStroke({ 'cmd' }, '1')
+  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
   browserMode:exit()
 end)
 
+-- }}}
+
+-- Terminal Mode {{{
+terminalModeText = [[
+Terminal Mode
+
+Focus Terminal   = hyper+enter
+Dotfiles Session = hyper+d
+Open Session     = hyper+o ]]
+terminalMode = makeMode(hyper, 't', terminalModeText)
+
+terminalMode:bind(hyper, 'return', function()
+  hs.application.launchOrFocus('kitty')
+  terminalMode:exit()
+end)
+
+terminalMode:bind(hyper, 'd', function()
+  local term = hs.application.get('kitty')
+  term:activate()
+  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
+  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
+  hs.eventtap.keyStroke({ 'ctrl' }, 'd', 50000)
+  terminalMode:exit()
+end)
+
+terminalMode:bind(hyper, 'o', function()
+  local term = hs.application.get('kitty')
+  term:activate()
+  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
+  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
+  hs.eventtap.keyStroke({ 'ctrl' }, 'o', 50000)
+  terminalMode:exit()
+end)
 -- }}}
 
 hs.hotkey.bind(hyper, 'v', function()
