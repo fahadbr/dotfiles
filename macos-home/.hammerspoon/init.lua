@@ -28,6 +28,18 @@ function makeMode(mods, key, name)
     hs.alert.closeSpecific(modealerts[name])
   end
 
+  -- bind to key to hyper and without modifiers
+  -- purpose of binding to hyper is to make it optional
+  -- to release hyper when executing the hotkey
+  function mode:hyperBind(key, fn)
+    local function fnWithExit()
+      fn()
+      mode:exit()
+    end
+    mode:bind('', key, fnWithExit)
+    mode:bind(hyper, key, fnWithExit)
+  end
+
   mode:bind('', 'escape', function()
     mode:exit()
   end)
@@ -261,16 +273,15 @@ Toggle Audio        = hyper+z
 Toggle Video        = hyper+v
 Leave Meeting       = hyper+x
 Copy Invite Link    = hyper+c
-Toggle Minimal View = m]]
+Toggle Minimal View = hyper+m,m]]
 zoomMode = makeMode(hyper, 'z', zoomModeText)
 
-zoomMode:bind(hyper, 'return', function()
+zoomMode:hyperBind('return', function()
   hs.application.launchOrFocus('zoom.us')
-  zoomMode:exit()
 end)
 
 -- toggle audio mute
-zoomMode:bind(hyper, 'z', function()
+zoomMode:hyperBind('z', function()
   zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
     if zoom:findMenuItem({ 'Meeting', 'Mute audio' }) then
@@ -279,11 +290,10 @@ zoomMode:bind(hyper, 'z', function()
       zoom:selectMenuItem({ 'Meeting', 'Unmute audio' })
     end
   end
-  zoomMode:exit()
 end)
 
 -- toggle video on
-zoomMode:bind(hyper, 'v', function()
+zoomMode:hyperBind('v', function()
   zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
     if zoom:findMenuItem({ 'Meeting', 'Start video' }) then
@@ -292,11 +302,12 @@ zoomMode:bind(hyper, 'v', function()
       zoom:selectMenuItem({ 'Meeting', 'Stop video' })
     end
   end
-  zoomMode:exit()
 end)
 
 -- toggle minimal view
-zoomMode:bind('', 'm', function()
+
+
+zoomMode:hyperBind('m', function()
   zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
     if zoom:findMenuItem({ 'Meeting', 'Exit minimal view' }) then
@@ -305,18 +316,16 @@ zoomMode:bind('', 'm', function()
       zoom:selectMenuItem({ 'Meeting', 'Enter minimal view' })
     end
   end
-  zoomMode:exit()
 end)
 
-zoomMode:bind(hyper, 'c', function()
+zoomMode:hyperBind('c', function()
   zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
     zoom:selectMenuItem({ 'Meeting', 'Copy invite link' })
   end
-  zoomMode:exit()
 end)
 
-zoomMode:bind(hyper, 'x', function()
+zoomMode:hyperBind('x', function()
   zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
     if zoom:findMenuItem({ 'Meeting', 'Exit minimal view' }) then
@@ -325,7 +334,6 @@ zoomMode:bind(hyper, 'x', function()
     zoom:activate()
     hs.eventtap.keyStroke({ 'cmd' }, 'w')
   end
-  zoomMode:exit()
 end)
 
 -- }}}
@@ -341,36 +349,32 @@ Search Tabs      = hyper+t
 Open ChatGPT     = hyper+c]]
 browserMode = makeMode(hyper, 'b', browserModeText)
 
-browserMode:bind(hyper, 'return', function()
+browserMode:hyperBind('return', function()
   hs.application.launchOrFocus('Firefox')
-  browserMode:exit()
 end)
 
 -- search bookmarks in firefox
-browserMode:bind(hyper, 'b', function()
+browserMode:hyperBind('b', function()
   local firefox = hs.application.get('Firefox')
   firefox:activate()
   firefox:selectMenuItem({ 'File', 'New Tab' })
   firefox:selectMenuItem({ 'Bookmarks', 'Search Bookmarks' })
-  browserMode:exit()
 end)
 
 -- search tabs in firefox
-browserMode:bind(hyper, 't', function()
+browserMode:hyperBind('t', function()
   local firefox = hs.application.get('Firefox')
   firefox:activate()
   firefox:selectMenuItem({ 'File', 'New Tab' })
   --hs.eventtap.keyStroke({'cmd'}, "l")
   hs.eventtap.keyStrokes('@tabs ')
-  browserMode:exit()
 end)
 
 -- go to chatgpt
-browserMode:bind(hyper, 'c', function()
+browserMode:hyperBind('c', function()
   local firefox = hs.application.get('Firefox')
   firefox:activate()
   hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
-  browserMode:exit()
 end)
 
 -- }}}
@@ -381,48 +385,41 @@ Terminal Mode
 
 Focus Terminal   = hyper+enter
 Dotfiles Session = hyper+d
+Tmux T Session   = hyper+t
+Tmux B Session   = hyper+b
 Open Session     = hyper+o ]]
 terminalMode = makeMode(hyper, 't', terminalModeText)
 
-terminalMode:bind(hyper, 'return', function()
+terminalMode:hyperBind('return', function()
   hs.application.launchOrFocus('kitty')
-  terminalMode:exit()
 end)
 
-terminalMode:bind(hyper, 'd', function()
-  local term = hs.application.get('kitty')
-  term:activate()
+terminalMode:hyperBind('d', function()
+  hs.application.launchOrFocus('kitty')
   hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 'd', 50000)
-  terminalMode:exit()
 end)
 
-terminalMode:bind(hyper, 't', function()
-  local term = hs.application.get('kitty')
-  term:activate()
+terminalMode:hyperBind('t', function()
+  hs.application.launchOrFocus('kitty')
   hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 't', 50000)
-  terminalMode:exit()
 end)
 
-terminalMode:bind(hyper, 'b', function()
-  local term = hs.application.get('kitty')
-  term:activate()
+terminalMode:hyperBind('b', function()
+  hs.application.launchOrFocus('kitty')
   hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 'b', 50000)
-  terminalMode:exit()
 end)
 
-terminalMode:bind(hyper, 'o', function()
-  local term = hs.application.get('kitty')
-  term:activate()
+terminalMode:hyperBind('o', function()
+  hs.application.launchOrFocus('kitty')
   hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 'o', 50000)
-  terminalMode:exit()
 end)
 -- }}}
 

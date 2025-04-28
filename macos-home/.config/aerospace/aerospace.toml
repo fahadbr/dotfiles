@@ -204,7 +204,7 @@ alt-r = 'mode main'
 9 = 'secondary'
 
 [[on-window-detected]]
-if.app-name-regex-substring = 'Messages|TickTick|Notes|WhatsApp|Finder|ChatGPT|Obsidian|Bitwarden|Calendar|Parallels'
+if.app-name-regex-substring = 'Messages|TickTick|Notes|WhatsApp|Finder|ChatGPT|Obsidian|Bitwarden|Calendar|Parallels|BetterTouchTool'
 check-further-callbacks = true
 run = ['layout floating']  # The callback itself
 
