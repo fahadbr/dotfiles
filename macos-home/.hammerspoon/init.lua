@@ -265,7 +265,7 @@ citrixwatcher:start()
 -- -- like a VDI
 
 -- Zoom Mode {{{
-zoomModeText = [[
+local zoomModeText = [[
 Zoom Mode
 
 Focus Zoom          = hyper+enter
@@ -273,8 +273,8 @@ Toggle Audio        = hyper+z
 Toggle Video        = hyper+v
 Leave Meeting       = hyper+x
 Copy Invite Link    = hyper+c
-Toggle Minimal View = hyper+m,m]]
-zoomMode = makeMode(hyper, 'z', zoomModeText)
+Toggle Minimal View = hyper+m]]
+local zoomMode = makeMode(hyper, 'z', zoomModeText)
 
 zoomMode:hyperBind('return', function()
   hs.application.launchOrFocus('zoom.us')
@@ -282,7 +282,7 @@ end)
 
 -- toggle audio mute
 zoomMode:hyperBind('z', function()
-  zoom = hs.application.get('zoom.us')
+  local zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
     if zoom:findMenuItem({ 'Meeting', 'Mute audio' }) then
       zoom:selectMenuItem({ 'Meeting', 'Mute audio' })
@@ -294,7 +294,7 @@ end)
 
 -- toggle video on
 zoomMode:hyperBind('v', function()
-  zoom = hs.application.get('zoom.us')
+  local zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
     if zoom:findMenuItem({ 'Meeting', 'Start video' }) then
       zoom:selectMenuItem({ 'Meeting', 'Start video' })
@@ -306,9 +306,8 @@ end)
 
 -- toggle minimal view
 
-
 zoomMode:hyperBind('m', function()
-  zoom = hs.application.get('zoom.us')
+  local zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
     if zoom:findMenuItem({ 'Meeting', 'Exit minimal view' }) then
       zoom:selectMenuItem({ 'Meeting', 'Exit minimal view' })
@@ -319,14 +318,14 @@ zoomMode:hyperBind('m', function()
 end)
 
 zoomMode:hyperBind('c', function()
-  zoom = hs.application.get('zoom.us')
+  local zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
     zoom:selectMenuItem({ 'Meeting', 'Copy invite link' })
   end
 end)
 
 zoomMode:hyperBind('x', function()
-  zoom = hs.application.get('zoom.us')
+  local zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
     if zoom:findMenuItem({ 'Meeting', 'Exit minimal view' }) then
       zoom:selectMenuItem({ 'Meeting', 'Exit minimal view' })
@@ -340,14 +339,15 @@ end)
 
 -- Browser Mode {{{
 
-browserModeText = [[
+local browserModeText = [[
 Browser Mode
 
 Focus Browser    = hyper+enter
 Search Bookmarks = hyper+b
 Search Tabs      = hyper+t
+Search idk       = hyper+i
 Open ChatGPT     = hyper+c]]
-browserMode = makeMode(hyper, 'b', browserModeText)
+local browserMode = makeMode(hyper, 'b', browserModeText)
 
 browserMode:hyperBind('return', function()
   hs.application.launchOrFocus('Firefox')
@@ -370,6 +370,15 @@ browserMode:hyperBind('t', function()
   hs.eventtap.keyStrokes('@tabs ')
 end)
 
+-- search pull request tabs in firefox
+browserMode:hyperBind('p', function()
+  local firefox = hs.application.get('Firefox')
+  firefox:activate()
+  firefox:selectMenuItem({ 'File', 'New Tab' })
+  --hs.eventtap.keyStroke({'cmd'}, "l")
+  hs.eventtap.keyStrokes('@tabs pull ')
+end)
+
 -- go to chatgpt
 browserMode:hyperBind('c', function()
   local firefox = hs.application.get('Firefox')
@@ -377,10 +386,16 @@ browserMode:hyperBind('c', function()
   hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
 end)
 
+-- search idk
+browserMode:hyperBind('i', function()
+  local firefox = hs.application.get('Firefox')
+  firefox:activate()
+  firefox:selectMenuItem({ 'Bookmarks', 'Bookmarks Toolbar', 'idk' })
+end)
 -- }}}
 
 -- Terminal Mode {{{
-terminalModeText = [[
+local terminalModeText = [[
 Terminal Mode
 
 Focus Terminal   = hyper+enter
@@ -388,7 +403,7 @@ Dotfiles Session = hyper+d
 Tmux T Session   = hyper+t
 Tmux B Session   = hyper+b
 Open Session     = hyper+o ]]
-terminalMode = makeMode(hyper, 't', terminalModeText)
+local terminalMode = makeMode(hyper, 't', terminalModeText)
 
 terminalMode:hyperBind('return', function()
   hs.application.launchOrFocus('kitty')
