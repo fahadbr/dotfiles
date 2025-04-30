@@ -5,6 +5,10 @@ end
 vim.g.mapleader = ','
 vim.g.maplocalleader = '-'
 
+if fr.in_ssh then
+  vim.g.clipboard = 'osc52'
+end
+
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.autoindent = true
