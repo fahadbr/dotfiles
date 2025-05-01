@@ -342,11 +342,12 @@ end)
 local browserModeText = [[
 Browser Mode
 
-Focus Browser    = hyper+enter
-Search Bookmarks = hyper+b
-Search Tabs      = hyper+t
-Search idk       = hyper+i
-Open ChatGPT     = hyper+c]]
+Focus Browser    = enter
+Search Bookmarks = b
+Search Tabs      = t
+Search idk       = i
+Meetings         = m
+Open ChatGPT     = c]]
 local browserMode = makeMode(hyper, 'b', browserModeText)
 
 browserMode:hyperBind('return', function()
@@ -390,7 +391,15 @@ end)
 browserMode:hyperBind('i', function()
   local firefox = hs.application.get('Firefox')
   firefox:activate()
+  firefox:selectMenuItem({ 'File', 'New Tab' })
   firefox:selectMenuItem({ 'Bookmarks', 'Bookmarks Toolbar', 'idk' })
+end)
+
+browserMode:hyperBind('m', function()
+  local firefox = hs.application.get('Firefox')
+  firefox:activate()
+  firefox:selectMenuItem({ 'File', 'New Tab' })
+  firefox:selectMenuItem({ 'Bookmarks', 'Other Bookmarks', 'Meetings' })
 end)
 -- }}}
 
