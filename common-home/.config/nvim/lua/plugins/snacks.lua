@@ -6,15 +6,10 @@ return {
   event = 'BufEnter',
   opts = {
     notifier = {
+      timeout = 5000,
       style = 'fancy'
     },
-    lazygit = {
-      notify = false,
-      open = function (url)
-        vim.notify('Opening URL: ' .. url)
-        vim.ui.open(url)
-      end
-    },
+    lazygit = {},
     indent = {},
     gitbrowse = {
       url_patterns = {
