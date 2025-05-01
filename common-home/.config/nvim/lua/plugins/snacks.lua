@@ -8,7 +8,13 @@ return {
     notifier = {
       style = 'fancy'
     },
-    lazygit = {},
+    lazygit = {
+      notify = false,
+      open = function (url)
+        vim.notify('Opening URL: ' .. url)
+        vim.ui.open(url)
+      end
+    },
     indent = {},
     gitbrowse = {
       url_patterns = {
