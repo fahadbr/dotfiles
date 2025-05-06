@@ -5,3 +5,4 @@ if [[ -d "${autoload_dir}" ]]; then
   done
 fi
 
+# source ~/.lcldevrc

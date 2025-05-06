@@ -138,7 +138,8 @@ return {
       end, 'lsp goto definition hsplit (telescope)')
       fr.nmap('<space>ls', telescope_builtin.lsp_dynamic_workspace_symbols, 'lsp dynamic workspace symbols (telescope)')
       fr.nmap('<space>a', find_files_from_project_git_root, 'find files from git root (telescope)')
-      fr.nmap('<space>f', git_or_find_files, 'git files or find files (telescope)')
+      -- fr.nmap('<space>f', git_or_find_files, 'git files or find files (telescope)')
+      fr.nmap('<space>o', git_or_find_files, 'git files or find files (telescope)')
       fr.nmap('<space>b', function()
         telescope_builtin.buffers({
           show_all_buffers = true,
@@ -155,7 +156,7 @@ return {
           end,
         })
       end, 'list buffers (telescope)')
-      fr.nmap('<space>o',
+      fr.nmap('<space>s',
         function() telescope_builtin.lsp_document_symbols { symbol_width = 60, ignore_symbols = { 'variable', 'field' } } end,
         'lsp document symbols (telescope)')
       fr.nmap('<space>tk', telescope_builtin.keymaps, 'keymaps (telescope)')
@@ -165,13 +166,13 @@ return {
         'telescope resume picker (telescope)')
 
       fr.nmap('<space>tp', telescope.extensions.persisted.persisted, 'show sessions (telescope)')
-      fr.nmap('<space>sb', current_buffer_fuzzy_find, 'live grep current buffer (telescope)')
-      fr.map({'n', 'x'}, '<space>sw', telescope_builtin.grep_string, {desc = 'grep string under cursor (telescope)'})
-      fr.map({'n', 'x'}, '<space>sW', grep_string_git_root_current_filetype, {desc = 'grep string under cursor with current buffer filetype (telescope)'})
-      fr.nmap('<space>sL', live_grep_git_root_current_filetype,
+      fr.nmap('<space>fb', current_buffer_fuzzy_find, 'live grep current buffer (telescope)')
+      fr.map({'n', 'x'}, '<space>fw', telescope_builtin.grep_string, {desc = 'grep string under cursor (telescope)'})
+      fr.map({'n', 'x'}, '<space>fW', grep_string_git_root_current_filetype, {desc = 'grep string under cursor with current buffer filetype (telescope)'})
+      fr.nmap('<space>fL', live_grep_git_root_current_filetype,
         'live grep from git root with current buffer filetype (telescope)')
-      fr.nmap('<space>sl', live_grep_from_project_git_root, 'live grep from git root (telescope)')
-      fr.nmap("<space>sg", function()
+      fr.nmap('<space>fl', live_grep_from_project_git_root, 'live grep from git root (telescope)')
+      fr.nmap("<space>fg", function()
         vim.ui.input({ prompt = "Enter glob pattern (e.g. *.lua): " }, function(input)
           if input then
             local opts = maybe_get_git_opts()

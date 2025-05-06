@@ -407,11 +407,12 @@ end)
 local terminalModeText = [[
 Terminal Mode
 
-Focus Terminal   = hyper+enter
-Dotfiles Session = hyper+d
-Tmux T Session   = hyper+t
-Tmux B Session   = hyper+b
-Open Session     = hyper+o ]]
+Focus Terminal       = hyper+enter
+Dotfiles Session     = hyper+d
+Tmux T Session       = hyper+t
+Tmux B Session       = hyper+b
+Tmux Floating Window = hyper+f
+Open Session         = hyper+o ]]
 local terminalMode = makeMode(hyper, 't', terminalModeText)
 
 terminalMode:hyperBind('return', function()
@@ -445,19 +446,28 @@ terminalMode:hyperBind('o', function()
   hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 'o', 50000)
 end)
+
+terminalMode:hyperBind('f', function()
+  hs.application.launchOrFocus('kitty')
+  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
+  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
+  hs.eventtap.keyStroke({ 'ctrl' }, 'f', 50000)
+end)
+
 -- }}}
 
-hs.hotkey.bind(hyper, 'v', function()
-  local clipboardContents = hs.pasteboard.getContents()
-  if clipboardContents == nil then
-    hs.alert.show('nil or invalid clipboard')
-    return
-  end
-
-  hs.timer.doAfter(1, function()
-    hs.eventtap.keyStrokes(clipboardContents)
-  end)
-end)
+-- write out clipboard
+-- hs.hotkey.bind(hyper, 'v', function()
+--   local clipboardContents = hs.pasteboard.getContents()
+--   if clipboardContents == nil then
+--     hs.alert.show('nil or invalid clipboard')
+--     return
+--   end
+--
+--   hs.timer.doAfter(1, function()
+--     hs.eventtap.keyStrokes(clipboardContents)
+--   end)
+-- end)
 
 -- connect vpn
 hs.hotkey.bind(hyperS, 'v', function()
@@ -468,16 +478,6 @@ hs.hotkey.bind(hyperS, 'v', function()
   end
 end)
 
--- start bba after vpn connected
-hs.urlevent.bind('bbvpnConnected', function()
-  hs.printf('bbvpn connected callback')
-  if hs.application.get('Citrix Viewer') == nil then
-    -- do this if citrix isnt running
-    local firefox = hs.application.get('Firefox')
-    firefox:activate()
-    firefox:selectMenuItem({ 'Bookmarks', 'Bookmarks Toolbar', 'BBA' })
-  end
-end)
 
 -- }}}
 

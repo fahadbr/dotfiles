@@ -56,7 +56,12 @@ case "$focus_cat" in
     fi
     ;;
   bbfunction)
-    open 'bbg://screens/'
+    wid=$(aerospace list-windows --monitor all --app-bundle-id 'com.citrix.receiver.icaviewer.mac' | grep -vE 'MSG|IB|Launchpad')
+    if [[ $(echo "$wid" | wc -l) -eq 1 ]]; then
+      aerospace focus --window-id ${wid%% *}
+    else
+      aerospace focus --window-id $(echo "$wid" | choose | cut -d '|' -f 1)
+    fi
     ;;
   todo)
       $scratch 'com.TickTick.task.mac' 'TickTick'
