@@ -19,7 +19,8 @@ end, 'close buffer')
 
 -- remapping <C-l> so it can be used to switch between buffers on the bufferline
 fr.nmap('<leader><C-l>', '<C-l>', 'remapping the key to redraw the screen')
-fr.imap('<C-d>', '<esc>:read !date<CR>kJA', 'insert date into current line (insert)')
+-- conflicting with bullet C-d mapping in insert mode. not sure what to map it to right now
+-- fr.imap('<C-d>', '<esc>:read !date<CR>kJo', 'insert date into current line (insert)')
 fr.nmap('<leader>id', ':read !date<CR>', 'insert date into current line (normal)')
 fr.nmap('<C-q>', ':confirm quitall<CR>', 'close all windows')
 fr.nmap('<leader>TW', ':set wrap! | set wrap?<CR>', 'toggle line wrapping')
@@ -57,10 +58,8 @@ fr.nmap('<leader>to', vim.cmd.tabonly, 'tab only')
 --fr.nmap('<leader>tr', ':BufferLineTabRename ', 'tab rename')
 
 -- -- quickfix/loclist mappings
-fr.nmap('<C-g><C-p>', ':lprevious<CR>', 'loclist previous')
-fr.nmap('<C-g><C-n>', ':lnext<CR>', 'loclist next')
-fr.nmap('<leader>qp', ':cprevious<CR>', 'quickfix previous')
-fr.nmap('<leader>qn', ':cnext<CR>', 'quickfix next')
+fr.nmap('<C-g><C-p>', ':cprevious<CR>', 'quickfix previous')
+fr.nmap('<C-g><C-n>', ':cnext<CR>', 'quickfix next')
 
 
 fr.vmap('<leader>/', '"vy/\\V<C-r>v<CR>', 'search for vhighlighted text')

@@ -74,3 +74,26 @@ end, {
   complete = 'file',
 })
 
+vim.api.nvim_create_user_command("OpenDailyNote", function()
+  local date = os.date("%Y-%m-%d-%A") .. ".md"
+  local filepath = vim.fn.expand("~/notes/daily/" .. date)
+  -- Check if buffer is already loaded
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_get_name(buf) == filepath then
+      -- Find window displaying the buffer
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        if vim.api.nvim_win_get_buf(win) == buf then
+          vim.api.nvim_set_current_win(win)
+          return
+        end
+      end
+      -- Buffer loaded, but not visible — open in current window
+      vim.api.nvim_set_current_buf(buf)
+      return
+    end
+  end
+
+  -- Not loaded yet — open the file
+  vim.cmd("edit " .. filepath)
+end, {})
+

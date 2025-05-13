@@ -1,0 +1,7 @@
+response:
+  prettify_json: true
+keymap:
+  send-request: ctrl+r,shift+enter
+  focus-url: ctrl+u
+  save-request: ctrl+s,ctrl+S
+  search-requests: ctrl+y

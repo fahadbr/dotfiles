@@ -17,6 +17,7 @@ hs.alert.defaultStyle.textSize = 16
 hs.alert.defaultStyle.textFont = 'FiraCode Nerd Font Mono'
 hs.alert.defaultStyle.radius = 10
 hs.alert.defaultStyle.fillColor = { white = 0.1, alpha = 1 }
+hs.alert.show('Loading HammerSpoon Config')
 modealerts = {}
 function makeMode(mods, key, name)
   local mode = hs.hotkey.modal.new(mods, key)
@@ -172,9 +173,12 @@ function markFocusedWindow(mark)
 end
 
 function focusMark(mark)
-  id = marks[mark]
-  if id then
-    id:focus()
+  window = marks[mark]
+  if window then
+    -- window:focus()
+    hs.execute('aerospace focus --window-id ' .. window:id(), true)
+  else
+    hs.alert.show(string.format('no mark assigned to "%s"', mark))
   end
 end
 
@@ -216,7 +220,7 @@ for i = 1, #alphabet do
   end)
 end
 
-focusMode = makeMode(hyper, 'w', 'focus mode')
+focusMode = makeMode(hyper, '\'', 'focus mode')
 for i = 1, #alphabet do
   focusMode:bind('', alphabet[i], function()
     focusMark(alphabet[i])
@@ -260,20 +264,37 @@ citrixwatcher:start()
 
 -- helpful keybindings for shortcuts {{{
 
--- -- use this to type out the clipboard
--- -- useful for when you cant paste into an application
--- -- like a VDI
+local mainTerminalWindow = nil
+local notesTerminalWindow = nil
+termWf = hs.window.filter
+  .new('kitty')
+  :subscribe(hs.window.filter.windowAllowed, function(win)
+    if win:title() == 'notes' then
+      notesTerminalWindow = win
+    else
+      if mainTerminalWindow == nil then
+        mainTerminalWindow = win
+      end
+    end
+  end, true)
+  :subscribe(hs.window.filter.windowDestroyed, function(win)
+    if notesTerminalWindow ~= nil and win:id() == notesTerminalWindow:id() then
+      notesTerminalWindow = nil
+    elseif mainTerminalWindow ~= nil and win:id() == mainTerminalWindow:id() then
+      mainTerminalWindow = nil
+    end
+  end)
 
 -- Zoom Mode {{{
 local zoomModeText = [[
 Zoom Mode
 
-Focus Zoom          = hyper+enter
-Toggle Audio        = hyper+z
-Toggle Video        = hyper+v
-Leave Meeting       = hyper+x
-Copy Invite Link    = hyper+c
-Toggle Minimal View = hyper+m]]
+Focus Zoom          = enter
+Toggle Audio        = z
+Toggle Video        = v
+Leave Meeting       = x
+Copy Invite Link    = c
+Toggle Minimal View = m]]
 local zoomMode = makeMode(hyper, 'z', zoomModeText)
 
 zoomMode:hyperBind('return', function()
@@ -362,6 +383,15 @@ browserMode:hyperBind('b', function()
   firefox:selectMenuItem({ 'Bookmarks', 'Search Bookmarks' })
 end)
 
+hs.hotkey.bind(hyper, 'u', function()
+  output, status, exit_type, rc = hs.execute('/Users/friaz10/inbox/ffbookmarks.sh', true)
+  hs.printf('output: %s, rc: %d', output, rc)
+  if status then
+    local firefox = hs.application.get('Firefox')
+    firefox:activate()
+  end
+end)
+
 -- search tabs in firefox
 browserMode:hyperBind('t', function()
   local firefox = hs.application.get('Firefox')
@@ -369,6 +399,13 @@ browserMode:hyperBind('t', function()
   firefox:selectMenuItem({ 'File', 'New Tab' })
   --hs.eventtap.keyStroke({'cmd'}, "l")
   hs.eventtap.keyStrokes('@tabs ')
+end)
+
+browserMode:hyperBind('n', function()
+  local firefox = hs.application.get('Firefox')
+  firefox:activate()
+  hs.eventtap.keyStroke({ 'ctrl' }, 2, 50000)
+  firefox:selectMenuItem({ 'File', 'New Tab' })
 end)
 
 -- search pull request tabs in firefox
@@ -407,48 +444,67 @@ end)
 local terminalModeText = [[
 Terminal Mode
 
-Focus Terminal       = hyper+enter
-Dotfiles Session     = hyper+d
-Tmux T Session       = hyper+t
-Tmux B Session       = hyper+b
-Tmux Floating Window = hyper+f
-Open Session         = hyper+o ]]
+Focus Terminal       = enter
+Dotfiles Session     = d
+Tmux T Session       = t
+Tmux B Session       = b
+Tmux Floating Window = f
+Open Session         = o ]]
 local terminalMode = makeMode(hyper, 't', terminalModeText)
 
 terminalMode:hyperBind('return', function()
-  hs.application.launchOrFocus('kitty')
+  if mainTerminalWindow == nil then
+    hs.application.launchOrFocus('kitty')
+    return
+  end
+  mainTerminalWindow:focus()
 end)
 
 terminalMode:hyperBind('d', function()
-  hs.application.launchOrFocus('kitty')
+  if mainTerminalWindow == nil then
+    return
+  end
+  mainTerminalWindow:focus()
   hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 'd', 50000)
 end)
 
 terminalMode:hyperBind('t', function()
-  hs.application.launchOrFocus('kitty')
+  if mainTerminalWindow == nil then
+    return
+  end
+  mainTerminalWindow:focus()
   hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 't', 50000)
 end)
 
 terminalMode:hyperBind('b', function()
-  hs.application.launchOrFocus('kitty')
+  if mainTerminalWindow == nil then
+    return
+  end
+  mainTerminalWindow:focus()
   hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 'b', 50000)
 end)
 
 terminalMode:hyperBind('o', function()
-  hs.application.launchOrFocus('kitty')
+  if mainTerminalWindow == nil then
+    return
+  end
+  mainTerminalWindow:focus()
   hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 'o', 50000)
 end)
 
 terminalMode:hyperBind('f', function()
-  hs.application.launchOrFocus('kitty')
+  if mainTerminalWindow == nil then
+    return
+  end
+  mainTerminalWindow:focus()
   hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
   hs.eventtap.keyStroke({ 'ctrl' }, 'f', 50000)
@@ -456,7 +512,55 @@ end)
 
 -- }}}
 
--- write out clipboard
+-- Notes Mode {{{
+local notesModeText = [[
+Notes Mode
+
+Focus notes = enter
+Scratch     = s
+Reference   = r
+New Note    = n ]]
+local notesMode = makeMode(hyper, 'n', notesModeText)
+notesMode:hyperBind('return', function()
+  if notesTerminalWindow == nil then
+    hs.execute('${HOME}/.local/bin/launch-notes.sh', true)
+    return
+  end
+  notesTerminalWindow:focus()
+end)
+
+notesMode:hyperBind('s', function()
+  if notesTerminalWindow == nil then
+    return
+  end
+  notesTerminalWindow:focus()
+  local app = notesTerminalWindow:application()
+  hs.eventtap.keyStroke({ 'ctrl' }, 'c', nil, app) -- go to normal mode if not in it
+  hs.eventtap.keyStrokes(':OpenDailyNote', app)
+  hs.eventtap.keyStroke({}, 'return', nil, app)
+end)
+
+notesMode:hyperBind('j', function()
+  if notesTerminalWindow == nil then
+    return
+  end
+  notesTerminalWindow:focus()
+  hs.eventtap.keyStrokes(' h2')
+end)
+
+notesMode:hyperBind('n', function()
+  if notesTerminalWindow == nil then
+    return
+  end
+  notesTerminalWindow:focus()
+  -- TODO: implement new note
+end)
+-- }}}
+
+-- -- write out clipboard
+-- -- use this to type out the clipboard
+-- -- useful for when you cant paste into an application
+-- -- like a VDI
 -- hs.hotkey.bind(hyper, 'v', function()
 --   local clipboardContents = hs.pasteboard.getContents()
 --   if clipboardContents == nil then
@@ -478,7 +582,6 @@ hs.hotkey.bind(hyperS, 'v', function()
   end
 end)
 
-
 -- }}}
 
-hs.alert.show('Loaded HammerSpoon Config')
+hs.alert.show('Finished Loading HammerSpoon Config')

@@ -122,6 +122,7 @@ alias editssh="${EDITOR} ${HOME}/.ssh/config"
 alias view="${EDITOR} -R"
 alias lg='lazygit'
 alias printpath='echo $PATH | sed "s/:/\n/g"'
+alias tma='tmux attach -t $(tmux list-sessions | cut -d ':' -f 1 | fzf)'
 
 # {{{ yazi
 function y() {

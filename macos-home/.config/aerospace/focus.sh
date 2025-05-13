@@ -31,7 +31,8 @@ case "$focus_cat" in
     ;;
   notes)
     if [ "$machine" = "work" ]; then
-      $scratch 'md.obsidian' 'Obsidian'
+      notes_windowid=$(aerospace list-windows --monitor all --app-bundle-id 'net.kovidgoyal.kitty' | awk '/notes/ {print $1}')
+      aerospace focus --window-id $notes_windowid
     else
       $scratch 'com.apple.Notes' 'Notes'
     fi
@@ -40,12 +41,8 @@ case "$focus_cat" in
     open -a 'Calendar'
     ;;
   terminal)
-    term_windowid="$(aerospace list-windows --workspace focused --app-bundle-id 'net.kovidgoyal.kitty' --format '%{window-id}')"
-    if [[ $term_windowid ]]; then
-      aerospace focus --window-id $term_windowid
-    else
-      open -a 'kitty'
-    fi
+    term_windowid="$(aerospace list-windows --monitor all --app-bundle-id 'net.kovidgoyal.kitty' | awk '!/notes/ {print $1}')"
+    aerospace focus --window-id $term_windowid
     ;;
   mail)
     if [ "$machine" = "work" ]; then
