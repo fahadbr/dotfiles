@@ -516,10 +516,11 @@ end)
 local notesModeText = [[
 Notes Mode
 
-Focus notes = enter
-Scratch     = s
-Reference   = r
-New Note    = n ]]
+Focus notes   = enter
+Daily Note    = n
+Reference     = r
+BBG Functions = b
+Harpoon <Num> = <num>]]
 local notesMode = makeMode(hyper, 'n', notesModeText)
 notesMode:hyperBind('return', function()
   if notesTerminalWindow == nil then
@@ -529,18 +530,25 @@ notesMode:hyperBind('return', function()
   notesTerminalWindow:focus()
 end)
 
-notesMode:hyperBind('s', function()
+notesMode:hyperBind('n', function()
   if notesTerminalWindow == nil then
     return
   end
   notesTerminalWindow:focus()
   local app = notesTerminalWindow:application()
   hs.eventtap.keyStroke({ 'ctrl' }, 'c', nil, app) -- go to normal mode if not in it
-  hs.eventtap.keyStrokes(':OpenDailyNote', app)
-  hs.eventtap.keyStroke({}, 'return', nil, app)
+  hs.eventtap.keyStrokes(',Ed', app)
 end)
 
-notesMode:hyperBind('j', function()
+notesMode:hyperBind('r', function()
+  if notesTerminalWindow == nil then
+    return
+  end
+  notesTerminalWindow:focus()
+  hs.eventtap.keyStrokes(' h1')
+end)
+
+notesMode:hyperBind('b', function()
   if notesTerminalWindow == nil then
     return
   end
@@ -548,13 +556,17 @@ notesMode:hyperBind('j', function()
   hs.eventtap.keyStrokes(' h2')
 end)
 
-notesMode:hyperBind('n', function()
-  if notesTerminalWindow == nil then
-    return
-  end
-  notesTerminalWindow:focus()
-  -- TODO: implement new note
-end)
+for i = 1,9 do
+  notesMode:hyperBind(tostring(i), function()
+    if notesTerminalWindow == nil then
+      return
+    end
+    notesTerminalWindow:focus()
+    hs.eventtap.keyStrokes(' h' .. i)
+  end)
+end
+
+
 -- }}}
 
 -- -- write out clipboard

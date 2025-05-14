@@ -22,6 +22,7 @@ fr.nmap('<leader><C-l>', '<C-l>', 'remapping the key to redraw the screen')
 -- conflicting with bullet C-d mapping in insert mode. not sure what to map it to right now
 -- fr.imap('<C-d>', '<esc>:read !date<CR>kJo', 'insert date into current line (insert)')
 fr.nmap('<leader>id', ':read !date<CR>', 'insert date into current line (normal)')
+fr.nmap('<leader>Ed', vim.cmd.OpenDailyNote, 'open/edit the daily note')
 fr.nmap('<C-q>', ':confirm quitall<CR>', 'close all windows')
 fr.nmap('<leader>TW', ':set wrap! | set wrap?<CR>', 'toggle line wrapping')
 fr.nmap('<leader>TH', ':set hlsearch! | set hlsearch?<CR>', 'toggle search highlighting')

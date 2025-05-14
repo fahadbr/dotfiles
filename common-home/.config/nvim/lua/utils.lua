@@ -73,4 +73,29 @@ function M.merge_copy(t1, t2)
   return result
 end
 
+function M.module_exists(name)
+  if package.loaded[name] then
+    return true
+  end
+
+  for _, searcher in ipairs(package.searchers or package.loaders) do
+    local loader = searcher(name)
+    if type(loader) == 'function' then
+      return true
+    end
+  end
+
+  return false
+end
+
+function M.extend_or_override(config, custom, ...)
+  if type(custom) == "function" then
+    config = custom(config, ...) or config
+  elseif custom then
+    config = vim.tbl_deep_extend("force", config, custom) --[[@as table]]
+  end
+  return config
+end
+
+
 return M
