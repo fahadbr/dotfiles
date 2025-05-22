@@ -11,7 +11,7 @@ local function make_lsp_capabilities()
 end
 
 return {
-  { 'williamboman/mason.nvim', config = true },
+  { 'mason-org/mason.nvim' },
   -- nvim-lspconfig {{{
   {
     'neovim/nvim-lspconfig',
@@ -69,6 +69,16 @@ return {
       lspconfig.pyright.setup {
         capabilities = lsp_capabilities,
         on_attach = on_attach,
+      }
+
+      lspconfig.yamlls.setup {
+        capabilities = make_lsp_capabilities(),
+        settings = {
+          yaml = {
+            redhat = { telemetry = { enabled = false } },
+            schemaStore = { enable = true, url = '' },
+          }
+        }
       }
 
       -- for lua support
@@ -145,34 +155,15 @@ return {
   -- mason-lspconfig  {{{
 
   {
-    'williamboman/mason-lspconfig.nvim',
-    dependencies = { 'williamboman/mason.nvim', 'neovim/nvim-lspconfig' },
-    config = function()
-      local mlcfg = require('mason-lspconfig')
-      mlcfg.setup()
-      mlcfg.setup_handlers {
-        -- The first entry (without a key) will be the default handler
-        -- and will be called for each installed server that doesn't have
-        -- a dedicated handler.
-        function(server_name) -- default handler (optional)
-          require("lspconfig")[server_name].setup {}
-        end,
-        -- ignoring jdtls because of the setup thats happening later in the file
-        -- eventually it might be best to move the set up here
-        --jdtls = function() end,
-        yamlls = function()
-          require('lspconfig').yamlls.setup {
-            capabilities = make_lsp_capabilities(),
-            settings = {
-              yaml = {
-                redhat = { telemetry = { enabled = false } },
-                schemaStore = { enable = true, url = '' },
-              }
-            }
-          }
-        end
+    'mason-org/mason-lspconfig.nvim',
+    dependencies = { 'mason-org/mason.nvim', 'neovim/nvim-lspconfig' },
+    opts = {
+      automatic_enable = {
+        exclude = {
+          "jdtls"
+        }
       }
-    end
+    },
   },
   -- }}}
   -- lsp_overloads.nvim {{{

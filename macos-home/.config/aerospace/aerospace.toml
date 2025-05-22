@@ -147,8 +147,8 @@ alt-shift-8 = 'move-node-to-workspace --focus-follows-window 8'
 alt-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
 alt-shift-minus = 'move-node-to-workspace scratch'
 
-alt-shift-left = 'move-workspace-to-monitor prev'
-alt-shift-right = 'move-workspace-to-monitor next'
+alt-shift-p = 'move-workspace-to-monitor prev'
+alt-shift-n = 'move-workspace-to-monitor next'
 
 alt-shift-f = 'fullscreen --no-outer-gaps'
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
@@ -203,6 +203,7 @@ alt-a = 'mode main'
 [[on-window-detected]]
 if.app-name-regex-substring = 'Messages|TickTick|Notes|WhatsApp|Finder|ChatGPT|Obsidian|Bitwarden|Calendar|Parallels|BetterTouchTool|Karabiner|Hammerspoon|Citrix Viewer'
 run = ['layout floating']  # The callback itself
+check-further-callbacks = true
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'Firefox|Safari|Chrome|qutebrowser'

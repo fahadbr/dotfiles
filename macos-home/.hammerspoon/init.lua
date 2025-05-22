@@ -289,12 +289,15 @@ termWf = hs.window.filter
 local zoomModeText = [[
 Zoom Mode
 
-Focus Zoom          = enter
-Toggle Audio        = z
-Toggle Video        = v
-Leave Meeting       = x
-Copy Invite Link    = c
-Toggle Minimal View = m]]
+Focus Zoom                = enter
+Toggle Audio              = z
+Toggle Video              = v
+Toggle Chat               = c
+Toggle Minimal View       = m
+Leave Meeting             = x
+Pause/Resume Screen Share = p
+Start/Stop Screen Share   = s
+Copy Invite Link          = i ]]
 local zoomMode = makeMode(hyper, 'z', zoomModeText)
 
 zoomMode:hyperBind('return', function()
@@ -338,7 +341,7 @@ zoomMode:hyperBind('m', function()
   end
 end)
 
-zoomMode:hyperBind('c', function()
+zoomMode:hyperBind('i', function()
   local zoom = hs.application.get('zoom.us')
   if zoom ~= nil then
     zoom:selectMenuItem({ 'Meeting', 'Copy invite link' })
@@ -356,6 +359,38 @@ zoomMode:hyperBind('x', function()
   end
 end)
 
+zoomMode:hyperBind('p', function()
+  local zoom = hs.application.get('zoom.us')
+  if zoom ~= nil then
+    if zoom:findMenuItem({ 'Meeting', 'Pause share' }) then
+      zoom:selectMenuItem({ 'Meeting', 'Pause share' })
+    else
+      zoom:selectMenuItem({ 'Meeting', 'Resume share' })
+    end
+  end
+end)
+
+zoomMode:hyperBind('s', function()
+  local zoom = hs.application.get('zoom.us')
+  if zoom ~= nil then
+    if zoom:findMenuItem({ 'Meeting', 'Stop share' }) then
+      zoom:selectMenuItem({ 'Meeting', 'Stop share' })
+    else
+      zoom:selectMenuItem({ 'Meeting', 'Start share' })
+    end
+  end
+end)
+
+zoomMode:hyperBind('c', function()
+  local zoom = hs.application.get('zoom.us')
+  if zoom ~= nil then
+    if zoom:findMenuItem({ 'View', 'Show chat' }) then
+      zoom:selectMenuItem({ 'View', 'Show chat' })
+    else
+      zoom:selectMenuItem({ 'View', 'Close chat' })
+    end
+  end
+end)
 -- }}}
 
 -- Browser Mode {{{
@@ -448,6 +483,7 @@ Focus Terminal       = enter
 Dotfiles Session     = d
 Tmux T Session       = t
 Tmux B Session       = b
+Tmux Active Mark     = a
 Tmux Floating Window = f
 Open Session         = o ]]
 local terminalMode = makeMode(hyper, 't', terminalModeText)
@@ -500,6 +536,16 @@ terminalMode:hyperBind('o', function()
   hs.eventtap.keyStroke({ 'ctrl' }, 'o', 50000)
 end)
 
+terminalMode:hyperBind('a', function()
+  if mainTerminalWindow == nil then
+    return
+  end
+  mainTerminalWindow:focus()
+  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
+  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
+  hs.eventtap.keyStroke({ 'alt' }, 'm', 50000)
+end)
+
 terminalMode:hyperBind('f', function()
   if mainTerminalWindow == nil then
     return
@@ -518,6 +564,7 @@ Notes Mode
 
 Focus notes   = enter
 Daily Note    = n
+Open Note     = o
 Reference     = r
 BBG Functions = b
 Harpoon <Num> = <num>]]
@@ -554,6 +601,14 @@ notesMode:hyperBind('b', function()
   end
   notesTerminalWindow:focus()
   hs.eventtap.keyStrokes(' h2')
+end)
+
+notesMode:hyperBind('o', function()
+  if notesTerminalWindow == nil then
+    return
+  end
+  notesTerminalWindow:focus()
+  hs.eventtap.keyStrokes(' o')
 end)
 
 for i = 1,9 do
