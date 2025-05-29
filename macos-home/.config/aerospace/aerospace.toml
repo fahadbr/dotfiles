@@ -15,7 +15,10 @@ after-startup-command = [
 ]
 
 # Notify Sketchybar about workspace change
-exec-on-workspace-change = ['/bin/bash', '-c', '$HOME/.config/aerospace/on_workspace_change.sh $AEROSPACE_FOCUSED_WORKSPACE $AEROSPACE_PREV_WORKSPACE'
+exec-on-workspace-change = [
+  '/bin/bash',
+  '-c',
+  '$HOME/.config/aerospace/on_workspace_change.sh $AEROSPACE_FOCUSED_WORKSPACE $AEROSPACE_PREV_WORKSPACE',
 ]
 
 # Start AeroSpace at login
@@ -64,13 +67,13 @@ preset = 'qwerty'
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
 inner.horizontal = 15
-inner.vertical =   15
-outer.left =       15
-outer.bottom =     15
+inner.vertical = 15
+outer.left = 15
+outer.bottom = 15
 # outer.top =        [{monitor."Built-in Retina Display" = 30}, 60] # config with sketchybar
 #outer.top =        [{monitor."Built-in Retina Display" = 15}, 40]
-outer.top =        15
-outer.right =      15
+outer.top = 15
+outer.right = 15
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -160,8 +163,8 @@ alt-shift-space = 'layout floating tiling'
 #alt-h = 'split horizontal'
 #alt-v = 'split vertical'
 
-alt-s = 'layout v_accordion' # 'layout stacking' in i3
-alt-t = 'layout h_accordion' # 'layout tabbed' in i3
+alt-s = 'layout v_accordion'               # 'layout stacking' in i3
+alt-t = 'layout h_accordion'               # 'layout tabbed' in i3
 alt-e = 'layout tiles horizontal vertical' # 'layout toggle split' in i3
 
 alt-enter = 'exec-and-forget kitten @ action new_os_window'
@@ -179,63 +182,101 @@ l = 'resize width +100'
 k = 'resize height +100'
 j = 'resize height -100'
 h = 'resize width -100'
-shift-r = ['exec-and-forget $HOME/.config/aerospace/flatten_reset.sh', 'mode main']
+shift-r = [
+  'exec-and-forget $HOME/.config/aerospace/flatten_reset.sh',
+  'mode main',
+]
 esc = 'mode main'
 enter = 'mode main'
 alt-r = 'mode main'
 
 
 [mode.apps.binding]
-alt-b = ['exec-and-forget $HOME/.config/aerospace/focus.sh browser', 'mode main']
-alt-c = ['exec-and-forget $HOME/.config/aerospace/focus.sh calendar', 'mode main']
-alt-f = ['exec-and-forget $HOME/.config/aerospace/focus.sh bbfunction', 'mode main']
-alt-i = ['exec-and-forget $HOME/.config/aerospace/focus.sh message', 'mode main']
+alt-b = [
+  'exec-and-forget $HOME/.config/aerospace/focus.sh browser',
+  'mode main',
+]
+b = ['exec-and-forget $HOME/.config/aerospace/focus.sh browser', 'mode main']
+alt-c = [
+  'exec-and-forget $HOME/.config/aerospace/focus.sh calendar',
+  'mode main',
+]
+c = ['exec-and-forget $HOME/.config/aerospace/focus.sh calendar', 'mode main']
+alt-f = [
+  'exec-and-forget $HOME/.config/aerospace/focus.sh bbfunction',
+  'mode main',
+]
+f = ['exec-and-forget $HOME/.config/aerospace/focus.sh bbfunction', 'mode main']
+alt-i = [
+  'exec-and-forget $HOME/.config/aerospace/focus.sh message',
+  'mode main',
+]
+i = ['exec-and-forget $HOME/.config/aerospace/focus.sh message', 'mode main']
 alt-m = ['exec-and-forget $HOME/.config/aerospace/focus.sh mail', 'mode main']
+m = ['exec-and-forget $HOME/.config/aerospace/focus.sh mail', 'mode main']
 alt-n = ['exec-and-forget $HOME/.config/aerospace/focus.sh notes', 'mode main']
-alt-t = ['exec-and-forget $HOME/.config/aerospace/focus.sh terminal', 'mode main']
-alt-w = ['exec-and-forget $HOME/.config/aerospace/scratch.sh net.whatsapp.WhatsApp WhatsApp', 'mode main']
+n = ['exec-and-forget $HOME/.config/aerospace/focus.sh notes', 'mode main']
+alt-t = [
+  'exec-and-forget $HOME/.config/aerospace/focus.sh terminal',
+  'mode main',
+]
+t = ['exec-and-forget $HOME/.config/aerospace/focus.sh terminal', 'mode main']
+alt-w = [
+  'exec-and-forget $HOME/.config/aerospace/scratch.sh net.whatsapp.WhatsApp WhatsApp',
+  'mode main',
+]
+w = [
+  'exec-and-forget $HOME/.config/aerospace/scratch.sh net.whatsapp.WhatsApp WhatsApp',
+  'mode main',
+]
 alt-x = ['exec-and-forget $HOME/.config/aerospace/focus.sh todo', 'mode main']
+x = ['exec-and-forget $HOME/.config/aerospace/focus.sh todo', 'mode main']
 alt-z = ['exec-and-forget open -a "zoom.us"', 'mode main']
+z = ['exec-and-forget open -a "zoom.us"', 'mode main']
 esc = 'mode main'
 enter = 'mode main'
 alt-a = 'mode main'
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'Messages|TickTick|Notes|WhatsApp|Finder|ChatGPT|Obsidian|Bitwarden|Calendar|Parallels|BetterTouchTool|Karabiner|Hammerspoon|Citrix Viewer'
-run = ['layout floating']  # The callback itself
+run = ['layout floating']
 check-further-callbacks = true
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'Firefox|Safari|Chrome|qutebrowser'
 check-further-callbacks = false
-run = ['move-node-to-workspace 2']  # The callback itself
+run = ['move-node-to-workspace 2']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'kitty|Ghostty|Terminal'
+check-further-callbacks = true
+run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'kitty'
+if.window-title-regex-substring = 'notes'
 check-further-callbacks = false
-run = ['move-node-to-workspace 3']  # The callback itself
+run = ['move-node-to-workspace 6']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'Zoom'
 check-further-callbacks = false
-run = ['move-node-to-workspace 4']  # The callback itself
+run = ['move-node-to-workspace 4']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'Citrix Viewer'
 if.window-title-regex-substring = 'Launchpad'
 check-further-callbacks = false
-run = ['move-node-to-workspace scratch']  # The callback itself
+run = ['move-node-to-workspace scratch']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'Citrix Viewer'
 if.window-title-regex-substring = 'IB|MSG'
 check-further-callbacks = false
-run = ['layout tiling', 'move-node-to-workspace 1']  # The callback itself
+run = ['layout tiling', 'move-node-to-workspace 1']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'Citrix Viewer'
-if.window-title-regex-substring = 'APPT|APPX|New Tab|DRQS|PRQS|BBTF|ZOMO'
+if.window-title-regex-substring = 'APPT|APPX|New Tab|DRQS|PRQS|BBTF|ZOMO|RDB2'
 check-further-callbacks = false
-run = ['layout tiling', 'move-node-to-workspace 5']  # The callback itself
-
-
+run = ['layout tiling', 'move-node-to-workspace 5']

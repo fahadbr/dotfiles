@@ -1,6 +1,4 @@
--- vim:foldmethod=marker
 return {
-  -- nvim-treesitter  {{{
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -30,7 +28,6 @@ return {
         highlight = {
           enable = true,
           -- disabling dockerfile since it keeps giving errors
-          disable = { "dockerfile" },
           additional_vim_regex_highlighting = false,
         },
         incremental_selection = {
@@ -45,8 +42,6 @@ return {
       }
     end
   },
-  -- }}}
-  -- nvim-treesitter-objects {{{
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
     event = 'VeryLazy',
@@ -72,8 +67,6 @@ return {
       }
     end
   },
-  -- }}}
-  -- nvim-ts-autotag {{{
   {
     'windwp/nvim-ts-autotag',
     event = 'VeryLazy',
@@ -102,5 +95,4 @@ return {
     'nvim-treesitter/nvim-treesitter-context',
     opts = {},
   }
-  -- }}}
 }

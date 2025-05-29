@@ -124,6 +124,10 @@ alias lg='lazygit'
 alias printpath='echo $PATH | sed "s/:/\n/g"'
 alias tma='tmux attach -t $(tmux list-sessions | cut -d ':' -f 1 | fzf)'
 
+bin2dec() {
+  echo $((2#$1))
+}
+
 # {{{ yazi
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd

@@ -1,6 +1,8 @@
--- vim:foldmethod=marker
 -- see lazy plugin spec at
 -- https://lazy.folke.io/spec
+
+vim.g.markdown_folding = 1
+
 return {
   {
     'MeanderingProgrammer/render-markdown.nvim',

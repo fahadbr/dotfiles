@@ -19,8 +19,8 @@ return {
     opts = function()
       local cmd = { vim.fn.exepath('jdtls') }
       if fr.module_exists('mason.nvim') then
-        local mason_registry = require('mason-registry')
-        local lombok_jar = mason_registry.get_package('jdtls'):get_install_path() .. '/lombok.jar'
+        local InstallLocation = require("mason-core.installer.InstallLocation")
+        local lombok_jar = InstallLocation.global():package('jdtls') .. '/lombok.jar'
         table.insert(cmd, string.format('--jvm-arg=-javaagent:%s', lombok_jar))
       end
       return {
@@ -83,15 +83,13 @@ return {
       if fr.module_exists('mason.nvim') then
         local mason_registry = require('mason-registry')
         if opts.dap and fr.module_exists('nvim-dap') and mason_registry.is_installed('java-debug-adapter') then
-          local java_dbg_pkg = mason_registry.get_package('java-debug-adapter')
-          local java_dbg_path = java_dbg_pkg:get_install_path()
+          local java_dbg_path = require("mason-core.installer.InstallLocation").global():package('java-debug-adapter')
           local jar_patterns = {
             java_dbg_path .. '/extension/server/com.microsoft.java.debug.plugin-*.jar',
           }
           -- java-test also depends on java-debug-adapter.
           if opts.test and mason_registry.is_installed('java-test') then
-            local java_test_pkg = mason_registry.get_package('java-test')
-            local java_test_path = java_test_pkg:get_install_path()
+            local java_test_path = require("mason-core.installer.InstallLocation").global():package('java-test')
             vim.list_extend(jar_patterns, {
               java_test_path .. '/extension/server/*.jar',
             })
@@ -143,31 +141,31 @@ return {
               {
                 mode = 'n',
                 buffer = args.buf,
-                { '<localleader>cx', group = 'extract' },
-                { '<localleader>cxv', require('jdtls').extract_variable_all, desc = 'Extract Variable' },
-                { '<localleader>cxc', require('jdtls').extract_constant, desc = 'Extract Constant' },
-                { '<localleader>cgs', require('jdtls').super_implementation, desc = 'Goto Super' },
-                { '<localleader>cgS', require('jdtls.tests').goto_subjects, desc = 'Goto Subjects' },
-                { '<localleader>co', require('jdtls').organize_imports, desc = 'Organize Imports' },
+                { '<localleader>jx', group = 'extract' },
+                { '<localleader>jxv', require('jdtls').extract_variable_all, desc = 'Extract Variable' },
+                { '<localleader>jxc', require('jdtls').extract_constant, desc = 'Extract Constant' },
+                { '<localleader>jgs', require('jdtls').super_implementation, desc = 'Goto Super' },
+                { '<localleader>jgS', require('jdtls.tests').goto_subjects, desc = 'Goto Subjects' },
+                { '<localleader>jo', require('jdtls').organize_imports, desc = 'Organize Imports' },
               },
             })
             wk.add({
               {
                 mode = 'v',
                 buffer = args.buf,
-                { '<localleader>cx', group = 'extract' },
+                { '<localleader>jx', group = 'extract' },
                 {
-                  '<localleader>cxm',
+                  '<localleader>jxm',
                   [[<ESC><CMD>lua require('jdtls').extract_method(true)<CR>]],
                   desc = 'Extract Method',
                 },
                 {
-                  '<localleader>cxv',
+                  '<localleader>jxv',
                   [[<ESC><CMD>lua require('jdtls').extract_variable_all(true)<CR>]],
                   desc = 'Extract Variable',
                 },
                 {
-                  '<localleader>cxc',
+                  '<localleader>jxc',
                   [[<ESC><CMD>lua require('jdtls').extract_constant(true)<CR>]],
                   desc = 'Extract Constant',
                 },
@@ -201,7 +199,7 @@ return {
                         desc = 'Run All Test',
                       },
                       {
-                        '<localleader>tr',
+                        '<localleader>tm',
                         function()
                           require('jdtls.dap').test_nearest_method({
                             config_overrides = type(opts.test) ~= 'boolean' and opts.test.config_overrides or nil,

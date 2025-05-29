@@ -54,7 +54,7 @@ autocmd({ 'FocusGained', 'BufEnter' }, {
 })
 autocmd({ 'Filetype' }, {
   pattern = { 'markdown' },
-  callback = function(opts) vim.bo[opts.buf].textwidth = 80 end
+  callback = function(opts) vim.bo[opts.buf].textwidth = 120 end
 })
 
 autocmd('TextYankPost', {

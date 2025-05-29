@@ -50,6 +50,18 @@ function makeMode(mods, key, name)
   return mode
 end
 
+function keyStrokeWithDelay(keyStrokes, idx, delay)
+  if idx > #keyStrokes then
+    return
+  end
+  local keyStroke = keyStrokes[idx]
+  hs.eventtap.keyStroke(keyStroke['mods'], keyStroke['key'])
+
+  hs.timer.doAfter(delay, function ()
+    keyStrokeWithDelay(keyStrokes, idx+1, delay)
+  end)
+end
+
 -- }}}
 
 -- window movement {{{
@@ -403,6 +415,8 @@ Search Bookmarks = b
 Search Tabs      = t
 Search idk       = i
 Meetings         = m
+Grok             = g
+Jira             = j
 Open ChatGPT     = c]]
 local browserMode = makeMode(hyper, 'b', browserModeText)
 
@@ -459,6 +473,13 @@ browserMode:hyperBind('c', function()
   hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
 end)
 
+-- go to jira
+browserMode:hyperBind('j', function()
+  local firefox = hs.application.get('Firefox')
+  firefox:activate()
+  hs.eventtap.keyStroke({ 'cmd' }, '2', 50000)
+end)
+
 -- search idk
 browserMode:hyperBind('i', function()
   local firefox = hs.application.get('Firefox')
@@ -472,6 +493,13 @@ browserMode:hyperBind('m', function()
   firefox:activate()
   firefox:selectMenuItem({ 'File', 'New Tab' })
   firefox:selectMenuItem({ 'Bookmarks', 'Other Bookmarks', 'Meetings' })
+end)
+
+browserMode:hyperBind('g', function()
+  local firefox = hs.application.get('Firefox')
+  firefox:activate()
+  firefox:selectMenuItem({ 'File', 'New Tab' })
+  firefox:selectMenuItem({ 'Bookmarks', 'Bookmarks Toolbar', 'Grok' })
 end)
 -- }}}
 
@@ -501,9 +529,10 @@ terminalMode:hyperBind('d', function()
     return
   end
   mainTerminalWindow:focus()
-  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
-  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
-  hs.eventtap.keyStroke({ 'ctrl' }, 'd', 50000)
+  local app = mainTerminalWindow:application()
+  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000, app)
+  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000, app)
+  hs.eventtap.keyStroke({ 'ctrl' }, 'd', 50000, app)
 end)
 
 terminalMode:hyperBind('t', function()
@@ -511,9 +540,10 @@ terminalMode:hyperBind('t', function()
     return
   end
   mainTerminalWindow:focus()
-  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
-  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
-  hs.eventtap.keyStroke({ 'ctrl' }, 't', 50000)
+  local app = mainTerminalWindow:application()
+  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000, app)
+  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000, app)
+  hs.eventtap.keyStroke({ 'ctrl' }, 't', 50000, app)
 end)
 
 terminalMode:hyperBind('b', function()
@@ -521,9 +551,10 @@ terminalMode:hyperBind('b', function()
     return
   end
   mainTerminalWindow:focus()
-  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
-  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
-  hs.eventtap.keyStroke({ 'ctrl' }, 'b', 50000)
+  local app = mainTerminalWindow:application()
+  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000, app)
+  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000, app)
+  hs.eventtap.keyStroke({ 'ctrl' }, 'b', 50000, app)
 end)
 
 terminalMode:hyperBind('o', function()
@@ -531,9 +562,10 @@ terminalMode:hyperBind('o', function()
     return
   end
   mainTerminalWindow:focus()
-  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
-  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
-  hs.eventtap.keyStroke({ 'ctrl' }, 'o', 50000)
+  local app = mainTerminalWindow:application()
+  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000, app)
+  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000, app)
+  hs.eventtap.keyStroke({ 'ctrl' }, 'o', 50000, app)
 end)
 
 terminalMode:hyperBind('a', function()
@@ -541,9 +573,10 @@ terminalMode:hyperBind('a', function()
     return
   end
   mainTerminalWindow:focus()
-  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
-  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
-  hs.eventtap.keyStroke({ 'alt' }, 'm', 50000)
+  local app = mainTerminalWindow:application()
+  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000, app)
+  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000, app)
+  hs.eventtap.keyStroke({ 'alt' }, 'm', 50000, app)
 end)
 
 terminalMode:hyperBind('f', function()
@@ -551,9 +584,10 @@ terminalMode:hyperBind('f', function()
     return
   end
   mainTerminalWindow:focus()
-  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000)
-  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000)
-  hs.eventtap.keyStroke({ 'ctrl' }, 'f', 50000)
+  local app = mainTerminalWindow:application()
+  hs.eventtap.keyStroke({ 'cmd' }, '1', 50000, app)
+  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000, app)
+  hs.eventtap.keyStroke({ 'ctrl' }, 'f', 50000, app)
 end)
 
 -- }}}

@@ -13,8 +13,9 @@ end
 
 -- general mappings {{{
 fr.nmap('<leader>x', function()
-  vim.cmd.bp()
-  vim.cmd.bd('#')
+  local current_buf = vim.api.nvim_get_current_buf()
+  vim.cmd('b#')            -- Switch to the alternate buffer
+  vim.cmd('bd ' .. current_buf)  -- Delete the original buffer
 end, 'close buffer')
 
 -- remapping <C-l> so it can be used to switch between buffers on the bufferline
@@ -28,11 +29,18 @@ fr.nmap('<leader>TW', ':set wrap! | set wrap?<CR>', 'toggle line wrapping')
 fr.nmap('<leader>TH', ':set hlsearch! | set hlsearch?<CR>', 'toggle search highlighting')
 fr.nmap('<leader>TN', ':set relativenumber! | set relativenumber?<CR>', 'toggle relativenumber')
 fr.nmap('yFL', [[:let @+=expand('%').":".line('.')<CR>"]], 'yank/copy the current file and line number into clipboard')
-fr.nmap('yFW', [[:let @+=expand('%')."::<C-r><C-w>"<CR>"]],
-  'yank/copy the current file and word under cursor into clipboard')
+fr.nmap(
+  'yFW',
+  [[:let @+=expand('%')."::<C-r><C-w>"<CR>"]],
+  'yank/copy the current file and word under cursor into clipboard'
+)
 fr.nmap('<leader>w', vim.cmd.w, 'write current buffer')
-fr.nmap('<leader>bp', function() print(vim.fn.expand('%')) end, 'print relative filepath of current buffer')
-fr.nmap('<leader>bP', function() print(vim.fn.expand('%:p')) end, 'print absolute filepath of current buffer')
+fr.nmap('<leader>bp', function()
+  print(vim.fn.expand('%'))
+end, 'print relative filepath of current buffer')
+fr.nmap('<leader>bP', function()
+  print(vim.fn.expand('%:p'))
+end, 'print absolute filepath of current buffer')
 fr.nmap('<leader>cw', ':set hlsearch<CR>*Ncgn', 'change instances of word under cursor (repeat with .)')
 -- -- not really used so commented out
 -- fr.nmap( '<leader>s*' , ':%s/\<<C-r><C-w>\>//g<left><left>',  'Find and replace word under the cursor')
@@ -47,13 +55,15 @@ fr.nmap('<C-Right>', '5<C-w>>', 'increase horizontal window size')
 fr.nmap('_', '<C-w>s', 'horizontal split')
 fr.nmap('|', '<C-w>v', 'vertical split')
 --fr.nmap('<M-q>', '<C-w>q', 'close window')
-fr.imap_remap('<C-k>', '<Esc><C-k>', 'focus window north', true)
-fr.imap_remap('<C-j>', '<Esc><C-j>', 'focus window south', true)
-fr.imap_remap('<C-h>', '<Esc><C-h>', 'focus window west', true)
-fr.imap_remap('<C-l>', '<Esc><C-l>', 'focus window east', true)
+fr.map({ 'i', 'x' }, '<C-k>', '<Esc><C-k>', { desc = 'focus window north', remap = true })
+fr.map({ 'i', 'x' }, '<C-j>', '<Esc><C-j>', { desc = 'focus window south', remap = true })
+fr.map({ 'i', 'x' }, '<C-h>', '<Esc><C-h>', { desc = 'focus window west', remap = true })
+fr.map({ 'i', 'x' }, '<C-l>', '<Esc><C-l>', { desc = 'focus window east', remap = true })
 
 -- -- tab mappings
-fr.nmap('<leader>tn', function() vim.cmd.tabnew('%') end, 'tab new')
+fr.nmap('<leader>tn', function()
+  vim.cmd.tabnew('%')
+end, 'tab new')
 fr.nmap('<leader>tx', vim.cmd.tabclose, 'tab close')
 fr.nmap('<leader>to', vim.cmd.tabonly, 'tab only')
 --fr.nmap('<leader>tr', ':BufferLineTabRename ', 'tab rename')
@@ -61,7 +71,6 @@ fr.nmap('<leader>to', vim.cmd.tabonly, 'tab only')
 -- -- quickfix/loclist mappings
 fr.nmap('<C-g><C-p>', ':cprevious<CR>', 'quickfix previous')
 fr.nmap('<C-g><C-n>', ':cnext<CR>', 'quickfix next')
-
 
 fr.vmap('<leader>/', '"vy/\\V<C-r>v<CR>', 'search for vhighlighted text')
 fr.vmap('*', '"vy/\\<<C-r>v\\><CR>', 'search for vhighlighted word')
@@ -78,7 +87,7 @@ fr.cmap('<C-a>', '<Home>', 'cmd return to beginning of line')
 
 -- can use this to replace abbreviations after neovim 0.10 release
 vim.keymap.set('ca', 'W', 'w', { desc = '"W" as write alias command' })
-vim.keymap.set('ca', '%%', "expand('%:p:h')", { desc = '%% expands to buffer path in cmdline', expr = true })
+vim.keymap.set('ca', '%%', 'expand(\'%:p:h\')', { desc = '%% expands to buffer path in cmdline', expr = true })
 
 -- -- custom commands
 -- vim.api.nvim_create_user_command('OpenProject',
@@ -119,16 +128,16 @@ fr.tmap('<C-PageDown>', '<C-\\><C-n><C-PageDown>', 'tab next (terminal)')
 -- appended to it at the top lamw25wmal
 --
 -- If an item is moved to that heading, it will be added the `done` label
-fr.nmap("<C-x>", function()
+fr.nmap('<C-x>', function()
   -- Customizable variables
   -- NOTE: Customize the completion label
-  local label_done = "done:"
+  local label_done = 'done:'
   -- NOTE: Customize the timestamp format
-  local timestamp = os.date("%Y-%m-%d")
+  local timestamp = os.date('%Y-%m-%d')
   -- NOTE: Customize the heading and its level
-  local tasks_heading = "## Completed tasks"
+  local tasks_heading = '## Completed tasks'
   -- Save the view to preserve folds
-  vim.cmd("mkview")
+  vim.cmd('mkview')
   local api = vim.api
   -- Retrieve buffer & lines
   local buf = api.nvim_get_current_buf()
@@ -138,7 +147,7 @@ fr.nmap("<C-x>", function()
   local total_lines = #lines
   -- If cursor is beyond last line, do nothing
   if start_line >= total_lines then
-    vim.cmd("loadview")
+    vim.cmd('loadview')
     return
   end
   ------------------------------------------------------------------------------
@@ -147,23 +156,23 @@ fr.nmap("<C-x>", function()
   while start_line > 0 do
     local line_text = lines[start_line + 1]
     -- Stop if we find a blank line or a bullet line
-    if line_text == "" or line_text:match("^%s*%-") then
+    if line_text == '' or line_text:match('^%s*%-') then
       break
     end
     start_line = start_line - 1
   end
   -- Now we might be on a blank line or a bullet line
-  if lines[start_line + 1] == "" and start_line < (total_lines - 1) then
+  if lines[start_line + 1] == '' and start_line < (total_lines - 1) then
     start_line = start_line + 1
   end
   ------------------------------------------------------------------------------
   -- (B) Validate that it's actually a task bullet, i.e. '- [ ]' or '- [x]'
   ------------------------------------------------------------------------------
   local bullet_line = lines[start_line + 1]
-  if not bullet_line:match("^%s*%- %[[x ]%]") then
+  if not bullet_line:match('^%s*%- %[[x ]%]') then
     -- Not a task bullet => show a message and return
-    print("Not a task bullet: no action taken.")
-    vim.cmd("loadview")
+    print('Not a task bullet: no action taken.')
+    vim.cmd('loadview')
     return
   end
   ------------------------------------------------------------------------------
@@ -173,7 +182,7 @@ fr.nmap("<C-x>", function()
   local chunk_end = start_line
   while chunk_end + 1 < total_lines do
     local next_line = lines[chunk_end + 2]
-    if next_line == "" or next_line:match("^%s*%-") then
+    if next_line == '' or next_line:match('^%s*%-') then
       break
     end
     chunk_end = chunk_end + 1
@@ -190,17 +199,17 @@ fr.nmap("<C-x>", function()
   local has_untoggled_index = nil
   for i, line in ipairs(chunk) do
     -- Replace `[done: ...]` -> `` `done: ...` ``
-    chunk[i] = line:gsub("%[done:([^%]]+)%]", "`" .. label_done .. "%1`")
+    chunk[i] = line:gsub('%[done:([^%]]+)%]', '`' .. label_done .. '%1`')
     -- Replace `[untoggled]` -> `` `untoggled` ``
-    chunk[i] = chunk[i]:gsub("%[untoggled%]", "`untoggled`")
-    if chunk[i]:match("`" .. label_done .. ".-`") then
+    chunk[i] = chunk[i]:gsub('%[untoggled%]', '`untoggled`')
+    if chunk[i]:match('`' .. label_done .. '.-`') then
       has_done_index = i
       break
     end
   end
   if not has_done_index then
     for i, line in ipairs(chunk) do
-      if line:match("`untoggled`") then
+      if line:match('`untoggled`') then
         has_untoggled_index = i
         break
       end
@@ -211,27 +220,27 @@ fr.nmap("<C-x>", function()
   ------------------------------------------------------------------------------
   -- Convert '- [ ]' to '- [x]'
   local function bulletToX(line)
-    return line:gsub("^(%s*%- )%[%s*%]", "%1[x]")
+    return line:gsub('^(%s*%- )%[%s*%]', '%1[x]')
   end
   -- Convert '- [x]' to '- [ ]'
   local function bulletToBlank(line)
-    return line:gsub("^(%s*%- )%[x%]", "%1[ ]")
+    return line:gsub('^(%s*%- )%[x%]', '%1[ ]')
   end
   ------------------------------------------------------------------------------
   -- 4. Insert or remove label *after* the bracket
   ------------------------------------------------------------------------------
   local function insertLabelAfterBracket(line, label)
-    local prefix = line:match("^(%s*%- %[[x ]%])")
+    local prefix = line:match('^(%s*%- %[[x ]%])')
     if not prefix then
       return line
     end
     local rest = line:sub(#prefix + 1)
-    return prefix .. " " .. label .. rest
+    return prefix .. ' ' .. label .. rest
   end
   local function removeLabel(line)
     -- If there's a label (like `` `done: ...` `` or `` `untoggled` ``) right after
     -- '- [x]' or '- [ ]', remove it
-    return line:gsub("^(%s*%- %[[x ]%])%s+`.-`", "%1")
+    return line:gsub('^(%s*%- %[[x ]%])%s+`.-`', '%1')
   end
   ------------------------------------------------------------------------------
   -- 5. Update the buffer with new chunk lines (in place)
@@ -246,20 +255,20 @@ fr.nmap("<C-x>", function()
   -- 6. Main toggle logic
   ------------------------------------------------------------------------------
   if has_done_index then
-    chunk[has_done_index] = removeLabel(chunk[has_done_index]):gsub("`" .. label_done .. ".-`", "`untoggled`")
+    chunk[has_done_index] = removeLabel(chunk[has_done_index]):gsub('`' .. label_done .. '.-`', '`untoggled`')
     chunk[1] = bulletToBlank(chunk[1])
     chunk[1] = removeLabel(chunk[1])
-    chunk[1] = insertLabelAfterBracket(chunk[1], "`untoggled`")
+    chunk[1] = insertLabelAfterBracket(chunk[1], '`untoggled`')
     updateBufferWithChunk(chunk)
-    vim.notify("Untoggled", vim.log.levels.INFO)
+    vim.notify('Untoggled', vim.log.levels.INFO)
   elseif has_untoggled_index then
     chunk[has_untoggled_index] =
-      removeLabel(chunk[has_untoggled_index]):gsub("`untoggled`", "`" .. label_done .. " " .. timestamp .. "`")
+      removeLabel(chunk[has_untoggled_index]):gsub('`untoggled`', '`' .. label_done .. ' ' .. timestamp .. '`')
     chunk[1] = bulletToX(chunk[1])
     chunk[1] = removeLabel(chunk[1])
-    chunk[1] = insertLabelAfterBracket(chunk[1], "`" .. label_done .. " " .. timestamp .. "`")
+    chunk[1] = insertLabelAfterBracket(chunk[1], '`' .. label_done .. ' ' .. timestamp .. '`')
     updateBufferWithChunk(chunk)
-    vim.notify("Completed", vim.log.levels.INFO)
+    vim.notify('Completed', vim.log.levels.INFO)
   else
     -- Save original window view before modifications
     local win = api.nvim_get_current_win()
@@ -267,7 +276,7 @@ fr.nmap("<C-x>", function()
       return vim.fn.winsaveview()
     end)
     chunk[1] = bulletToX(chunk[1])
-    chunk[1] = insertLabelAfterBracket(chunk[1], "`" .. label_done .. " " .. timestamp .. "`")
+    chunk[1] = insertLabelAfterBracket(chunk[1], '`' .. label_done .. ' ' .. timestamp .. '`')
     updateBufferWithChunk(chunk)
     -- -- Remove chunk from the original lines
     -- for i = chunk_end, chunk_start, -1 do
@@ -303,7 +312,7 @@ fr.nmap("<C-x>", function()
     -- end
     -- Update buffer content
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-    vim.notify("Completed", vim.log.levels.INFO)
+    vim.notify('Completed', vim.log.levels.INFO)
     -- Restore window view to preserve scroll position
     api.nvim_win_call(win, function()
       vim.fn.winrestview(view)
@@ -311,8 +320,7 @@ fr.nmap("<C-x>", function()
   end
   -- Write changes and restore view to preserve folds
   -- "Update" saves only if the buffer has been modified since the last save
-  vim.cmd("silent update")
-  vim.cmd("loadview")
-end, "Toggle task and move it to 'done'")
+  vim.cmd('silent update')
+  vim.cmd('loadview')
+end, 'Toggle task and move it to \'done\'')
 -- }}}
-

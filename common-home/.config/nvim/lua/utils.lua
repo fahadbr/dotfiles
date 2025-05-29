@@ -74,18 +74,20 @@ function M.merge_copy(t1, t2)
 end
 
 function M.module_exists(name)
-  if package.loaded[name] then
-    return true
-  end
-
-  for _, searcher in ipairs(package.searchers or package.loaders) do
-    local loader = searcher(name)
-    if type(loader) == 'function' then
-      return true
-    end
-  end
-
-  return false
+  return require("lazy.core.config").spec.plugins[name] ~= nil
+  --
+  -- if package.loaded[name] then
+  --   return true
+  -- end
+  --
+  -- for _, searcher in ipairs(package.searchers or package.loaders) do
+  --   local loader = searcher(name)
+  --   if type(loader) == 'function' then
+  --     return true
+  --   end
+  -- end
+  --
+  -- return false
 end
 
 function M.extend_or_override(config, custom, ...)
