@@ -34,8 +34,8 @@ function makeMode(mods, key, name)
   -- to release hyper when executing the hotkey
   function mode:hyperBind(key, fn)
     local function fnWithExit()
-      fn()
       mode:exit()
+      fn()
     end
     mode:bind('', key, fnWithExit)
     mode:bind(hyper, key, fnWithExit)

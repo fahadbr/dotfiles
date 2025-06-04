@@ -20,6 +20,7 @@ return {
       { "<bs>",      desc = "Decrement Selection", mode = "x" },
     },
     config = function()
+      vim.treesitter.language.register('xml', 'xsd')
       require('nvim-treesitter.configs').setup {
         ignore_install = {},
         modules = {},

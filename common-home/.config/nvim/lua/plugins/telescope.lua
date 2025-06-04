@@ -156,9 +156,18 @@ return {
           end,
         })
       end, 'list buffers (telescope)')
-      fr.nmap('<space>s',
-        function() telescope_builtin.lsp_document_symbols { symbol_width = 60, ignore_symbols = { 'variable', 'field' } } end,
-        'lsp document symbols (telescope)')
+      fr.nmap('<space>ss',
+        function() telescope_builtin.lsp_document_symbols { symbol_width = 60 } end,
+        'lsp document symbols - all (telescope)')
+      fr.nmap('<space>sv',
+        function() telescope_builtin.lsp_document_symbols { symbol_width = 60, symbols = { 'variable', 'field', 'property', 'constant', 'enummember' } } end,
+        'lsp document symbols - variables (telescope)')
+      fr.nmap('<space>sf',
+        function() telescope_builtin.lsp_document_symbols { symbol_width = 60, symbols = { 'method', 'function', 'constructor', 'operator' } } end,
+        'lsp document symbols - functions (telescope)')
+      fr.nmap('<space>sc',
+        function() telescope_builtin.lsp_document_symbols { symbol_width = 60, symbols = { 'class', 'enum', 'interface', 'struct', 'event', 'typeparameter' } } end,
+        'lsp document symbols - class (telescope)')
       fr.nmap('<space>tk', telescope_builtin.keymaps, 'keymaps (telescope)')
       fr.nmap('<space>tt', telescope_builtin.treesitter, 'treesitter (telescope)')
       fr.nmap('<space>tb', telescope_builtin.builtin, 'telescope builtins (telescope)')
