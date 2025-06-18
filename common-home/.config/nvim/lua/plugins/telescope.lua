@@ -14,42 +14,44 @@ return {
       telescope.setup({
         defaults = {
           vimgrep_arguments = {
-            "rg",
-            "--color=never",
-            "--no-heading",
-            "--with-filename",
-            "--line-number",
-            "--column",
-            "--smart-case",
-            "--hidden"
+            'rg',
+            '--color=never',
+            '--no-heading',
+            '--with-filename',
+            '--line-number',
+            '--column',
+            '--smart-case',
+            '--hidden',
           },
           layout_strategy = 'flex',
           path_display = { 'filename_first' },
           mappings = {
             n = {
-              ["<leader>p"] = {
+              ['<leader>p'] = {
                 require('telescope.actions.layout').toggle_preview,
-                type = "action",
-              }
+                type = 'action',
+              },
             },
             i = {
               ['<C-o>'] = {
-                function() telescope_builtin.resume({ cache_index = 1 }) end,
+                function()
+                  telescope_builtin.resume({ cache_index = 1 })
+                end,
                 opts = { desc = 'resume last telescope picker' },
               },
-            }
+            },
           },
         },
       })
 
       local function is_git_repo()
-        vim.fn.system("git rev-parse --is-inside-work-tree")
+        vim.fn.system('git rev-parse --is-inside-work-tree')
         return vim.v.shell_error == 0
       end
 
       local function get_git_root()
-        local dot_git_path = vim.fn.finddir(".git", ".;")
-        return vim.fn.fnamemodify(dot_git_path, ":h")
+        local dot_git_path = vim.fn.finddir('.git', '.;')
+        return vim.fn.fnamemodify(dot_git_path, ':h')
       end
 
       local function maybe_get_git_opts()
@@ -59,8 +61,6 @@ return {
         end
         return opts
       end
-
-
 
       -- this function allows finding all files in a git repo
       -- even if they havent been added
@@ -98,21 +98,21 @@ return {
 
       local function grep_string_git_root_current_filetype()
         local opts = maybe_get_git_opts()
-        opts.additional_args = {'--type=' .. vim.bo.filetype}
+        opts.additional_args = { '--type=' .. vim.bo.filetype }
         opts.results_title = string.format('Results (%s)', vim.bo.filetype)
         telescope_builtin.grep_string(opts)
       end
 
       local function current_buffer_fuzzy_find()
-        telescope_builtin.current_buffer_fuzzy_find {
+        telescope_builtin.current_buffer_fuzzy_find({
           results_title = vim.fn.expand('%'),
-        }
+        })
       end
 
       local function cursor_layout_opts()
         return {
           layout_strategy = 'cursor',
-          layout_config = { height = 0.4, width = 180, preview_width = 100, preview_cutoff = 120 }
+          layout_config = { height = 0.4, width = 180, preview_width = 100, preview_cutoff = 120 },
         }
       end
 
@@ -136,7 +136,6 @@ return {
       fr.nmap('<space>lhd', function()
         telescope_builtin.lsp_definitions(fr.merge_copy(cursor_layout_opts(), { jump_type = 'split' }))
       end, 'lsp goto definition hsplit (telescope)')
-      fr.nmap('<space>ls', telescope_builtin.lsp_dynamic_workspace_symbols, 'lsp dynamic workspace symbols (telescope)')
       fr.nmap('<space>a', find_files_from_project_git_root, 'find files from git root (telescope)')
       -- fr.nmap('<space>f', git_or_find_files, 'git files or find files (telescope)')
       fr.nmap('<space>o', git_or_find_files, 'git files or find files (telescope)')
@@ -156,33 +155,57 @@ return {
           end,
         })
       end, 'list buffers (telescope)')
-      fr.nmap('<space>ss',
-        function() telescope_builtin.lsp_document_symbols { symbol_width = 60 } end,
-        'lsp document symbols - all (telescope)')
-      fr.nmap('<space>sv',
-        function() telescope_builtin.lsp_document_symbols { symbol_width = 60, symbols = { 'variable', 'field', 'property', 'constant', 'enummember' } } end,
-        'lsp document symbols - variables (telescope)')
-      fr.nmap('<space>sf',
-        function() telescope_builtin.lsp_document_symbols { symbol_width = 60, symbols = { 'method', 'function', 'constructor', 'operator' } } end,
-        'lsp document symbols - functions (telescope)')
-      fr.nmap('<space>sc',
-        function() telescope_builtin.lsp_document_symbols { symbol_width = 60, symbols = { 'class', 'enum', 'interface', 'struct', 'event', 'typeparameter' } } end,
-        'lsp document symbols - class (telescope)')
+      fr.nmap('<space>ss', function()
+        telescope_builtin.lsp_document_symbols({ symbol_width = 60 })
+      end, 'lsp document symbols - all (telescope)')
+      fr.nmap('<space>sv', function()
+        telescope_builtin.lsp_document_symbols({
+          symbol_width = 60,
+          symbols = { 'variable', 'field', 'property', 'constant', 'enummember' },
+        })
+      end, 'lsp document symbols - variables (telescope)')
+      fr.nmap('<space>sf', function()
+        telescope_builtin.lsp_document_symbols({
+          symbol_width = 60,
+          symbols = { 'method', 'function', 'constructor', 'operator' },
+        })
+      end, 'lsp document symbols - functions (telescope)')
+      fr.nmap('<space>sc', function()
+        telescope_builtin.lsp_document_symbols({
+          symbol_width = 60,
+          symbols = { 'class', 'enum', 'interface', 'struct', 'event', 'typeparameter' },
+        })
+      end, 'lsp document symbols - class (telescope)')
+      fr.nmap('<space>sw', telescope_builtin.lsp_dynamic_workspace_symbols, 'lsp dynamic workspace symbols (telescope)')
       fr.nmap('<space>tk', telescope_builtin.keymaps, 'keymaps (telescope)')
       fr.nmap('<space>tt', telescope_builtin.treesitter, 'treesitter (telescope)')
       fr.nmap('<space>tb', telescope_builtin.builtin, 'telescope builtins (telescope)')
-      fr.nmap('<space>tr', function() telescope_builtin.resume { cache_index = 1 } end,
-        'telescope resume picker (telescope)')
+      fr.nmap('<space>tr', function()
+        telescope_builtin.resume({ cache_index = 1 })
+      end, 'telescope resume picker (telescope)')
 
       fr.nmap('<space>tp', telescope.extensions.persisted.persisted, 'show sessions (telescope)')
       fr.nmap('<space>fb', current_buffer_fuzzy_find, 'live grep current buffer (telescope)')
-      fr.map({'n', 'x'}, '<space>fw', telescope_builtin.grep_string, {desc = 'grep string under cursor (telescope)'})
-      fr.map({'n', 'x'}, '<space>fW', grep_string_git_root_current_filetype, {desc = 'grep string under cursor with current buffer filetype (telescope)'})
-      fr.nmap('<space>fL', live_grep_git_root_current_filetype,
-        'live grep from git root with current buffer filetype (telescope)')
+      fr.map(
+        { 'n', 'x' },
+        '<space>fw',
+        telescope_builtin.grep_string,
+        { desc = 'grep string under cursor (telescope)' }
+      )
+      fr.map(
+        { 'n', 'x' },
+        '<space>fW',
+        grep_string_git_root_current_filetype,
+        { desc = 'grep string under cursor with current buffer filetype (telescope)' }
+      )
+      fr.nmap(
+        '<space>fL',
+        live_grep_git_root_current_filetype,
+        'live grep from git root with current buffer filetype (telescope)'
+      )
       fr.nmap('<space>fl', live_grep_from_project_git_root, 'live grep from git root (telescope)')
-      fr.nmap("<space>fg", function()
-        vim.ui.input({ prompt = "Enter glob pattern (e.g. *.lua): " }, function(input)
+      fr.nmap('<space>fg', function()
+        vim.ui.input({ prompt = 'Enter glob pattern (e.g. *.lua): ' }, function(input)
           if input then
             local opts = maybe_get_git_opts()
             opts.glob_pattern = input
@@ -190,8 +213,8 @@ return {
             telescope_builtin.live_grep(opts)
           end
         end)
-      end, "Live grep with glob filter")
-    end
+      end, 'Live grep with glob filter')
+    end,
   },
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   -- }}}

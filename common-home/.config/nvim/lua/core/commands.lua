@@ -128,7 +128,6 @@ local function migrate_to_new_daily_note(target_path)
       vim.api.nvim_buf_delete(buf, {})
       break
     end
-    ::continue::
   end
 end
 

@@ -23,7 +23,7 @@ return {
         { 'nmap', 'o', '<Plug>(bullets-newline)' },
         { 'vmap', 'gN', '<Plug>(bullets-renumber)' },
         { 'nmap', 'gN', '<Plug>(bullets-renumber)' },
-        { 'nmap', 'X', '<Plug>(bullets-toggle-checkbox)' },
+        { 'nmap', '<C-x>', '<Plug>(bullets-toggle-checkbox)' },
         { 'imap', '<C-t>', '<Plug>(bullets-demote)' },
         { 'nmap', '>>', '<Plug>(bullets-demote)' },
         { 'vmap', '>', '<Plug>(bullets-demote)' },

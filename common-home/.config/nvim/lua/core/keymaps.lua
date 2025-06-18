@@ -119,14 +119,4 @@ fr.tmap('<C-S-l>', '<C-\\><C-n><C-w>l', 'focus window east')
 fr.tmap('<C-PageUp>', '<C-\\><C-n><C-PageUp>', 'tab previous (terminal)')
 fr.tmap('<C-PageDown>', '<C-\\><C-n><C-PageDown>', 'tab next (terminal)')
 
--- HACK: Manage Markdown tasks in Neovim similar to Obsidian | Telescope to List Completed and Pending Tasks
--- https://youtu.be/59hvZl077hM
---
--- If there is no `untoggled` or `done` label on an item, mark it as done
--- and move it to the "## completed tasks" markdown heading in the same file, if
--- the heading does not exist, it will be created, if it exists, items will be
--- appended to it at the top lamw25wmal
---
--- If an item is moved to that heading, it will be added the `done` label
-fr.nmap('<C-x>', vim.cmd.ToggleMarkdownTask, 'Toggle task and move it to \'done\'')
 -- }}}
