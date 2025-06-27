@@ -57,8 +57,8 @@ function keyStrokeWithDelay(keyStrokes, idx, delay)
   local keyStroke = keyStrokes[idx]
   hs.eventtap.keyStroke(keyStroke['mods'], keyStroke['key'])
 
-  hs.timer.doAfter(delay, function ()
-    keyStrokeWithDelay(keyStrokes, idx+1, delay)
+  hs.timer.doAfter(delay, function()
+    keyStrokeWithDelay(keyStrokes, idx + 1, delay)
   end)
 end
 
@@ -188,7 +188,11 @@ function focusMark(mark)
   window = marks[mark]
   if window then
     -- window:focus()
-    hs.execute('aerospace focus --window-id ' .. window:id(), true)
+    if window:application() == 'Citrix Viewer' then
+      hs.execute('aerospace focus --window-id ' .. window:id(), true)
+    else
+      window:focus()
+    end
   else
     hs.alert.show(string.format('no mark assigned to "%s"', mark))
   end
@@ -626,7 +630,9 @@ notesMode:hyperBind('r', function()
     return
   end
   notesTerminalWindow:focus()
-  hs.eventtap.keyStrokes(' h1')
+  local app = notesTerminalWindow:application()
+  hs.eventtap.keyStroke({ 'ctrl' }, 'c', nil, app) -- go to normal mode if not in it
+  hs.eventtap.keyStrokes(' h1', app)
 end)
 
 notesMode:hyperBind('b', function()
@@ -634,7 +640,9 @@ notesMode:hyperBind('b', function()
     return
   end
   notesTerminalWindow:focus()
-  hs.eventtap.keyStrokes(' h2')
+  local app = notesTerminalWindow:application()
+  hs.eventtap.keyStroke({ 'ctrl' }, 'c', nil, app) -- go to normal mode if not in it
+  hs.eventtap.keyStrokes(' h2', app)
 end)
 
 notesMode:hyperBind('o', function()
@@ -642,19 +650,36 @@ notesMode:hyperBind('o', function()
     return
   end
   notesTerminalWindow:focus()
-  hs.eventtap.keyStrokes(' o')
+  local app = notesTerminalWindow:application()
+  hs.eventtap.keyStroke({ 'ctrl' }, 'c', nil, app) -- go to normal mode if not in it
+  hs.eventtap.keyStrokes(' o', app)
 end)
 
-for i = 1,9 do
+for i = 1, 9 do
   notesMode:hyperBind(tostring(i), function()
     if notesTerminalWindow == nil then
       return
     end
     notesTerminalWindow:focus()
-    hs.eventtap.keyStrokes(' h' .. i)
+    local app = notesTerminalWindow:application()
+    hs.eventtap.keyStroke({ 'ctrl' }, 'c', nil, app) -- go to normal mode if not in it
+    hs.eventtap.keyStrokes(' h' .. i, app)
   end)
 end
 
+-- }}}
+
+-- Work Mode {{{
+
+local workModeText = [[
+Work Mode
+
+Topgun Overwrite BREG Picker = o
+]]
+local workMode = makeMode(hyper, 'w', workModeText)
+workMode:hyperBind('o', function()
+  hs.execute('${HOME}/.local/bin/topgun-eq-overwrite-breg-picker.sh', true)
+end)
 
 -- }}}
 

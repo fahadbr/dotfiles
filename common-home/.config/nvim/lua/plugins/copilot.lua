@@ -5,7 +5,7 @@
 local git_root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
 
 -- check if the git_root dir name is contained in the environment varable COPILOT_ENABLED_DIRS
--- this allows to enable copilot only in certain git repos
+-- this allows to copilot to eagerly load only in certain git repos
 local copilot_lazy = true
 local enabled_dirs = vim.fn.split(os.getenv('COPILOT_ENABLED_DIRS') or '', ':')
 for _, dir in ipairs(enabled_dirs) do
@@ -17,7 +17,7 @@ end
 return {
   {
     'github/copilot.vim',
-    lazy = copilot_lazy,
+    -- lazy = copilot_lazy,
     cmd = {
       'Copilot',
       'Copilot setup',
@@ -33,5 +33,26 @@ return {
         desc = 'Accept Copilot suggestion',
       })
     end,
+  },
+  {
+    'CopilotC-Nvim/CopilotChat.nvim',
+    -- lazy = copilot_lazy,
+    -- enabled = false,
+    dependencies = {
+      'github/copilot.vim',
+      {'nvim-lua/plenary.nvim', branch = "master"},
+    },
+    build = "make tiktoken",
+    cmd = {
+      'CopilotChat',
+      'CopilotChatOpen',
+      'CopilotChatClose',
+      'CopilotChatToggle',
+    },
+    opts = {
+      debug = true,
+      -- proxy = "http://127.0.0.1:8888",
+      -- allow_insecure = true,
+    },
   },
 }

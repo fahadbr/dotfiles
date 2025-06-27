@@ -10,7 +10,6 @@ return {
     config = function()
       local telescope = require('telescope')
       local telescope_builtin = require('telescope.builtin')
-      telescope.load_extension('fzf')
       telescope.setup({
         defaults = {
           vimgrep_arguments = {
@@ -25,6 +24,14 @@ return {
           },
           layout_strategy = 'flex',
           path_display = { 'filename_first' },
+          extensions = {
+            ['ui-select'] = {
+              require('telescope.themes').get_dropdown({
+                layout_config = { width = 0.5, height = 0.4 },
+                previewer = false,
+              }),
+            },
+          },
           mappings = {
             n = {
               ['<leader>p'] = {
@@ -43,6 +50,9 @@ return {
           },
         },
       })
+
+      telescope.load_extension('fzf')
+      telescope.load_extension('ui-select')
 
       local function is_git_repo()
         vim.fn.system('git rev-parse --is-inside-work-tree')
@@ -217,5 +227,6 @@ return {
     end,
   },
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+  { 'nvim-telescope/telescope-ui-select.nvim' },
   -- }}}
 }

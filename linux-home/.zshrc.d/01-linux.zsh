@@ -13,7 +13,6 @@ printcolors() {
 }
 
 export MOZ_USE_XINPUT2=1
-alias grep='grep --color=auto'
 alias udc='udisksctl'
 alias open="xdg-open"
 alias cpr='rsync -ah --info=progress2'
