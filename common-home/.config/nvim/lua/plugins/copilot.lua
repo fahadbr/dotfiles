@@ -17,7 +17,7 @@ end
 return {
   {
     'github/copilot.vim',
-    -- lazy = copilot_lazy,
+    lazy = copilot_lazy,
     cmd = {
       'Copilot',
       'Copilot setup',
@@ -36,7 +36,7 @@ return {
   },
   {
     'CopilotC-Nvim/CopilotChat.nvim',
-    -- lazy = copilot_lazy,
+    lazy = copilot_lazy,
     -- enabled = false,
     dependencies = {
       'github/copilot.vim',
@@ -50,7 +50,7 @@ return {
       'CopilotChatToggle',
     },
     opts = {
-      debug = true,
+      -- debug = true,
       -- proxy = "http://127.0.0.1:8888",
       -- allow_insecure = true,
     },

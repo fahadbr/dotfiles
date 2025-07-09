@@ -33,6 +33,7 @@ return {
       })
 
       MiniIcons.mock_nvim_web_devicons()
+      vim.api.nvim_set_hl(0, 'MiniTrailspace', { bg = '#4e4e4e', underdotted = true})
     end
   }
 }

@@ -60,6 +60,17 @@ return {
           return { 'treesitter', 'indent' }
         end,
       })
+
+      vim.lsp.config('*', {
+        capabilities = {
+          textDocument = {
+            foldingRange = {
+              dynamicRegistration = false,
+              lineFoldingOnly = true,
+            },
+          },
+        },
+      })
     end,
   },
 }

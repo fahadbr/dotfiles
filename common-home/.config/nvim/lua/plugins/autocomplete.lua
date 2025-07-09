@@ -99,6 +99,13 @@ return {
       -- binding between cmp and autopairs so they play nicely together
       local cmp_autopairs = require('nvim-autopairs.completion.cmp')
       cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+
+
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+      vim.lsp.config('*', {
+        capabilities = capabilities
+      })
     end
   },
   -- }}}
