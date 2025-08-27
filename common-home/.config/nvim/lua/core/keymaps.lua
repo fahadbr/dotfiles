@@ -12,11 +12,18 @@ end
 -- }}}
 
 -- general mappings {{{
-fr.nmap('<leader>x', function()
-  local current_buf = vim.api.nvim_get_current_buf()
-  vim.cmd('b#') -- Switch to the alternate buffer
-  vim.cmd('bd ' .. current_buf) -- Delete the original buffer
-end, 'close buffer')
+
+
+
+-- -- using Snacks.bufdelete.delete() now. See snacks.lua
+-- -- this old method didnt work when closing the window before switching at the start of a session
+-- -- also it doesn't handle preserve the window layout
+--
+-- fr.nmap('<leader>x', function()
+--   local current_buf = vim.api.nvim_get_current_buf()
+--   vim.cmd('b#') -- Switch to the alternate buffer
+--   vim.cmd('bd ' .. current_buf) -- Delete the original buffer
+-- end, 'close buffer')
 
 -- remapping <C-l> so it can be used to switch between buffers on the bufferline
 fr.nmap('<leader><C-l>', '<C-l>', 'remapping the key to redraw the screen')

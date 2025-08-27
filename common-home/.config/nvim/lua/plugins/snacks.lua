@@ -11,6 +11,7 @@ return {
     },
     lazygit = {},
     indent = {},
+    bufdelete = {},
     gitbrowse = {
       url_patterns = {
         ['%.bloomberg.com'] = {
@@ -82,5 +83,12 @@ return {
       end,
       desc = 'Snacks explorer reveal',
     },
+    {
+      '<leader>x',
+      function ()
+        Snacks.bufdelete.delete()
+      end,
+      desc = 'Snacks bufdelete'
+    }
   },
 }
