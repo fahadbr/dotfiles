@@ -259,6 +259,11 @@ check-further-callbacks = false
 run = ['move-node-to-workspace 6']
 
 [[on-window-detected]]
+if.app-name-regex-substring = 'Code'
+check-further-callbacks = false
+run = ['move-node-to-workspace 7']
+
+[[on-window-detected]]
 if.app-name-regex-substring = 'Zoom'
 check-further-callbacks = false
 run = ['move-node-to-workspace 4']

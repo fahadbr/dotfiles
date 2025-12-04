@@ -418,8 +418,9 @@ Focus Browser    = enter
 Search Bookmarks = b
 Search Tabs      = t
 Search idk       = i
+Search BBGithub  = h
+Search Grok      = g
 Meetings         = m
-Grok             = g
 Jira             = j
 Open ChatGPT     = c]]
 local browserMode = makeMode(hyper, 'b', browserModeText)
@@ -434,15 +435,6 @@ browserMode:hyperBind('b', function()
   firefox:activate()
   firefox:selectMenuItem({ 'File', 'New Tab' })
   firefox:selectMenuItem({ 'Bookmarks', 'Search Bookmarks' })
-end)
-
-hs.hotkey.bind(hyper, 'u', function()
-  output, status, exit_type, rc = hs.execute('/Users/friaz10/inbox/ffbookmarks.sh', true)
-  hs.printf('output: %s, rc: %d', output, rc)
-  if status then
-    local firefox = hs.application.get('Firefox')
-    firefox:activate()
-  end
 end)
 
 -- search tabs in firefox
@@ -489,7 +481,7 @@ browserMode:hyperBind('i', function()
   local firefox = hs.application.get('Firefox')
   firefox:activate()
   firefox:selectMenuItem({ 'File', 'New Tab' })
-  firefox:selectMenuItem({ 'Bookmarks', 'Bookmarks Toolbar', 'idk' })
+  hs.eventtap.keyStrokes('@idk ')
 end)
 
 browserMode:hyperBind('m', function()
@@ -504,6 +496,13 @@ browserMode:hyperBind('g', function()
   firefox:activate()
   firefox:selectMenuItem({ 'File', 'New Tab' })
   firefox:selectMenuItem({ 'Bookmarks', 'Bookmarks Toolbar', 'Grok' })
+end)
+
+browserMode:hyperBind('h', function()
+  local firefox = hs.application.get('Firefox')
+  firefox:activate()
+  firefox:selectMenuItem({ 'File', 'New Tab' })
+  hs.eventtap.keyStrokes('@bb ')
 end)
 -- }}}
 
@@ -643,6 +642,16 @@ notesMode:hyperBind('b', function()
   local app = notesTerminalWindow:application()
   hs.eventtap.keyStroke({ 'ctrl' }, 'c', nil, app) -- go to normal mode if not in it
   hs.eventtap.keyStrokes(' h2', app)
+end)
+
+notesMode:hyperBind('d', function()
+  if notesTerminalWindow == nil then
+    return
+  end
+  notesTerminalWindow:focus()
+  local app = notesTerminalWindow:application()
+  hs.eventtap.keyStroke({ 'ctrl' }, 'c', nil, app) -- go to normal mode if not in it
+  hs.eventtap.keyStrokes(' h6', app)
 end)
 
 notesMode:hyperBind('o', function()

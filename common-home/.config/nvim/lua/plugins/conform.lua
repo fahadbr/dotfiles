@@ -13,6 +13,7 @@ return {
           xsd = { 'xmllint' },
           json = { 'jq' },
           sql = { 'pg_format' },
+          cpp = { 'clang-format' },
           python = function()
             if vim.fs.root(vim.env.PWD, '.style.yapf') ~= nil then
               return { 'yapf' }
