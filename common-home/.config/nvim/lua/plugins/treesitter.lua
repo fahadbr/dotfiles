@@ -94,6 +94,12 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter-context',
-    opts = {},
+    event = 'BufEnter',
+    opts = {
+      multiline_threshold = 10,
+    },
+    keys = {
+      { ",TC", ":TSContext toggle<CR>", desc = "toggle treesitter context" },
+    }
   }
 }
