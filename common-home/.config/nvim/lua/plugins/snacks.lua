@@ -38,6 +38,7 @@ return {
         },
       },
     },
+    zen = {},
   },
   keys = {
     {
@@ -85,10 +86,10 @@ return {
     },
     {
       '<leader>x',
-      function ()
+      function()
         Snacks.bufdelete.delete()
       end,
-      desc = 'Snacks bufdelete'
-    }
+      desc = 'Snacks bufdelete',
+    },
   },
 }
