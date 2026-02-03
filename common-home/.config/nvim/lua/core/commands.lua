@@ -168,3 +168,10 @@ vim.api.nvim_create_user_command('OpenDailyNote', function()
   vim.cmd('edit ' .. filepath)
 end, {})
 
+vim.api.nvim_create_user_command(
+  "SessionLoad",
+  "Persisted load",
+  {}
+)
+
+
