@@ -53,7 +53,7 @@ case "$focus_cat" in
     fi
     ;;
   bbfunction)
-    wid=$(aerospace list-windows --monitor all --app-bundle-id 'com.citrix.receiver.icaviewer.mac' | grep -vE 'MSG|IB|Launchpad')
+    wid=$(aerospace list-windows --monitor all --app-bundle-id 'com.citrix.receiver.icaviewer.mac' | grep -vE 'MSG|IB|Launchpad|AskB')
     if [[ $(echo "$wid" | wc -l) -eq 1 ]]; then
       aerospace focus --window-id ${wid%% *}
     else
