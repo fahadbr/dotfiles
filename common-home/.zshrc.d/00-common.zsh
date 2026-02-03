@@ -125,7 +125,7 @@ alias printpath='echo $PATH | sed "s/:/\n/g"'
 alias grep='grep --color=auto'
 alias tma='tmux attach -t $(tmux list-sessions | cut -d ':' -f 1 | fzf)'
 alias ghf='gh repo fork --clone'
-alias nvimsl='nvim -c "Persisted load"'
+alias nvimsl='nvim -c "SessionLoad"'
 
 bin2dec() {
   echo $((2#$1))
