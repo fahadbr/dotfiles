@@ -504,6 +504,13 @@ browserMode:hyperBind('h', function()
   firefox:selectMenuItem({ 'File', 'New Tab' })
   hs.eventtap.keyStrokes('@bb ')
 end)
+
+browserMode:hyperBind('l', function()
+  local firefox = hs.application.get('Firefox')
+  firefox:activate()
+  firefox:selectMenuItem({ 'File', 'New Tab' })
+  hs.eventtap.keyStrokes('@logs ')
+end)
 -- }}}
 
 -- Terminal Mode {{{
@@ -616,6 +623,7 @@ end)
 
 notesMode:hyperBind('n', function()
   if notesTerminalWindow == nil then
+    hs.execute('${HOME}/.local/bin/launch-notes.sh', true)
     return
   end
   notesTerminalWindow:focus()
@@ -631,7 +639,7 @@ notesMode:hyperBind('r', function()
   notesTerminalWindow:focus()
   local app = notesTerminalWindow:application()
   hs.eventtap.keyStroke({ 'ctrl' }, 'c', nil, app) -- go to normal mode if not in it
-  hs.eventtap.keyStrokes(' h1', app)
+  hs.eventtap.keyStrokes(' h1 fb', app)
 end)
 
 notesMode:hyperBind('b', function()
@@ -641,7 +649,7 @@ notesMode:hyperBind('b', function()
   notesTerminalWindow:focus()
   local app = notesTerminalWindow:application()
   hs.eventtap.keyStroke({ 'ctrl' }, 'c', nil, app) -- go to normal mode if not in it
-  hs.eventtap.keyStrokes(' h2', app)
+  hs.eventtap.keyStrokes(' h2 fb', app)
 end)
 
 notesMode:hyperBind('d', function()
@@ -652,6 +660,16 @@ notesMode:hyperBind('d', function()
   local app = notesTerminalWindow:application()
   hs.eventtap.keyStroke({ 'ctrl' }, 'c', nil, app) -- go to normal mode if not in it
   hs.eventtap.keyStrokes(' h6', app)
+end)
+
+notesMode:hyperBind('f', function()
+  if notesTerminalWindow == nil then
+    return
+  end
+  notesTerminalWindow:focus()
+  local app = notesTerminalWindow:application()
+  hs.eventtap.keyStroke({ 'ctrl' }, 'c', nil, app) -- go to normal mode if not in it
+  hs.eventtap.keyStrokes(' h4 fb', app)
 end)
 
 notesMode:hyperBind('o', function()
