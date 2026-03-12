@@ -248,6 +248,18 @@ end
 
 -- caffinate automator {{{
 
+function EndCaffeinate()
+  -- end caffeinate
+  hs.alert.show('Caffeinate Terminated')
+  hs.caffeinate.set('displayIdle', false, false)
+end
+
+function StartCaffeinate()
+  --start caffeinate
+  hs.alert.show('Caffeinate Started')
+  hs.caffeinate.set('displayIdle', true, false)
+end
+
 citrixwatcher = hs.application.watcher.new(function(appName, event, appObj)
   if appObj:name() == 'Citrix Viewer' then
     -- for initiating the caffeinate assertion
@@ -256,22 +268,24 @@ citrixwatcher = hs.application.watcher.new(function(appName, event, appObj)
     -- the next best thing is to check for when its focused and add an additional
     -- check to see if we already set the displayIdle assertion
     if event == hs.application.watcher.activated and hs.caffeinate.get('displayIdle') == false then
-      --start caffeinate
-      hs.alert.show('Caffeinate Started')
-      hs.caffeinate.set('displayIdle', true, false)
+      StartCaffeinate()
     elseif event == hs.application.watcher.terminated then
       -- the below check makes sure that citrix is no longer running
       -- there are some cases where other citrix apps have been opened
       -- and quit while the main citrix app still remains open
       if hs.application.get('Citrix Viewer') == nil then
-        -- end caffeinate
-        hs.alert.show('Caffeinate Terminated')
-        hs.caffeinate.set('displayIdle', false, false)
+        EndCaffeinate()
       end
     end
   end
+  if appObj:name() == 'Citrix   Husk' then
+    if event == hs.application.watcher.terminated then
+        EndCaffeinate()
+    end
+  end
   -- print statement for debugging
-  --hs.printf('app: ' .. appObj:name() .. ' , event: ' .. event)
+  hs.printf('app: "' .. appObj:name() .. '" , event: ' .. event)
+  -- app: Citrix   Husk , event: 2
 end)
 
 citrixwatcher:start()
@@ -543,6 +557,8 @@ terminalMode:hyperBind('d', function()
   hs.eventtap.keyStroke({ 'cmd' }, '1', 50000, app)
   hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000, app)
   hs.eventtap.keyStroke({ 'ctrl' }, 'd', 50000, app)
+  hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000, app)
+  hs.eventtap.keyStroke({}, '1', 50000, app)
 end)
 
 terminalMode:hyperBind('t', function()
@@ -728,12 +744,11 @@ end)
 
 -- connect vpn
 hs.hotkey.bind(hyperS, 'v', function()
-  local app = 'bbvpn2'
-  if hs.application.launchOrFocus(app) then
-    local bbvpn = hs.application.get(app)
-    bbvpn:selectMenuItem({ 'Action', 'Connect' })
-  end
+  hs.alert.show("Use hyper+w -> v")
 end)
+
+
+
 
 -- }}}
 

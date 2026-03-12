@@ -238,7 +238,7 @@ enter = 'mode main'
 alt-a = 'mode main'
 
 [[on-window-detected]]
-if.app-name-regex-substring = 'Messages|TickTick|Notes|WhatsApp|Finder|ChatGPT|Obsidian|Bitwarden|Calendar|Parallels|BetterTouchTool|Karabiner|Hammerspoon|Citrix Viewer'
+if.app-name-regex-substring = 'Messages|TickTick|Notes|WhatsApp|Finder|ChatGPT|Obsidian|Bitwarden|Calendar|Parallels|BetterTouchTool|Karabiner|Hammerspoon|Citrix Viewer|Terminal'
 run = ['layout floating']
 check-further-callbacks = true
 
@@ -282,6 +282,6 @@ run = ['layout tiling', 'move-node-to-workspace 1']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'Citrix Viewer'
-if.window-title-regex-substring = 'APPT|APPX|New Tab|DRQS|PRQS|BBTF|ZOMO|RDB2'
+if.window-title-regex-substring = 'APPT|APPX|New Tab|DRQS|PRQS|BBTF|ZOMO|RDB2|News'
 check-further-callbacks = false
 run = ['layout tiling', 'move-node-to-workspace 5']
