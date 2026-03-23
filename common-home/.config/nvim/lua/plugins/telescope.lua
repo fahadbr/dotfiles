@@ -54,21 +54,25 @@ return {
       telescope.load_extension('fzf')
       telescope.load_extension('ui-select')
 
-      local function is_git_repo()
-        vim.fn.system('git rev-parse --is-inside-work-tree')
-        return vim.v.shell_error == 0
-      end
-
-      local function get_git_root()
-        local dot_git_path = vim.fn.finddir('.git', '.;')
-        return vim.fn.fnamemodify(dot_git_path, ':h')
+      local function git_root()
+        local out = vim.fn.systemlist({ 'git', 'rev-parse', '--show-toplevel' })
+        if vim.v.shell_error ~= 0 then
+          return nil
+        end
+        return out[1]
       end
 
       local function maybe_get_git_opts()
-        local opts = {}
-        if is_git_repo() then
-          opts.cwd = get_git_root()
+        local opts = {
+          is_git_repo = false,
+        }
+
+        local gitwd = git_root()
+        if gitwd ~= nil then
+          opts.cwd = gitwd
+          opts.is_git_repo = true
         end
+
         return opts
       end
 
@@ -85,9 +89,11 @@ return {
       -- otherwise fallback to find_files
       local function git_or_find_files()
         local opts = maybe_get_git_opts()
-        if is_git_repo() then
+        if opts.is_git_repo then
           telescope_builtin.git_files(opts)
         else
+          opts.hidden = true
+          opts.follow = true
           telescope_builtin.find_files(opts)
         end
       end
@@ -96,6 +102,7 @@ return {
       -- if in a git repo
       local function live_grep_from_project_git_root()
         local opts = maybe_get_git_opts()
+        opts.glob_pattern = "!*.git"
         telescope_builtin.live_grep(opts)
       end
 

@@ -89,7 +89,7 @@ keybindings:
           name: code review
           command: >
               tmux new-window -n "PR-{{.PrNumber}}"
-              wt switch pr:{{.PrNumber}} -x 'claude "review the PR for this branch"'
+              claude "/pr-review {{.PrNumber}}"
 
 
 repoPaths: {}
