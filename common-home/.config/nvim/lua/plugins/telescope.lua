@@ -19,6 +19,7 @@ return {
             '--with-filename',
             '--line-number',
             '--column',
+            '--follow',
             '--smart-case',
             '--hidden',
           },
