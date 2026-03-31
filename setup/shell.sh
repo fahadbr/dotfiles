@@ -6,6 +6,7 @@ set -ex
 # so that stow only links the files into the directory
 # rather the the whole dir itself
 mkdir -p ${HOME}/.zshrc.d
+mkdir -p ${HOME}/.hammerspoon
 
 stow -R -t ${HOME} common-home
 

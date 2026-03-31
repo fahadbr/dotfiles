@@ -7,7 +7,7 @@ hs.loadSpoon('WinWin')
 hs.window.animationDuration = 0.0
 
 hs.hotkey.bind(hyperS, 'r', function()
-  hs.reload()
+  hs.alert.show("Use hyper+u->r instead")
 end)
 
 -- helper functions {{{
@@ -713,17 +713,39 @@ end
 -- }}}
 
 -- Work Mode {{{
+local work_mode_ok, work_mode = pcall(require, 'work_mode')
+if work_mode_ok then
+  work_mode.setup(hyper, makeMode)
+end
+-- }}}
 
-local workModeText = [[
-Work Mode
 
-Topgun Overwrite BREG Picker = o
+-- Util Mode {{{
+
+local utilModeText = [[
+Util Mode
+
+Reload Config    = r
+End Caffeinate   = e
+Start Caffeinate = s
+Toggle Console   = c
 ]]
-local workMode = makeMode(hyper, 'w', workModeText)
-workMode:hyperBind('o', function()
-  hs.execute('${HOME}/.local/bin/topgun-eq-overwrite-breg-picker.sh', true)
+local utilMode = makeMode(hyper, 'u', utilModeText)
+utilMode:hyperBind('r', function()
+  hs.reload()
 end)
 
+utilMode:hyperBind('e', function()
+  EndCaffeinate()
+end)
+
+utilMode:hyperBind('s', function()
+  StartCaffeinate()
+end)
+
+utilMode:hyperBind('c', function()
+  hs.toggleConsole()
+end)
 -- }}}
 
 -- -- write out clipboard
@@ -744,7 +766,7 @@ end)
 
 -- connect vpn
 hs.hotkey.bind(hyperS, 'v', function()
-  hs.alert.show("Use hyper+w -> v")
+  hs.alert.show("Use hyper+w->v instead")
 end)
 
 
