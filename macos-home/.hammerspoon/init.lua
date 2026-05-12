@@ -430,7 +430,7 @@ Browser Mode
 
 Focus Browser    = enter
 Search Bookmarks = b
-Search Tabs      = t
+Search Open Tabs = o
 Search idk       = i
 Search BBGithub  = h
 Search Grok      = g
@@ -452,7 +452,7 @@ browserMode:hyperBind('b', function()
 end)
 
 -- search tabs in firefox
-browserMode:hyperBind('t', function()
+browserMode:hyperBind('o', function()
   local firefox = hs.application.get('Firefox')
   firefox:activate()
   firefox:selectMenuItem({ 'File', 'New Tab' })

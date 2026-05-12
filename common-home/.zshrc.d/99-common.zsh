@@ -1,6 +1,8 @@
 # checks and executions which should be done on all systems
 # but only after the final path has been evaluated
 
+export PATH="$HOME/.local/bin:$PATH"
+
 if which zoxide &>/dev/null; then
   eval "$(zoxide init zsh)"
 fi
