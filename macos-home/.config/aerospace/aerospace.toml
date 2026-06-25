@@ -207,6 +207,11 @@ alt-f = [
   'mode main',
 ]
 f = ['exec-and-forget $HOME/.config/aerospace/focus.sh bbfunction', 'mode main']
+alt-g = [
+  'exec-and-forget $HOME/.config/aerospace/focus.sh imessage',
+  'mode main',
+]
+g = ['exec-and-forget $HOME/.config/aerospace/focus.sh imessage', 'mode main']
 alt-i = [
   'exec-and-forget $HOME/.config/aerospace/focus.sh message',
   'mode main',

@@ -14,6 +14,9 @@ case "$focus_cat" in
       $scratch com.apple.MobileSMS Messages
     fi
     ;;
+  imessage)
+    $scratch com.apple.MobileSMS Messages
+    ;;
   browser)
     if [ "$machine" = "work" ]; then
       browser_app='Firefox'
