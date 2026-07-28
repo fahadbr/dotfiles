@@ -38,12 +38,10 @@ return {
           },
         },
       })
-      fr.nmap('<leader>fc', function()
+      fr.map({ 'n', 'v' }, '<leader>fc', function()
         conform.format({ lsp_fallback = true, timeout_ms = 1000 })
-      end, 'Format Using Conform')
-      fr.vmap('<leader>fc', function()
-        conform.format({ lsp_fallback = true, timeout_ms = 1000 })
-      end, 'Format Using Conform')
+      end, { desc = 'Format Using Conform' })
+      fr.map({ 'n', 'v' }, '<leader>fs', ':%s/\\s\\+$//g<CR>', { desc = 'Remove trailing whitespace' })
     end,
   },
   -- }}}
