@@ -9,9 +9,12 @@ focus_pane_left = "prefix+h"
 focus_pane_down = "prefix+j"
 focus_pane_up = "prefix+k"
 focus_pane_right = "prefix+l"
+last_pane = "prefix+ctrl+space"
 
 next_workspace = "prefix+ctrl+j"
 previous_workspace = "prefix+ctrl+k"
+next_agent = "prefix+j"
+previous_agent = "prefix+k"
 
 # Splits — tmux `bind | split-window -h` (pane to the right)
 #                tmux `bind _ split-window -v` (pane below)
@@ -21,7 +24,7 @@ split_vertical = "prefix+v"
 split_horizontal = "prefix+minus"
 
 # Windows ≈ tabs — tmux `bind C-c new-window`
-new_tab = "prefix+ctrl+c"
+new_tab = ["prefix+ctrl+c", "prefix+c"]
 next_tab = ["prefix+ctrl+n", "prefix+n"]
 previous_tab = ["prefix+ctrl+p", "prefix+p"]
 
@@ -35,13 +38,6 @@ reload_config = "prefix+ctrl+r"
 # (enter with prefix+r, then h/j/k/l to resize).
 resize_mode = "prefix+r"
 
-# Navigate-mode movement kept on vim keys (matches your vi-style tmux setup).
-navigate_pane_left = "h"
-navigate_pane_down = "j"
-navigate_pane_up = "k"
-navigate_pane_right = "l"
-
-
 switch_tab = "prefix+1..9"
 switch_workspace = "prefix+ctrl+1..9"
 focus_agent = "prefix+shift+1..9"
@@ -53,8 +49,27 @@ type = "plugin_action"
 command = "herdr-navigator.open"
 description = "jump to anything"
 
-[ui.toast]
-delivery = "herdr"
+[[keys.command]]
+key = "prefix+ctrl+w"
+type = "popup"
+command = "d=$(zoxide query --interactive); [[ $d ]] && w=$(herdr workspace create --cwd $d --label $(basename $d) | jq -r '.result.workspace.workspace_id') && herdr workspace focus $w"
+description = "open workspace from zoxide dir"
+width = "50%"
+height = "50%"
+
+[[keys.command]]
+key = "prefix+ctrl+f"
+type = "popup"
+command = "exec \"${SHELL:-sh}\""
+description = "open scratch shell"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+ctrl+d"
+type = "shell"
+command = "herdr workspace focus $(herdr workspace list | jq -r '.result.workspaces[] | select(.label == \".dotfiles\") | .workspace_id')"
+description = "focus dotfiles workspace"
 
 [theme]
 name = "tokyo-night"
@@ -62,3 +77,10 @@ auto_switch = false
 
 [ui]
 agent_panel_sort = "spaces"
+
+[ui.sidebar]
+agents.row_gap = 1
+spaces.row_gap = 1
+
+[ui.toast]
+delivery = "herdr"
