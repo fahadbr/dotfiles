@@ -1,0 +1,55 @@
+onboarding = false
+[keys]
+# Prefix mirrors tmux `set-option -g prefix C-s`
+prefix = "ctrl+s"
+
+# Pane focus — tmux `bind C-h/C-j/C-k/C-l select-pane -L/-D/-U/-R`
+focus_pane_left = "prefix+ctrl+h"
+focus_pane_down = "prefix+ctrl+j"
+focus_pane_up = "prefix+ctrl+k"
+focus_pane_right = "prefix+ctrl+l"
+
+# Splits — tmux `bind | split-window -h` (pane to the right)
+#                tmux `bind _ split-window -v` (pane below)
+# `|` (shift+backslash) isn't an accepted herdr key, so split-right keeps
+# herdr's default prefix+v. split-below uses minus (~ tmux `_`).
+split_vertical = "prefix+v"
+split_horizontal = "prefix+minus"
+
+# Windows ≈ tabs — tmux `bind C-c new-window`
+new_tab = "prefix+ctrl+c"
+next_tab = ["prefix+ctrl+n", "prefix+n"]
+previous_tab = ["prefix+ctrl+p", "prefix+p"]
+
+# Zoom — tmux `bind C-z resize-pane -Z`
+zoom = "prefix+ctrl+z"
+
+# Reload config — tmux `bind C-r source-file ~/.tmux.conf`
+reload_config = "prefix+ctrl+r"
+
+# Resize — tmux uses prefix H/J/K/L directly; herdr uses a resize mode
+# (enter with prefix+r, then h/j/k/l to resize).
+resize_mode = "prefix+r"
+
+# Navigate-mode movement kept on vim keys (matches your vi-style tmux setup).
+navigate_pane_left = "h"
+navigate_pane_down = "j"
+navigate_pane_up = "k"
+navigate_pane_right = "l"
+
+
+[[keys.command]]
+key = "prefix+ctrl+o"
+type = "plugin_action"
+command = "herdr-navigator.open"
+description = "jump to anything"
+
+[ui.toast]
+delivery = "herdr"
+
+[theme]
+name = "tokyo-night"
+auto_switch = false
+
+[ui]
+agent_panel_sort = "spaces"

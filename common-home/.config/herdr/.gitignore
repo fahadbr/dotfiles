@@ -1,0 +1,6 @@
+# plugins/config holds each plugin's settings plus its own runtime cache
+# (last-jump history, update-check timestamps, pinned entries, etc).
+# Only the hand-edited config.toml is worth tracking; everything else
+# regenerates itself and is machine-specific.
+plugins/config/*/*
+!plugins/config/*/config.toml
