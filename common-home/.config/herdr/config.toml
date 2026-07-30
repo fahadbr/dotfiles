@@ -2,12 +2,16 @@ onboarding = false
 [keys]
 # Prefix mirrors tmux `set-option -g prefix C-s`
 prefix = "ctrl+s"
+goto = ["prefix+g", "prefix+ctrl+g"]
 
 # Pane focus — tmux `bind C-h/C-j/C-k/C-l select-pane -L/-D/-U/-R`
-focus_pane_left = "prefix+ctrl+h"
-focus_pane_down = "prefix+ctrl+j"
-focus_pane_up = "prefix+ctrl+k"
-focus_pane_right = "prefix+ctrl+l"
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
+next_workspace = "prefix+ctrl+j"
+previous_workspace = "prefix+ctrl+k"
 
 # Splits — tmux `bind | split-window -h` (pane to the right)
 #                tmux `bind _ split-window -v` (pane below)
@@ -36,6 +40,11 @@ navigate_pane_left = "h"
 navigate_pane_down = "j"
 navigate_pane_up = "k"
 navigate_pane_right = "l"
+
+
+switch_tab = "prefix+1..9"
+switch_workspace = "prefix+ctrl+1..9"
+focus_agent = "prefix+shift+1..9"
 
 
 [[keys.command]]
