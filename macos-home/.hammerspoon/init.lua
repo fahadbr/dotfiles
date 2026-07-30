@@ -592,6 +592,7 @@ terminalMode:hyperBind('o', function()
   hs.eventtap.keyStroke({ 'cmd' }, '1', 50000, app)
   hs.eventtap.keyStroke({ 'ctrl' }, 's', 50000, app)
   hs.eventtap.keyStroke({ 'ctrl' }, 'o', 50000, app)
+  hs.eventtap.keyStroke({ }, '/', 50000, app)
 end)
 
 terminalMode:hyperBind('a', function()

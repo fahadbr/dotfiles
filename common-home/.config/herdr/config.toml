@@ -2,13 +2,13 @@ onboarding = false
 [keys]
 # Prefix mirrors tmux `set-option -g prefix C-s`
 prefix = "ctrl+s"
-goto = ["prefix+g", "prefix+ctrl+g"]
+goto = ["prefix+g", "prefix+ctrl+o"]
 
 # Pane focus — tmux `bind C-h/C-j/C-k/C-l select-pane -L/-D/-U/-R`
-focus_pane_left = "prefix+h"
-focus_pane_down = "prefix+j"
-focus_pane_up = "prefix+k"
-focus_pane_right = "prefix+l"
+focus_pane_left = "ctrl+h"
+focus_pane_down = "ctrl+j"
+focus_pane_up = "ctrl+k"
+focus_pane_right = "ctrl+l"
 last_pane = "prefix+ctrl+space"
 
 next_workspace = "prefix+ctrl+j"
@@ -44,15 +44,9 @@ focus_agent = "prefix+shift+1..9"
 
 
 [[keys.command]]
-key = "prefix+ctrl+o"
-type = "plugin_action"
-command = "herdr-navigator.open"
-description = "jump to anything"
-
-[[keys.command]]
 key = "prefix+ctrl+w"
 type = "popup"
-command = "d=$(zoxide query --interactive); [[ $d ]] && w=$(herdr workspace create --cwd $d --label $(basename $d) | jq -r '.result.workspace.workspace_id') && herdr workspace focus $w"
+command = "d=$(_ZO_FZF_OPTS='--header=\"create workspace from directory\" --header-border=rounded' zoxide query --interactive); [[ $d ]] && w=$(herdr workspace create --cwd $d --label $(basename $d) | jq -r '.result.workspace.workspace_id') && herdr workspace focus $w"
 description = "open workspace from zoxide dir"
 width = "50%"
 height = "50%"
@@ -70,6 +64,14 @@ key = "prefix+ctrl+d"
 type = "shell"
 command = "herdr workspace focus $(herdr workspace list | jq -r '.result.workspaces[] | select(.label == \".dotfiles\") | .workspace_id')"
 description = "focus dotfiles workspace"
+
+[[keys.command]]
+key = "prefix+ctrl+x"
+type = "popup"
+command = "for ws in $(herdr workspace list | jq -r '.result.workspaces[] | \"\\(.label):\\(.workspace_id)\"' | fzf -m --header=\"close workspaces\" --header-border=rounded | cut -d ':' -f 2); do herdr workspace close $ws; done"
+description = "select workspaces to close"
+width = "50%"
+height = "50%"
 
 [theme]
 name = "tokyo-night"
