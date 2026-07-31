@@ -4,3 +4,4 @@
 # regenerates itself and is machine-specific.
 plugins/config/*/*
 !plugins/config/*/config.toml
+!plugins/config/*/*.conf

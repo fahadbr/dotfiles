@@ -2,10 +2,12 @@
 local kittypid = os.getenv("KITTY_PID")
 local tmuxenv = os.getenv("TMUX")
 local sshconn = os.getenv("SSH_CONNECTION")
+local herdrenv = os.getenv("HERDR_ENV")
 M = {
   in_kitty = kittypid ~= nil and kittypid ~= '',
   in_tmux = tmuxenv ~= nil and tmuxenv ~= '',
   in_ssh = sshconn ~= nil and sshconn ~= '',
+  in_herdr = herdrenv ~= nil and herdrenv == '1',
 }
 
 function M.map(mode, key, mapping, opts)

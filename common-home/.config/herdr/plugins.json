@@ -1,2 +1,122 @@
 [
+  {
+    "plugin_id": "herdr-splits",
+    "name": "Herdr Splits",
+    "version": "0.5.1",
+    "min_herdr_version": "0.7.0",
+    "description": "Seamless navigation and resizing between Herdr panes and Neovim splits",
+    "manifest_path": "/Users/friaz10/.config/herdr/plugins/github/herdr-splits-d880c4924f2b/herdr-plugin.toml",
+    "plugin_root": "/Users/friaz10/.config/herdr/plugins/github/herdr-splits-d880c4924f2b",
+    "enabled": true,
+    "platforms": [
+      "linux",
+      "macos"
+    ],
+    "actions": [
+      {
+        "id": "nav-down",
+        "title": "Navigate down (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-nav.sh",
+          "down"
+        ]
+      },
+      {
+        "id": "nav-left",
+        "title": "Navigate left (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-nav.sh",
+          "left"
+        ]
+      },
+      {
+        "id": "nav-right",
+        "title": "Navigate right (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-nav.sh",
+          "right"
+        ]
+      },
+      {
+        "id": "nav-up",
+        "title": "Navigate up (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-nav.sh",
+          "up"
+        ]
+      },
+      {
+        "id": "resize-down",
+        "title": "Resize down (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-resize.sh",
+          "down"
+        ]
+      },
+      {
+        "id": "resize-left",
+        "title": "Resize left (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-resize.sh",
+          "left"
+        ]
+      },
+      {
+        "id": "resize-right",
+        "title": "Resize right (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-resize.sh",
+          "right"
+        ]
+      },
+      {
+        "id": "resize-up",
+        "title": "Resize up (Neovim/Herder)",
+        "contexts": [
+          "global"
+        ],
+        "command": [
+          "bash",
+          "scripts/herdr-resize.sh",
+          "up"
+        ]
+      }
+    ],
+    "source": {
+      "kind": "github",
+      "owner": "lmilojevicc",
+      "repo": "herdr-splits.nvim",
+      "resolved_commit": "43f4e4cba74499d5c7ab16f13555d97309910581",
+      "managed_path": "/Users/friaz10/.config/herdr/plugins/github/herdr-splits-d880c4924f2b",
+      "installed_unix_ms": 1785508918784
+    }
+  }
 ]

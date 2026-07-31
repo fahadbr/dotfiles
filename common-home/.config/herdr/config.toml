@@ -5,10 +5,10 @@ prefix = "ctrl+s"
 goto = ["prefix+g", "prefix+ctrl+o"]
 
 # Pane focus — tmux `bind C-h/C-j/C-k/C-l select-pane -L/-D/-U/-R`
-focus_pane_left = "ctrl+h"
-focus_pane_down = "ctrl+j"
-focus_pane_up = "ctrl+k"
-focus_pane_right = "ctrl+l"
+# focus_pane_left = "prefix+ctrl+h"
+# focus_pane_down = "prefix+ctrl+j"
+# focus_pane_up = "prefix+ctrl+k"
+# focus_pane_right = "prefix+ctrl+l"
 last_pane = "prefix+ctrl+space"
 
 next_workspace = "prefix+ctrl+j"
@@ -73,12 +73,33 @@ description = "select workspaces to close"
 width = "50%"
 height = "50%"
 
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "herdr-splits.nav-left"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "herdr-splits.nav-down"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "herdr-splits.nav-up"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "herdr-splits.nav-right"
+
 [theme]
 name = "tokyo-night"
 auto_switch = false
 
 [ui]
 agent_panel_sort = "spaces"
+hide_tab_bar_when_single_tab = true
 
 [ui.sidebar]
 agents.row_gap = 1
