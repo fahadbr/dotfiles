@@ -88,8 +88,9 @@ keybindings:
         - key: C
           name: code review
           command: >
-              tmux new-window -n "PR-{{.PrNumber}}"
-              claude "/pr-review {{.PrNumber}}"
+              herdr pane run $(herdr tab create --focus --label "pr-review {{.PrNumber}}" | jq -r '.result.root_pane.pane_id') 'claude "/pr-review {{.PrNumber}}"'
+#              tmux new-window -n "PR-{{.PrNumber}}"
+#              claude "/pr-review {{.PrNumber}}"
 
 
 repoPaths: {}
