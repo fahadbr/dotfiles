@@ -107,7 +107,6 @@ auto_switch = false
 
 [ui]
 agent_panel_sort = "priority"
-hide_tab_bar_when_single_tab = true
 
 [ui.sidebar]
 agents.row_gap = 1
