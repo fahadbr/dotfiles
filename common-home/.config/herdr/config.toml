@@ -55,9 +55,17 @@ height = "50%"
 key = "prefix+ctrl+f"
 type = "popup"
 command = "exec \"${SHELL:-sh}\""
-description = "open scratch shell"
+description = "open floating scratch shell"
 width = "80%"
 height = "80%"
+
+[[keys.command]]
+key = "prefix+ctrl+l"
+type = "popup"
+command = "exec lazygit"
+description = "open lazygit"
+width = "90%"
+height = "90%"
 
 [[keys.command]]
 key = "prefix+ctrl+d"
