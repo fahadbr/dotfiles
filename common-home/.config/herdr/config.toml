@@ -113,4 +113,7 @@ agents.row_gap = 1
 spaces.row_gap = 1
 
 [ui.toast]
-delivery = "herdr"
+delivery = "terminal"
+
+[ui.sound]
+enabled = false
