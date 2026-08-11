@@ -11,10 +11,10 @@ goto = ["prefix+g", "prefix+ctrl+o"]
 # focus_pane_right = "prefix+ctrl+l"
 last_pane = "prefix+ctrl+space"
 
-next_workspace = "prefix+ctrl+j"
-previous_workspace = "prefix+ctrl+k"
-next_agent = "prefix+j"
-previous_agent = "prefix+k"
+next_workspace = "prefix+j"
+previous_workspace = "prefix+k"
+next_agent = "prefix+ctrl+j"
+previous_agent = "prefix+ctrl+k"
 
 # Splits — tmux `bind | split-window -h` (pane to the right)
 #                tmux `bind _ split-window -v` (pane below)
@@ -68,6 +68,14 @@ width = "90%"
 height = "90%"
 
 [[keys.command]]
+key = "prefix+ctrl+y"
+type = "popup"
+command = "exec yazi"
+description = "open yazi"
+width = "90%"
+height = "90%"
+
+[[keys.command]]
 key = "prefix+ctrl+d"
 type = "shell"
 command = "herdr workspace focus $(herdr workspace list | jq -r '.result.workspaces[] | select(.label == \".dotfiles\") | .workspace_id')"
@@ -107,7 +115,9 @@ auto_switch = false
 
 [ui]
 agent_panel_sort = "priority"
+tab_bar_position = "bottom"
 
+show_agent_labels_on_pane_borders = false
 [ui.sidebar]
 agents.row_gap = 1
 spaces.row_gap = 1
