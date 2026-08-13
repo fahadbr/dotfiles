@@ -90,6 +90,12 @@ width = "50%"
 height = "50%"
 
 [[keys.command]]
+key = "prefix+shift+c"
+type = "shell"
+command = "paneid=$(herdr tab create --focus --label \"cc\" | jq -r '.result.root_pane.pane_id'); herdr pane run $paneid 'claude --permission-mode auto'"
+description = "open claude in new tab"
+
+[[keys.command]]
 key = "ctrl+h"
 type = "plugin_action"
 command = "herdr-splits.nav-left"
