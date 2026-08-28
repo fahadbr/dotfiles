@@ -14,7 +14,7 @@
                                         "identifiers": [
                                             {
                                                 "description": "Built in Apple Keyboard",
-                                                "location_id": 45
+                                                "location_id": 282
                                             }
                                         ],
                                         "type": "device_if"
@@ -44,7 +44,7 @@
                                         "identifiers": [
                                             {
                                                 "description": "Built in Apple Keyboard",
-                                                "location_id": 45
+                                                "location_id": 282
                                             }
                                         ],
                                         "type": "device_if"
@@ -84,7 +84,7 @@
                                         "identifiers": [
                                             {
                                                 "description": "Built in Apple Keyboard",
-                                                "location_id": 45
+                                                "location_id": 282
                                             }
                                         ],
                                         "type": "device_if"
@@ -114,7 +114,7 @@
                                         "identifiers": [
                                             {
                                                 "description": "Built in Apple Keyboard",
-                                                "location_id": 45
+                                                "location_id": 282
                                             }
                                         ],
                                         "type": "device_if"
