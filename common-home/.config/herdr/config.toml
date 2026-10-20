@@ -16,6 +16,14 @@ previous_workspace = "prefix+k"
 next_agent = "prefix+ctrl+j"
 previous_agent = "prefix+ctrl+k"
 
+
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+navigate_pane_left = "shift+h"
+navigate_pane_down = "shift+j"
+navigate_pane_up = "shift+k"
+navigate_pane_right = "shift+l"
+
 # Splits — tmux `bind | split-window -h` (pane to the right)
 #                tmux `bind _ split-window -v` (pane below)
 # `|` (shift+backslash) isn't an accepted herdr key, so split-right keeps
@@ -124,6 +132,7 @@ agent_panel_sort = "priority"
 tab_bar_position = "bottom"
 
 show_agent_labels_on_pane_borders = false
+status_indicators = "symbols"
 [ui.sidebar]
 agents.row_gap = 1
 spaces.row_gap = 1

@@ -272,6 +272,15 @@
                         "product_id": 42233,
                         "vendor_id": 936
                     }
+                },
+                {
+                    "identifiers": {
+                        "is_pointing_device": true,
+                        "product_id": 22346,
+                        "vendor_id": 1121
+                    },
+                    "ignore": false,
+                    "mouse_flip_vertical_wheel": true
                 }
             ],
             "name": "Default profile",
